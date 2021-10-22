@@ -1,0 +1,14 @@
+# SCM gradle
+**/.gradle
+**/build/
+**/gradle/
+
+# maven
+**/target/
+
+### IntelliJ IDEA ###
+**/*.idea
+**/*.iws
+**/*.iml
+**/*.ipr
+**/out/

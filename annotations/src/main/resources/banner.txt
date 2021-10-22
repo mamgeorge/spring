@@ -1,0 +1,7 @@
+${AnsiColor.GREEN} ${AnsiBackground.BLACK}
+ ▄▄▄ ▄  ▄ ▄  ▄ ▄  ▄  ▄   ▄▄▄▄▄ ▄ ▄▄▄▄ ▄  ▄  ▄ 
+▐    █▀▀█ █  █ █▀▄█ ▀█     █   █ █▄▄█ █▀▄█ ▀█ 
+ ▀▀▀ ▀  ▀ ▀▀▀▀ ▀  ▀  ▀     ▀   ▀ ▀  ▀ ▀  ▀  ▀ 
+${AnsiColor.DEFAULT} ${AnsiBackground.DEFAULT}
+春季 应用 程序 [ chun1tian1 ying4yong4 cheng2xu4 ]
+Spring Application Program
