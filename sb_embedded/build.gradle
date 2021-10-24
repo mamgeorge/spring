@@ -10,9 +10,7 @@ sourceCompatibility = '11'
 
 apply plugin: "java"
 
-repositories {
-	mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
 
@@ -28,6 +26,4 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-test {
-	useJUnitPlatform()
-}
+test { useJUnitPlatform() }

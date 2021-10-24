@@ -1,5 +1,9 @@
 package com.example.sb_webflux;
 
+import com.example.sb_webflux.configuration.RouterAny;
+import com.example.sb_webflux.model.City;
+import com.example.sb_webflux.model.Greeting;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +22,48 @@ public class GreetingRouterTest {
 	@Autowired private WebTestClient webTestClient;
 	private static final String ASSERTION = "ASSERTION";
 
-	@Test public void test_showHello() {
+	@Test public void testWC_showHello() {
 		//
 		String EXPECTED = "Hello, Spring!";
 		webTestClient
-			.get().uri(RouterGreeting.URI_LINK)
+			.get().uri(RouterAny.URI_GREET)
 			.accept(APPLICATION_JSON)
 			.exchange()
 			.expectStatus().isOk() // use dedicated DSL to test assertions against response
 			.expectBody(Greeting.class).value(greeting -> {
 				Assert.isTrue(greeting.getMessage().contains(EXPECTED), ASSERTION);
 				System.out.println("greeting: " + greeting);
+			}
+		);
+	}
+
+	@Test public void testWC_city() {
+		//
+		String EXPECTED = "MexicoCity";
+		String CITY_ID = "5";
+		webTestClient
+			.get().uri(RouterAny.URI_CITY, CITY_ID)
+			.accept(APPLICATION_JSON)
+			.exchange()
+			.expectStatus().isOk() // use dedicated DSL to test assertions against response
+			.expectBody(City.class).value(city -> {
+				Assert.isTrue(city.getName().contains(EXPECTED), ASSERTION);
+				System.out.println("city: " + city );
+			}
+		);
+	}
+
+	@Test public void testWC_cities() {
+		//
+		String EXPECTED = "MexicoCity";
+		webTestClient
+			.get().uri(RouterAny.URI_CITIES)
+			.accept(APPLICATION_JSON)
+			.exchange()
+			.expectStatus().isOk()
+			.expectBody(ArrayList.class).value(cities -> {
+				Assert.isTrue(cities.toString().contains(EXPECTED), ASSERTION);
+				System.out.println("cities[" + cities.size() + "]: " + cities);
 			}
 		);
 	}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" >
+<head><title>index</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<center>
+    <br/>
+    <h3>index</h3>
+    <br/><h5><script>document.writeln( new Date().toISOString() );</script></h5>
+    <br /><h5 th:text = "${#dates.formatISO(#dates.createNow())}" />
+
+    <hr/>
+    <a href="/">/root</a> |
+    <a th:href="@{/home}">/home</a> |
+    <a href="/index">/index</a> |
+
+    <br/><hr />
+    <a href="/showHello">/showHello</a> |
+    <a href="/city/5">/city/5</a> |
+    <a href="/cities">/cities</a> |
+    <a href="/showCity/5">/showCity/5</a> |
+    <a href="/showCities">/showCities</a>
+
+    <br/><hr />
+    <a href="/actuator">/actuator</a> |
+    <a href="/actuator/health">/actuator/health</a>
+
+</center>
+</body>
+</html>

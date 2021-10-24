@@ -1,4 +1,4 @@
-package com.example.sb_webflux;
+package com.example.sb_webflux.model;
 
 public class Greeting {
 
