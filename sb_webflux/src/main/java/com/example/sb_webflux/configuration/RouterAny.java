@@ -6,9 +6,13 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
@@ -24,6 +28,7 @@ public class RouterAny {
 	public static final String URI_HTML_INDEX = "/index";
 	public static final String URI_CITY = "/city/{id}";
 	public static final String URI_CITIES = "/cities";
+	public static final String URI_CITYNEW = "/cityNew";
 
 	@Bean public RouterFunction<ServerResponse> route4Greet(HandlerGreeting handlerGreeting) {
 		//
@@ -56,5 +61,48 @@ public class RouterAny {
 			.route(GET(URI_CITIES), req -> ok()
 				.body(cityService.findAll(), City.class));
 		return routerFunction;
+	}
+
+	// for testing scenario
+	@Bean public RouterFunction<ServerResponse> routesGeneric(HandlerUser handlerUser) {
+		//
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route()
+			.path("/root", builder -> builder
+				.GET(URI_CITY, accept(APPLICATION_JSON), handlerUser::getUser)
+				.GET(URI_CITIES, accept(APPLICATION_JSON), handlerUser::getUsers)
+				.POST(URI_CITYNEW, accept(APPLICATION_JSON), handlerUser::createUser)
+			)
+			.build();
+		return routerFunction;
+	}
+}
+
+
+// for testing scenario
+@Component
+class HandlerUser {
+
+	public Mono<ServerResponse> getUser(ServerRequest serverRequest) {
+		Mono<ServerResponse> monoServerResponse = ServerResponse
+			.ok()
+			.contentType(APPLICATION_JSON)
+			.body(BodyInserters.fromValue("QQQ"));
+		return monoServerResponse;
+	}
+
+	public Mono<ServerResponse> getUsers(ServerRequest serverRequest) {
+		Mono<ServerResponse> monoServerResponse = ServerResponse
+			.ok()
+			.contentType(APPLICATION_JSON)
+			.body(BodyInserters.fromValue("RRR"));
+		return monoServerResponse;
+	}
+
+	public Mono<ServerResponse> createUser(ServerRequest serverRequest) {
+		Mono<ServerResponse> monoServerResponse = ServerResponse
+			.ok()
+			.contentType(APPLICATION_JSON)
+			.body(BodyInserters.fromValue("SSS"));
+		return monoServerResponse;
 	}
 }

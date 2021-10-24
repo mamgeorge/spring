@@ -6,7 +6,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-// FAILS WITHOUT ROUTER
 @Component
 public class WebClientCity {
 
@@ -16,7 +15,7 @@ public class WebClientCity {
 		webClientCity = WebClient.create(RouterAny.URL_ROUTE);
 	}
 
-	public Mono<City> getCity(String id) {
+	public Mono<City> webClient4City(String id) {
 		//
 		Mono<City> monoCity = webClientCity.get()
 			.uri(RouterAny.URI_CITY, id)
@@ -26,7 +25,7 @@ public class WebClientCity {
 		return monoCity;
 	}
 
-	public Flux<City> getCities() {
+	public Flux<City> webClient4Cities() {
 		//
 		Flux<City> fluxCities = webClientCity.get()
 			.uri(RouterAny.URI_CITIES)

@@ -16,13 +16,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GreetingRouterTest {
+public class WebClientTest {
 
 	// SpringBoot has a `WebTestClient` configured to request "localhost:RANDOM_PORT"
 	@Autowired private WebTestClient webTestClient;
 	private static final String ASSERTION = "ASSERTION";
 
-	@Test public void testWC_showHello() {
+	@Test public void testWC_getMessage() {
 		//
 		String EXPECTED = "Hello, Spring!";
 		webTestClient
@@ -37,7 +37,7 @@ public class GreetingRouterTest {
 		);
 	}
 
-	@Test public void testWC_city() {
+	@Test public void testWC_getCity() {
 		//
 		String EXPECTED = "MexicoCity";
 		String CITY_ID = "5";
@@ -48,12 +48,12 @@ public class GreetingRouterTest {
 			.expectStatus().isOk() // use dedicated DSL to test assertions against response
 			.expectBody(City.class).value(city -> {
 				Assert.isTrue(city.getName().contains(EXPECTED), ASSERTION);
-				System.out.println("city: " + city );
+				System.out.println("city: " + city);
 			}
 		);
 	}
 
-	@Test public void testWC_cities() {
+	@Test public void testWC_getCities() {
 		//
 		String EXPECTED = "MexicoCity";
 		webTestClient

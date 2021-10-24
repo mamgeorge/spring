@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 // spring-boot-starter-web conflicts with spring-boot-starter-webflux
 // Controller returns Dispatch or VC ViewController; needs ResponseBody when returning objects to bypass VC
-// RestController returns domain objects; only handles webpages with ModelAndView
+// RestController automatically returns objects ResponseBody; handles webpages with ModelAndView
 @RestController
 public class ControllerSB {
 

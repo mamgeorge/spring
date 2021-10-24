@@ -18,7 +18,7 @@ public class WebClientGreeting {
 		this.webClientGreet = builder.baseUrl(RouterAny.URL_ROUTE).build();
 	}
 
-	public Mono<String> getMessage() {
+	public Mono<String> webClient4Greet() {
 		Mono<String> monoString = this.webClientGreet.get()
 			.uri(RouterAny.URI_GREET)
 			.accept(APPLICATION_JSON)

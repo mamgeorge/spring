@@ -17,11 +17,11 @@ public class SpringApplicationWebFlux {
 		ConfigurableApplicationContext context = SpringApplication.run(SpringApplicationWebFlux.class, args);
 		if (boolGreet) {
 			WebClientGreeting webClientGreeting = context.getBean(WebClientGreeting.class);
-			System.out.println(">> messageG = " + webClientGreeting.getMessage().block());
+			System.out.println(">> messageG = " + webClientGreeting.webClient4Greet().block());
 		}
 		else {
 			WebClientCity webClientCity = context.getBean(WebClientCity.class);
-			System.out.println(">> messageC = " + webClientCity.getCity(ID_START).block());
+			System.out.println(">> messageC = " + webClientCity.webClient4City(ID_START).block());
 		}
 	}
 }
