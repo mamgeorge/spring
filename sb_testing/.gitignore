@@ -1,0 +1,21 @@
+# SCM maven
+target/
+
+# SCM gradle
+build/
+.gradle/
+out/
+
+# SCM nodejs
+node_modules
+
+# IDE idea
+.idea
+*.iml
+
+# IDE eclipse
+.settings/
+.classpath
+.project
+
+*.log

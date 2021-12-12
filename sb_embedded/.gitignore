@@ -6,9 +6,15 @@
 # maven
 **/target/
 
-### IntelliJ IDEA ###
+# IntelliJ IDEA #
 **/*.idea
 **/*.iws
 **/*.iml
 **/*.ipr
 **/out/
+
+# VSCode #
+**/.classpath
+**/.project
+**/.setings
+**/bin/

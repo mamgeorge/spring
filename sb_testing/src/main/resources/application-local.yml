@@ -1,0 +1,15 @@
+# src/main/resources/application-local.yml
+
+app.name: TestmoreApplication LOCAL
+
+server.servlet.context-path: /
+server.servlet.port: 3000
+
+server.error.whitelabel.enabled: false
+
+datasource.platform: derby
+
+logging.level.org.springframework: ERROR
+
+spring.main.banner-mode: CONSOLE
+spring.output.ansi.enabled: ALWAYS
