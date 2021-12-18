@@ -43,18 +43,25 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -72,29 +79,20 @@ public class UtilityMain {
 
 	public static final String USER_AGENT = "Mozilla/5.0";
 	public static final String CONTENTTYPE_FORM = "application/x-www-form-urlencoded";
-	public static final String CONTENTTYPE_JSON = "application/json; charset=utf-8";
 	public static final String CONTENTTYPE_MULTI = "multipart/form-data; boundary=";
-	public static final String AUTHORIZATION_JWT = "anyService_Api"; // sourceId
-	public static final String AUTH_SECRET = "anyhash"; // client-secret in HMAC SHA256 or RSA
 
 	public static final String GREEN = "\u001b[32,1m";
 	public static final String RESET = "\u001b[0m";
-	public static final String DLM = "\n";
+	public static final String EOL = "\n";
 	public static final String PAR = "\n\t";
 	public static final String CRLF = "\r\n";
 
-	public static final String FLD_SAMPLE = "static/";
-	public static final String TXT_SAMPLE = "Genesis_01.txt";
-	public static final String YML_SAMPLE = "application.yml";
-	public static final String XML_SAMPLE = "xml/books.xml";
-	public static final String JSN_SAMPLE = "xml/books.json";
-	public static final String ZIP_SAMPLE = "xml_wav_plants_w10.zip";
 	public static final String COLORS =
-		"Black: \u001b[30m, Red: \u001b[31m, Green: \u001b[32m, Yellow: \u001b[33m, Blue: \u001b[34m, Magenta: \u001b[35m, Cyan: \u001b[36m, White: \u001b[37m ";
+			"Black: \u001b[30m, Red: \u001b[31m, Green: \u001b[32m, Yellow: \u001b[33m, Blue: \u001b[34m, Magenta: \u001b[35m, Cyan: \u001b[36m, White: \u001b[37m ";
 
 	public static void main(String[] args) {
 		//
-		colorize("■");
+		colorize();
 		System.out.println(showTime());
 		System.out.println(GREEN + "DONE" + RESET);
 	}
@@ -102,7 +100,7 @@ public class UtilityMain {
 	public static String showSys() {
 		//
 		Map<String, String> mapEnv = System.getenv();
-		Map<String, String> mapEnvTree = new TreeMap<String, String>(mapEnv);
+		Map<String, String> mapEnvTree = new TreeMap<>(mapEnv);
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("[");
 		// env.forEach( ( key , val ) -> stringBuffer.append( key + ": " + val + dlm ) );
@@ -110,31 +108,28 @@ public class UtilityMain {
 			//
 			val = val.replace("\\", "/");
 			val = val.replace("\"", "'");
-			stringBuffer.append("{\"" + key + "\":\"" + val + "\"},");
+			stringBuffer.append("{\"").append(key).append("\":\"").append(val).append("\"},");
 		});
-		stringBuffer.append("\n{\"" + "USERNAME" + "\":\"" + System.getenv("USERNAME") + "\"}");
+		stringBuffer.append("\n{\"" + "USERNAME" + "\":\"").append(System.getenv("USERNAME")).append("\"}");
 		stringBuffer.append("\n]");
 		return stringBuffer.toString();
 	}
 
 	public static String showTime() {
 		//
-		String txtLine = "";
 		LocalDateTime localDateTime = LocalDateTime.now();
-		txtLine = ISO_DATE_TIME.format(localDateTime);
-		// txtLine = new Date( ).toString( );
-		return txtLine;
+		return ISO_DATE_TIME.format(localDateTime);
 	}
 
-	private static void colorize(String txtVal) {
+	private static void colorize() {
 		//
-		String txtLine = "";
-		String[] colorDuo = null;
-		String colorVal = "";
+		StringBuilder txtLine = new StringBuilder();
+		String[] colorDuo;
+		String colorVal;
 		for (String color : COLORS.split(",")) {
 			colorDuo = color.split(":");
 			colorVal = colorDuo[1].replaceAll("4", "3");
-			txtLine += "" + colorVal + txtVal + RESET;
+			txtLine.append(colorVal).append("■").append(RESET);
 		}
 		System.out.println(txtLine);
 	}
@@ -143,66 +138,55 @@ public class UtilityMain {
 		//
 		// https://mkyong.com/java8/java-8-stream-read-a-file-line-by-line/
 		String txtLines = "";
-		if (fileName == null || fileName.equals("")) { fileName = FLD_SAMPLE + TXT_SAMPLE; }
-		if (delim == null || delim.equals("")) { delim = DLM; }
-		//
-		List<String> list = new ArrayList<>();
+		List<String> list;
 		try (BufferedReader bReader = Files.newBufferedReader(Paths.get(fileName))) {
 			//
 			list = bReader.lines().collect(Collectors.toList());
 			txtLines = String.join("\n", list);
 			txtLines = txtLines.replaceAll("\n", delim);
-		} catch (IOException ex) { LOGGER.warning(ex.getMessage()); }
+		} catch (IOException ex) {
+			LOGGER.warning(ex.getMessage());
+		}
 		//
 		return txtLines;
 	}
 
-	public static String getFileLocal(String fileName, String delim) {
+	public static String getFileLocal(String pathFile, String delim) {
 		//
 		// https://howtodoinjava.com/java/io/read-file-from-resources-folder/
 		// File file = ResourceUtils.getFile("classpath:config/sample.txt")
 		String txtLines = "";
-		String urlFile = "";
-		if (fileName == null || fileName.equals("")) { fileName = FLD_SAMPLE + TXT_SAMPLE; }
-		if (delim == null || delim.equals("")) { delim = DLM; }
 		try {
-			//
-			ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-			// fails if run in: mvn exec:java -Dexec.mainClass
-			// URL[] urls = ( (URLClassLoader) classLoader ).getURLs();
-			// for(URL url: urls){ System.out.println(url.getFile( ) ); }
-			//
-			URL url = classLoader.getResource(fileName);
-			urlFile = url.getFile();
-			File file = new File(urlFile);
-			txtLines = new String(Files.readAllBytes(file.toPath()), UTF_8);
-			txtLines = txtLines.replaceAll("\n", delim);
-		} catch (IOException ex) { LOGGER.warning(ex.getMessage()); }
+			File fileLocal = new File(pathFile);
+			File pathFileLocal = new File(fileLocal.getAbsolutePath());
+			txtLines = new String(Files.readAllBytes(pathFileLocal.toPath()), UTF_8);
+			txtLines = Files.readString(pathFileLocal.toPath(), UTF_8);
+		} catch (IOException ex) {
+			LOGGER.warning(ex.getMessage());
+		}
 		return txtLines;
 	}
 
 	public static String urlGet(String link) {
 		//
-		String txtLines = "";
+		String txtLines;
 		try {
 			URL url = new URL(link);
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setRequestMethod("GET");
 			httpConn.setRequestProperty("User-Agent", USER_AGENT);
-			//	httpConn.setRequestProperty( "Content-Type", CONTENTTYPE_JSON );
-			//	httpConn.setRequestProperty( "Authorization", "JWT " + jwtSourceId );
 			httpConn.setConnectTimeout(5000);
 			httpConn.setReadTimeout(5000);
 			//
 			int responseCode = httpConn.getResponseCode();
-			LOGGER.info("sends GET to: " + url);
-			LOGGER.info("responseCode: " + responseCode);
+			System.out.println("sends GET to: " + url);
+			System.out.println("responseCode: " + responseCode);
 			//
 			InputStream inputStream = httpConn.getInputStream();
 			InputStreamReader isr = new InputStreamReader(inputStream);
 			BufferedReader bufferedReader = new BufferedReader(isr);
 			StringBuilder stringBuilder = new StringBuilder();
-			String txtLine = "";
+			String txtLine;
 			while ((txtLine = bufferedReader.readLine()) != null) {
 				stringBuilder.append(txtLine);
 			}
@@ -233,24 +217,24 @@ public class UtilityMain {
 			outputStream.close();
 			//
 			int responseCode = httpConn.getResponseCode();
-			LOGGER.info("Sending POST : " + url);
-			LOGGER.info("Response code: " + responseCode);
+			System.out.println("Sending POST : " + url);
+			System.out.println("Response code: " + responseCode);
 			//
 			InputStream inputStream = httpConn.getInputStream();
 			InputStreamReader isr = new InputStreamReader(inputStream);
-			BufferedReader bufferedReader = null;
-			StringBuffer stringBuffer = new StringBuffer();
-			String txtLine = "";
+			BufferedReader bufferedReader;
+			StringBuilder stringBuilder = new StringBuilder();
+			String txtLine;
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				//
 				bufferedReader = new BufferedReader(isr);
 				while ((txtLine = bufferedReader.readLine()) != null) {
-					stringBuffer.append(txtLine);
+					stringBuilder.append(txtLine);
 				}
 				bufferedReader.close();
-				txtLines = stringBuffer.toString();
+				txtLines = stringBuilder.toString();
 			} else {
-				LOGGER.info("POST failed to: " + link);
+				System.out.println("POST failed to: " + link);
 			}
 		} catch (IOException ex) {
 			txtLines = ex.getMessage();
@@ -263,16 +247,13 @@ public class UtilityMain {
 		//
 		// https://www.baeldung.com/httpclient-multipart-upload
 		// https://stackoverflow.com/questions/2469451/upload-files-from-java-client-to-a-http-server
-		String txtLines = "";
+		String txtLines;
 		String PATH_PREF = "";
-		if (PATH_PREF == null || PATH_PREF.equals("")) {
-			PATH_PREF = "C:/workspace/github/spring_annotations/src/main/resources/";
-		}
 		//
 		File fileTxt = new File(PATH_PREF + pathTxt);
 		File fileBin = new File(PATH_PREF + pathBin);
 		String boundary = Long.toHexString(System.currentTimeMillis()); // random boundary
-		URLConnection urlConn = null;
+		URLConnection urlConn;
 		try {
 			URL url = new URL(link);
 			urlConn = url.openConnection();
@@ -294,7 +275,7 @@ public class UtilityMain {
 			System.out.println("2 Send text file in charset UTF_8");
 			writer.append("--" + boundary).append(CRLF);
 			writer.append("Content-Disposition: form-data; name=\"textFile\"; filename=\""
-				+ fileTxt.getName() + "\"").append(CRLF);
+					+ fileTxt.getName() + "\"").append(CRLF);
 			writer.append("Content-Type: text/plain; charset=" + UTF_8).append(CRLF);
 			writer.append(CRLF).flush();
 			Files.copy(fileTxt.toPath(), outputStream);
@@ -304,7 +285,7 @@ public class UtilityMain {
 			System.out.println("3 Send binary file");
 			writer.append("--" + boundary).append(CRLF);
 			writer.append("Content-Disposition: form-data; name=\"binaryFile\"; filename=\""
-				+ fileBin.getName() + "\"").append(CRLF);
+					+ fileBin.getName() + "\"").append(CRLF);
 			String fileBinContentType = URLConnection.guessContentTypeFromName(fileBin.getName());
 			writer.append("Content-Type: " + fileBinContentType).append(CRLF);
 			writer.append("Content-Transfer-Encoding: binary").append(CRLF);
@@ -331,27 +312,25 @@ public class UtilityMain {
 		//
 		// https://www.baeldung.com/java-compress-and-uncompress
 		List<File> list = new ArrayList<>();
-		if (fileName == null || fileName.equals("")) { fileName = FLD_SAMPLE + ZIP_SAMPLE; }
 		int BUFFER_SIZE = 4096;
 		String DIR_TEMP = "src/main/resources/temp/";
-		String fileItem = "";
+		String fileItem;
 		try {
 			//
 			ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-			File fileZip = new File(classLoader.getResource(fileName).getFile());
+			File fileZip = new File(Objects.requireNonNull(classLoader.getResource(fileName)).getFile());
 			FileInputStream fis = new FileInputStream(fileZip);
 			ZipInputStream zis = new ZipInputStream(fis);
 			ZipEntry zipEntry = zis.getNextEntry();
 			//
-			FileOutputStream fos = null;
-			byte[] bytes = null;
-			int intReadLen = 0;
-			File file = null;
+			FileOutputStream fos;
+			byte[] bytes;
+			int intReadLen;
+			File file;
 			while (zipEntry != null) {
 				//
 				fileItem = zipEntry.getName();
 				file = new File(DIR_TEMP + fileItem);
-				intReadLen = 0;
 				bytes = new byte[BUFFER_SIZE];
 				fos = new FileOutputStream(file);
 				while ((intReadLen = zis.read(bytes)) > 0) {
@@ -361,103 +340,140 @@ public class UtilityMain {
 				zipEntry = zis.getNextEntry();
 				list.add(file);
 			}
-		} catch (IOException ex) { LOGGER.warning(ex.getMessage()); }
+		} catch (IOException ex) {
+			LOGGER.warning(ex.getMessage());
+		}
 		return list;
+	}
+
+	public static String exposeObject(Object object) {
+		//
+		StringBuilder stringBuilder = new StringBuilder();
+		Set set = new TreeSet();
+		Method[] methods = object.getClass().getDeclaredMethods();
+		//
+		Object[] args = null;
+		int MAXLEN = 35;
+		String FRMT = "\t%02d %-25s | %-35s | %02d | %s \n";
+		AtomicInteger atomicInteger = new AtomicInteger();
+		Arrays.stream(methods).forEach(mthd -> {
+			//
+			Object objectVal = "";
+			String returnType = mthd.getReturnType().toString();
+			if (returnType.length() > MAXLEN) {
+				returnType = returnType.substring(returnType.length() - MAXLEN);
+			}
+			mthd.setAccessible(true);
+			boolean boolClass = mthd.getReturnType().toString().startsWith("class");
+			boolean boolCount = mthd.getParameterCount() == 0;
+			if (boolClass & boolCount) {
+				try {
+					objectVal = mthd.invoke(object, args);
+				} catch (IllegalAccessException | InvocationTargetException ex) {
+					LOGGER.info(ex.getMessage());
+				}
+				if (objectVal == null) {
+					objectVal = "NULL or EMPTY";
+				}
+			}
+			boolean boolAccess = mthd.getName().startsWith("access$");
+			if (!boolAccess) {
+				set.add(String.format(FRMT, atomicInteger.incrementAndGet(),
+						mthd.getName(), returnType, mthd.getParameterCount(), objectVal));
+			}
+		});
+		//
+		stringBuilder.append(object.getClass().getName()).append(" has: [").append(methods.length)
+				.append("] methods\n\n");
+		set.stream().sorted().forEach(val -> stringBuilder.append(val));
+		return stringBuilder + "\n";
 	}
 
 	public static String getZipFileList(String fileName, String delim) {
 		//
-		String txtLines = "";
-		if (delim == null || delim.equals("")) { delim = DLM; }
-		//
+		StringBuilder txtLines = new StringBuilder();
 		List<File> list = UtilityMain.getFilesFromZip(fileName);
-		for (File file : list) { txtLines += file.getName() + delim; }
-		return txtLines;
+		for (File file : list) {
+			txtLines.append(file.getName()).append(delim);
+		}
+		return txtLines.toString();
 	}
 
-	public static File putFilesIntoZip(List<File> list) { /* ??? */
+	public static File putFilesIntoZip() { /* ??? */
 		//
 		// https://www.baeldung.com/java-compress-and-uncompress
-		File file = null;
 		return null;
 	}
 
 	public static String getXmlFileNode(String xmlfile, String xpathTxt, String delim) {
 		//
 		// https://howtodoinjava.com/xml/evaluate-xpath-on-xml-string/
-		String txtLines = "";
-		if (xmlfile == null || xmlfile.equals("")) {
-			xmlfile = "src/main/resources/" + FLD_SAMPLE + XML_SAMPLE;
+		StringBuilder txtLines = new StringBuilder();
+		if (xpathTxt == null || xpathTxt.equals("")) {
+			xpathTxt = "/catalog/book/title";
 		}
-		if (xpathTxt == null || xpathTxt.equals("")) { xpathTxt = "/catalog/book/title"; }
-		if (delim == null || delim.equals("")) { delim = DLM; }
-		//
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = dbf.newDocumentBuilder(); // PCE
 			Document document = documentBuilder.parse(xmlfile); // SAXException
 			XPathFactory xpf = XPathFactory.newInstance();
 			XPath xPath = xpf.newXPath();
-			txtLines = (String) xPath.evaluate(xpathTxt, document, STRING);
+			txtLines = new StringBuilder((String) xPath.evaluate(xpathTxt, document, STRING));
 			//
 			String xpathNode = "/catalog/book/@id";
 			NodeList nodeList = (NodeList) xPath.evaluate(xpathNode, document, NODESET);
 			for (int ictr = 0; ictr < nodeList.getLength(); ictr++) {
-				txtLines += delim + nodeList.item(ictr).getNodeValue();
+				txtLines.append(delim).append(nodeList.item(ictr).getNodeValue());
 			}
-		} catch (ParserConfigurationException ex) {
+		} catch (ParserConfigurationException | SAXException | XPathExpressionException | IOException ex) {
 			LOGGER.warning(ex.getMessage());
-		} catch (SAXException ex) { LOGGER.warning(ex.getMessage()); } catch (XPathExpressionException ex) {
-			LOGGER.warning(ex.getMessage());
-		} catch (IOException ex) { LOGGER.warning(ex.getMessage()); }
-		return txtLines;
+		}
+		return txtLines.toString();
 	}
 
-	public static String getXmlNode(String xml, String xpathTxt, String delim) {
+	public static String getXmlNode(String xml, String xpathTxt) {
 		//
 		// https://howtodoinjava.com/xml/evaluate-xpath-on-xml-string/
 		String txtLines = "";
-		if (delim == null || delim.equals("")) { delim = DLM; }
-		//
 		try {
 			StringReader stringReader = new StringReader(xml);
 			InputSource inputSource = new InputSource(stringReader);
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			txtLines = xPath.evaluate(xpathTxt, inputSource);
-		} catch (XPathExpressionException ex) { LOGGER.warning(ex.getMessage()); }
+		} catch (XPathExpressionException ex) {
+			LOGGER.warning(ex.getMessage());
+		}
 		return txtLines;
 	}
 
 	public static String convertXml2Json(String xml) {
 		//
 		String json = "";
-		if (xml == null || xml.equals("")) { xml = getFileLocal(FLD_SAMPLE + XML_SAMPLE, ""); }
 		int INDENT_FACTOR = 4;
-		//
 		try {
 			JSONObject jsonObject = XML.toJSONObject(xml);
 			json = jsonObject.toString(INDENT_FACTOR);
-		} catch (JSONException ex) { LOGGER.warning(ex.getMessage()); }
+		} catch (JSONException ex) {
+			LOGGER.warning(ex.getMessage());
+		}
 		return json;
 	}
 
 	public static String convertJson2Xml(String json) {
 		//
 		String xml = "";
-		if (json == null || json.equals("")) { json = getFileLocal(FLD_SAMPLE + JSN_SAMPLE, ""); }
-		//
 		try {
 			JSONObject jsonObj = new JSONObject(json);
 			xml = XML.toString(jsonObj);
-		} catch (JSONException ex) { LOGGER.warning(ex.getMessage()); }
+		} catch (JSONException ex) {
+			LOGGER.warning(ex.getMessage());
+		}
 		return xml;
 	}
 
 	public static String formatXml(String xmlOld) {
 		//
 		String xml = "";
-		if (xmlOld == null || xmlOld.equals("")) { xmlOld = getFileLocal(FLD_SAMPLE + XML_SAMPLE, ""); }
-		//
 		Document document = null;
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -465,9 +481,7 @@ public class UtilityMain {
 			StringReader stringReader = new StringReader(xmlOld);
 			InputSource inputSource = new InputSource(stringReader);
 			document = documentBuilder.parse(inputSource);
-		} catch (ParserConfigurationException ex) {
-			LOGGER.warning(ex.getMessage());
-		} catch (SAXException ex) { LOGGER.warning(ex.getMessage()); } catch (IOException ex) {
+		} catch (ParserConfigurationException | SAXException | IOException ex) {
 			LOGGER.warning(ex.getMessage());
 		}
 		try {
@@ -484,9 +498,9 @@ public class UtilityMain {
 			DOMSource domSource = new DOMSource(document);
 			transformer.transform(domSource, xmlOutput);
 			xml = xmlOutput.getWriter().toString();
-		} catch (TransformerConfigurationException ex) {
+		} catch (TransformerException ex) {
 			LOGGER.warning(ex.getMessage());
-		} catch (TransformerException ex) { LOGGER.warning(ex.getMessage()); }
+		}
 		return xml;
 	}
 
@@ -512,24 +526,29 @@ public class UtilityMain {
 			ObjectMapper objectMapperNode = new ObjectMapper();
 			JsonNode jsonNode = objectMapperNode.readTree(json);
 			txtLine = (jsonNode.get(applicationNode)).asText();
-		} catch (JsonParseException ex) { LOGGER.warning(ex.getMessage()); } catch (JsonMappingException ex) {
+		} catch (JsonParseException ex) {
 			LOGGER.warning(ex.getMessage());
-		} catch (IOException ex) { LOGGER.log(Level.SEVERE, ex.getMessage()); }
+		} catch (JsonMappingException ex) {
+			LOGGER.warning(ex.getMessage());
+		} catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, ex.getMessage());
+		}
 		//
 		return txtLine;
 	}
 
 	public static String parseJsonList2List(String jsonArr, int listFormat) {
 		//
-		String txtLines = "";
+		StringBuilder txtLines = new StringBuilder();
 		ObjectMapper objectMapperHtml = new ObjectMapper();
 		TypeReference<ArrayList<LinkedHashMap<String, String>>> typeReference
-			= new TypeReference<ArrayList<LinkedHashMap<String, String>>>() {};
-		ArrayList<LinkedHashMap<String, String>> arrayList = null;
-		Set set = null;
-		String txtKey = "";
-		String txtVal = "";
-		Object objVal = null;
+				= new TypeReference<ArrayList<LinkedHashMap<String, String>>>() {
+		};
+		ArrayList<LinkedHashMap<String, String>> arrayList;
+		Set<?> set;
+		String txtKey;
+		String txtVal;
+		Object objVal;
 		String PFX = PAR;
 		String MID = " : ";
 		String SFX = "";
@@ -539,19 +558,20 @@ public class UtilityMain {
 			SFX = "</td></tr>";
 		}
 		try {
-			arrayList = (ArrayList<LinkedHashMap<String, String>>)
-				objectMapperHtml.readValue(jsonArr, typeReference);
+			arrayList = objectMapperHtml.readValue(jsonArr, typeReference);
 			for (LinkedHashMap<String, String> linkedHashMap : arrayList) {
 				//
 				set = linkedHashMap.keySet();
 				txtKey = set.toString().substring(1, set.toString().length() - 1);
 				objVal = linkedHashMap.get(txtKey);
 				txtVal = objVal.toString();
-				txtLines += PFX + txtKey + MID + txtVal + SFX;
+				txtLines.append(PFX).append(txtKey).append(MID).append(txtVal).append(SFX);
 			}
 			System.out.println("txtLines: " + txtLines);
-		} catch (JsonProcessingException ex) { LOGGER.warning(ex.getMessage()); }
-		return txtLines;
+		} catch (JsonProcessingException ex) {
+			LOGGER.warning(ex.getMessage());
+		}
+		return txtLines.toString();
 	}
 }
 //----

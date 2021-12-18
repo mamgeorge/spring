@@ -1,3 +1,7 @@
+# Purpose
+
+The purpose of this project is to provide a stripped down example of using an Embedded DB; in thais case H2.
+
 # Components
 
 * Spring Boot		Actuator OPS

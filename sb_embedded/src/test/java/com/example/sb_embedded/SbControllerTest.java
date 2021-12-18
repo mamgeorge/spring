@@ -2,7 +2,11 @@ package com.example.sb_embedded;
 
 import java.io.StringWriter;
 import java.util.logging.Logger;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,12 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // https://spring.io/guides/gs/testing-web/
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) @AutoConfigureMockMvc
-class SbControllerTest {
+@TestInstance(Lifecycle.PER_CLASS)
+public class SbControllerTest {
 
 	public static final Logger LOGGER = Logger.getLogger(SbControllerTest.class.getName());
 
-
-	@Autowired private SbController sbController;
+	@Autowired private SbController sbController = null;
 	@Autowired private TestRestTemplate restTemplate;
 	@Autowired private MockMvc mockMvc;
 	@LocalServerPort int PORT;
@@ -35,6 +39,13 @@ class SbControllerTest {
 	private static final String EOL = "\n";
 	private static final String TAB = "\t";
 	private static final String LOCALHOST = "http://localhost:";
+
+	@BeforeAll void setup() {
+		//
+		//sbController = new SbController();
+		//restTemplate = new TestRestTemplate();
+		//PORT = 3000;
+	}
 
 	@Test void test_contextLoads() {
 		//
@@ -69,12 +80,10 @@ class SbControllerTest {
 		stringWriter.append("####");
 		// OutputStream outputStream = System.out;
 		//
-		ResultActions resultActions = this.mockMvc.perform(get("/"))
-			.andDo(print(stringWriter))
-			.andExpect(status().isOk())
-			.andExpect(content().string(containsString("home")));
+		ResultActions resultActions = this.mockMvc.perform(get("/")).andDo(print(stringWriter))
+			.andExpect(status().isOk()).andExpect(content().string(containsString("home")));
 		System.out.println(TAB + "RAS: " + resultActions + EOL);
-		//System.out.println(TAB + "RAO: " + resultActions.andDo(print(outputStream)) );
+		// System.out.println(TAB + "RAO: " + resultActions.andDo(print(outputStream)));
 	}
 
 	@Test void test_home() {
@@ -101,7 +110,7 @@ class SbControllerTest {
 		City city = sbController.showCity();
 		String txtLines = city.toString();
 		System.out.println("txtLines: " + txtLines);
-		System.out.println("city.getName(): " + city.getName() );
+		System.out.println("city.getName(): " + city.getName());
 		Assert.isTrue(city.getName().equals("CN Chongqing"), ASSERTION);
 	}
 
