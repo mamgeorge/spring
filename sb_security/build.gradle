@@ -1,0 +1,56 @@
+
+plugins {
+	id 'org.springframework.boot' version '2.4.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.basics.securing'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+apply plugin: 'java'
+
+tasks.withType(JavaCompile) {
+
+    options.encoding = 'UTF-8'
+    options.compilerArgs += [ '-Xlint:unchecked' , '-Xdiags:verbose' ]
+    options.deprecation = true
+}
+
+repositories {
+
+	mavenCentral( )
+	maven { url "https://mvnrepository.com/" }
+}
+
+dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// added 4 security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springframework.security:spring-security-crypto'
+
+	// added 4 swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	// added 4 csv deserialization & application.yml
+	implementation 'org.springframework.boot:spring-boot-starter-parent:2.4.2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.h2database:h2'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv'
+	implementation 'org.apache.commons:commons-csv:1.8'
+
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+
+	useJUnitPlatform()
+    testLogging { }
+}
