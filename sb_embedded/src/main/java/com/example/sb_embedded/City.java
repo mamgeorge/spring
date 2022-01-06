@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+// note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
 @Entity @Table(name = "cities")
 public class City {
 

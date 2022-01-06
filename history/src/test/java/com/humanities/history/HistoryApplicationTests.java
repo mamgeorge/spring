@@ -3,11 +3,7 @@ package com.humanities.history;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class HistoryApplicationTests {
+@SpringBootTest class HistoryApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+	@Test void contextLoads() { }
 }

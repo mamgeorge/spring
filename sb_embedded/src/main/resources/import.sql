@@ -1,4 +1,5 @@
 --// \src\main\resources\import.sql table cities
+--// note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
 
 INSERT INTO cities( name , population ) VALUES( 'JP Tokyo'			, 37400068 ); -- 01
 INSERT INTO cities( name , population ) VALUES( 'IN Delhi'			, 28514000 ); -- 02

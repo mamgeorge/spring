@@ -10,6 +10,11 @@ datasource.platform: h2
 spring.datasource.url: jdbc:h2:mem:testdb
 spring.h2.console.enabled: true
 spring.h2.console.path: /h2console
+spring.datasource.platform: h2
+
+# note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
+spring.jpa.properties.hibernate.connection.charSet: UTF-8
+spring.jpa.properties.hibernate.hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
 
 # logging
 spring.main.banner-mode: CONSOLE

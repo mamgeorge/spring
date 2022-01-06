@@ -3,6 +3,7 @@
 app.name: BasicsApplication
 
 # database
+# note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
 datasource.platform: h2
 spring.datasource.url: jdbc:h2:mem:testdb
 spring.h2.console.enabled: true

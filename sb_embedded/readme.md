@@ -2,6 +2,8 @@
 
 The purpose of this project is to provide a stripped down example of using an Embedded DB; in thais case H2.
 
+--// note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
+
 # Components
 
 * Spring Boot		Actuator OPS

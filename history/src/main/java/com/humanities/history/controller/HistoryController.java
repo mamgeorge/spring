@@ -17,7 +17,6 @@ public class HistoryController {
 	@GetMapping({"/", "/index", "/home"})
 	public ModelAndView root(Model model) {
 		//
-
 		System.out.println("index");
 		LOGGER.info("index");
 		ModelAndView MAV = new ModelAndView("index", new HashMap<>());
