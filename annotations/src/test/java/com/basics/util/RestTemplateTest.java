@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -105,10 +106,13 @@ public class RestTemplateTest {
 		//
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+		//
+		ClientHttpRequestFactory CHRF = restTemplate.getRequestFactory();
 		HttpStatus httpStatus = responseEntity.getStatusCode();
 		String response = responseEntity.getBody().replaceAll("\\s+", " ").substring(0, 80);
 		String headers = responseEntity.getHeaders().toString().replaceAll(",", ",\n\t\t");
 		//
+		txtLines += String.format(FRMT, "CHRF", CHRF);
 		txtLines += String.format(FRMT, "getStatusCode", httpStatus);
 		txtLines += String.format(FRMT, "getBody", response);
 		txtLines += String.format(FRMT, "getHeaders", headers);
