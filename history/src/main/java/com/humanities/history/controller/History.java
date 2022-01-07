@@ -29,7 +29,7 @@ public class History {
 	private String	grouping;	// 'h0000'
 	private String	mediaicopath;// '_0000_H_Nazareth_JesusCross'
 
-	public History getSample() {
+	public static History getSample() {
 		//
 		History history = new History();
 		history.id = 0L;
