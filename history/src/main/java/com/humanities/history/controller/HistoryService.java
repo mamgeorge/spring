@@ -11,7 +11,16 @@ import java.util.List;
 	private HistoryRepository historyRepository;
 
 	@Override
-	public History findById(Long id) {return historyRepository.findById(id).get();}
+	public History findById(Long id) {
+		//
+		History history = null;
+		if (id == null || id.equals(0L)) {
+			history = new History().getSample();
+		} else {
+			history = historyRepository.findById(id).get();
+		}
+		return history;
+	}
 
 	@Override
 	public History save(History history) {return historyRepository.save(history);}

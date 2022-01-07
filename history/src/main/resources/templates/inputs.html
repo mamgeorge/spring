@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>inputs</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/style.css}">
+<style>
+table.main { width: 50%; border: 1px solid black; border-radius: 10px; border-spacing: 0px; }
+th { padding: 0px; border: 0px; }
+td { text-align: center; border: 0px; }
+button, input { font-size: 14pt; font-family: Arial; border-radius: 5px; }
+input.sml { font-size: 8pt; font-family: Arial; border: 0px; background: transparent; width: 10px; }
+img { border: 1px solid black; width: 40px; height: 40px; border-radius: 5px; }
+img.top { width: 60px; height: 60px; padding: 0px; }
+.grp { white-space: nowrap; }
+.shrt { width: 1%; }
+.long { width: 80%; }
+</style>
+</head>
+
+<body><center><h3>history inputs</h3><br />
+
+<br />
+<form th:action="@{/posted}" th:object="${history}" method="post">
+<table class = "main" ><tr><td style = "padding: 0px;">
+	<img class = "top" th:src="@{/images/history.png}"/></td>
+	<td><h5><span th:text="${#dates.formatISO(#dates.createNow())}" />
+			<br />历史: [<input class = "sml" type = "text" name = "id" th:field = "*{id}" readonly>]
+				<span th:text = "${history}" />
+			<br /><span th:text = "${#strings.abbreviate(history.showHistory(),50)}" />
+			<br /><span th:text = "${history.references}" />
+		</h5>
+		<!--img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"/></th-->
+		<!--br /><span th:text = "${{history.references}}" /-->
+	</td></tr></table>
+
+<br />
+<table class = "main">
+<tr>
+	<th class = "shrt"><button>&#8592;</button><button>&#8594;</button></th>
+	<td>
+		<span class = "grp">
+		<input type="radio" name="datebegpre" value="-" th:field = "*{datebegpre}">-
+		<input type="radio" name="datebegpre" value="+" th:field = "*{datebegpre}">+
+			<input type = "text" name = "datebeg" placeholder = "datebeg"
+				th:field = "*{datebeg}"
+				title = "attempt to use 4 digit year; otherwise use SQL 0004-00-00-00.00.00"/></span><br />
+		<span class = "grp">
+		<input type="radio" name="dateendpre" value="-" th:field = "*{dateendpre}">-
+		<input type="radio" name="dateendpre" value="+" th:field = "*{dateendpre}">+
+			<input type = "text" name = "dateend" placeholder = "dateend"
+				th:field = "*{dateend}"/></span>
+	</td></tr>
+
+	<th><button>&#8592;</button><button>&#8594;</button></th>
+	<td>
+		<select name = "eramain" >
+			<option>eramain</option>
+			<option>-4000 -2000 Prehistoric</option>
+			<option>-2000 +0500 Ancient</option>
+			<option>+0500 +1700 Medieval</option>
+			<option>+1700 +2000 Modern</option>
+			</select>
+		<select name = "continent" >
+			<option>locale</option>
+			<option>Canaan</option>
+			<option>Africa</option>
+			<option>Mesopotamia</option>
+			<option>Asia, South (India)</option>
+			<option>Asia, East (China)</option>
+			<option>Europe</option>
+			<option>AmericaNorth & Central</option>
+			<option>AmericaSouth</option>
+			<option>Australia</option>
+			<option>Antartica</option>
+		</select>
+		<br />
+		<input class = "long" type = "text" name = "locations"  placeholder = "locations"
+			th:field = "*{locations}"
+			title = "ideally: modernCountry, modernCity; ancientCountry, ancientCity"/>
+	</td></tr>
+
+	<th><button>&#8592;</button><button>&#8594;</button></th>
+	<td>
+		<input class = "long"  type = "text" name = "personname" placeholder = "personname"
+			th:field = "*{personname}"
+			title = "ideally: period dynasty # king # firstName lastName, commonName"/><br />
+		<input class = "long" type = "text" name = "eventmain"  placeholder = "eventmain"
+			th:field = "*{eventmain}"
+			title = "short description of primary activities"/>
+	</td></tr>
+
+	<th><button>&#8592;</button><button>&#8594;</button></th>
+	<td>
+		<input class = "long" type = "text" name = "references" placeholder = "references"
+			title = "short list of supporting evidences or references "
+			th:field = "*{references}" /><br />
+		<input class = "long" type = "text" name = "grouping"   placeholder = "grouping"
+			title = "tagged information, comma separated"
+			th:field = "*{grouping}"/>
+	</td></tr>
+
+	<!--https://stackoverflow.com/questions/63683474/how-to-put-variable-to-img-src-path-in-spring-with-thymeleaf /-->
+	<th><img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"/></th>
+	<td>
+		<input class = "long" type = "text" name = "mediaicopath" placeholder = "mediaicopath"
+			th:field = "*{mediaicopath}"
+			title = "ideally a curated (squared, low resolution) jpg" />
+	</td></tr>
+</table>
+
+<br />
+	<button name = "nav" value = "back" ><<<</button>
+	<input type = "submit" name = "nav" value = "Submit" />
+	<button name = "nav" value = "frwd" >>>></button>
+</form>
+
+	<br/><hr/><a href="/">return</a>
+	<br /><h6 th:text = "${#strings.randomAlphanumeric(10)}"></h6>
+
+</center></body>
+</html>

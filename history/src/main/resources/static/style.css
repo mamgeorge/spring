@@ -9,7 +9,7 @@ tr:nth-child(even) { background: #ffffff; }
 tr:nth-child( odd) { background: #e0e0e0; }
 th, td { border: 0.5px solid black; padding: 4px; padding-left: 16px; font-size: 9pt; }
 td { text-align: left; }
-td:nth-child( 3 ) { text-align: right; }
+// td:nth-child( 3 ) { text-align: right; }
 
 hr { color: #cccccc; width: 80%; }
 

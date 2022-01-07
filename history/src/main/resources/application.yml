@@ -5,9 +5,17 @@ server.servlet.context-path: /
 server.servlet.port: 8080
 server.error.whitelabel.enabled: false
 
-# database
+# thymeleaf; probably not needed
+spring.thymeleaf.encoding: UTF-8
+spring.thymeleaf.content-type: text/html
+spring.thymeleaf.mode: HTML5
+spring.http.encoding.charset: UTF-8
+spring.http.encoding.enabled: true
+spring.http.encoding.force: true
+
+# database: note H2 Console JDBC URL must match spring.datasource.url
 datasource.platform: h2
-spring.datasource.url: jdbc:h2:mem:testdb
+spring.datasource.url: jdbc:h2:mem:history
 spring.h2.console.enabled: true
 spring.h2.console.path: /h2console
 spring.datasource.platform: h2

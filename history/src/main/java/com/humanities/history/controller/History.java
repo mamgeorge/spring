@@ -29,6 +29,29 @@ public class History {
 	private String	grouping;	// 'h0000'
 	private String	mediaicopath;// '_0000_H_Nazareth_JesusCross'
 
+	public History getSample() {
+		//
+		History history = new History();
+		history.id = 0L;
+		//
+		history.datebegpre = "-";
+		history.datebeg = "begins";
+		history.dateendpre = "-";
+		history.dateend = "ending";
+		//
+		history.eramain = "eramain";
+		history.locations = "locations";
+		history.personname = "personname";
+		history.eventmain = "eventmain";
+		//
+		history.references = "references";
+		history.grouping = "grouping";
+		history.personname = "personname";
+		history.mediaicopath = "mediaicopath";
+		//
+		return history;
+	}
+
 	public String showHistory() {
 		//
 		String newDateBeg = "", newDateEnd = "";
