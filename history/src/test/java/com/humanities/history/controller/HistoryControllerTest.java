@@ -22,10 +22,17 @@ public class HistoryControllerTest {
 	@Autowired private HistoryController historyController;
 	@Autowired private IHistoryService historyService;
 	public static final String FRMT = "\t%-5s %s\n";
+	public static final String ENCODED = "陕西, 西安";
+
 
 	@BeforeAll void setup() {
 		//
-		System.out.println("陕西, 西安");
+		System.out.println(ENCODED);
+	}
+
+	@Test void sendPost_Encoded(){
+		//
+
 	}
 
 	@Test void getSample() {

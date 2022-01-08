@@ -23,7 +23,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -49,7 +48,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -72,13 +70,17 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 
 public class UtilityMain {
 
 	public static final Logger LOGGER = Logger.getLogger(UtilityMain.class.getName());
 
-	public static final String USER_AGENT = "Mozilla/5.0";
-	public static final String CONTENTTYPE_FORM = "application/x-www-form-urlencoded";
+	public static final String USER_AGENT_VAL = "Mozilla/5.0";
 	public static final String CONTENTTYPE_MULTI = "multipart/form-data; boundary=";
 
 	public static final String GREEN = "\u001b[32,1m";
@@ -173,8 +175,8 @@ public class UtilityMain {
 		try {
 			URL url = new URL(link);
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-			httpConn.setRequestMethod("GET");
-			httpConn.setRequestProperty("User-Agent", USER_AGENT);
+			httpConn.setRequestMethod(GET.toString());
+			httpConn.setRequestProperty(USER_AGENT, USER_AGENT_VAL);
 			httpConn.setConnectTimeout(5000);
 			httpConn.setReadTimeout(5000);
 			//
@@ -206,9 +208,9 @@ public class UtilityMain {
 			URL url = new URL(link);
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setDoOutput(true);
-			httpConn.setRequestMethod("POST");
-			httpConn.setRequestProperty("User-Agent", USER_AGENT);
-			httpConn.setRequestProperty("Content-Type", CONTENTTYPE_FORM);
+			httpConn.setRequestMethod(POST.toString());
+			httpConn.setRequestProperty(USER_AGENT, USER_AGENT_VAL);
+			httpConn.setRequestProperty(CONTENT_TYPE, APPLICATION_FORM_URLENCODED_VALUE);
 			//	httpConn.setRequestProperty( "Authorization", "JWT " + jwtSourceId );
 			//
 			OutputStream outputStream = httpConn.getOutputStream();
@@ -258,7 +260,7 @@ public class UtilityMain {
 			URL url = new URL(link);
 			urlConn = url.openConnection();
 			urlConn.setDoOutput(true);
-			urlConn.setRequestProperty("Content-Type", CONTENTTYPE_MULTI + boundary);
+			urlConn.setRequestProperty(CONTENT_TYPE, CONTENTTYPE_MULTI + boundary);
 			//	urlConn.setRequestProperty( "Authorization", "JWT " + jwtSourceId );
 			//
 			System.out.println("0 urlConn.getOutputStream( )");

@@ -15,7 +15,7 @@ import java.util.Set;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class ClientHttpRequestInterceptorImpl implements ClientHttpRequestInterceptor {
+public class ClientHttpRequestInterceptor_Impl implements ClientHttpRequestInterceptor {
 
 	@Override
 	public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes,

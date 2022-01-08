@@ -2,6 +2,7 @@
 
 package com.basics.util;
 
+import com.basics.samples.Any_HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Logger;
@@ -16,18 +21,26 @@ import java.util.logging.Logger;
 import static com.basics.util.UtilityMain.PAR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UtilityMainTest {
 
 	private static final Logger LOGGER = Logger.getLogger(UtilityMainTest.class.getName());
 	private static final String PATH_LOCAL = "src/test/java/resources/";
+	private static final String HOST_EXT = "https://httpbin.org/";
 	private static final String TXT_SAMPLE = "Genesis_01.txt";
 
-	@BeforeAll public void setUp() {
+	public static void main(String[] args) {
+		//
+		sample_HttpCient(HOST_EXT+"get?id-1234");
+		// sample_HttpServer(3000);
 	}
 
 	// J4: @Test (expected = IOException.class), J5: uses lambda
+	@BeforeAll public void setUp() {
+	}
+
 	@Test public void showSys() {
 		//
 		String txtLines = UtilityMain.showSys();
@@ -53,7 +66,7 @@ public class UtilityMainTest {
 
 	@Test public void getFileLocal() {
 		//
-		String txtLines = UtilityMain.getFileLocal(PATH_LOCAL + TXT_SAMPLE,"");
+		String txtLines = UtilityMain.getFileLocal(PATH_LOCAL + TXT_SAMPLE, "");
 		System.out.println("getFileLocal: " + txtLines);
 		assertTrue(txtLines.startsWith("Genesis"));
 	}
@@ -80,8 +93,8 @@ public class UtilityMainTest {
 		//
 		String link = "https://httpbin.org/post";
 		String postParms = "name=Martin&occupation=programmer";
-		String pathTxt = PATH_LOCAL +"booksCatalog.json";
-		String pathBin = PATH_LOCAL +"hal9000.wav";
+		String pathTxt = PATH_LOCAL + "booksCatalog.json";
+		String pathBin = PATH_LOCAL + "hal9000.wav";
 		//
 		String txtLines = UtilityMain.urlPostFile(link, postParms, pathTxt, pathBin);
 		System.out.println(PAR + txtLines);
@@ -145,15 +158,34 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 1);
 	}
 
-	private static void sampleServer() {
+	private static void sample_HttpCient(String url) {
+		//
+		HttpRequest httpRequest = HttpRequest.newBuilder()
+				.GET()
+				.uri(URI.create(url))
+				.setHeader(USER_AGENT, "Java11Client Bot")
+				.build();
+		HttpClient httpClient = HttpClient.newBuilder()
+				.version(HttpClient.Version.HTTP_2)
+				.build();
+		HttpResponse<String> httpResponse = null;
+		try {
+			HttpResponse.BodyHandler<String> bodyHandlers = HttpResponse.BodyHandlers.ofString();
+			httpResponse = httpClient.send(httpRequest, bodyHandlers);
+		} catch (IOException | InterruptedException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		//
+		System.out.println( "body: "+ httpResponse.body() );
+	}
 
+	private static void sample_HttpServer(int PORT) {
+		//
+		Any_HttpHandler anyHttpHandler = new Any_HttpHandler();
 		String HOST = "localhost", CONTEXT = "/";
-		int PORT = 3000, backlog = 0, threads = 10;
+		int backlog = 0, threads = 10;
 		try {
 			InetSocketAddress inetSocketAddress = new InetSocketAddress(HOST, PORT);
 			HttpServer httpServer = HttpServer.create(inetSocketAddress, backlog);
 			ThreadPoolExecutor TPE = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
-			com.basics.samples.AnyHttpHandler anyHttpHandler = new com.basics.samples.AnyHttpHandler();
 			//
 			httpServer.createContext(CONTEXT, anyHttpHandler);
 			httpServer.setExecutor(TPE);
