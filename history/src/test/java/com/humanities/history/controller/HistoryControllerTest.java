@@ -8,12 +8,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,21 +27,30 @@ public class HistoryControllerTest {
 
 	@Autowired private HistoryController historyController;
 	@Autowired private IHistoryService historyService;
-	public static final String FRMT = "\t%-5s %s\n";
-	public static final String ENCODED = "陕西, 西安";
-
+	private static final String FRMT = "\t%-5s %s\n";
+	private static final String HOST_EXT = "https://httpbin.org/";
+	private static final String ENCODED = "历史 | &#21382;&#21490; | \u5386\u53f2 | \\u5386\\u53f2";
 
 	@BeforeAll void setup() {
 		//
 		System.out.println(ENCODED);
 	}
 
-	@Test void sendPost_Encoded(){
+	//############
+	@Test void sample_HttpCient() {
 		//
-
+		String txtLines = "";
+		String url = HOST_EXT + "get?id=1234";
+		//
+		HttpResponse<String> httpResponse = sample_HttpCient(url);
+		txtLines += String.format(FRMT, "statusCode", httpResponse.statusCode());
+		txtLines += httpResponse.body().replaceAll("\\s+", " ");
+		//
+		System.out.println(txtLines);
+		assertNotNull(httpResponse);
 	}
 
-	@Test void getSample() {
+	@Test void history_getSample() {
 		//
 		History history = History.getSample();
 		String txtLines = String.format(FRMT, "history", history.showHistory());
@@ -44,7 +59,7 @@ public class HistoryControllerTest {
 		assertTrue(history.getDatebeg().contains("begi"));
 	}
 
-	@Test void showHistory() {
+	@Test void history_showHistory() {
 		//
 		History history = historyService.findById(1L);
 		String txtLines = String.format(FRMT, "history", history.showHistory());
@@ -99,12 +114,32 @@ public class HistoryControllerTest {
 	@Test void posted() {
 		//
 		History history = History.getSample();
-		ModelAndView MAV = historyController.posted(history,"Submit");
+		ModelAndView MAV = historyController.posted(history, "Submit");
 		HashMap<String, Object> hashMap = (HashMap<String, Object>) MAV.getModel();
 		history = (History) hashMap.get("history");
 		String txtLines = String.format(FRMT, "getPersonname:", history.getPersonname());
 		//
 		System.out.println(txtLines);
 		assertNotNull(historyController);
+	}
+
+	//############
+	private static HttpResponse<String> sample_HttpCient(String url) {
+		//
+		HttpRequest httpRequest = HttpRequest.newBuilder()
+				.GET()
+				.uri(URI.create(url))
+				.setHeader(USER_AGENT, "Java11Client Bot")
+				.build();
+		HttpClient httpClient = HttpClient.newBuilder()
+				.version(HttpClient.Version.HTTP_2)
+				.build();
+		HttpResponse<String> httpResponse = null;
+		try {
+			HttpResponse.BodyHandler<String> bodyHandlers = HttpResponse.BodyHandlers.ofString();
+			httpResponse = httpClient.send(httpRequest, bodyHandlers);
+		} catch (IOException | InterruptedException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		//
+		return httpResponse;
 	}
 }

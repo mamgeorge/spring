@@ -3,15 +3,17 @@
 <head><title>index</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="style.css">
+<style>
+img { border: 10px #a0a080 outset; width: 450px; height: 300px; border-radius: 15px; }
+</style>
 </head>
 
 <body><center><h3>index</h3>
+	<br/><b><span th:text="${#dates.formatISO(#dates.createNow())}" /></b>
 	<br/>
+	<br/><h2><span>	History! | 历史 </span></h2>
 	<br/>
-	<h5>
-		<script>document.writeln( new Date().toISOString() );</script>
-	</h5>
-	<br/><h5 th:text="${#dates.formatISO(#dates.createNow())}"/></h5>
+	<br/><img src = "/images/history.png" />
 
 	<br/><br/>
 	<a href="/">/(root)</a> |
@@ -19,10 +21,8 @@
 	<a th:href="@{/home}">/home</a> |
 
 	<br/><br/>
-	<a href="/listing">/listing</a--> |
-	<a href="/inputs/0">/inputs/0</a>
-
-	<br/><br/>
+	<a href="/listing">/listing</a> |
+	<a href="/inputs/0">/inputs/0</a> /
 	<a href="/h2console">/h2console</a>
 
 	<br/><br/>

@@ -8,10 +8,13 @@
 table.main { width: 50%; border: 1px solid black; border-radius: 10px; border-spacing: 0px; }
 th { padding: 0px; border: 0px; }
 td { text-align: center; border: 0px; }
-button, input { font-size: 14pt; font-family: Arial; border-radius: 5px; }
-input.sml { font-size: 8pt; font-family: Arial; border: 0px; background: transparent; width: 10px; }
+
+fieldset { background: white; width: 48%; border-radius: 7px; height: 50px; overflow: auto; }
+button, input, textarea { font-size: 14pt; font-family: Arial; border-radius: 5px; }
+input.sml { border: 0px; background: transparent; width: 10px; }
 img { border: 1px solid black; width: 40px; height: 40px; border-radius: 5px; }
 img.top { width: 60px; height: 60px; padding: 0px; }
+
 .grp { white-space: nowrap; }
 .shrt { width: 1%; }
 .long { width: 80%; }
@@ -24,15 +27,14 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 <form th:action="@{/posted}" th:object="${history}" method="post">
 <table class = "main" ><tr><td style = "padding: 0px;">
 	<img class = "top" th:src="@{/images/history.png}"/></td>
-	<td><h5><span th:text="${#dates.formatISO(#dates.createNow())}" />
-			<br />历史: [<input class = "sml" type = "text" name = "id" th:field = "*{id}" readonly>]
-				<span th:text = "${history}" />
-			<br /><span th:text = "${#strings.abbreviate(history.showHistory(),50)}" />
-			<br /><span th:text = "${history.references}" />
-		</h5>
-		<!--img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"/></th-->
-		<!--br /><span th:text = "${{history.references}}" /-->
-	</td></tr></table>
+	<td><h3><span th:text="${#dates.formatISO(#dates.createNow())}" />
+		<br />[[${blurb}]]<br />
+		<input type = "hidden" name = "id" th:field = "*{id}" readonly>
+		</h3>
+	</td></tr>
+	</table>
+
+<br /><fieldset>[[${historySum}]]</fieldset>
 
 <br />
 <table class = "main">
@@ -85,8 +87,8 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 		<input class = "long"  type = "text" name = "personname" placeholder = "personname"
 			th:field = "*{personname}"
 			title = "ideally: period dynasty # king # firstName lastName, commonName"/><br />
-		<input class = "long" type = "text" name = "eventmain"  placeholder = "eventmain"
-			th:field = "*{eventmain}"
+		<textarea class = "long" type = "text" name = "eventmain"  placeholder = "eventmain"
+			th:field = "*{eventmain}" rows="2" cols="50"
 			title = "short description of primary activities"/>
 	</td></tr>
 
@@ -95,7 +97,7 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 		<input class = "long" type = "text" name = "references" placeholder = "references"
 			title = "short list of supporting evidences or references "
 			th:field = "*{references}" /><br />
-		<input class = "long" type = "text" name = "grouping"   placeholder = "grouping"
+		<input class = "long" type = "text" name = "grouping" placeholder = "grouping"
 			title = "tagged information, comma separated"
 			th:field = "*{grouping}"/>
 	</td></tr>
@@ -110,9 +112,9 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 </table>
 
 <br />
-	<button name = "nav" value = "back" ><<<</button>
-	<input type = "submit" name = "nav" value = "Submit" />
-	<button name = "nav" value = "frwd" >>>></button>
+	<button name = "nav" value = "back" ><<<    </button>
+	<button name = "nav" value = "sbmt" >Submit </button>
+	<button name = "nav" value = "frwd" >>>>    </button>
 </form>
 
 	<br/><hr/><a href="/">return</a>

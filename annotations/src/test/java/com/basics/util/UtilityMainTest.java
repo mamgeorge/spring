@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import static com.basics.util.UtilityMain.PAR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpHeaders.USER_AGENT;
 
@@ -30,11 +31,11 @@ public class UtilityMainTest {
 	private static final String PATH_LOCAL = "src/test/java/resources/";
 	private static final String HOST_EXT = "https://httpbin.org/";
 	private static final String TXT_SAMPLE = "Genesis_01.txt";
+	private static final String FRMT = "\t%-20s %s\n";
 
 	public static void main(String[] args) {
 		//
-		sample_HttpCient(HOST_EXT+"get?id-1234");
-		// sample_HttpServer(3000);
+		sample_HttpServer(3000);
 	}
 
 	// J4: @Test (expected = IOException.class), J5: uses lambda
@@ -71,6 +72,7 @@ public class UtilityMainTest {
 		assertTrue(txtLines.startsWith("Genesis"));
 	}
 
+	// ############
 	@Test public void urlGet() {
 		//
 		String link = "http://www.google.com";
@@ -101,6 +103,21 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 1);
 	}
 
+	@Test public void sample_HttpCient() {
+		//
+		String txtLines = "";
+		String url = HOST_EXT + "get?id-1234";
+		//
+		HttpResponse<String> httpResponse = sample_HttpCient(url);
+		String body = httpResponse.body().replaceAll("\\s+"," ");
+		txtLines += String.format(FRMT, "statusCode", httpResponse.statusCode());
+		txtLines += String.format(FRMT, "body", body);
+		//
+		System.out.println(txtLines);
+		assertNotNull(httpResponse);
+	}
+
+	// ############
 	@Test public void getXmlNode() {
 		//
 		String txtLine = "";
@@ -158,7 +175,8 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 1);
 	}
 
-	private static void sample_HttpCient(String url) {
+	// ############
+	private static HttpResponse<String> sample_HttpCient(String url) {
 		//
 		HttpRequest httpRequest = HttpRequest.newBuilder()
 				.GET()
@@ -174,7 +192,7 @@ public class UtilityMainTest {
 			httpResponse = httpClient.send(httpRequest, bodyHandlers);
 		} catch (IOException | InterruptedException ex) {System.out.println("ERROR: " + ex.getMessage());}
 		//
-		System.out.println( "body: "+ httpResponse.body() );
+		return httpResponse;
 	}
 
 	private static void sample_HttpServer(int PORT) {
@@ -190,7 +208,7 @@ public class UtilityMainTest {
 			httpServer.createContext(CONTEXT, anyHttpHandler);
 			httpServer.setExecutor(TPE);
 			httpServer.start();
-			System.out.println("Server started on port: " + PORT);
+			System.out.println("Server thread started on port: " + PORT);
 		} catch (IOException ex) {
 			LOGGER.severe(ex.getMessage());
 		}

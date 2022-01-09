@@ -12,10 +12,12 @@ process
 * uses springBoot eb, thymeleaf, lombok, JUnit5
 * thymeleaf includes images, loops 
 
-TODOs
-* springboot controller output utf8 characters to thymeleaf
+features
+* handles utf charsets in sql
+* truncated length
+
+todos
 * terminal show utf8 characters
-* test cases for controller
 * read in csv (alternate entries); parse text files
 * error handling for entries
 

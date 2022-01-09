@@ -42,11 +42,10 @@ public class History {
 		history.eramain = "eramain";
 		history.locations = "locations";
 		history.personname = "personname";
-		history.eventmain = "eventmain";
+		history.eventmain = "eventmain 历史";
 		//
 		history.references = "references";
 		history.grouping = "grouping";
-		history.personname = "personname";
 		history.mediaicopath = "mediaicopath";
 		//
 		return history;

@@ -38,9 +38,9 @@ INSERT INTO history( datebegpre, datebeg, dateendpre, dateend,
 	( --// China
 		'+' , '0009' ,
 		'+' , '0023' ,
-		'Han Dynasty' , 'China, Shaanxi, Xian / 陕西, 西安, old: 长安 [chang2 an1] ChangAn' ,
+		'Han Dynasty 漢朝 han4chao2' , 'China, Shaanxi, Xian / 陕西, 西安, old: 长安 [chang2 an1] ChangAn' ,
 		'Xin emperor Wang Mang / 新王莽 Xin1 dynasty emperor #01 Wang2 Mang3' ,
-		'Han Dynasty interregnum Xin dynasty, and only emperor' ,
+		'漢朝 Han Dynasty interregnum 新 Xin dynasty, and only emperor' ,
 		'Book of Han 《漢書》 & Book of Later Han 《後漢書》' , 'c0000' ,
 		'_0000_C_Xin_EmperorWangMangCoin' ),
 	( --// Europe

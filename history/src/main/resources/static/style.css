@@ -1,13 +1,14 @@
-body { font-family: verdana, monospace; margin: auto; text-align: center; }
+@charset "UTF-8";
+body { background: #d0d0c0; font-family: verdana, monospace; margin: auto; text-align: center; }
 
 h1, h2, h3, h4, h5, h6 { color: #000080; display: inline; }
 
-a, a.hover, a.visited { color: blue; text-decoration: none ; font-size: 9pt; }
+a, a.hover, a.visited { color: blue; text-decoration: none ; font-size: 12pt; }
 
 table { width: 98%; margin: auto; border-spacing: 1px; border-collapse: collapse; }
 tr:nth-child(even) { background: #ffffff; }
 tr:nth-child( odd) { background: #e0e0e0; }
-th, td { border: 0.5px solid black; padding: 4px; padding-left: 16px; font-size: 9pt; }
+th, td { border: 0.5px solid black; padding: 4px; padding-left: 16px; font-size: 10pt; }
 td { text-align: left; }
 // td:nth-child( 3 ) { text-align: right; }
 

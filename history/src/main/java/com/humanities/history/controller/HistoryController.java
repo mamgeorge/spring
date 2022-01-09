@@ -19,11 +19,12 @@ public class HistoryController {
 
 	@Autowired private IHistoryService historyService;
 	private static final Logger LOGGER = Logger.getLogger(HistoryController.class.getName());
+	private static final String ENCODED = "历史 | &#21382;&#21490; | \u5386\u53f2 | \\u5386\\u53f2";
+	private static final String RETURN = "<br /><a href = '/' >return</a>";
 	private static final int MAX_DISPLAY = 20;
 	private static final int SAMPLE_ITEM = 1;
 
-	@GetMapping({"/", "/index", "/home"})
-	public ModelAndView root() {
+	@GetMapping({"/", "/index", "/home"}) public ModelAndView root() {
 		//
 		System.out.println("index");
 		LOGGER.info("index");
@@ -31,20 +32,21 @@ public class HistoryController {
 		return MAV;
 	}
 
-	@GetMapping({"/listing"})
-	public ModelAndView listing() {
+	@GetMapping({"/listing"}) public ModelAndView listing() {
 		//
 		List<History> histories = historyService.findAll();
 		System.out.println("histories: " + histories.size());
+		if(histories.size()>MAX_DISPLAY){ histories = histories.subList(0,20); }
 		//
 		HashMap<String, List<History>> hashMap = new HashMap<>();
 		hashMap.put("histories", histories);
+		histories.stream().forEach(hst -> System.out.println(hst.showHistory()));
+		//
 		ModelAndView MAV = new ModelAndView("listing", hashMap);
 		return MAV;
 	}
 
-	@GetMapping("/inputs/{id}")
-	public ModelAndView inputs(@PathVariable String id) {
+	@GetMapping("/inputs/{id}") public ModelAndView inputs(@PathVariable String id) {
 		//
 		System.out.println("inputs: [" + id + "]");
 		Long longId = null;
@@ -55,8 +57,9 @@ public class HistoryController {
 		if (longId < 1) {longId = 0L;}
 		//
 		History history = new History();
-		try {history = historyService.findById(longId);}
-		catch (NoSuchElementException ex) { LOGGER.severe(ex.getMessage()); }
+		try {history = historyService.findById(longId);} catch (NoSuchElementException ex) {
+			LOGGER.severe(ex.getMessage());
+		}
 		//
 		ModelAndView MAV = new ModelAndView();
 		MAV.setViewName("inputs");
@@ -66,20 +69,25 @@ public class HistoryController {
 		return MAV;
 	}
 
-	@PostMapping("/posted")
+	@PostMapping(path = "/posted")
 	public ModelAndView posted(@ModelAttribute History history, @RequestParam("nav") String nav) {
 		//
+		// 	@PostMapping(path = "/posted",
+		// 	consumes = {APPLICATION_FORM_URLENCODED_VALUE}, produces = { APPLICATION_FORM_URLENCODED_VALUE})
 		Long longId = history.getId();
 		if (nav != null && nav.equals("back")) {--longId;}
 		if (nav != null && nav.equals("frwd")) {++longId;}
-		if (nav==null || nav.equals("Submit")) {longId = 0L;}
-		try {history = historyService.findById(longId);}
-		catch (NoSuchElementException ex) { LOGGER.severe(ex.getMessage());	}
-		System.out.println("nav: " + nav + " / history: " + history.showHistory());
+		if (nav == null || nav.equals("sbmt")) {longId = 0L;}
+		try {history = historyService.findById(longId);} catch (NoSuchElementException ex) {
+			LOGGER.info(ex.getMessage());
+		}
+		System.out.println("nav: " + nav + " / " + "history: " + history.showHistory());
 		//
 		ModelAndView MAV = new ModelAndView();
 		MAV.setViewName("inputs");
 		MAV.addObject("history", history);
+		MAV.addObject("historySum", history.showHistory());
+		MAV.addObject("blurb", ENCODED);
 		return MAV;
 	}
 }
