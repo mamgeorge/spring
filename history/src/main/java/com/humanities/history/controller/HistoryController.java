@@ -64,6 +64,8 @@ public class HistoryController {
 		ModelAndView MAV = new ModelAndView();
 		MAV.setViewName("inputs");
 		MAV.addObject("history", history);
+		MAV.addObject("historySum", history.showHistory());
+		MAV.addObject("blurb", ENCODED);
 		//
 		System.out.println("history: " + history.showHistory());
 		return MAV;

@@ -3,7 +3,8 @@
 <head>
 	<title>inputs</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/style.css}">
+	<link rel="stylesheet" th:href="@{/basics.css}">
+	<script type = "text/javascript" th:src="@{/basics.js}"></script>
 <style>
 table.main { width: 50%; border: 1px solid black; border-radius: 10px; border-spacing: 0px; }
 th { padding: 0px; border: 0px; }
@@ -103,7 +104,8 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 	</td></tr>
 
 	<!--https://stackoverflow.com/questions/63683474/how-to-put-variable-to-img-src-path-in-spring-with-thymeleaf /-->
-	<th><img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"/></th>
+	<th><img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"
+		th:onclick = "javascript: showImage(this);"/></th>
 	<td>
 		<input class = "long" type = "text" name = "mediaicopath" placeholder = "mediaicopath"
 			th:field = "*{mediaicopath}"

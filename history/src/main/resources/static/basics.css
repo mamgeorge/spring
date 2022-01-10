@@ -1,5 +1,6 @@
 @charset "UTF-8";
-body { background: #d0d0c0; font-family: verdana, monospace; margin: auto; text-align: center; }
+
+body { background: url('/images/bck_parchment.jpg') #d0d0c0; font-family: verdana, monospace; margin: auto; text-align: center; }
 
 h1, h2, h3, h4, h5, h6 { color: #000080; display: inline; }
 

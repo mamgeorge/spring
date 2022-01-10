@@ -37,6 +37,19 @@ public class HistoryControllerTest {
 	}
 
 	//############
+	@Test void sample_Terminal() {
+		/*
+			A lot of unknowns. Typically, displaying any encoded charset results in "??" characters.
+			The wildcard is: spring.jpa.properties.hibernate.hbm2ddl.charset_name: UTF-8.
+			Clearly the chinese characters display IN THE LOGGING when this field is inactive.
+			The Terminal is obviously able to handle the characters.
+			However, using the charset_name property alters the encoding available to the terminal.
+		*/
+		String txtLines = ENCODED;
+		System.out.println(txtLines);
+		assertNotNull(ENCODED);
+	}
+
 	@Test void sample_HttpCient() {
 		//
 		String txtLines = "";
