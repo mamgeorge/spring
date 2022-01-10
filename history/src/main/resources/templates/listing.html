@@ -34,26 +34,26 @@ img { width: 30px; height: 30px; border: 1px solid black; border-radius: 5px; ma
 
 	<tr th:each="history: ${histories}" th:onclick = "|location.href='/inputs/${history.id}'|" >
 		<td>
-			<img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"
+			<img id = "mediaicopath" th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"
 				th:title="${history.id}" /><!--th:onclick = "javascript: showImage(this);"/-->
 			</td>
 		<td style = "white-space: nowrap;">
-			<span th:text="${history.datebegpre}" /><span th:text="${#strings.substring(history.datebeg, 0, 4)}" />
-			<span th:text="${history.dateendpre}" /><span th:text="${#strings.substring(history.dateend, 0, 4)}" />
+			<span id = "datebeg" th:text="${history.datebegpre}" /><span th:text="${#strings.substring(history.datebeg, 0, 4)}" />
+			<span id = "dateend" th:text="${history.dateendpre}" /><span th:text="${#strings.substring(history.dateend, 0, 4)}" />
 			</td>
 
-		<td><span th:text="${history.eramain}" /><br />
-			<span th:text="${history.locations}" />
+		<td><span id = "eramain" th:text="${history.eramain}" /><br />
+			<span id = "locations"th:text="${history.locations}" />
 			</td>
 
-		<td><span th:text="${history.personname}" />
+		<td><span id = "personname"th:text="${history.personname}" />
 			</td>
 
-		<td><span th:text="${history.eventmain}" />
+		<td><span id = "eventmain" th:text="${history.eventmain}" />
 			</td>
 
-		<td><span  th:text="${history.references}" /><br />
-			<span  th:text="${history.grouping}" />
+		<td><span id = "references" th:text="${history.references}" /><br />
+			<span id = "grouping" th:text="${history.grouping}" />
 			</td>
 		</tr>
 	</table></center></div>
