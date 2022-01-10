@@ -32,17 +32,30 @@ public class HistoryController {
 		return MAV;
 	}
 
-	@GetMapping({"/listing"}) public ModelAndView listing() {
+	@GetMapping("/listing") public ModelAndView listing() {
 		//
 		List<History> histories = historyService.findAll();
 		System.out.println("histories: " + histories.size());
-		if(histories.size()>MAX_DISPLAY){ histories = histories.subList(0,20); }
+		if (histories.size() > MAX_DISPLAY) {histories = histories.subList(0, 20);}
 		//
 		HashMap<String, List<History>> hashMap = new HashMap<>();
 		hashMap.put("histories", histories);
 		histories.stream().forEach(hst -> System.out.println(hst.showHistory()));
 		//
 		ModelAndView MAV = new ModelAndView("listing", hashMap);
+		return MAV;
+	}
+
+	@GetMapping("/inputs") public ModelAndView inputs() {
+		//
+		History history = History.getSample();
+		ModelAndView MAV = new ModelAndView();
+		MAV.setViewName("inputs");
+		MAV.addObject("history", history);
+		MAV.addObject("historySum", history.showHistory());
+		MAV.addObject("blurb", ENCODED);
+		//
+		System.out.println("history: " + history.showHistory());
 		return MAV;
 	}
 
@@ -71,19 +84,32 @@ public class HistoryController {
 		return MAV;
 	}
 
-	@PostMapping(path = "/posted")
+	@PostMapping("/posted")
 	public ModelAndView posted(@ModelAttribute History history, @RequestParam("nav") String nav) {
 		//
-		// 	@PostMapping(path = "/posted",
-		// 	consumes = {APPLICATION_FORM_URLENCODED_VALUE}, produces = { APPLICATION_FORM_URLENCODED_VALUE})
+		ModelAndView MAV = new ModelAndView();
 		Long longId = history.getId();
-		if (nav != null && nav.equals("back")) {--longId;}
-		if (nav != null && nav.equals("frwd")) {++longId;}
-		if (nav == null || nav.equals("sbmt")) {longId = 0L;}
+		if (nav != null && nav.equals("back")) {
+			--longId;
+			MAV = traverse(history, longId);
+		}
+		if (nav != null && nav.equals("frwd")) {
+			++longId;
+			MAV = traverse(history, longId);
+		}
+		if (nav != null && nav.equals("list")) {MAV = listing();}
+		if (nav != null && nav.equals("clear")) {MAV = inputs();}
+		if (nav != null && nav.equals("save")) {MAV = saver(history);}
+		//
+		return MAV;
+	}
+
+	@PostMapping("/traverse") public ModelAndView traverse(@ModelAttribute History history, Long longId) {
+		//
 		try {history = historyService.findById(longId);} catch (NoSuchElementException ex) {
 			LOGGER.info(ex.getMessage());
 		}
-		System.out.println("nav: " + nav + " / " + "history: " + history.showHistory());
+		System.out.println("history: " + history.showHistory());
 		//
 		ModelAndView MAV = new ModelAndView();
 		MAV.setViewName("inputs");
@@ -91,5 +117,27 @@ public class HistoryController {
 		MAV.addObject("historySum", history.showHistory());
 		MAV.addObject("blurb", ENCODED);
 		return MAV;
+	}
+
+	@PostMapping("/saver") public ModelAndView saver(@ModelAttribute History history) {
+		//
+		// 	@PostMapping(path = "/posted",
+		// 	consumes = {APPLICATION_FORM_URLENCODED_VALUE}, produces = { APPLICATION_FORM_URLENCODED_VALUE})
+		try {history = historyService.save(history);} catch (NoSuchElementException ex) {
+			LOGGER.info(ex.getMessage());
+		}
+		System.out.println("history: " + history.showHistory());
+		//
+		ModelAndView MAV = new ModelAndView();
+		MAV.setViewName("inputs");
+		MAV.addObject("history", history);
+		MAV.addObject("historySum", history.showHistory());
+		MAV.addObject("blurb", ENCODED);
+		return MAV;
+	}
+
+	@GetMapping("/errors") public void errors() {
+		// throw new Exception("Exception!");
+		throw new RuntimeException("RuntimeException!");
 	}
 }

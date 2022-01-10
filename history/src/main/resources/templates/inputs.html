@@ -12,6 +12,7 @@ td { text-align: center; border: 0px; }
 
 fieldset { background: white; width: 48%; border-radius: 7px; height: 50px; overflow: auto; }
 button, input, textarea { font-size: 14pt; font-family: Arial; border-radius: 5px; }
+button { border: 3px outset gray; }
 input.sml { border: 0px; background: transparent; width: 10px; }
 img { border: 1px solid black; width: 40px; height: 40px; border-radius: 5px; }
 img.top { width: 60px; height: 60px; padding: 0px; }
@@ -40,7 +41,10 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 <br />
 <table class = "main">
 <tr>
-	<th class = "shrt"><button>&#8592;</button><button>&#8594;</button></th>
+	<th class = "shrt">
+		<button th:onclick = "javascript: location.href='/listing';">&#8592;</button>
+		<button>&#8594;</button>
+		</th>
 	<td>
 		<span class = "grp">
 		<input type="radio" name="datebegpre" value="-" th:field = "*{datebegpre}">-
@@ -114,9 +118,11 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 </table>
 
 <br />
-	<button name = "nav" value = "back" ><<<    </button>
-	<button name = "nav" value = "sbmt" >Submit </button>
-	<button name = "nav" value = "frwd" >>>>    </button>
+	<button name = "nav" value = "back" ><<<   </button>
+	<button name = "nav" value = "list" >List  </button>
+	<button name = "nav" value = "clear">Clear </button>
+	<button name = "nav" value = "save" >Save  </button>
+	<button name = "nav" value = "frwd" >>>>   </button>
 </form>
 
 	<br/><hr/><a href="/">return</a>

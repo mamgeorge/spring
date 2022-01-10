@@ -11,8 +11,9 @@ features
 * truncated length
 
 todos
-* save features (full CRUD)
 * error handling for entries
+* handle duplicates
+* upload images
 * scrolling on different options?
 * read in csv (alternate entries); parse text files
 * terminal show utf8 characters, MAYBE
@@ -35,3 +36,5 @@ process
 > gradle bootrun
 
 Copyright 2022 by Martin Lee George, Columbus Ohio
+
+1964 -2064 | eramain | USA Ohio | Martin George | lived life, married a wife, had a son, blessed a ton, 历史 | geneology, SS card, BirthCertificate, Credit Card | a2000

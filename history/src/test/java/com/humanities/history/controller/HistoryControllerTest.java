@@ -113,7 +113,7 @@ public class HistoryControllerTest {
 		assertNotNull(historyController);
 	}
 
-	@Test void inputs() {
+	@Test void inputs_num() {
 		//
 		ModelAndView MAV = historyController.inputs("5");
 		HashMap<String, Object> hashMap = (HashMap<String, Object>) MAV.getModel();
@@ -124,10 +124,22 @@ public class HistoryControllerTest {
 		assertNotNull(historyController);
 	}
 
-	@Test void posted() {
+	@Test void traverse() {
 		//
 		History history = History.getSample();
-		ModelAndView MAV = historyController.posted(history, "Submit");
+		ModelAndView MAV = historyController.traverse(history, 0L);
+		HashMap<String, Object> hashMap = (HashMap<String, Object>) MAV.getModel();
+		history = (History) hashMap.get("history");
+		String txtLines = String.format(FRMT, "getPersonname:", history.getPersonname());
+		//
+		System.out.println(txtLines);
+		assertNotNull(historyController);
+	}
+
+	@Test void saver() {
+		//
+		History history = History.getSample();
+		ModelAndView MAV = historyController.saver(history);
 		HashMap<String, Object> hashMap = (HashMap<String, Object>) MAV.getModel();
 		history = (History) hashMap.get("history");
 		String txtLines = String.format(FRMT, "getPersonname:", history.getPersonname());

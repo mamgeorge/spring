@@ -15,7 +15,7 @@ import javax.persistence.Entity;
 @Entity @Table(name = "history")
 public class History {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) // SEQUENCE?
 	private Long	id;
 	private String	datebegpre;	// '-'
 	private String	datebeg;	// '0004-00-00-00.00.00'

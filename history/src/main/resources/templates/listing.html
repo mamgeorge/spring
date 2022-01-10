@@ -32,10 +32,10 @@ img { width: 30px; height: 30px; border: 1px solid black; border-radius: 5px; ma
 		<th>references</th>
 		</tr>
 
-	<tr th:each="history: ${histories}">
+	<tr th:each="history: ${histories}" th:onclick = "|location.href='/inputs/${history.id}'|" >
 		<td>
 			<img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"
-				th:title="${history.id}" th:onclick = "javascript: showImage(this);"/>
+				th:title="${history.id}" /><!--th:onclick = "javascript: showImage(this);"/-->
 			</td>
 		<td style = "white-space: nowrap;">
 			<span th:text="${history.datebegpre}" /><span th:text="${#strings.substring(history.datebeg, 0, 4)}" />
