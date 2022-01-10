@@ -88,13 +88,24 @@ public class HistoryController {
 	public ModelAndView posted(@ModelAttribute History history, @RequestParam("nav") String nav) {
 		//
 		ModelAndView MAV = new ModelAndView();
-		// if ( history==null || history.getId()==null ) { history=History.getSample(); }
+		if (history == null || history.getId() == null) {
+			history = History.getSample();
+			String msg = "WARNING! HISTORY OBJECT WAS EMPTY!";
+			System.out.println(
+				"\n" + "#".repeat(msg.length()) + "\n" + msg + "\n" + "#".repeat(msg.length()) + "\n");
+		}
 		Long longId = history.getId();
-		if (nav != null && nav.equals("back")) { --longId; MAV = traverse(history, longId); }
-		if (nav != null && nav.equals("frwd")) { ++longId; MAV = traverse(history, longId); }
-		if (nav != null && nav.equals("list")) { MAV = listing(); }
-		if (nav != null && nav.equals("clear")) { MAV = inputs(); }
-		if (nav != null && nav.equals("save")) { MAV = saver(history); }
+		if (nav != null && nav.equals("back")) {
+			--longId;
+			MAV = traverse(history, longId);
+		}
+		if (nav != null && nav.equals("frwd")) {
+			++longId;
+			MAV = traverse(history, longId);
+		}
+		if (nav != null && nav.equals("list")) {MAV = listing();}
+		if (nav != null && nav.equals("clear")) {MAV = inputs();}
+		if (nav != null && nav.equals("save")) {MAV = saver(history);}
 		//
 		return MAV;
 	}

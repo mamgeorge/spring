@@ -177,27 +177,28 @@ public class HistoryControllerTest {
 		System.out.println("localServerPort_RND: " + localServerPort_RND);
 		String url = "http://localhost:" + localServerPort_RND + "/posted";
 		//
+		// MVM.add("history", history); // how to add ModelAttribute? RequestBody? HttpMessageConverter?
 		History history = History.getSample();
 		MultiValueMap<String, Object> MVM = new LinkedMultiValueMap<>();
 		MVM.add("nav", "frwd");
-	//	MVM.add("history", history); // how to add ModelAttribute? RequestBody? HttpMessageConverter?
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(CONTENT_TYPE, APPLICATION_FORM_URLENCODED_VALUE);
 		//
-		HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(MVM, httpHeaders);
 		// HttpEntity<History> httpEntity = new HttpEntity<>(history, httpHeaders);
+		HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(MVM, httpHeaders);
 		ResponseEntity<String> responseEntity = null;
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			// responseEntity = restTemplate.exchange(url, POST, httpEntity, String.class);
-			responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
 			// responseEntity = restTemplate.postForObject(url, httpEntity, ResponseEntity.class);
+			responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
 		}
 		catch (HttpClientErrorException ex) {System.out.println("ERROR: " + ex.getMessage());}
-		String txtLines = String.valueOf(responseEntity);
 		//
-		System.out.println("getBody: " + txtLines);
-		assertNotNull(restTemplate);
+		String body = responseEntity.getBody();
+		String txtLines = Unix4j.fromString(body).grep("summary").toStringResult();
+		System.out.println("txtLines: " + txtLines);
+		assertNotNull(responseEntity);
 	}
 
 	@Test void traverse() {
