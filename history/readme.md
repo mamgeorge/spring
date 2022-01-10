@@ -50,9 +50,6 @@ git merge develop
 git push origin master
 git checkout develop
 
-
-
-
 1964 -2064 | eramain | USA Ohio | Martin George | lived life, married a wife, had a son, blessed a ton, 历史 | geneology, SS card, BirthCertificate, Credit Card | a2000
 
 Copyright 2022 by Martin Lee George, Columbus Ohio
