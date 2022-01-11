@@ -51,20 +51,19 @@ intent: build a flexible data entry DB
 * git branch
 * git checkout develop 
 * git pull origin develop
-
- 
-* [ git checkout -b newbranch ]
-* [ changes ]
+  * [ git checkout -b newbranch ]
+  * [ changes ]
 
 
 * git status 
 * git add . 
 * git commit -m "updated "
 * git push origin develop 
-* git checkout master 
-* git pull origin master 
-* git merge develop 
-* git push origin master
+  * git checkout master 
+  * git pull origin master 
+  * git merge develop 
+  * git push origin master
+* git checkout develop
 
 1964 -2064 | eramain | USA Ohio | Martin George | lived life, married a wife, had a son, blessed a ton, 历史 |
 geneology, SS card, BirthCertificate, Credit Card | a2000
