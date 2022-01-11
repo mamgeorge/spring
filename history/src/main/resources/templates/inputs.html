@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang = "en" xmlns:th = "https://www.thymeleaf.org">
 <head>
 	<title>inputs</title>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/basics.css}">
-	<script type = "text/javascript" th:src="@{/basics.js}"></script>
-<style>
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
+	<script type = "text/javascript" th:src = "@{/basics.js}"></script>
+	<style>
 table.main { width: 50%; border: 1px solid black; border-radius: 10px; border-spacing: 0px; }
 th { padding: 0px; border: 0px; border: 1px solid black; }
 td { text-align: center; border: 0px; }
@@ -21,113 +21,142 @@ img.top { width: 60px; height: 60px; padding: 0px; }
 .grp { white-space: nowrap; }
 .shrt { width: 1%; }
 .long { width: 80%; }
-</style>
+
+
+
+	</style>
 </head>
 
-<body><center><h3>history inputs</h3><br />
+<body>
+<center><h3>history inputs</h3><br/>
 
-<br />
-<form th:action="@{/posted}" th:object="${history}" method="post">
-<table class = "main" ><tr><td style = "padding: 0px;">
-	<img class = "top" th:src="@{/images/history.png}"/></td>
-	<td><h3><span th:text="${#dates.formatISO(#dates.createNow())}" />
-		<br />[[${blurb}]]<br />
-		<input type = "hidden" name = "id" th:field = "*{id}" readonly>
-		</h3>
-	</td></tr>
-	</table>
+	<br/>
+	<form th:action = "@{/posted}" th:object = "${history}" method = "post">
+		<table class = "main">
+			<tr>
+				<td style = "padding: 0px;">
+					<img class = "top" th:src = "@{/images/history.png}"/></td>
+				<td><h3><span th:text = "${#dates.formatISO(#dates.createNow())}"/>
+					<br/>[[${blurb}]]<br/>
+					<input type = "hidden" name = "id" th:field = "*{id}" readonly>
+				</h3>
+				</td>
+			</tr>
+		</table>
 
-	<br /><fieldset><legend>summary</legend>[[${historySum}]]</fieldset>
+		<br/>
+		<fieldset>
+			<legend>summary</legend>
+			[[${historySum}]]
+		</fieldset>
 
-<br />
-<table class = "main">
-<tr>
-	<th class = "shrt">
-		<button th:onclick = "javascript: location.href='/listing';">&#8592;</button>
-		<button>&#8594;</button>
-		</th>
-	<td>
+		<br/>
+		<table class = "main">
+			<tr>
+				<th class = "shrt">
+					<button th:onclick = "javascript: location.href='/listing';">&#8592;</button>
+					<button>&#8594;</button>
+				</th>
+				<td>
 		<span class = "grp">
-		<input type="radio" name="datebegpre" value="-" th:field = "*{datebegpre}">-
-		<input type="radio" name="datebegpre" value="+" th:field = "*{datebegpre}">+
+		<input type = "radio" name = "datebegpre" value = "-" th:field = "*{datebegpre}">-
+		<input type = "radio" name = "datebegpre" value = "+" th:field = "*{datebegpre}">+
 			<input type = "text" name = "datebeg" placeholder = "datebeg"
 				th:field = "*{datebeg}"
-				title = "attempt to use 4 digit year; otherwise use SQL 0004-00-00-00.00.00"/></span><br />
-		<span class = "grp">
-		<input type="radio" name="dateendpre" value="-" th:field = "*{dateendpre}">-
-		<input type="radio" name="dateendpre" value="+" th:field = "*{dateendpre}">+
+				title = "attempt to use 4 digit year; otherwise use SQL 0004-00-00-00.00.00"/></span><br/>
+					<span class = "grp">
+		<input type = "radio" name = "dateendpre" value = "-" th:field = "*{dateendpre}">-
+		<input type = "radio" name = "dateendpre" value = "+" th:field = "*{dateendpre}">+
 			<input type = "text" name = "dateend" placeholder = "dateend"
 				th:field = "*{dateend}"/></span>
-	</td></tr>
+				</td>
+			</tr>
 
-	<th><button>&#8592;</button><button>&#8594;</button></th>
-	<td>
-		<select name = "eramain" >
-			<option>eramain</option>
-			<option>-4000 -2000 Prehistoric</option>
-			<option>-2000 +0500 Ancient</option>
-			<option>+0500 +1700 Medieval</option>
-			<option>+1700 +2000 Modern</option>
-			</select>
-		<select name = "continent" >
-			<option>locale</option>
-			<option>Canaan</option>
-			<option>Africa</option>
-			<option>Mesopotamia</option>
-			<option>Asia, South (India)</option>
-			<option>Asia, East (China)</option>
-			<option>Europe</option>
-			<option>AmericaNorth & Central</option>
-			<option>AmericaSouth</option>
-			<option>Australia</option>
-			<option>Antartica</option>
-		</select>
-		<br />
-		<input class = "long" type = "text" name = "locations"  placeholder = "locations"
-			th:field = "*{locations}"
-			title = "ideally: modernCountry, modernCity; ancientCountry, ancientCity"/>
-	</td></tr>
+			<th>
+				<button>&#8592;</button>
+				<button>&#8594;</button>
+			</th>
+			<td>
+				<select name = "eramain">
+					<option>eramain</option>
+					<option>-4000 -2000 Prehistoric</option>
+					<option>-2000 +0500 Ancient</option>
+					<option>+0500 +1700 Medieval</option>
+					<option>+1700 +2000 Modern</option>
+				</select>
+				<select name = "continent">
+					<option>locale</option>
+					<option>Canaan</option>
+					<option>Africa</option>
+					<option>Mesopotamia</option>
+					<option>Asia, South (India)</option>
+					<option>Asia, East (China)</option>
+					<option>Europe</option>
+					<option>AmericaNorth & Central</option>
+					<option>AmericaSouth</option>
+					<option>Australia</option>
+					<option>Antartica</option>
+				</select>
+				<br/>
+				<input class = "long" type = "text" name = "locations" placeholder = "locations"
+					th:field = "*{locations}"
+					title = "ideally: modernCountry, modernCity; ancientCountry, ancientCity"/>
+			</td>
+			</tr>
 
-	<th><button>&#8592;</button><button>&#8594;</button></th>
-	<td>
-		<input class = "long"  type = "text" name = "personname" placeholder = "personname"
-			th:field = "*{personname}"
-			title = "ideally: period dynasty # king # firstName lastName, commonName"/><br />
-		<textarea class = "long" type = "text" name = "eventmain"  placeholder = "eventmain"
-			th:field = "*{eventmain}" rows="2" cols="50"
-			title = "short description of primary activities"/>
-	</td></tr>
+			<th>
+				<button>&#8592;</button>
+				<button>&#8594;</button>
+			</th>
+			<td>
+				<input class = "long" type = "text" name = "personname" placeholder = "personname"
+					th:field = "*{personname}"
+					title = "ideally: period dynasty # king # firstName lastName, commonName"/><br/>
+				<textarea class = "long" type = "text" name = "eventmain" placeholder = "eventmain"
+					th:field = "*{eventmain}" rows = "2" cols = "50"
+					title = "short description of primary activities"/>
+			</td>
+			</tr>
 
-	<th><button>&#8592;</button><button>&#8594;</button></th>
-	<td>
-		<input class = "long" type = "text" name = "references" placeholder = "references"
-			title = "short list of supporting evidences or references "
-			th:field = "*{references}" /><br />
-		<input class = "long" type = "text" name = "grouping" placeholder = "grouping"
-			title = "tagged information, comma separated"
-			th:field = "*{grouping}"/>
-	</td></tr>
+			<th>
+				<button>&#8592;</button>
+				<button>&#8594;</button>
+			</th>
+			<td>
+				<input class = "long" type = "text" name = "references" placeholder = "references"
+					title = "short list of supporting evidences or references "
+					th:field = "*{references}"/><br/>
+				<input class = "long" type = "text" name = "grouping" placeholder = "grouping"
+					title = "tagged information, comma separated"
+					th:field = "*{grouping}"/>
+			</td>
+			</tr>
 
-	<!--https://stackoverflow.com/questions/63683474/how-to-put-variable-to-img-src-path-in-spring-with-thymeleaf /-->
-	<th><img th:src="@{${'/images/' + history.mediaicopath + '.jpg'}}"
-		th:onclick = "javascript: showImage(this);"/></th>
-	<td>
-		<input class = "long" type = "text" name = "mediaicopath" placeholder = "mediaicopath"
-			th:field = "*{mediaicopath}"
-			title = "ideally a curated (squared, low resolution) jpg" />
-	</td></tr>
-</table>
+			<!--https://stackoverflow.com/questions/63683474/how-to-put-variable-to-img-src-path-in-spring-with-thymeleaf /-->
+			<th><img th:src = "@{${'/images/' + history.mediaicopath + '.jpg'}}"
+				th:onclick = "javascript: showImage(this);"/></th>
+			<td>
+				<input class = "long" type = "text" name = "mediaicopath" placeholder = "mediaicopath"
+					th:field = "*{mediaicopath}"
+					title = "ideally a curated (squared, low resolution) jpg"/>
+			</td>
+			</tr>
+		</table>
 
-<br />
-	<button name = "nav" value = "back" ><<<   </button>
-	<button name = "nav" value = "list" >List  </button>
-	<button name = "nav" value = "clear">Clear </button>
-	<button name = "nav" value = "save" >Save  </button>
-	<button name = "nav" value = "frwd" >>>>   </button>
-</form>
+		<br/>
+		<button name = "nav" value = "back"><<<</button>
+		<button name = "nav" value = "list">List</button>
+		<button name = "nav" value = "delete">Delete</button>
+		<button name = "nav" value = "save">Save</button>
+		<button name = "nav" value = "clear">Clear</button>
+		<button name = "nav" value = "frwd">>>></button>
+	</form>
 
-	<br/><hr/><a href="/">return</a>
-	<br /><h6 th:text = "${#strings.randomAlphanumeric(10)}"></h6>
+	<br/>
+	<hr/>
+	<a href = "/">return</a>
+	<br/><h6 th:text = "${#strings.randomAlphanumeric(10)}"></h6>
 
-</center></body>
+</center>
+</body>
 </html>

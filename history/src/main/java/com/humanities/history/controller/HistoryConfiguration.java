@@ -21,7 +21,7 @@ public class HistoryConfiguration {
 	@Autowired private ServletContext servletContext;
 
 	//@Bean
-	public ServletContextTemplateResolver servletContextTemplateResolver() {
+	public ServletContextTemplateResolver servletContextTemplateResolver( ) {
 		//
 		ServletContextTemplateResolver sctResolver = new ServletContextTemplateResolver(servletContext);
 		sctResolver.setPrefix("/templates/");
@@ -33,7 +33,7 @@ public class HistoryConfiguration {
 	}
 
 	//@Bean
-	public SpringTemplateEngine springTemplateEngine() {
+	public SpringTemplateEngine springTemplateEngine( ) {
 		//
 		SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
 		springTemplateEngine.setTemplateResolver(servletContextTemplateResolver());
@@ -41,7 +41,7 @@ public class HistoryConfiguration {
 	}
 
 	//@Bean
-	public ThymeleafViewResolver thymeleafViewResolver() {
+	public ThymeleafViewResolver thymeleafViewResolver( ) {
 		//
 		ThymeleafViewResolver tlvResolver = new ThymeleafViewResolver();
 		tlvResolver.setTemplateEngine(springTemplateEngine());

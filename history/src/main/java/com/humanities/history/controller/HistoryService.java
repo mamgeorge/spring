@@ -13,15 +13,20 @@ import java.util.Optional;
 	@Override public History findById(Long id) {
 		//
 		History history = null;
-		if (id == null || id.equals(0L)) { history = new History().getSample(); } else
-		{
+		if ( id == null || id.equals(0L) ) { history = new History().getSample(); } else {
 			Optional<History> optional = historyRepository.findById(id);
 			history = optional.get();
 		}
 		return history;
 	}
 
-	@Override public History save(History history) {return historyRepository.save(history);}
+	@Override public History save(History history) { return historyRepository.save(history); }
 
-	@Override public List<History> findAll() {return (List<History>) historyRepository.findAll();}
+	@Override public List<History> findAll( ) { return (List<History>) historyRepository.findAll(); }
+
+	@Override public void delete(History history) {
+		//
+		System.out.println("deletion request for: " + history.showHistory());
+		// historyRepository.delete(history);
+	}
 }

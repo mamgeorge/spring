@@ -8,5 +8,7 @@ public interface IHistoryService {
 
 	History save(History history);
 
-	List<History> findAll();
+	List<History> findAll( );
+
+	void delete(History history);
 }
