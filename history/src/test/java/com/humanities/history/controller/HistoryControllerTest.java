@@ -32,12 +32,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.USER_AGENT;
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT )
+@TestInstance( TestInstance.Lifecycle.PER_CLASS )
 public class HistoryControllerTest {
 
 	@Autowired private HistoryController historyController;
@@ -47,13 +46,13 @@ public class HistoryControllerTest {
 	private static final String HOST_EXT = "https://httpbin.org/";
 	private static final String ENCODED = "历史 | &#21382;&#21490; | \u5386\u53f2 | \\u5386\\u53f2";
 
-	@BeforeAll void setup() {
+	@BeforeAll void setup( ) {
 		//
 		System.out.println(ENCODED);
 	}
 
 	//############
-	@Test void sample_Terminal() {
+	@Test void sample_Terminal( ) {
 		/*
 			A lot of unknowns. Typically, displaying any encoded charset results in "??" characters.
 			The wildcard is: spring.jpa.properties.hibernate.hbm2ddl.charset_name: UTF-8.
@@ -66,7 +65,7 @@ public class HistoryControllerTest {
 		assertNotNull(ENCODED);
 	}
 
-	@Test void sample_HttpCient() {
+	@Test void sample_HttpCient( ) {
 		//
 		String txtLines = "";
 		String url = HOST_EXT + "get?id=1234";
@@ -79,7 +78,7 @@ public class HistoryControllerTest {
 		assertNotNull(httpResponse);
 	}
 
-	@Test void history_getSample() {
+	@Test void history_getSample( ) {
 		//
 		History history = History.getSample();
 		String txtLines = String.format(FRMT, "history", history.showHistory());
@@ -88,7 +87,7 @@ public class HistoryControllerTest {
 		assertTrue(history.getDatebeg().contains("begi"));
 	}
 
-	@Test void history_showHistory() {
+	@Test void history_showHistory( ) {
 		//
 		History history = historyService.findById(1L);
 		String txtLines = String.format(FRMT, "history", history.showHistory());
@@ -98,7 +97,7 @@ public class HistoryControllerTest {
 	}
 
 	//############
-	@Test void root() {
+	@Test void root( ) {
 		//
 		String txtLines = "";
 		//
@@ -113,7 +112,7 @@ public class HistoryControllerTest {
 		assertNotNull(historyController);
 	}
 
-	@Test void listing() {
+	@Test void listing( ) {
 		//
 		String txtLines = "";
 		//
@@ -121,7 +120,7 @@ public class HistoryControllerTest {
 		HashMap<String, Object> hashMap = (HashMap<String, Object>) MAV.getModel();
 		List<History> histories = (List<History>) hashMap.get("histories");
 		AtomicInteger ai = new AtomicInteger();
-		for (History history : histories) {
+		for ( History history : histories ) {
 			txtLines += String.format(FRMT, ai.incrementAndGet(), history.getPersonname());
 		}
 		//
@@ -129,7 +128,7 @@ public class HistoryControllerTest {
 		assertNotNull(historyController);
 	}
 
-	@Test void listing_call() {
+	@Test void listing_call( ) {
 		//
 		System.out.println("localServerPort_RND: " + localServerPort_RND);
 		String url = "http://localhost:" + localServerPort_RND + "/listing";
@@ -143,7 +142,8 @@ public class HistoryControllerTest {
 		try {
 			responseEntity = restTemplate.exchange(url, GET, httpEntity, String.class);
 			// try { responseEntity = restTemplate.getForEntity(url, String.class); }
-		} catch (HttpClientErrorException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		}
+		catch (HttpClientErrorException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		//
 		String body = responseEntity.getBody();
 		String txtLines = Unix4j.fromString(body).grep("eventmain").toStringResult();
@@ -151,7 +151,7 @@ public class HistoryControllerTest {
 		assertNotNull(responseEntity);
 	}
 
-	@Test void inputs_num() {
+	@Test void inputs_num( ) {
 		//
 		ModelAndView MAV = historyController.inputs("5");
 		HashMap<String, Object> hashMap = (HashMap<String, Object>) MAV.getModel();
@@ -162,17 +162,17 @@ public class HistoryControllerTest {
 		assertNotNull(historyController);
 	}
 
-	@Test void posted() {
+	@Test void posted( ) {
 		//
 		History history = History.getSample();
 		ModelAndView MAV = historyController.posted(history, "clear");
 		String txtLines = MAV.getViewName();
 		//
 		System.out.println("posted(clear): " + txtLines);
-		assert (txtLines.equals("inputs"));
+		assert ( txtLines.equals("inputs") );
 	}
 
-	@Test void posted_call() { /* ? fails due to HttpClientErrorException "Bad Request" */
+	@Test void posted_call( ) { /* ? fails due to HttpClientErrorException "Bad Request" */
 		//
 		System.out.println("localServerPort_RND: " + localServerPort_RND);
 		String url = "http://localhost:" + localServerPort_RND + "/posted";
@@ -193,7 +193,7 @@ public class HistoryControllerTest {
 			// responseEntity = restTemplate.postForObject(url, httpEntity, ResponseEntity.class);
 			responseEntity = restTemplate.postForEntity(url, httpEntity, String.class);
 		}
-		catch (HttpClientErrorException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		catch (HttpClientErrorException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		//
 		String body = responseEntity.getBody();
 		String txtLines = Unix4j.fromString(body).grep("summary").toStringResult();
@@ -201,7 +201,7 @@ public class HistoryControllerTest {
 		assertNotNull(responseEntity);
 	}
 
-	@Test void traverse() {
+	@Test void traverse( ) {
 		//
 		History history = History.getSample();
 		ModelAndView MAV = historyController.traverse(history, 0L);
@@ -213,7 +213,7 @@ public class HistoryControllerTest {
 		assertNotNull(historyController);
 	}
 
-	@Test void saver() {
+	@Test void saver( ) {
 		//
 		History history = History.getSample();
 		System.out.println("getEventmain(): " + history.getEventmain());
@@ -228,34 +228,47 @@ public class HistoryControllerTest {
 		assertNotNull(historyController);
 	}
 
-	@Test void errors() {
+	@Test void deleter( ) {
+		//
+		History history = History.getSample();
+		System.out.println("showHistory(): " + history.showHistory());
+		history.setEventmain(history.getEventmain() + " / " + Instant.now());
+		//
+		ModelAndView MAV = historyController.deleter(history);
+		System.out.println(MAV.getViewName());
+		assertNotNull(historyController);
+	}
+
+	@Test void errors( ) {
 		//
 		String txtLines = "";
-		try {historyController.errors();} catch (Exception ex) {
+		try { historyController.errors(); }
+		catch (Exception ex) {
 			txtLines = ex.getMessage();
 			System.out.println(txtLines);
 		}
 		//
 		System.out.println("ERROR: " + txtLines);
-		assert (txtLines.equals("RuntimeException!"));
+		assert ( txtLines.equals("RuntimeException!") );
 	}
 
 	//############
 	private static HttpResponse<String> sample_HttpCient(String url) {
 		//
 		HttpRequest httpRequest = HttpRequest.newBuilder()
-				.GET()
-				.uri(URI.create(url))
-				.setHeader(USER_AGENT, "Java11Client Bot")
-				.build();
+			.GET()
+			.uri(URI.create(url))
+			.setHeader(USER_AGENT, "Java11Client Bot")
+			.build();
 		HttpClient httpClient = HttpClient.newBuilder()
-				.version(HttpClient.Version.HTTP_2)
-				.build();
+			.version(HttpClient.Version.HTTP_2)
+			.build();
 		HttpResponse<String> httpResponse = null;
 		try {
 			HttpResponse.BodyHandler<String> bodyHandlers = HttpResponse.BodyHandlers.ofString();
 			httpResponse = httpClient.send(httpRequest, bodyHandlers);
-		} catch (IOException | InterruptedException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		}
+		catch (IOException | InterruptedException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		//
 		return httpResponse;
 	}
