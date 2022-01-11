@@ -52,13 +52,8 @@ intent: build a flexible data entry DB
 * git checkout develop 
 * git pull origin develop
 
- 
 * [ git checkout -b newbranch ]
 * [ changes ]
-
-<<<<<<< HEAD
-1964 -2064 | eramain | USA Ohio | Martin George | lived life, married a wife, had a son, blessed a ton, 历史 | geneology, SS card, BirthCertificate, Credit Card | a2000
-=======
 
 * git status 
 * git add . 
@@ -71,6 +66,5 @@ intent: build a flexible data entry DB
 
 1964 -2064 | eramain | USA Ohio | Martin George | lived life, married a wife, had a son, blessed a ton, 历史 |
 geneology, SS card, BirthCertificate, Credit Card | a2000
->>>>>>> develop
 
 Copyright 2022 by Martin Lee George, Columbus Ohio
