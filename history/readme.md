@@ -15,9 +15,11 @@ intent: build a flexible data entry DB
 * error handling for entries
 * handle duplicates
 * upload images
+* adding DB
+* ---------
 * scrolling on different options?
 * read in csv (alternate entries); parse text files
-* terminal show utf8 characters, MAYBE
+* terminal show utf8 characters? add graceful close?
 
 ### process
 

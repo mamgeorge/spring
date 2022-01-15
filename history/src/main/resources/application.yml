@@ -1,5 +1,11 @@
 # https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
 app.name: HistoryApplication
+management.security.enabled: false
+management.endpoints.web.exposure.include: info, health, env, beans, metrics, configprops, conditions, logfile, sessions, auditevents, shutdown
+management.endpoints.web.base-path: /actuator
+spring.jackson.serialization.indent_output: true
+#management.port: 9000
+#management.endpoints.shutdown.enabled: true
 
 # servers
 server.servlet.context-path: /
@@ -9,7 +15,7 @@ server.error.whitelabel.enabled: false
 # thymeleaf; probably not needed
 spring.thymeleaf.encoding: UTF-8
 spring.thymeleaf.content-type: text/html;charset=UTF-8
-spring.thymeleaf.mode: HTML5
+spring.thymeleaf.mode: HTML
 #spring.http.encoding.charset: UTF-8
 #spring.http.encoding.enabled: true
 #spring.http.encoding.force: true
