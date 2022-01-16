@@ -11,11 +11,10 @@ intent: build a flexible data entry DB
 * truncated length
 
 ### todos
-
+* adding DB
 * error handling for entries
 * handle duplicates
 * upload images
-* adding DB
 * ---------
 * scrolling on different options?
 * read in csv (alternate entries); parse text files

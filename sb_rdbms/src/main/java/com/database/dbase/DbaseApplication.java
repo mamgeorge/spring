@@ -1,13 +1,15 @@
-package com.database.demo;
+package com.database.dbase;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class DbaseApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		//
+		System.out.println("Greetings from DB");
+		SpringApplication.run(DbaseApplication.class, args);
 	}
-
 }
+
