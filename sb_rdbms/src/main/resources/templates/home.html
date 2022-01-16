@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html xmlns:th = "https://www.thymeleaf.org">
+<head><title>index</title>
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" href = "/basics.css">
+</head>
+
+<body>
+<center><h3>index</h3>
+	<br/><b><span th:text = "${#dates.formatISO(#dates.createNow())}"/></b>
+	<br/>
+	<br/>
+
+	<a href="/">/root</a> |
+	<a href="/home">/home</a> |
+	<a href="/read">/read</a> |
+	<br/>
+	<fieldset><legend>actuator</legend>
+	info, health, env, beans, metrics, configprops, <br/>
+		conditions, logfile, sessions, auditevents, shutdown
+	</fieldset>
+	<br/>
+	<a href="/actuator">/actuator</a> |
+	<a href="/actuator/info">/info</a> |
+	<a href="/actuator/">/health</a> |
+	<a href="/actuator/health">/env</a> |
+	<a href="/actuator/beans">/beans</a> |
+	<a href="/actuator/metrics">/metrics</a> |
+	<a href="/actuator/configprops">/configprops</a> |
+	<br/><br/>
+	<a href="/showHistories">/showHistories</a>
+	<br/><br/>
+	<hr/>
+	<a href = "/">return</a>
+
+</center>
+</body>
+</html>
