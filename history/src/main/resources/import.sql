@@ -1,7 +1,7 @@
 --// note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
 
 INSERT INTO history( datebegpre, datebeg, dateendpre, dateend,
-	eramain, locations, personname, eventmain, references, grouping, mediaicopath )
+	eramain, locations, personname, eventmain, referenced, groupings, mediaicopath )
 	VALUES
 	( --// Hebrews
 		'-' , '0004-00-00-00.00.00' ,

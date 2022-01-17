@@ -19,17 +19,17 @@ public class DBaseController {
 	// @Autowired private IHistoryService cityService;
 	@Autowired private HistoryRepository historyRepository;
 
-	private static final String RETURN = "<br /><a href = '/home'>return</a>";
+	private static final String RETURN = "<br /><a href = '/'>return</a>";
 	private static final int MAX_DISPLAY = 20;
 
-	@GetMapping( { "/", "/root" } )
+	@GetMapping( "/root" )
 	public String root( ) {
 		//
 		System.out.println("root");
 		return Instant.now() + RETURN;
 	}
 
-	@GetMapping( { "/home" } )
+	@GetMapping( { "/", "/home" } )
 	public ModelAndView home( ) {
 		//
 		System.out.println("home");

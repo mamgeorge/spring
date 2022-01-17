@@ -1,4 +1,4 @@
-package com.humanities.history.controller;
+package com.humanities.history.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

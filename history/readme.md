@@ -1,6 +1,6 @@
 # History DB / 历史 [li4shi3]
 
-<img src = "history.png"	alt = "history"	title = "history" width = "100">
+<img src = "/history.png" alt = "history" title = "history" width = "100">
 
 intent: build a flexible data entry DB
 
