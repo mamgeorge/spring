@@ -5,13 +5,12 @@
 intent: build a flexible data entry DB
 
 ### features
-
-* employs global world history principles
+* uses independent MySQL RDBMS 
 * handles utf charsets in sql
-* truncated length
+* uses global world history principles
 
 ### todos
-* adding DB
+* add era boundaries
 * error handling for entries
 * handle duplicates
 * upload images

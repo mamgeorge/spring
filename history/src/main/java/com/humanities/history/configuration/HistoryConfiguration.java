@@ -1,6 +1,8 @@
 package com.humanities.history.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -18,7 +20,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 // @Configuration
 public class HistoryConfiguration {
 
+	@Autowired private Environment environment;
 	@Autowired private ServletContext servletContext;
+
+	@Value("${core.source}") private String core_source;
 
 	//@Bean
 	public ServletContextTemplateResolver servletContextTemplateResolver( ) {

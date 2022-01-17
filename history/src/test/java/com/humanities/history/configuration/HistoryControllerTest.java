@@ -6,9 +6,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
@@ -41,6 +43,7 @@ public class HistoryControllerTest {
 
 	@Autowired private HistoryController historyController;
 	@Autowired private IHistoryService historyService;
+	@Autowired private Environment environment;
 	@LocalServerPort int localServerPort_RND;
 	private static final String FRMT = "\t%-5s %s\n";
 	private static final String HOST_EXT = "https://httpbin.org/";
@@ -94,6 +97,13 @@ public class HistoryControllerTest {
 		//
 		System.out.println(txtLines);
 		assertTrue(history.getDatebeg().contains("00"));
+	}
+
+	@Test void environment_read( ) {
+		//
+		String keyValue = environment.getProperty("CORE_SOURCE");
+		System.out.println("keyValue: " + keyValue);
+		assertTrue(keyValue.contains("George"));
 	}
 
 	//############
