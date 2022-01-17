@@ -44,8 +44,8 @@ public class History {
 		history.personname = "personname";
 		history.eventmain = "eventmain 历史";
 		//
-		history.referenced = "references";
-		history.groupings = "grouping";
+		history.referenced = "referenced";
+		history.groupings = "groupings";
 		history.mediaicopath = "mediaicopath";
 		//
 		return history;
