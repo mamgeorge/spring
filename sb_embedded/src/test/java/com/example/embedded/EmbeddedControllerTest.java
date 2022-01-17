@@ -1,8 +1,10 @@
-package com.example.sb_embedded;
+package com.example.embedded;
 
 import java.io.StringWriter;
 import java.util.logging.Logger;
 
+import com.example.embedded.configuration.City;
+import com.example.embedded.configuration.EmbeddedController;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,11 +28,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // https://spring.io/guides/gs/testing-web/
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
-public class SbControllerTest {
+public class EmbeddedControllerTest {
 
-	public static final Logger LOGGER = Logger.getLogger(SbControllerTest.class.getName());
+	public static final Logger LOGGER = Logger.getLogger(EmbeddedControllerTest.class.getName());
 
-	@Autowired private SbController sbController = null;
+	@Autowired private EmbeddedController sbController = null;
 	@Autowired private TestRestTemplate restTemplate;
 	@Autowired private MockMvc mockMvc;
 	@LocalServerPort int PORT;

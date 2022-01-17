@@ -1,4 +1,4 @@
-package com.example.sb_embedded;
+package com.example.embedded.configuration;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

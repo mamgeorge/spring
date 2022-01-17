@@ -1,4 +1,4 @@
-package com.example.sb_embedded;
+package com.example.embedded.configuration;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
