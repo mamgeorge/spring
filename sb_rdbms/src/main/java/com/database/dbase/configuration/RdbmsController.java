@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-public class DBaseController {
+public class RdbmsController {
 
 	// @Autowired private IHistoryService cityService;
 	@Autowired private HistoryRepository historyRepository;

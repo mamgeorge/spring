@@ -1,4 +1,4 @@
-package com.example.sb_embedded;
+package com.example.embedded.configuration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

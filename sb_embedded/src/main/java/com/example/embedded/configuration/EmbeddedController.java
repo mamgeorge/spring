@@ -1,4 +1,4 @@
-package com.example.sb_embedded;
+package com.example.embedded.configuration;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class SbController {
+public class EmbeddedController {
 
 	@Autowired private ICityService cityService;
 	@Autowired private ApplicationContext applicationContext; //added for close
