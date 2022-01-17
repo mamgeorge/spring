@@ -1,4 +1,4 @@
-package com.humanities.history.controller;
+package com.humanities.history.configuration;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,16 +17,16 @@ public class History {
 
 	@Id @GeneratedValue( strategy = GenerationType.IDENTITY ) // SEQUENCE?
 	private Long id;
-	private String datebegpre;    // '-'
-	private String datebeg;    // '0004-00-00-00.00.00'
-	private String dateendpre;    // '+'
-	private String dateend;    // '0029-04-01-00.00.00'
-	private String eramain;    // 'Roman Empire'
-	private String locations;    // 'Israel , Jerusalem'
-	private String personname;    // 'Jesus Christ'
-	private String eventmain;    // 'birth , ministry , death , resurrection'
-	private String references;    // 'Josephus, MaraBarSerapion, Phlegon, Thallus'
-	private String grouping;    // 'h0000'
+	private String datebegpre;  // '-'
+	private String datebeg;     // '0004-00-00-00.00.00'
+	private String dateendpre;  // '+'
+	private String dateend;     // '0029-04-01-00.00.00'
+	private String eramain;     // 'Roman Empire'
+	private String locations;   // 'Israel , Jerusalem'
+	private String personname;  // 'Jesus Christ'
+	private String eventmain;   // 'birth , ministry , death , resurrection'
+	private String referenced;  // 'Josephus, MaraBarSerapion, Phlegon, Thallus'
+	private String groupings;   // 'h0000'
 	private String mediaicopath;// '_0000_H_Nazareth_JesusCross'
 
 	public static History getSample( ) {
@@ -44,8 +44,8 @@ public class History {
 		history.personname = "personname";
 		history.eventmain = "eventmain 历史";
 		//
-		history.references = "references";
-		history.grouping = "grouping";
+		history.referenced = "references";
+		history.groupings = "grouping";
 		history.mediaicopath = "mediaicopath";
 		//
 		return history;

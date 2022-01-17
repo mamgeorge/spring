@@ -1,4 +1,4 @@
-package com.humanities.history.controller;
+package com.humanities.history.configuration;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
