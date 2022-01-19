@@ -1,22 +1,15 @@
-package com.basics.testmore.repository;
-
-import static com.basics.testmore.util.UtilityMain.PAR;
-import static com.basics.testmore.util.UtilityMain.LOGGER;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+package com.basics.testmore.model;
 
 import com.basics.testmore.repository.CityRepository;
-import com.basics.testmore.model.City;
+import org.junit.jupiter.api.Test;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Iterable;
 
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.boot.test.context.SpringBootTest;
-import javax.annotation.Resource;
+import static com.basics.testmore.util.UtilityMain.LOGGER;
+import static com.basics.testmore.util.UtilityMain.PAR;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @RunWith(SpringRunner.class)
 public class CityRepositoryTest {

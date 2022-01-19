@@ -1,76 +1,90 @@
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.replication.master in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.resultSetStatisticsFactory in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.NoneAuthentication in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.lockManagerJ6 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.rawStore.log.readonly in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.jdbcJ8 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.resourceAdapterJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.validation in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.jdbcJ6 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.lcf in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.optimizer in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.XPLAINFactory in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.javaCompiler in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.tcf in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.dataDictionary in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.cacheManagerJ6 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.ef in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.dvfJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.dvfJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.daemon in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.cacheManagerJ6 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.rawStore.data.genericJ4 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.timerJ1 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.rawStore.data.genericJ4 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.rawStore.data.genericJ1 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.basicAuthentication in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.rawStore.data.genericJ1 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.classes.JNDIAuthentication in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.database in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.rawStore.transaction in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.streams in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.classes.dvfJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.mgmt.jmx in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.nativeAuthentication in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.cryptographyJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.access.sort in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.classes.jdbcJ8 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.classes.cryptographyJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.classes.jdbcJ6 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.classes.rawStore.data.genericJ4 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.jdbcJ8 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.lockManagerJ6 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.cryptographyJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.jdbcJ6 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.specificAuthentication in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.mgmt.jmx in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.netServer.autoStart in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.access.uniquewithduplicatenullssort in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.classManagerJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.JNDIAuthentication in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.rawStore.log in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.access.heap in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.database.slave in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.jdk.resourceAdapterJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.mgmt.null in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.env.classes.resourceAdapterJ2 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.access in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.replication.slave in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.lf in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.uuidJ1 in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.access.btree in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main] Ignored duplicate property derby.module.rawStore in jar:file:/C:/Users/mamge/.groovy/grapes/org.apache.derby/derby/jars/derby-10.12.1.1.jar!/org/apache/derby/modules.properties
-Sat Feb 27 17:18:23 EST 2021 Thread[main,5,main]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-----------------------------------------------------------------
-Sat Feb 27 17:18:23 EST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0177-e592-3fa6-00000e111228 
-on database directory C:\dbase\derby\db-derby-10.12.1.1-bin\demo\databases\toursdb with class loader org.codehaus.groovy.tools.RootLoader@4fca772d 
-Loaded from file:/C:/dbase/derby/db-derby-10.12.1.1-bin/lib/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_111-b14
-user.dir=c:\workspace\github\spring_testing
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
-derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
+Tue Jan 18 18:52:13 EST 2022 Thread[main,5,main] Cleanup action starting
+java.sql.SQLException: Database 'c:/dbase/derby/db-derby-10.12.1.1-bin/demo/databases/toursdb' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:569)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at groovy.sql.Sql.newInstance(Sql.java:396)
+	at groovy.sql.Sql.newInstance(Sql.java:437)
+	at groovy.sql.Sql$newInstance.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:166)
+	at test.showDBase(test.groovy:99)
+	at test.run(test.groovy:141)
+	at groovy.lang.GroovyShell.runScriptOrMainOrTestOrRunnable(GroovyShell.java:254)
+	at groovy.lang.GroovyShell.run(GroovyShell.java:360)
+	at groovy.lang.GroovyShell.run(GroovyShell.java:349)
+	at groovy.ui.GroovyMain.processOnce(GroovyMain.java:652)
+	at groovy.ui.GroovyMain.run(GroovyMain.java:398)
+	at groovy.ui.GroovyMain.access$1400(GroovyMain.java:68)
+	at groovy.ui.GroovyMain$GroovyCommand.process(GroovyMain.java:322)
+	at groovy.ui.GroovyMain.processArgs(GroovyMain.java:142)
+	at groovy.ui.GroovyMain.main(GroovyMain.java:115)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.groovy.tools.GroovyStarter.rootLoader(GroovyStarter.java:111)
+	at org.codehaus.groovy.tools.GroovyStarter.main(GroovyStarter.java:129)
+Caused by: ERROR XJ004: Database 'c:/dbase/derby/db-derby-10.12.1.1-bin/demo/databases/toursdb' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 39 more
+============= begin nested exception, level (1) ===========
+ERROR XJ004: Database 'c:/dbase/derby/db-derby-10.12.1.1-bin/demo/databases/toursdb' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:569)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at groovy.sql.Sql.newInstance(Sql.java:396)
+	at groovy.sql.Sql.newInstance(Sql.java:437)
+	at groovy.sql.Sql$newInstance.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:166)
+	at test.showDBase(test.groovy:99)
+	at test.run(test.groovy:141)
+	at groovy.lang.GroovyShell.runScriptOrMainOrTestOrRunnable(GroovyShell.java:254)
+	at groovy.lang.GroovyShell.run(GroovyShell.java:360)
+	at groovy.lang.GroovyShell.run(GroovyShell.java:349)
+	at groovy.ui.GroovyMain.processOnce(GroovyMain.java:652)
+	at groovy.ui.GroovyMain.run(GroovyMain.java:398)
+	at groovy.ui.GroovyMain.access$1400(GroovyMain.java:68)
+	at groovy.ui.GroovyMain$GroovyCommand.process(GroovyMain.java:322)
+	at groovy.ui.GroovyMain.processArgs(GroovyMain.java:142)
+	at groovy.ui.GroovyMain.main(GroovyMain.java:115)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.groovy.tools.GroovyStarter.rootLoader(GroovyStarter.java:111)
+	at org.codehaus.groovy.tools.GroovyStarter.main(GroovyStarter.java:129)
+============= end nested exception, level (1) ===========
+Cleanup action completed

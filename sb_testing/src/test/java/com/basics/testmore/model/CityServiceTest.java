@@ -1,21 +1,15 @@
-package com.basics.testmore.services;
+package com.basics.testmore.model;
 
-import static com.basics.testmore.util.UtilityMain.PAR;
-import static com.basics.testmore.util.UtilityMain.LOGGER;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.basics.testmore.services.ICityService;
 import org.junit.jupiter.api.Test;
-
-import com.basics.testmore.services.CityService;
-import com.basics.testmore.model.City;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.Iterable;
 
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
+import static com.basics.testmore.util.UtilityMain.LOGGER;
+import static com.basics.testmore.util.UtilityMain.PAR;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @RunWith(SpringRunner.class)
 public class CityServiceTest {

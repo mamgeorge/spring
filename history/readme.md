@@ -10,10 +10,10 @@ intent: build a flexible data entry DB
 * uses global world history principles
 
 ### todos
-* add era boundaries
-* error handling for entries
-* handle duplicates
-* upload images
+* update era boundaries, tags
+* error handling for entries, handle duplicates
+* update schema to load images
+* db file read (apolo, sum, history), db cap for retrieval
 * ---------
 * scrolling on different options?
 * read in csv (alternate entries); parse text files

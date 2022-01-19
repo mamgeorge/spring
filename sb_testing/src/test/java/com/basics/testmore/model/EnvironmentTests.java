@@ -1,8 +1,7 @@
-package com.basics.testmore.util;
+package com.basics.testmore.model;
 
 import com.basics.testmore.configuration.AnySpringFoxConfig;
 import com.basics.testmore.configuration.BeanConfiguration;
-import com.basics.testmore.model.City;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,13 @@ import org.springframework.util.Assert;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.basics.testmore.util.UtilityMainTest.ASSERT_MSG;
+import static com.basics.testmore.util.UtilityMainTests.ASSERT_MSG;
 
 @ExtendWith(SpringExtension.class) // adds beans
 @ContextConfiguration(classes = {AnySpringFoxConfig.class, BeanConfiguration.class})
 @ActiveProfiles("local")
 @SpringBootTest // creates applicationContext
-public class UtilityEnvironmentTest {
+public class EnvironmentTests {
 	//
 	@Autowired private ApplicationContext appContext;
 	@Autowired private Environment environment;
@@ -40,7 +39,7 @@ public class UtilityEnvironmentTest {
 	public static final String FRMTVAR = "\t%-20s [%s]\n";
 	public static final String FRMTSML = "\t%02d\t%s\n";
 
-	@Test public void contextLoads() {
+	@Test void contextLoads() {
 		//
 		String txtLines = "";
 		//
@@ -52,7 +51,7 @@ public class UtilityEnvironmentTest {
 		Assert.notNull(appname.contains("LOCAL"), ASSERT_MSG);
 	}
 
-	@Test public void environmentVars() {
+	@Test void environmentVars() {
 		//
 		String txtLines = "";
 		//
@@ -65,7 +64,7 @@ public class UtilityEnvironmentTest {
 		Assert.isTrue(appname.contains("TestmoreApplication"), ASSERT_MSG);
 	}
 
-	@Test public void beanList() {
+	@Test void beanList() {
 		//
 		StringBuffer stringBuffer = new StringBuffer();
 		String[] stringBeans = appContext.getBeanDefinitionNames();
@@ -78,7 +77,7 @@ public class UtilityEnvironmentTest {
 		Assert.isTrue(stringBeans.length >= 10, ASSERT_MSG);
 	}
 
-	@Test public void beanAccess() {
+	@Test void beanAccess() {
 		//
 		// must have @ContextConfiguration(classes = {BeanConfiguration.class})
 		City city = (City) appContext.getBean("cityBean");
@@ -86,7 +85,7 @@ public class UtilityEnvironmentTest {
 		Assert.isTrue(city.getName().contains("George"), ASSERT_MSG);
 	}
 
-	@Test public void bean_addContext() {
+	@Test void bean_addContext() {
 		//
 		String GEORGE = "MARTIN";
 		AutowireCapableBeanFactory ACBF = appContext.getAutowireCapableBeanFactory();

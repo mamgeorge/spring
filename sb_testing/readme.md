@@ -1,4 +1,6 @@
-Spring Testing
+#Spring Testing
+
+The intent of this application is to showcase testing code.
 
 http://zetcode.com/springboot/annotations
 

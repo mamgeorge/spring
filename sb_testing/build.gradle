@@ -33,27 +33,25 @@ dependencies {
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 	implementation 'org.json:org.json:chargebee-1.0'
 
+	// added for model
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.h2database:h2'
+
 	// added 4 security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.security:spring-security-crypto'
 
-	// added 4 swagger
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-
-	// added for model
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'com.h2database:h2'
-	//implementation( 'org.xerial:sqlite-jdbc:3.34.0' )
-
-	// added for csv
-	implementation 'org.apache.commons:commons-csv:1.8'
+	// special
+	implementation 'org.apache.commons:commons-csv:1.8' //CSV
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'  // swagger
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'    // swagger
 
 	// added 4 testing & Mockito
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
 	testImplementation 'org.mockito:mockito-core:3.7.7'
+	testImplementation 'org.meanbean:meanbean:2.0.3'
 
 	// added 4 lombok
 	compileOnly				'org.projectlombok:lombok:1.18.16'
