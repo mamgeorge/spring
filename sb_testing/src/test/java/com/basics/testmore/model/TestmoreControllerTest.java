@@ -1,6 +1,6 @@
-package com.basics.testmore.controller;
+package com.basics.testmore.model;
 
-import com.basics.testmore.model.City;
+import com.basics.testmore.controller.TestmoreController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
