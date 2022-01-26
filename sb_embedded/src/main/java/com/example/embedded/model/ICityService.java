@@ -1,4 +1,4 @@
-package com.example.embedded.configuration;
+package com.example.embedded.model;
 
 import java.util.List;
 

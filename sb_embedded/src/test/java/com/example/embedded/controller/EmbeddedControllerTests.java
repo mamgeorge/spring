@@ -1,10 +1,9 @@
-package com.example.embedded;
+package com.example.embedded.controller;
 
 import java.io.StringWriter;
 import java.util.logging.Logger;
 
-import com.example.embedded.configuration.City;
-import com.example.embedded.configuration.EmbeddedController;
+import com.example.embedded.model.City;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,9 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // https://spring.io/guides/gs/testing-web/
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
-public class EmbeddedControllerTest {
+public class EmbeddedControllerTests {
 
-	public static final Logger LOGGER = Logger.getLogger(EmbeddedControllerTest.class.getName());
+	public static final Logger LOGGER = Logger.getLogger(EmbeddedControllerTests.class.getName());
 
 	@Autowired private EmbeddedController sbController = null;
 	@Autowired private TestRestTemplate restTemplate;
@@ -122,5 +121,8 @@ public class EmbeddedControllerTest {
 		String html = this.restTemplate.getForObject(LOCALHOST + PORT + "/showCity/5", String.class);
 		System.out.println("html: " + html.toString());
 		Assert.isTrue(html.contains("MexicoCity"), ASSERTION);
+	}
+
+	public static class SpecialTests {
 	}
 }

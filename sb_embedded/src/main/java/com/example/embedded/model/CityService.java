@@ -1,4 +1,4 @@
-package com.example.embedded.configuration;
+package com.example.embedded.model;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +10,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CityService implements ICityService {
 
-	@Autowired
-	private CityRepository cityRepository;
+	@Autowired private CityRepository cityRepository;
 
-	@Override
-	public City findById(Long id) { return cityRepository.findById(id).get(); }
+	@Override public City findById(Long id) { return cityRepository.findById(id).get(); }
 
-	@Override
-	public City save(City city) { return cityRepository.save(city); }
+	@Override public City save(City city) { return cityRepository.save(city); }
 
-	@Override
-	public List<City> findAll() { return (List<City>) cityRepository.findAll(); }
+	@Override public List<City> findAll() { return (List<City>) cityRepository.findAll(); }
 
 	/*
 	public List<City> findAll( ) { 

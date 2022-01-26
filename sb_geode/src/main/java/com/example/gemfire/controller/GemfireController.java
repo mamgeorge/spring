@@ -1,9 +1,12 @@
-package com.example.embedded.configuration;
+package com.example.gemfire.controller;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import com.example.gemfire.model.City;
+import com.example.gemfire.model.ICityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class EmbeddedController {
+public class GemfireController {
 
 	@Autowired private ICityService cityService;
 	@Autowired private ApplicationContext applicationContext; //added for close

@@ -1,4 +1,4 @@
-package com.example.embedded.configuration;
+package com.example.gemfire.model;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
