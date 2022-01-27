@@ -1,4 +1,4 @@
-package com.example.embedded.controller;
+package com.example.embedded.configuration;
 
 import java.io.StringWriter;
 import java.util.logging.Logger;
@@ -121,8 +121,5 @@ public class EmbeddedControllerTests {
 		String html = this.restTemplate.getForObject(LOCALHOST + PORT + "/showCity/5", String.class);
 		System.out.println("html: " + html.toString());
 		Assert.isTrue(html.contains("MexicoCity"), ASSERTION);
-	}
-
-	public static class SpecialTests {
 	}
 }

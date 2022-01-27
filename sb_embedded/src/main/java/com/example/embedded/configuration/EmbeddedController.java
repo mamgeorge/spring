@@ -1,4 +1,4 @@
-package com.example.embedded.controller;
+package com.example.embedded.configuration;
 
 import java.time.Instant;
 import java.util.ArrayList;
