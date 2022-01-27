@@ -5,6 +5,7 @@ The purpose of this project is to provide a stripped down example of using an Em
 Notes:
 The persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
 The embedded h2 console JDBC URL must be "jdbc:h2:mem:anydbname" (match "spring.datasource.url: jdbc:h2:mem:anydbname")
+The EmbeddedConfiguration was added later to experiment with DataSourceBuilder
 
 # Components
 
