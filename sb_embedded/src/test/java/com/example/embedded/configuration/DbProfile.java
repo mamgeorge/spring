@@ -111,7 +111,8 @@ public class DbProfile {
 				sqlDefault = "SELECT TOP (10) * FROM [mydb].[dbo].[Employee]";
 				break;
 			case mongodb:
-				// jdbc:cassandra:root/root@:/
+				// https://docs.mongodb.com/drivers/java/sync/current/fundamentals/connection/connect/
+				// mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.1.9
 				dbUrl = "";
 				sqlDefault = "";
 				break;
