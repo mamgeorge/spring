@@ -8,19 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.util.Assert;
 
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.basics.testmore.util.UtilityMainTests.ASSERT_MSG;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class) // adds beans
 @ContextConfiguration(classes = {AnySpringFoxConfig.class, BeanConfiguration.class})
@@ -47,8 +49,8 @@ public class EnvironmentTests {
 		txtLines += String.format(FRMTVAR, "appname", appname);
 		//
 		System.out.println(txtLines);
-		Assert.notNull(appContext, ASSERT_MSG);
-		Assert.notNull(appname.contains("LOCAL"), ASSERT_MSG);
+		assertNotNull(appContext, ASSERT_MSG);
+		assertTrue(appname.contains("LOCAL"), ASSERT_MSG);
 	}
 
 	@Test void environmentVars() {
@@ -61,20 +63,15 @@ public class EnvironmentTests {
 		txtLines += String.format(FRMTVAR, PROP_DBNAME, txtDB);
 		//
 		System.out.println(txtLines);
-		Assert.isTrue(appname.contains("TestmoreApplication"), ASSERT_MSG);
+		assertTrue(appname.contains("TestmoreApplication"), ASSERT_MSG);
 	}
 
-	@Test void beanList() {
+	@Test void beansList() {
 		//
-		StringBuffer stringBuffer = new StringBuffer();
-		String[] stringBeans = appContext.getBeanDefinitionNames();
-		AtomicInteger aint = new AtomicInteger();
-		for (String bean : stringBeans) {
-			stringBuffer.append(String.format(FRMTSML, aint.incrementAndGet(), bean));
-		}
-		//
-		System.out.println(stringBuffer);
-		Assert.isTrue(stringBeans.length >= 10, ASSERT_MSG);
+		String beansList = getBeansList(appContext);
+		System.out.println(beansList);
+		int beansLen = appContext.getBeanDefinitionNames().length;
+		assertTrue(beansLen >= 10, ASSERT_MSG);
 	}
 
 	@Test void beanAccess() {
@@ -82,27 +79,44 @@ public class EnvironmentTests {
 		// must have @ContextConfiguration(classes = {BeanConfiguration.class})
 		City city = (City) appContext.getBean("cityBean");
 		System.out.println(city);
-		Assert.isTrue(city.getName().contains("George"), ASSERT_MSG);
+		assertTrue(city.getName().contains("George"), ASSERT_MSG);
 	}
 
 	@Test void bean_addContext() {
 		//
+		/*
+			https://www.javaprogramto.com/2019/07/spring-dynamically-register-beans.html
+			Local Dynamic Bean Registration:
+			1 with GenericBeanDefinition in DefaultListableBeanFactory context
+			2 with BeanDefinitionBuilder in DefaultListableBeanFactory beanFactory
+			3 with GenericBeanDefinition in ConfigurableListableBeanFactory beanFactory
+			4 with GenericBeanDefinition in BeanDefinitionRegistry
+		*/
 		String GEORGE = "MARTIN";
 		AutowireCapableBeanFactory ACBF = appContext.getAutowireCapableBeanFactory();
 		ACBF.createBean(String.class);
 		ACBF.initializeBean(GEORGE, "george");
 		ACBF.autowireBean(GEORGE);
 		ACBF.applyBeanPostProcessorsAfterInitialization(GEORGE, "george");
-		//ACBF.configureBean(GEORGE, "george");
+		// ACBF.configureBean(GEORGE, "george");
 		//
-		// show it
-		StringBuffer stringBuffer = new StringBuffer();
+		ConfigurableListableBeanFactory CLBF = ((ConfigurableApplicationContext) appContext).getBeanFactory();
+		CLBF.registerSingleton(GEORGE.getClass().getCanonicalName(), GEORGE);
+		//
+		System.out.println(getBeansList(appContext));
+		assertTrue(appContext.getBeanDefinitionNames().length >= 10, ASSERT_MSG);
+	}
+
+	// #### STATICS ####
+	public static String getBeansList(ApplicationContext appContext) {
+		//
+		StringBuilder stringBuilder = new StringBuilder();
 		String[] stringBeans = appContext.getBeanDefinitionNames();
 		AtomicInteger aint = new AtomicInteger();
-		Arrays.stream(stringBeans).sequential().forEach(city ->
-				stringBuffer.append(String.format(FRMTSML, aint.incrementAndGet(), city)));
+		for (String bean : stringBeans) {
+			stringBuilder.append(String.format(FRMTSML, aint.incrementAndGet(), bean));
+		}
 		//
-		System.out.println(stringBuffer);
-		Assert.isTrue(stringBeans.length >= 10, ASSERT_MSG);
+		return stringBuilder.toString();
 	}
 }
