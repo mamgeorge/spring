@@ -15,12 +15,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.basics.testmore.util.UtilityMainTests.ASSERT_MSG;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class) // adds beans
 @ContextConfiguration(classes = {AnySpringFoxConfig.class, BeanConfiguration.class})
@@ -47,8 +48,8 @@ public class EnvironmentTests {
 		txtLines += String.format(FRMTVAR, "appname", appname);
 		//
 		System.out.println(txtLines);
-		Assert.notNull(appContext, ASSERT_MSG);
-		Assert.notNull(appname.contains("LOCAL"), ASSERT_MSG);
+		assertNotNull(appContext, ASSERT_MSG);
+		assertTrue(appname.contains("LOCAL"), ASSERT_MSG);
 	}
 
 	@Test void environmentVars() {
@@ -61,7 +62,7 @@ public class EnvironmentTests {
 		txtLines += String.format(FRMTVAR, PROP_DBNAME, txtDB);
 		//
 		System.out.println(txtLines);
-		Assert.isTrue(appname.contains("TestmoreApplication"), ASSERT_MSG);
+		assertTrue(appname.contains("TestmoreApplication"), ASSERT_MSG);
 	}
 
 	@Test void beanList() {
@@ -74,7 +75,7 @@ public class EnvironmentTests {
 		}
 		//
 		System.out.println(stringBuffer);
-		Assert.isTrue(stringBeans.length >= 10, ASSERT_MSG);
+		assertTrue(stringBeans.length >= 10, ASSERT_MSG);
 	}
 
 	@Test void beanAccess() {
@@ -82,7 +83,7 @@ public class EnvironmentTests {
 		// must have @ContextConfiguration(classes = {BeanConfiguration.class})
 		City city = (City) appContext.getBean("cityBean");
 		System.out.println(city);
-		Assert.isTrue(city.getName().contains("George"), ASSERT_MSG);
+		assertTrue(city.getName().contains("George"), ASSERT_MSG);
 	}
 
 	@Test void bean_addContext() {
@@ -103,6 +104,6 @@ public class EnvironmentTests {
 				stringBuffer.append(String.format(FRMTSML, aint.incrementAndGet(), city)));
 		//
 		System.out.println(stringBuffer);
-		Assert.isTrue(stringBeans.length >= 10, ASSERT_MSG);
+		assertTrue(stringBeans.length >= 10, ASSERT_MSG);
 	}
 }
