@@ -8,16 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.basics.testmore.util.UtilityMainTests.ASSERT_MSG;
@@ -66,12 +65,17 @@ public class EnvironmentTests {
 		assertTrue(appname.contains("TestmoreApplication"), ASSERT_MSG);
 	}
 
-	@Test void beansList() {
+	@Test void beanList() {
 		//
-		String beansList = getBeansList(appContext);
-		System.out.println(beansList);
-		int beansLen = appContext.getBeanDefinitionNames().length;
-		assertTrue(beansLen >= 10, ASSERT_MSG);
+		StringBuffer stringBuffer = new StringBuffer();
+		String[] stringBeans = appContext.getBeanDefinitionNames();
+		AtomicInteger aint = new AtomicInteger();
+		for (String bean : stringBeans) {
+			stringBuffer.append(String.format(FRMTSML, aint.incrementAndGet(), bean));
+		}
+		//
+		System.out.println(stringBuffer);
+		assertTrue(stringBeans.length >= 10, ASSERT_MSG);
 	}
 
 	@Test void beanAccess() {
@@ -84,39 +88,22 @@ public class EnvironmentTests {
 
 	@Test void bean_addContext() {
 		//
-		/*
-			https://www.javaprogramto.com/2019/07/spring-dynamically-register-beans.html
-			Local Dynamic Bean Registration:
-			1 with GenericBeanDefinition in DefaultListableBeanFactory context
-			2 with BeanDefinitionBuilder in DefaultListableBeanFactory beanFactory
-			3 with GenericBeanDefinition in ConfigurableListableBeanFactory beanFactory
-			4 with GenericBeanDefinition in BeanDefinitionRegistry
-		*/
 		String GEORGE = "MARTIN";
 		AutowireCapableBeanFactory ACBF = appContext.getAutowireCapableBeanFactory();
 		ACBF.createBean(String.class);
 		ACBF.initializeBean(GEORGE, "george");
 		ACBF.autowireBean(GEORGE);
 		ACBF.applyBeanPostProcessorsAfterInitialization(GEORGE, "george");
-		// ACBF.configureBean(GEORGE, "george");
+		//ACBF.configureBean(GEORGE, "george");
 		//
-		ConfigurableListableBeanFactory CLBF = ((ConfigurableApplicationContext) appContext).getBeanFactory();
-		CLBF.registerSingleton(GEORGE.getClass().getCanonicalName(), GEORGE);
-		//
-		System.out.println(getBeansList(appContext));
-		assertTrue(appContext.getBeanDefinitionNames().length >= 10, ASSERT_MSG);
-	}
-
-	// #### STATICS ####
-	public static String getBeansList(ApplicationContext appContext) {
-		//
-		StringBuilder stringBuilder = new StringBuilder();
+		// show it
+		StringBuffer stringBuffer = new StringBuffer();
 		String[] stringBeans = appContext.getBeanDefinitionNames();
 		AtomicInteger aint = new AtomicInteger();
-		for (String bean : stringBeans) {
-			stringBuilder.append(String.format(FRMTSML, aint.incrementAndGet(), bean));
-		}
+		Arrays.stream(stringBeans).sequential().forEach(city ->
+				stringBuffer.append(String.format(FRMTSML, aint.incrementAndGet(), city)));
 		//
-		return stringBuilder.toString();
+		System.out.println(stringBuffer);
+		assertTrue(stringBeans.length >= 10, ASSERT_MSG);
 	}
 }
