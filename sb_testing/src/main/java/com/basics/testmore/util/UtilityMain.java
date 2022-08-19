@@ -364,7 +364,7 @@ public class UtilityMain {
 		//
 		Object[] args = null;
 		int maxlen = 35;
-		String FRMT = "\t%02d %-25s | %-35s | %02d | %s \n";
+		String FRMT = "\t%03d %-30s | %-45s | %02d | %s \n";
 		AtomicInteger atomicInteger = new AtomicInteger();
 		Arrays.stream(methods).forEach(mthd -> {
 			//

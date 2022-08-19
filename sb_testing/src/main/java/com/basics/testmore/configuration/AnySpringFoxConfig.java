@@ -14,7 +14,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class AnySpringFoxConfig {
 	//
 	// note Spring only requires @EnableSwagger2WebMvc & autoconfig of resource handlers
-	@Bean public Docket api() {
+	@Bean public Docket customApi() {
 		Docket docket = new Docket( DocumentationType.SWAGGER_2 )
 			.select()
 			.apis( RequestHandlerSelectors.any() )

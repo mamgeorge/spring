@@ -24,6 +24,8 @@ body, h3,h5 form { font-family: verdana, monospace; margin: auto; text-align: ce
 <tr class = "blu" ><td><a href = "/countryPth/5"		>/countryPth/5	</a></td></tr>
 <tr class = "prp" ><td><a href = "/timer"				>/timer			</a></td></tr>
 <tr class = "prp" ><td><a href = "/utils"				>/utils			</a></td></tr>
+<tr class = "prp" ><td colspan = "2"></td></tr>
+<tr class = "prp" ><td><a href = "http://localhost:8080/swagger-ui/"> http://localhost:8080/swagger-ui/</a></td></tr>
 </table>
 
 <br /><hr /><form class = "grn" style = "width: 50%;" action = "/cityIds" method = "GET"> id for:
