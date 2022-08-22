@@ -1,7 +1,6 @@
 package com.basics.testmore.util;
 
 import com.basics.testmore.model.City;
-import com.basics.testmore.model.SamplePOJO;
 import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
 import org.meanbean.test.Configuration;

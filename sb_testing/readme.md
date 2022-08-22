@@ -16,3 +16,7 @@ for gradle
 	> gradle bootrun
 
 goto > http://localhost:8080
+
+final mock
+	powermock of final classes only possible when adding:
+	"src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker" with line: mock-maker-inline

@@ -43,6 +43,7 @@ public class UtilityMainTests {
 		assertTrue(txtLines.startsWith("Genesis"));
 	}
 
+	// url
 	@Test void urlGet( ) {
 		//
 		String link = "http://www.google.com";
@@ -74,6 +75,7 @@ public class UtilityMainTests {
 		assertTrue(txtLines.contains("200"));
 	}
 
+	// conversions
 	@Test void getXmlNode( ) {
 		//
 		String xml = "<a><b id = 'aleph' ><c><d>alpha</d><d>beta</d></c></b><b id = 'beth' ></b></a>";
