@@ -19,7 +19,7 @@ class AnyWebSecurityConfigAdapterTest {
 	void configure_HttpSecurity( ) {
 
 		HttpSecurity httpSecurity = mock(HttpSecurity.class);
-		AnyWebSecurityConfigAdapter AWSCA = new AnyWebSecurityConfigAdapter();
+		WebSecurityConfigAdapterImpl AWSCA = new WebSecurityConfigAdapterImpl();
 		try { AWSCA.configure(httpSecurity); }
 		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
@@ -31,7 +31,7 @@ class AnyWebSecurityConfigAdapterTest {
 	void testConfigure_amb( ) {
 
 		AuthenticationManagerBuilder AMB = mock(AuthenticationManagerBuilder.class);
-		AnyWebSecurityConfigAdapter AWSCA = new AnyWebSecurityConfigAdapter();
+		WebSecurityConfigAdapterImpl AWSCA = new WebSecurityConfigAdapterImpl();
 		try { AWSCA.configure(AMB); }
 		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
@@ -42,7 +42,7 @@ class AnyWebSecurityConfigAdapterTest {
 	@Test
 	void passwordEncoder( ) {
 
-		AnyWebSecurityConfigAdapter AWSCA = new AnyWebSecurityConfigAdapter();
+		WebSecurityConfigAdapterImpl AWSCA = new WebSecurityConfigAdapterImpl();
 		BCryptPasswordEncoder bcryptPasswordEncoder = (BCryptPasswordEncoder) AWSCA.passwordEncoder();
 
 		System.out.println(UtilityMain.exposeObject(bcryptPasswordEncoder));

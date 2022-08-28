@@ -2,14 +2,16 @@
 
 app.name: TestmoreApplication
 
+spring.main.banner-mode: CONSOLE
+spring.output.ansi.enabled: ALWAYS
+
 server.servlet.context-path: /
 server.servlet.port: 8080
-
 server.error.whitelabel.enabled: false
 
 datasource.platform: h2
 
-logging.level.org.springframework: ERROR
+# permits all actuator endpoints to run
+management.endpoints.web.exposure.include: "*"
 
-spring.main.banner-mode: CONSOLE
-spring.output.ansi.enabled: ALWAYS
+logging.level.org.springframework: ERROR

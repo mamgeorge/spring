@@ -1,6 +1,6 @@
 package com.basics.testmore.util;
 
-import com.basics.testmore.configuration.AnySpringFoxConfig;
+import com.basics.testmore.configuration.SpringFoxConfig;
 import com.basics.testmore.configuration.BeanConfiguration;
 import com.basics.testmore.model.City;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class) // adds beans
-@ContextConfiguration(classes = {AnySpringFoxConfig.class, BeanConfiguration.class})
+@ContextConfiguration(classes = { SpringFoxConfig.class, BeanConfiguration.class})
 @ActiveProfiles("local")
 @SpringBootTest // creates applicationContext
 public class EnvironmentTests {

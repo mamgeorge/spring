@@ -10,7 +10,7 @@ public class AnySpringFoxConfigTest {
 
 	@Test void customApi( ) {
 
-		AnySpringFoxConfig anySpringFoxConfig = new AnySpringFoxConfig();
+		SpringFoxConfig anySpringFoxConfig = new SpringFoxConfig();
 		Docket docket = anySpringFoxConfig.customApi();
 
 		String txtLines = UtilityMain.exposeObject(docket);
