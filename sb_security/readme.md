@@ -21,6 +21,6 @@ notes:
 	// note: needs forward slash if from screen
 	set JAVA_TEMPCP=C:\workspace\github\spring_security\build\classes\java\main\
 
-	java -cp %JAVA_TEMPCP% com.basics.securing.WebSecurityAny -Xlint
+	java -cp %JAVA_TEMPCP% com.basics.securing.SecuringWebApp -Xlint
 
 	java -cp $env:JAVA_TEMPCP com.basics.securing.UtilityExtra // for PowerShell

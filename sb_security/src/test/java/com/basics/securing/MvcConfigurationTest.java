@@ -4,7 +4,6 @@ package com.basics.securing;
 import org.junit.jupiter.api.Test; // JUnit 5
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MvcConfigurationTest {

@@ -1,3 +1,5 @@
-spring.jpa.database: h2
-spring.jpa.hibernate.dialect: org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto: create-drop
+driverClassName=org.sqlite.JDBC
+jdbcUrl=C:/workspace/dbase/sqlite/chinook.db
+
+hibernate.dialect=com.basics.securing.configuration.SqliteDialect
+hibernate.hbm2ddl.auto=update

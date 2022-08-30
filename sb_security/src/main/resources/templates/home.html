@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head><title>Spring Security Example</title>
+>
+<head><title>Spring Sqlite Example</title>
 <link rel = "stylesheet" href = "style.css">
 </head>
 <body><center>
@@ -11,19 +11,12 @@
 <br /><h5 th:text = "${#dates.formatISO(#dates.createNow())}" />
 <br />
 <br /><a th:href="@{/}">/(root)</a>
-<br /><a th:href="@{/hello}">/hello (Click here to see a greeting)</a>
-<br /><a th:href="@{/login}">/login</a>
+<br /><a th:href="@{/roots}">/roots</a>
+<br /><a th:href="@{/home}">/home</a>
 
-<hr /><a th:href="@{/checks}">/checks</a>
-<br /><a th:href="@{/count}">/count (countries)</a>
-<br /><a th:href="@{/countries}">/countries</a>
-<br /><a th:href="@{/country/5}">/country/5</a>
-<br /><a th:href="@{/country?id=5}">/country?id=5</a>
-
-<hr /><a th:href="@{/uploader}">/uploader (or reloader)</a>
-<br />
-<form th:action="@{/login}" method="post">
-<a th:href="@{/uploaded}">/uploaded (multipart)</a>
+<br /><a th:href="@{/showCustomers}">/showCustomers</a>
+<br /><a th:href="@{/showCustomerPath/5}">/showCustomerPath/5</a>
+<br /><a th:href="@{/showCustomer?id=5}">/showCustomer?id=5</a>
 
 </form>
 
