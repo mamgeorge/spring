@@ -3,3 +3,5 @@ jdbcUrl=C:/workspace/dbase/sqlite/chinook.db
 
 hibernate.dialect=com.basics.securing.configuration.SqliteDialect
 hibernate.hbm2ddl.auto=update
+hibernate.show_sql=true
+

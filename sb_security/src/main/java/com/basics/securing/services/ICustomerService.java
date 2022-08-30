@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ICustomerService {
 
-	Customer findById(int id);
+	Customer findById(Integer id);
 
 	Customer save(Customer customer);
 

@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="https://www.thymeleaf.org"
->
+<html xmlns:th="https://www.thymeleaf.org" >
 <head><title>customers</title>
-<link rel = "stylesheet" href = "style.css">
+<link rel = "stylesheet" href = "/style.css">
 </head>
 <body><center>
 
@@ -23,8 +21,7 @@
 	<th>phone</th>
 	<th>email</th>
 	</tr>
-<!--tr th : each="customer: ${customerList}" -->
-<!--tr th : each="customer: ${#lists.sort(customerList)}" -->
+
 <tr th:each="customer: ${customers}" >
     <td th:text="${customer.customerid}" />
 	<td th:text="${customer.firstname} + ' ' + ${customer.lastname}" />
@@ -37,7 +34,7 @@
 </table>
 </div>
 
-<br /><a th:href="@{/}">/(root)</a>
+<br /><a th:href="@{/}">return</a>
 
 </center></body>
 </html>

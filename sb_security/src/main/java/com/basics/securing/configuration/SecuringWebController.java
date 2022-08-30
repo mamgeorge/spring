@@ -7,9 +7,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@RestController
+// @RestController = @Controller + @ResponseBody
+@Controller
 public class SecuringWebController {
 	//
 	@Autowired private ICustomerService customerService;
@@ -28,14 +35,14 @@ public class SecuringWebController {
 	private static final String RETURN = "<br /><a href = '/home'>return</a>";
 	private static final int MAX_DISPLAY = 20;
 
-	@GetMapping( { "/", "/roots" } )
+	@GetMapping( { "/roots" } )
 	public String roots( ) {
 		//
 		System.out.println("root");
 		return Instant.now() + RETURN;
 	}
 
-	@GetMapping( { "/home", "/index" } )
+	@GetMapping( { "/", "/home", "/index" } )
 	public ModelAndView home( ) {
 		//
 		System.out.println("home");
@@ -58,7 +65,7 @@ public class SecuringWebController {
 				.append(String.format(FRMT, customer.getCustomerid(),
 					customer.getFirstname(), customer.getLastname(), customer.getAddress())));
 		}
-		System.out.println(stringBuilder);
+		System.out.println(stringBuilder.toString().substring(0,40));
 		//
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("customers", customers);
@@ -67,24 +74,25 @@ public class SecuringWebController {
 
 	}
 
-	@GetMapping( "/showCustomerPath/{customerId}" ) // id is normal; id.get() used with Optional
-	public ModelAndView showCustomerPath(@PathVariable String customerId) {
+	@GetMapping( value = "/showCustomerPath/{idVal}"  ) // id is normal; id.get() used with Optional
+	public ModelAndView showCustomerPath(@PathVariable String idVal, Model model) {
 
-		System.out.println("showCustomerPath/" + customerId + "");
-		int intId = Integer.parseInt(customerId);
+		System.out.println("showCustomerPath/{" + idVal + "}");
+		Integer intId = Integer.parseInt(idVal);
 		Customer customer = customerService.findById(intId);
-		//
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("customer", customer);
-		modelAndView.setViewName("customer");
+		modelAndView.setViewName("customer1");
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCustomer" )
-	public Customer showCustomer(@RequestParam( name = "id", defaultValue = "5" ) String customerId) {
+	@ResponseBody
+	@RequestMapping( value = "/showCustomer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	public String showCustomer(@RequestParam( name = "idVal", defaultValue = "5" ) String customerId) {
 
-		System.out.println("showCustomer");
-		int intId = Integer.parseInt(customerId);
+		System.out.println("showCustomer: " + customerId);
+		Integer intId = Integer.parseInt(customerId);
 		Customer customer = customerService.findById(intId);
 		//
 		String txtLines = "";
@@ -94,6 +102,6 @@ public class SecuringWebController {
 		catch (JsonProcessingException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		System.out.println(txtLines);
 
-		return customer;
+		return txtLines;
 	}
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 	@Autowired private CustomerRepository customerRepository;
 
-	@Override public Customer findById(int id) { return customerRepository.findById(id).get(); }
+	@Override public Customer findById(Integer id) { return customerRepository.findById(id).get(); }
 
 	@Override public Customer save(Customer customer) { return customerRepository.save(customer); }
 

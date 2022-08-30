@@ -1,12 +1,15 @@
 package com.basics.securing.configuration;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
@@ -14,16 +17,28 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /*
-	SpringBoot does not automatically configure Sqlite:
-	1) add sqlite datasource configs to app.yml (driverClassName, jdbcUrl)
-	2) create DataSource bean (reading from app.yml)
-	3) create sqlite class extending Dialect to registerColumnType; referenced in app.yml
-		hibernate.dialect=com.basics.securing.configuration.SqliteDialect
-	4) modify Dialect class to disable constraints (extra 5 methods)
-	5) create sqlite class extending IdentityColumnSupportImpl to handle @Id columns; also referenced in Dialect
-	6) assumes Model class has @Column names corrected, and table name with schema prefix if any
-	7) assumes table column datatypes match repository & services
+	https://www.baeldung.com/spring-boot-sqlite
 
+	SpringBoot does not automatically configure Sqlite:
+	#1 application.yml: store sqlite configs
+		#a add sqlite datasource configs driverClassName & jdbcUrl to yml
+		#b add hibernate configs dialect & auto
+	#2 GeneralConfiguration: write Configuration file to create sqlite beans
+		#a create DataSource bean that reads configs from yml
+		#b create LocalContainerEntityManagerFactoryBean bean that reads configs from yml
+	#3 SqliteDialect: create sqlite class extending Dialect
+		#a must define registerColumnTypes for all used table column types
+		#b must add Override to handle Identity Column (1 method)
+		#c must add Overrides to disable constraints (extra 5 methods)
+		#d referenced in app.yml (hibernate.dialect=com.basics...SqliteDialect)
+	#4 SqliteIdentityColumnSupportImpl: create sqlite class extending IdentityColumnSupportImpl
+		# has 3 overrides to handle @Id columns; also referenced in SqliteDialect
+	#6 assumes Model class matches sqlite schema
+		#a has all column names corrected: @Column(name = "CustomerId",updatable = false, nullable = false)
+		#b has table name with schema prefix if any: @Table( name = "main.customers" )
+	#7 assumes table column datatypes match
+		#a repository used Integer oblject, not Long
+		#b services used int primitives not long
 */
 @Configuration
 @EnableJpaRepositories( basePackages = "com.basics.securing.services" )
@@ -33,6 +48,8 @@ public class GeneralConfiguration {
 	@Autowired Environment environment;
 
 	@Bean
+	// @Primary
+	// @ConfigurationProperties( prefix = "spring.datasource" ) // had issues
 	public DataSource dataSource( ) {
 
 		DataSourceBuilder DSB = DataSourceBuilder.create();
@@ -46,8 +63,29 @@ public class GeneralConfiguration {
 		// DSB.password(environment.getProperty("password"));
 
 		// note that DataSource can also be built from DMDS DriverManagerDataSource
+		// return DataSourceBuilder.create().build();
 		DataSource dataSource = DSB.build();
 		return dataSource;
+	}
+
+	// @Bean
+	public DataSource dataSourceAlternate() {
+
+		System.out.println("#### using: DriverManagerDataSource" );
+		final DriverManagerDataSource DMDS = new DriverManagerDataSource();
+
+		String driverClassName = environment.getProperty("driverClassName");
+		String jdbcUrl = "jdbc:sqlite:" + environment.getProperty("jdbcUrl");
+		System.out.println("#### driverCN: " + driverClassName);
+		System.out.println("#### jdbcUrl: " + jdbcUrl);
+
+		DMDS.setDriverClassName(driverClassName);
+		DMDS.setUrl(jdbcUrl);
+
+		// DMDS.setUsername(environment.getProperty("user"));
+		// DMDS.setPassword(environment.getProperty("password"));
+
+		return DMDS;
 	}
 
 	@Bean
@@ -61,23 +99,19 @@ public class GeneralConfiguration {
 		return LCEMFB;
 	}
 
+	@NotNull
 	final Properties getProperties( ) {
 
 		final Properties properties = new Properties();
-		if ( environment.getProperty("hibernate.hbm2ddl.auto") != null ) {
-			properties.setProperty("hibernate.hbm2ddl.auto",
-				environment.getProperty("hibernate.hbm2ddl.auto"));
-		}
-		if ( environment.getProperty("hibernate.dialect") != null ) {
-			properties.setProperty("hibernate.dialect",
-				environment.getProperty("hibernate.dialect"));
-		}
-		if ( environment.getProperty("hibernate.show_sql") != null ) {
-			properties.setProperty("hibernate.show_sql",
-				environment.getProperty("hibernate.show_sql"));
-		}
+		String hibernateHbm2ddlAuto = environment.getProperty("hibernate.hbm2ddl.auto");
+		String hibernateDialect = environment.getProperty("hibernate.dialect");
+		String hibernateShowSql = environment.getProperty("hibernate.show_sql");
+		System.out.println("#### hibernateDialect: " + hibernateDialect);
+
+		if ( hibernateHbm2ddlAuto != null ) { properties.setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto); }
+		if ( hibernateDialect != null ) { properties.setProperty("hibernate.dialect", hibernateDialect); }
+		if ( hibernateShowSql != null ) { properties.setProperty("hibernate.show_sql", hibernateShowSql); }
+
 		return properties;
 	}
-//	@Bean @ConfigurationProperties( prefix = "spring.datasource" ) // @Primary
-//	public DataSource getDataSource( ) { return DataSourceBuilder.create().build(); }
 }

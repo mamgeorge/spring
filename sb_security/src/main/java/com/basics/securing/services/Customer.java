@@ -18,8 +18,8 @@ import javax.persistence.Table;
 public class Customer {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "CustomerId",updatable = false, nullable = false)
-	private int customerid;
+	@Column(name = "CustomerId", updatable = false, nullable = false) // updatable = false
+	private Integer customerid; // Integer
 	@Column(name = "FirstName", nullable = false)
 	private String firstname;
 	@Column(name = "LastName", nullable = false)
