@@ -1,4 +1,4 @@
-package com.basics.securing.services.configuration; // .controller;
+package com.basics.securing.configuration; // .controller;
 
 import com.basics.securing.services.Customer;
 import com.basics.securing.services.ICustomerService;

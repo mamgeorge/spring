@@ -1,4 +1,4 @@
-package com.basics.securing.services.configuration;
+package com.basics.securing.configuration;
 
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.identity.IdentityColumnSupport;
@@ -40,7 +40,7 @@ public class SqliteDialect extends Dialect {
 	// protected MySQLStorageEngine getDefaultMySQLStorageEngine() { return InnoDBStorageEngine.INSTANCE; }
 
 	@Override
-	public IdentityColumnSupport getIdentityColumnSupport( ) { return new SqliteIdentityColumnSupportImpl(); }
+	public IdentityColumnSupport getIdentityColumnSupport( ) { return new com.basics.securing.configuration.SqliteIdentityColumnSupportImpl(); }
 
 	// control constraints
 	@Override public boolean hasAlterTable( ) { return false; }

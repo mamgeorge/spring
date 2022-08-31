@@ -1,4 +1,4 @@
-package com.basics.securing.services.configuration;
+package com.basics.securing.configuration;
 
 import org.hibernate.MappingException;
 import org.hibernate.dialect.identity.IdentityColumnSupportImpl;
