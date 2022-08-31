@@ -3,10 +3,11 @@ package com.basics.securing.configuration;
 import org.hibernate.MappingException;
 import org.hibernate.dialect.identity.IdentityColumnSupportImpl;
 
+// used in SqliteDialect
 public class SqliteIdentityColumnSupportImpl extends IdentityColumnSupportImpl {
 
 	@Override
-	public boolean supportsIdentityColumns() {
+	public boolean supportsIdentityColumns( ) {
 		return true;
 	}
 
@@ -18,6 +19,8 @@ public class SqliteIdentityColumnSupportImpl extends IdentityColumnSupportImpl {
 
 	@Override
 	public String getIdentityColumnString(int type) throws MappingException {
+
+		// this is duplicated in the SELECT statement
 		return "integer";
 	}
 }

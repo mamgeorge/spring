@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th = "http://www.thymeleaf.org">
 <head><title>customer</title>
-<link rel="stylesheet" href="/style.css" />
+	<link rel = "stylesheet" href = "/style.css"/>
 </head>
-<body><center>
+<body>
+<center>
 
-	<br/><h3>customer (one!)</h3>
+	<br/>
+	<h3>customer (one!)</h3>
 	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 	<!--h5 th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm')}" /-->
 	<br/>

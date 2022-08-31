@@ -8,5 +8,5 @@ public interface ICustomerService {
 
 	Customer save(Customer customer);
 
-	List<Customer> findAll();
+	List<Customer> findAll( );
 }

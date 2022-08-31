@@ -1,40 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" >
+<html xmlns:th = "https://www.thymeleaf.org">
 <head><title>customers</title>
-<link rel = "stylesheet" href = "/style.css">
+	<link rel = "stylesheet" href = "/style.css">
 </head>
-<body><center>
+<body>
+<center>
 
-<br /><h3>customers!</h3>
-<br /><h5 th:text = "${#dates.formatISO(#dates.createNow())}" />
-<!--h5 th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm')}" /-->
-<br />
-<br /><h5>Thymeleaf</h5>
-<div class = "divbox" style = "width: 70%;">
-<table border = "1">
-<tr>
-	<th>customerid</th>
-	<th>name</th>
-	<th>company</th>
-	<th>address</th>
-	<th>city</th>
-	<th>phone</th>
-	<th>email</th>
-	</tr>
+	<br/>
+	<h3>customers!</h3>
+	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+	<!--h5 th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm')}" /-->
+	<br/>
+	<br/><h5>Thymeleaf</h5>
+	<div class = "divbox" style = "width: 70%;">
+		<table border = "1">
+			<tr>
+				<th>customerid</th>
+				<th>name</th>
+				<th>company</th>
+				<th>address</th>
+				<th>city</th>
+				<th>phone</th>
+				<th>email</th>
+			</tr>
 
-<tr th:each="customer: ${customers}" >
-    <td th:text="${customer.customerid}" />
-	<td th:text="${customer.firstname} + ' ' + ${customer.lastname}" />
-    <td th:text="${customer.company}" />
-    <td th:text="${customer.address}" />
-    <td th:text="${customer.city}" />
-    <td th:text="${customer.phone}" />
-    <td th:text="${customer.email}" />
-	</tr>
-</table>
-</div>
+			<tr th:each = "customer: ${customers}">
+				<td th:text = "${customer.customerid}"/>
+				<td th:text = "${customer.firstname} + ' ' + ${customer.lastname}"/>
+				<td th:text = "${customer.company}"/>
+				<td th:text = "${customer.address}"/>
+				<td th:text = "${customer.city}"/>
+				<td th:text = "${customer.phone}"/>
+				<td th:text = "${customer.email}"/>
+			</tr>
+		</table>
+	</div>
 
-<br /><a th:href="@{/}">return</a>
+	<br/><a th:href = "@{/}">return</a>
 
-</center></body>
+</center>
+</body>
 </html>

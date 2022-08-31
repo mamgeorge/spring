@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
@@ -65,7 +64,7 @@ public class SecuringWebController {
 				.append(String.format(FRMT, customer.getCustomerid(),
 					customer.getFirstname(), customer.getLastname(), customer.getAddress())));
 		}
-		System.out.println(stringBuilder.toString().substring(0,40));
+		System.out.println(stringBuilder.substring(0, 40));
 		//
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("customers", customers);
@@ -74,7 +73,8 @@ public class SecuringWebController {
 
 	}
 
-	@GetMapping( value = "/showCustomerPath/{idVal}"  ) // id is normal; id.get() used with Optional
+	// This method called the template incorrectly UNTIL THE TEMPLATE CSS WAS PREPENDED WITH A SLASH!
+	@GetMapping( value = "/showCustomerPath/{idVal}" ) // id is normal; id.get() used with Optional
 	public ModelAndView showCustomerPath(@PathVariable String idVal, Model model) {
 
 		System.out.println("showCustomerPath/{" + idVal + "}");
@@ -88,7 +88,8 @@ public class SecuringWebController {
 	}
 
 	@ResponseBody
-	@RequestMapping( value = "/showCustomer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE )
+	@RequestMapping( value = "/showCustomer", method = RequestMethod.GET,
+		produces = MediaType.APPLICATION_JSON_VALUE )
 	public String showCustomer(@RequestParam( name = "idVal", defaultValue = "5" ) String customerId) {
 
 		System.out.println("showCustomer: " + customerId);

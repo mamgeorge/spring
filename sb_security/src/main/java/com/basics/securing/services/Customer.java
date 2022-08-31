@@ -17,31 +17,31 @@ import javax.persistence.Table;
 @Entity @Table( name = "main.customers" )
 public class Customer {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "CustomerId", updatable = false, nullable = false) // updatable = false
+	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
+	@Column( name = "CustomerId", updatable = false, nullable = false ) // updatable = false
 	private Integer customerid; // Integer
-	@Column(name = "FirstName", nullable = false)
+	@Column( name = "FirstName", nullable = false )
 	private String firstname;
-	@Column(name = "LastName", nullable = false)
+	@Column( name = "LastName", nullable = false )
 	private String lastname;
-	@Column(name = "Company")
+	@Column( name = "Company" )
 	private String company;
-	@Column(name = "Address")
+	@Column( name = "Address" )
 	private String address;
-	@Column(name = "City")
+	@Column( name = "City" )
 	private String city;
-	@Column(name = "State")
+	@Column( name = "State" )
 	private String state;
-	@Column(name = "Country")
+	@Column( name = "Country" )
 	private String country;
-	@Column(name = "PostalCode")
+	@Column( name = "PostalCode" )
 	private String postalcode;
-	@Column(name = "Phone")
+	@Column( name = "Phone" )
 	private String phone;
-	@Column(name = "Fax")
+	@Column( name = "Fax" )
 	private String fax;
-	@Column(name = "Email", nullable = false)
+	@Column( name = "Email", nullable = false )
 	private String email;
-	@Column(name = "SupportRepId")
+	@Column( name = "SupportRepId" )
 	private int supportrepid;
 }

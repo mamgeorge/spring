@@ -16,6 +16,7 @@ for gradle
 	> gradle bootrun
 
 SpringBoot does not automatically configure Sqlite:
+
 1. application.yml: store sqlite configs
 	- add sqlite datasource configs driverClassName & jdbcUrl to yml
 	- add hibernate configs dialect & auto
