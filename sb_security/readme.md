@@ -18,8 +18,9 @@ for gradle
 SpringBoot does not automatically configure Sqlite:
 
 1. application.yml: store sqlite configs
-	- add sqlite datasource configs driverClassName & jdbcUrl to yml
-	- add hibernate configs dialect & auto
+    - add sqlite datasource configs driverClassName & jdbcUrl to yml
+    - add hibernate configs dialect & auto
+    - hibernate.hbm2ddl.auto=none
 2. GeneralConfiguration: write Configuration file to create sqlite beans
 	- create DataSource bean that reads configs from yml
 	- create LocalContainerEntityManagerFactoryBean bean that reads configs from yml
