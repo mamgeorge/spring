@@ -58,6 +58,8 @@ public class GeneralConfiguration {
 		return LCEMFB;
 	}
 
+	// hibernateDialect must call SqliteDialect
+	// hibernateHbm2ddlAuto nust call none (since the DB exists)
 	@NotNull final Properties getProperties( ) {
 
 		final Properties properties = new Properties();
@@ -74,16 +76,4 @@ public class GeneralConfiguration {
 
 		return properties;
 	}
-
-//	@Bean public PlatformTransactionManager transactionManager( ) {
-//		JpaTransactionManager JTM = new JpaTransactionManager();
-//		EntityManagerFactory EMF = entityManagerFactory().getObject();
-//		JTM.setEntityManagerFactory(EMF);
-//		return JTM;
-//	}
-//
-//	@Bean public PersistenceExceptionTranslationPostProcessor exceptionTranslation( ) {
-//		PersistenceExceptionTranslationPostProcessor PETPP = new PersistenceExceptionTranslationPostProcessor();
-//		return PETPP;
-//	}
 }
