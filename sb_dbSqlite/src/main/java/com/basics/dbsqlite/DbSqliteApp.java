@@ -1,14 +1,14 @@
-package com.basics.securing;
+package com.basics.dbsqlite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SecuringWebApp {
+public class DbSqliteApp {
 
 	public static void main(String[] strings) throws Throwable {
 		//
 		System.out.println("#### SecuringWebApp ####");
-		SpringApplication.run(SecuringWebApp.class, strings);
+		SpringApplication.run(DbSqliteApp.class, strings);
 	}
 }

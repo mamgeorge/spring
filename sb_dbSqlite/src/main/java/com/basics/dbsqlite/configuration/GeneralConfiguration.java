@@ -1,4 +1,4 @@
-package com.basics.securing.configuration;
+package com.basics.dbsqlite.configuration;
 
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

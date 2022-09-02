@@ -1,7 +1,7 @@
-package com.basics.securing.configuration; // .controller;
+package com.basics.dbsqlite.configuration; // .controller;
 
-import com.basics.securing.services.Customer;
-import com.basics.securing.services.ICustomerService;
+import com.basics.dbsqlite.services.Customer;
+import com.basics.dbsqlite.services.ICustomerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

@@ -1,4 +1,4 @@
-package com.basics.securing.services;
+package com.basics.dbsqlite.services;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

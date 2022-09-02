@@ -1,4 +1,4 @@
-package com.basics.securing.configuration;
+package com.basics.dbsqlite.configuration;
 
 import org.hibernate.MappingException;
 import org.hibernate.dialect.identity.IdentityColumnSupportImpl;

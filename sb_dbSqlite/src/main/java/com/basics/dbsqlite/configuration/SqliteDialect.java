@@ -1,4 +1,4 @@
-package com.basics.securing.configuration;
+package com.basics.dbsqlite.configuration;
 
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.identity.IdentityColumnSupport;
@@ -37,7 +37,7 @@ public class SqliteDialect extends Dialect {
 	}
 
 	@Override
-	public IdentityColumnSupport getIdentityColumnSupport( ) { return new com.basics.securing.configuration.SqliteIdentityColumnSupportImpl(); }
+	public IdentityColumnSupport getIdentityColumnSupport( ) { return new SqliteIdentityColumnSupportImpl(); }
 
 	// control constraints
 	@Override public boolean hasAlterTable( ) { return false; }
