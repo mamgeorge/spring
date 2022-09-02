@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head><title>customer</title>
+	<link rel = "stylesheet" href = "/style.css"/>
+</head>
+<body>
+<center>
+
+	<br/>
+	<h3>customer (one!)</h3>
+	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+	<!--h5 th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm')}" /-->
+	<br/>
+	<br/><h5>Thymeleaf</h5>
+	<div style = "width: 70%;">
+		<table border = "1">
+			<tr>
+				<th>customerid</th>
+				<th>name</th>
+				<th>company</th>
+				<th>address</th>
+				<th>city</th>
+				<th>phone</th>
+				<th>email</th>
+			</tr>
+
+			<tr>
+				<td th:text = "${customer.customerid}"></td>
+				<td th:text = "${customer.firstname} + ' ' + ${customer.lastname}"></td>
+				<td th:text = "${customer.company}"></td>
+				<td th:text = "${customer.address}"></td>
+				<td th:text = "${customer.city}"></td>
+				<td th:text = "${customer.phone}"></td>
+				<td th:text = "${customer.email}"></td>
+			</tr>
+		</table>
+	</div>
+
+	<br/><a th:href = "@{/}">return</a>
+
+</center>
+</body>
+</html>

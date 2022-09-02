@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+	xmlns:th = "https://www.thymeleaf.org"
+>
+<head><title>Spring Sqlite Example</title>
+	<link rel = "stylesheet" href = "style.css">
+</head>
+<body>
+<center>
+
+	<br/>
+	<h3>Welcome!</h3>
+	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+	<br/>
+	<br/><a th:href = "@{/roots}">/roots</a>
+	<br/><a th:href = "@{/}">/(root)</a>
+	<br/><a th:href = "@{/home}">/home</a>
+
+	<br/><a th:href = "@{/showCustomers}">/showCustomers</a>
+	<br/><a th:href = "@{/showCustomerPath/5}">/showCustomerPath/5</a>
+	<br/><a th:href = "@{/showCustomer?idVal=5}">/showCustomer?idVal=5</a>
+
+	</form>
+
+</center>
+</body>
+</html>
