@@ -25,7 +25,7 @@ import java.util.List;
 
 // @RestController = @Controller + @ResponseBody
 @Controller
-public class SecuringWebController {
+public class DbSqliteController {
 	//
 	@Autowired private ICustomerService customerService;
 	@Autowired private ApplicationContext applicationContext; //added for close

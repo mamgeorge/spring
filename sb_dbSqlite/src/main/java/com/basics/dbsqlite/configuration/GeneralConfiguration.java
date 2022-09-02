@@ -22,7 +22,7 @@ import java.util.Properties;
 */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories( basePackages = "com.basics.securing.services" )
+@EnableJpaRepositories( basePackages = "com.basics.dbsqlite.services" )
 @PropertySource( "classpath:application.yml" )
 public class GeneralConfiguration {
 
@@ -49,7 +49,7 @@ public class GeneralConfiguration {
 
 		LocalContainerEntityManagerFactoryBean LCEMFB = new LocalContainerEntityManagerFactoryBean();
 		JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-		String packagesToScan = "com.basics.securing.services";
+		String packagesToScan = "com.basics.dbsqlite.services";
 
 		LCEMFB.setDataSource(dataSource());
 		LCEMFB.setPackagesToScan(packagesToScan);

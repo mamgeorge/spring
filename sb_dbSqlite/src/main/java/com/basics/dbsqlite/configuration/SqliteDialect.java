@@ -5,7 +5,7 @@ import org.hibernate.dialect.identity.IdentityColumnSupport;
 
 import java.sql.Types;
 
-// because hibernate.dialect is not automatic: hibernate.dialect=com.basics.securing.configuration.SqliteDialect
+// because hibernate.dialect is not automatic: hibernate.dialect=com.basics.dbsqlite.configuration.SqliteDialect
 public class SqliteDialect extends Dialect {
 
 	public SqliteDialect( ) {
