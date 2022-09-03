@@ -63,23 +63,11 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--dependency>
-			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
-			<version>3.1.0.M1</version>
-		</dependency-->
-
-		<!-- swagger -->
+		<!-- swagger --><!-- "https://www.javainuse.com/spring/boot_swagger3" -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox.version}</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.11</version>
 		</dependency>
 
 		<!-- add lombok, testing! -->

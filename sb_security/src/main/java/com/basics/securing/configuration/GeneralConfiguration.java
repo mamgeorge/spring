@@ -12,7 +12,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 // https://spring.io/guides/gs/securing-web/
-// https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
 @Configuration
 @EnableWebSecurity
 public class GeneralConfiguration {
@@ -23,13 +22,14 @@ public class GeneralConfiguration {
 		httpSecurity
 			.authorizeHttpRequests((requests) -> requests
 				.antMatchers("/", "/home").permitAll()
-				.anyRequest().authenticated()
+				.anyRequest().authenticated() // permitAll
 			)
 			.formLogin((form) -> form
-				.loginPage("/login")
+				.loginPage("/login") // .successHandler(successHandler()) // .defaultSuccessUrl("/")
 				.permitAll()
 			)
-			.logout((logout) -> logout.permitAll());
+			.logout((logout) -> logout.permitAll())
+		;
 
 		return httpSecurity.build();
 	}
@@ -44,20 +44,4 @@ public class GeneralConfiguration {
 
 		return new InMemoryUserDetailsManager(userDetails);
 	}
-
-//	@Bean public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-//		httpSecurity
-//			.authorizeHttpRequests((authz) -> authz.anyRequest().permitAll()) // authenticated()
-//			.httpBasic(withDefaults());
-//
-//		return httpSecurity.build();
-//	}
-
-	private final String[] AUTH_WHITELIST = {
-
-		CONTEXT_PATH + "/swagger-resources/**",
-		CONTEXT_PATH + "/swagger-ui.html",
-		CONTEXT_PATH + "/v2/api-docs",
-		CONTEXT_PATH + "/webjars/**"
-	};
 }
