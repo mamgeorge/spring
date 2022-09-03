@@ -1,79 +1,63 @@
 package com.basics.securing.configuration;
 
-import com.sun.istack.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
-import javax.sql.DataSource;
-import java.util.Properties;
-
-/*
-	https://www.baeldung.com/spring-boot-sqlite
-	https://www.baeldung.com/the-persistence-layer-with-spring-and-jpa
-*/
+// https://spring.io/guides/gs/securing-web/
+// https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
 @Configuration
-@EnableTransactionManagement
-@EnableJpaRepositories( basePackages = "com.basics.securing.services" )
-@PropertySource( "classpath:application.yml" )
+@EnableWebSecurity
 public class GeneralConfiguration {
 
-	@Autowired Environment environment;
+	@Value( "server.servlet.context-path" ) private String CONTEXT_PATH;
 
-	// @Primary, @ConfigurationProperties( prefix = "spring.datasource" ) // had issues
-	@Bean public DataSource dataSource( ) {
+	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity
+			.authorizeHttpRequests((requests) -> requests
+				.antMatchers("/", "/home").permitAll()
+				.anyRequest().authenticated()
+			)
+			.formLogin((form) -> form
+				.loginPage("/login")
+				.permitAll()
+			)
+			.logout((logout) -> logout.permitAll());
 
-		DataSourceBuilder DSB = DataSourceBuilder.create();
-		String driverClassName = environment.getProperty("driverClassName");
-		String jdbcUrl = "jdbc:sqlite:" + environment.getProperty("jdbcUrl");
-		System.out.println("#### driverCN: " + driverClassName);
-		System.out.println("#### jdbcUrl: " + jdbcUrl);
-		DSB.driverClassName(driverClassName);
-		DSB.url(jdbcUrl);
-
-		// note that DataSource can also be built from DMDS DriverManagerDataSource
-		// return DataSourceBuilder.create().build();
-		DataSource dataSource = DSB.build();
-		return dataSource;
+		return httpSecurity.build();
 	}
 
-	@Bean public LocalContainerEntityManagerFactoryBean entityManagerFactory( ) {
+	@Bean public UserDetailsService userDetailsService( ) {
+		UserDetails userDetails =
+			User.withDefaultPasswordEncoder()
+				.username("user")
+				.password("password")
+				.roles("USER")
+				.build();
 
-		LocalContainerEntityManagerFactoryBean LCEMFB = new LocalContainerEntityManagerFactoryBean();
-		JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-		String packagesToScan = "com.basics.securing.services";
-
-		LCEMFB.setDataSource(dataSource());
-		LCEMFB.setPackagesToScan(packagesToScan);
-		LCEMFB.setJpaVendorAdapter(jpaVendorAdapter);
-		LCEMFB.setJpaProperties(getProperties());
-		return LCEMFB;
+		return new InMemoryUserDetailsManager(userDetails);
 	}
 
-	// hibernateDialect must call SqliteDialect
-	// hibernateHbm2ddlAuto nust call none (since the DB exists)
-	@NotNull final Properties getProperties( ) {
+//	@Bean public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+//		httpSecurity
+//			.authorizeHttpRequests((authz) -> authz.anyRequest().permitAll()) // authenticated()
+//			.httpBasic(withDefaults());
+//
+//		return httpSecurity.build();
+//	}
 
-		final Properties properties = new Properties();
-		String hibernateHbm2ddlAuto = environment.getProperty("hibernate.hbm2ddl.auto");
-		String hibernateDialect = environment.getProperty("hibernate.dialect");
-		String hibernateShowSql = environment.getProperty("hibernate.show_sql");
-		System.out.println("#### hibernateDialect: " + hibernateDialect);
+	private final String[] AUTH_WHITELIST = {
 
-		if ( hibernateHbm2ddlAuto != null ) {
-			properties.setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto);
-		}
-		if ( hibernateDialect != null ) { properties.setProperty("hibernate.dialect", hibernateDialect); }
-		if ( hibernateShowSql != null ) { properties.setProperty("hibernate.show_sql", hibernateShowSql); }
-
-		return properties;
-	}
+		CONTEXT_PATH + "/swagger-resources/**",
+		CONTEXT_PATH + "/swagger-ui.html",
+		CONTEXT_PATH + "/v2/api-docs",
+		CONTEXT_PATH + "/webjars/**"
+	};
 }

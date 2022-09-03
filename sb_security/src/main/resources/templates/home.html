@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml"
 	xmlns:th = "https://www.thymeleaf.org"
+	xmlns:sec = "https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 >
-<head><title>Spring Sqlite Example</title>
-	<link rel = "stylesheet" href = "style.css">
+<head><title>Home</title>
+<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
-<body>
-<center>
 
-	<br/>
-	<h3>Welcome!</h3>
-	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
-	<br/>
-	<br/><a th:href = "@{/roots}">/roots</a>
-	<br/><a th:href = "@{/}">/(root)</a>
-	<br/><a th:href = "@{/home}">/home</a>
+<body><h3>Welcome Home!</h3>
+<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 
-	<br/><a th:href = "@{/showCustomers}">/showCustomers</a>
-	<br/><a th:href = "@{/showCustomerPath/5}">/showCustomerPath/5</a>
-	<br/><a th:href = "@{/showCustomer?idVal=5}">/showCustomer?idVal=5</a>
+<br/><br/>Click <a th:href = "@{/hello}">here</a> to see a greeting!
 
-	</form>
+<br/><br/>
 
-</center>
-</body>
-</html>
+	<a th:href = "@{/roots}">/roots</a> |
+	<a th:href = "@{/}">/root</a> |
+	<a th:href = "@{/home}">/home</a> |
+	<a th:href = "@{/hello}">/hello</a> |
+	<a th:href = "@{/login}">/login</a> |
+
+<br/><br/>
+	<a th:href = "@{/actuator}">/actuator</a> |
+	<a th:href = "@{/actuator/health}">/actuator/health</a> |
+	<a th:href = "@{/actuator/info}">/actuator/info</a> ...
+
+<br/><br/>
+	<a th:href = "@{/swagger-ui}">/swagger-ui</a> |
+	<a th:href = "@{/swagger-ui.html}">/swagger-ui.html</a> |
+
+<br/><br/><hr />
+<br/><a th:href = "@{/}">return</a>
+
+</body></html>

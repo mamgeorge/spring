@@ -1,7 +1,9 @@
-driverClassName=org.sqlite.JDBC
-jdbcUrl=C:/workspace/dbase/sqlite/chinook.db
 
-hibernate.dialect=com.basics.securing.configuration.SqliteDialect
-hibernate.hbm2ddl.auto=none
-hibernate.show_sql=true
+server:
+  servlet:
+    context-path: /securing
 
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path_matcher

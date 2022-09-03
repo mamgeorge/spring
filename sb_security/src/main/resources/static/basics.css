@@ -1,0 +1,16 @@
+
+body { font-family: verdana; margin: auto; text-align: center; }
+
+h1, h2, h3, h4, h5, h6 { color: #000080; display: inline; }
+form { display: inline; }
+
+a, a.hover, a.visited { color: blue; text-decoration: none ; font-size: 11pt; }
+
+table { border-spacing: 1px; border-collapse: collapse; }
+
+tr:nth-child(odd) { background: #e0e0e0; }
+th, td { border: 1px solid black; padding: 4px; font-size: 11pt; }
+
+hr { color: #cccccc; width: 80%; }
+
+.center { margin-left: auto; margin-right: auto;  }
