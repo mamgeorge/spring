@@ -23,9 +23,12 @@ public class SecuringWebController {
 		return txtLines;
 	}
 
-	@GetMapping( { "/", "/home" } ) public String home( ) { return "home"; }
+	@GetMapping( { "/", "/home"} ) public String home( ) { return "home"; }
 
 	@GetMapping( "/hello" ) public String hello( ) { return "hello"; }
 
 	@GetMapping( "/login" ) public String login( ) { return "login"; }
+
+	@GetMapping( "/times" ) @ResponseBody
+	public String times( ) { return Instant.now().toString() + RETURN; }
 }
