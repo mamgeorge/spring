@@ -1,9 +1,3 @@
-
 server:
   servlet:
-    context-path: /securing
-
-spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant-path_matcher
+    context-path: /

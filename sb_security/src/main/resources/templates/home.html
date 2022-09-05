@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml"
 	xmlns:th = "https://www.thymeleaf.org"
-	xmlns:sec = "https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 >
 <head><title>Home</title>
-<link rel = "stylesheet" th:href = "@{/css/basics.css}">
-<style>
+	<link rel = "stylesheet" th:href = "@{/css/basics.css}">
+	<style>
 body { font-family: verdana; margin: auto; text-align: center; }
 .center { margin-left: auto; margin-right: auto; }
-</style>
+
+	</style>
 </head>
 
 <body><h3>Welcome Home!</h3>
@@ -18,23 +18,25 @@ body { font-family: verdana; margin: auto; text-align: center; }
 
 <br/><br/>
 
-	<a th:href = "@{/roots}">/roots</a> |
-	<a th:href = "@{/}"		>/root</a> |
-	<a th:href = "@{/home}"	>/home</a> |
-	<a th:href = "@{/login}">/login</a> |
-	<a th:href = "@{/hello}">/hello</a> |
-	<a th:href = "@{/times}">/times</a>
+<a th:href = "@{/roots}">/roots</a> |
+<a th:href = "@{/}">/root</a> |
+<a th:href = "@{/home}">/home</a> |
+<a th:href = "@{/login}">/login</a> |
+<a th:href = "@{/hello}">/hello</a> |
+<a th:href = "@{/times}">/times</a>
 
 <br/><br/>
-	<a th:href = "@{/actuator}">/actuator</a> |
-	<a th:href = "@{/actuator/health}">/actuator/health</a> |
-	<a th:href = "@{/actuator/info}">/actuator/info</a> ...
+<a th:href = "@{/actuator}">/actuator</a> |
+<a th:href = "@{/actuator/health}">/actuator/health</a> |
+<a th:href = "@{/actuator/info}">/actuator/info</a> ...
 
 <br/><br/>
-	<a th:href = "@{/swagger-ui}">/swagger-ui</a> |
-	<a th:href = "@{/swagger-ui.html}">/swagger-ui.html</a>
+<a th:href = "@{/swagger-ui}">/swagger-ui</a> |
+<a th:href = "@{/swagger-ui.html}">/swagger-ui.html</a>
 
-<br/><br/><hr />
+<br/><br/>
+<hr/>
 <br/><a th:href = "@{/}">return</a>
 
-</body></html>
+</body>
+</html>

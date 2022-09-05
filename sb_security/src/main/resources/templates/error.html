@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml"
 	xmlns:th = "https://www.thymeleaf.org"
-	xmlns:sec = "https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 >
 <head><title>error</title>
 	<link rel = "stylesheet" th:href = "@{/css/basics.css}">
@@ -10,7 +9,9 @@
 <body><h3>error!</h3>
 <br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 
-<br/><br/><hr />
+<br/><br/>
+<hr/>
 <br/><a th:href = "@{/}">return</a>
 
-</body></html>
+</body>
+</html>
