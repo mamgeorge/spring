@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class GeneralConfiguration {
 
 	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
 		httpSecurity
 			.authorizeHttpRequests((requests) -> requests
 				.antMatchers("/", "/home").permitAll()
@@ -32,6 +33,7 @@ public class GeneralConfiguration {
 	}
 
 	@Bean public UserDetailsService userDetailsService( ) {
+
 		UserDetails userDetails =
 			User.withDefaultPasswordEncoder()
 				.username("user")
