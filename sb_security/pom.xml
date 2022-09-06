@@ -22,7 +22,6 @@
 		<java.version>11</java.version>
 		<spring.version>2.7.3</spring.version>
 		<lombok.version>1.18.22</lombok.version>
-		<springfox.version>3.0.0</springfox.version>
 	</properties>
 
 	<dependencies>
