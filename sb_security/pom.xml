@@ -6,9 +6,9 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.basics</groupId>
-	<artifactId>securing-web</artifactId>
+	<artifactId>securingWeb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>securing-web</name>
+	<name>securingWeb</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -51,12 +51,6 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId> <!--version>5.7.3</version-->
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
