@@ -16,7 +16,6 @@ import java.time.Instant;
 // https://stackabuse.com/how-to-access-property-file-values-in-spring-boot/
 // @RestController = @Controller + @ResponseBody
 @Controller
-@Component
 public class SecuringWebController {
 
 	@Value( "${server.servlet.context-path}" ) private String CONTEXT_PATH;
