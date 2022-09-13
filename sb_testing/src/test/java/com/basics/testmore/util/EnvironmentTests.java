@@ -1,6 +1,5 @@
 package com.basics.testmore.util;
 
-import com.basics.testmore.configuration.SpringFoxConfig;
 import com.basics.testmore.configuration.BeanConfiguration;
 import com.basics.testmore.model.City;
 import org.junit.jupiter.api.Test;

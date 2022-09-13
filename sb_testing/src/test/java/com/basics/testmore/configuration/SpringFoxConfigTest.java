@@ -6,7 +6,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class AnySpringFoxConfigTest {
+public class SpringFoxConfigTest {
 
 	@Test void customApi( ) {
 

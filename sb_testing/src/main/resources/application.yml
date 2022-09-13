@@ -2,14 +2,21 @@
 
 app.name: TestmoreApplication
 
+#spring.main.web-application-type: none (see impact from old swagger)
 spring.main.banner-mode: CONSOLE
 spring.output.ansi.enabled: ALWAYS
+spring.h2.console.enabled: true
+spring.freemarker.suffix: .ftl
+spring.mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER
+
+# for db
+spring.datasource.url: jdbc:h2:mem:history;DB_CLOSE_ON_EXIT=FALSE
+spring.datasource.username: user
+spring.datasource.password: secret
 
 server.servlet.context-path: /
 server.servlet.port: 8080
 server.error.whitelabel.enabled: false
-
-datasource.platform: h2
 
 # permits all actuator endpoints to run
 management.endpoints.web.exposure.include: "*"

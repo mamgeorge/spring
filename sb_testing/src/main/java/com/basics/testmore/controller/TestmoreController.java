@@ -49,17 +49,21 @@ public class TestmoreController {
 	private static final int MAX_DISPLAY = 20;
 	private static final int SAMPLE_ITEM = 5;
 
-	@GetMapping({"/", "/index"})
+	@GetMapping({"/", "/home"})
 	public ModelAndView root() {
 		//
-		System.out.println("index");
-		return new ModelAndView("index", new HashMap<>());
+		System.out.println("home");
+		return new ModelAndView("home", new HashMap<>());
 	}
 
-	@GetMapping({"/logins"})
-	public ModelAndView authenticate() {
-		//
+	@GetMapping("/login") public ModelAndView login() {
 		System.out.println("login authenticate");
+		return new ModelAndView("login", new HashMap<>());
+	}
+
+	@GetMapping("/logins") public ModelAndView logins() {
+		//
+		System.out.println("logins authenticate");
 		return new ModelAndView("login", new HashMap<>());
 	}
 

@@ -2,14 +2,14 @@
 
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.4.2'
+	id 'org.springframework.boot' version '2.7.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id "io.freefair.lombok" version "5.3.0"
 }
 
 group = 'com.basics.testmore'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 apply plugin: 'java'
 
@@ -28,41 +28,31 @@ repositories {
 
 dependencies {
 
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-freemarker:2.4.2' // 2.3.4.RELEASE
-	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
-	implementation 'org.json:org.json:chargebee-1.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web'			// uses Spring MVC, REST, Tomcat
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'	// ftl 2.3.4.RELEASE
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'	// json
+	implementation 'org.json:org.json:chargebee-1.0'							// json XML
 
 	// added for model
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'com.h2database:h2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'		// db persistence.Entity
+	implementation 'com.h2database:h2'											// db org.h2.Driver
 
 	// added 4 security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.security:spring-security-test'
-	implementation 'org.springframework.security:spring-security-crypto'
+	implementation 'org.springframework.boot:spring-boot-starter-security'		// security
 
 	// special
-	implementation 'org.apache.commons:commons-csv:1.8' //CSV
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'  // swagger
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'    // swagger
-	implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.3'    // actuator
+	implementation 'org.apache.commons:commons-csv:1.8'							// CSV
+	implementation 'org.springdoc:springdoc-openapi-ui'							// swagger openapi :1.6.11
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'		// actuator
+	implementation 'org.projectlombok:lombok'									// lombok
 
 	// testing
-	// testImplementation 'org.mockito:mockito-core:3.7.7'
-	// powermock of final classes only possible when adding:
-	// "src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker" with line: mock-maker-inline
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
-	testImplementation 'org.mockito:mockito-junit-jupiter:3.3.3'
-	testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
-	testImplementation 'org.meanbean:meanbean:2.0.3'
-
-	// added 4 lombok
-	compileOnly				'org.projectlombok:lombok:1.18.16'
-	annotationProcessor		'org.projectlombok:lombok:1.18.16'	
-	testCompileOnly			'org.projectlombok:lombok:1.18.16'
-	testAnnotationProcessor	'org.projectlombok:lombok:1.18.16'	
+	// powermock of final classes requires adding: "src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker" with line: mock-maker-inline
+	testImplementation 'org.springframework.security:spring-security-test'		// security
+	testImplementation 'org.junit.jupiter:junit-jupiter'						// 5.5.2
+	testImplementation 'org.mockito:mockito-junit-jupiter'						// 3.3.3
+	testImplementation 'org.powermock:powermock-api-mockito2'					// 2.0.9
+	testImplementation 'org.meanbean:meanbean'									// 2.0.3
 }
 
 test {
