@@ -25,6 +25,8 @@ public class ApacheAvro {
 
 		String txtLines = "";
 		String avroSchemaFile = TESTPATH + "user.avsc";
+		String avroObjectFile = TESTPATH + "user.avro";
+
 		try {
 			Schema schema = new Schema.Parser().parse(new File(avroSchemaFile));
 
@@ -39,7 +41,7 @@ public class ApacheAvro {
 			user2.put("favorite_color", "red");
 
 			// Serialize
-			File file = new File("users.avro");
+			File file = new File(avroObjectFile);
 			DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<>(schema);
 			DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<>(datumWriter);
 			dataFileWriter.create(schema, file);
