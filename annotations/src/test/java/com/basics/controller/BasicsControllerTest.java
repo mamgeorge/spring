@@ -1,34 +1,45 @@
 package com.basics.controller;
 
 import com.basics.model.City;
+import com.basics.util.UtilityMain;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 import static com.basics.util.UtilityMain.LOGGER;
 import static com.basics.util.UtilityMain.PAR;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 //@WebMvcTest(BasicsController.class)
 @SpringBootTest
-@TestInstance(Lifecycle.PER_CLASS)
+@TestInstance( Lifecycle.PER_CLASS )
 public class BasicsControllerTest {
 
 	@Autowired private BasicsController basicsController;
 
-	@BeforeAll public void setUp() throws Exception { }
+	@BeforeAll public void setUp( ) throws Exception { }
 
-	@Test public void root() {
+	@Test public void root( ) {
 		//
 		String txtLines = "";
 		Model model = null;
@@ -44,13 +55,28 @@ public class BasicsControllerTest {
 		assertTrue(modelAndView.getViewName().contains("index"));
 	}
 
-	@Test public void showCities() {
+	@Test public void showEntity( ) {
+		//
+		String FRMT = "\t%-15s %s\n";
+		ResponseEntity responseEntity = this.basicsController.showEntity();
+		//
+		String txtLines = UtilityMain.exposeObject(responseEntity);
+		txtLines += String.format(FRMT, "toString", responseEntity);
+		txtLines += String.format(FRMT, "getHeaders", responseEntity.getHeaders());
+		txtLines += String.format(FRMT, "getBody", responseEntity.getBody());
+		txtLines += String.format(FRMT, "getStatusCode", responseEntity.getStatusCode());
+
+		LOGGER.info(PAR + "showEntity! " + txtLines);
+		assertNotNull(responseEntity);
+	}
+
+	@Test public void showCities( ) {
 		//
 		String txtLines = "";
 		ModelAndView modelAndView = this.basicsController.showCities();
 		ModelMap modelMap = modelAndView.getModelMap();
 		//
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings( "unchecked" )
 		ArrayList<City> arrayList = (ArrayList<City>) modelMap.get("cities");
 		City[] cities = new City[arrayList.size()];
 		cities = arrayList.toArray(cities);
@@ -71,19 +97,19 @@ public class BasicsControllerTest {
 		assertTrue(modelAndView.getViewName().contains("showCities"));
 	}
 
-	@Test public void showTimer() {
+	@Test public void showTimer( ) {
 		//
 		String txtLines = this.basicsController.showTimer();
 		LOGGER.info(PAR + "showTimer! " + txtLines);
 		assertTrue(txtLines.length() > 1);
 	}
 
-	@Test public void showUtils() {
+	@Test public void showUtils( ) {
 		//
 		String txtLines = this.basicsController.showUtils().substring(0, 10);
 		LOGGER.info(PAR + "showUtils! " + txtLines);
 		assertTrue(txtLines.length() > 1);
 	}
 
-	@Test public void exits() throws Exception { LOGGER.info(PAR + "exits! "); }
+	@Test public void exits( ) throws Exception { LOGGER.info(PAR + "exits! "); }
 }

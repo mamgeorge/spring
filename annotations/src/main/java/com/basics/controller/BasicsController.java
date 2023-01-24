@@ -9,7 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,23 +41,37 @@ public class BasicsController {
 	@Autowired private ICityService cityService;
 	@Autowired private ApplicationContext applicationContext;
 
-	@Value("${server.servlet.context-path}") private String CONTEXT_PATH;
-	public String getContextPath() { return CONTEXT_PATH; }
+	@Value( "${server.servlet.context-path}" ) private String CONTEXT_PATH;
+
+	public String getContextPath( ) { return CONTEXT_PATH; }
 
 	private static final Logger LOGGER = Logger.getLogger(BasicsController.class.getName());
 	private static final String RETURN_LINK = "<br /><a href = '/' >return</a><br />";
 	private static final int MAX_DISPLAY = 20;
 	private static final int SAMPLE_ITEM = 5;
 
-	@GetMapping({"/", "/index"})
+	@GetMapping( { "/", "/index" } )
 	public ModelAndView root(Model model) {
 		//
 		System.out.println("index");
 		return new ModelAndView("index", new HashMap<>());
 	}
 
-	@GetMapping("/cities")
-	public ModelAndView showCities() {
+	@GetMapping( { "/entity" } )
+	public ResponseEntity<String> showEntity( ) {
+		//
+		System.out.println("entity");
+		String txtLines = Instant.now().toString();
+		MultiValueMap<String, String> MVP = new LinkedMultiValueMap<String, String>();
+		MVP.add(HttpHeaders.ACCEPT_ENCODING, MimeTypeUtils.APPLICATION_JSON_VALUE);
+		MVP.add(HttpHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE);
+		//
+		ResponseEntity responseEntity = new ResponseEntity<>(txtLines, MVP, HttpStatus.OK);
+		return responseEntity;
+	}
+
+	@GetMapping( "/cities" )
+	public ModelAndView showCities( ) {
 		//
 		// Set<Integer> subset = ImmutableSet.copyOf(Iterables.limit(set, MAX_DISPLAY));
 		System.out.println("cities");
@@ -64,12 +85,13 @@ public class BasicsController {
 		return new ModelAndView("showCities", params);
 	}
 
-	@GetMapping("/cityIds")
-	public ModelAndView showCityIds(@RequestParam(name = "id") String id) {
+	@GetMapping( "/cityIds" )
+	public ModelAndView showCityIds(@RequestParam( name = "id" ) String id) {
 		//
 		System.out.println("city: [" + id + "]");
 		Long longId = null;
-		try { longId = Long.parseLong(id); } catch (Exception ex) {
+		try { longId = Long.parseLong(id); }
+		catch (Exception ex) {
 			LOGGER.info(ex.getMessage());
 			longId = Long.valueOf(SAMPLE_ITEM);
 		}
@@ -81,7 +103,7 @@ public class BasicsController {
 		return modelAndView;
 	}
 
-	@RequestMapping("/cityPth/{id}")
+	@RequestMapping( "/cityPth/{id}" )
 	public ModelAndView showCityPth(@PathVariable String id) {
 		/*
 			https://stackoverflow.com/questions/36325529/spring-controller-method-called-twice
@@ -108,14 +130,14 @@ public class BasicsController {
 		return modelAndView;
 	}
 
-	@GetMapping("/timer") public String showTimer() {
+	@GetMapping( "/timer" ) public String showTimer( ) {
 		//
 		System.out.println("timer");
 		System.out.println(UtilityMain.showTime());
 		return UtilityMain.showTime() + RETURN_LINK;
 	}
 
-	@GetMapping("/utils") public String showUtils() {
+	@GetMapping( "/utils" ) public String showUtils( ) {
 		//
 		String txtlines = "";
 		System.out.println("utils");
@@ -129,7 +151,7 @@ public class BasicsController {
 		return RETURN_LINK + txtlines + RETURN_LINK;
 	}
 
-	@GetMapping("/exits") public void exits() {
+	@GetMapping( "/exits" ) public void exits( ) {
 		//
 		System.out.println("EXIT");
 		SpringApplication.exit(applicationContext);
@@ -137,12 +159,12 @@ public class BasicsController {
 	}
 
 	@CrossOrigin
-	@RequestMapping("/errors") // not "/error"
+	@RequestMapping( "/errors" ) // not "/error"
 	public ModelAndView handleError(HttpServletRequest request) {
 		//
 		Object status = request.getAttribute(ERROR_STATUS_CODE);
 		LOGGER.warning("status: " + status);
-		if (status != null) {
+		if ( status != null ) {
 			//
 			String statusCode = status.toString();
 			LOGGER.warning("statusCode: " + statusCode);

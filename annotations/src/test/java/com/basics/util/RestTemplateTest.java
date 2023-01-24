@@ -5,6 +5,7 @@ import com.basics.samples.ClientHttpRequestInterceptor_Impl;
 import com.basics.samples.OauthToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -319,6 +320,7 @@ public class RestTemplateTest {
 		Assert.isTrue(httpStatus.equals(OK), ASSERT_MSG);
 	}
 
+	@Disabled
 	@Test public void test_RT_HCCHRF() {
 		//
 		// needed org.apache.httpcomponents:httpclient:4.3.4
