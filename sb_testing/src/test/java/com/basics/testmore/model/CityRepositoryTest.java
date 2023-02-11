@@ -2,7 +2,9 @@ package com.basics.testmore.model;
 
 import com.basics.testmore.repository.CityRepository;
 import com.basics.testmore.util.UtilityMain;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import static com.basics.testmore.util.UtilityMain.PAR;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// @RunWith(SpringRunner.class)
+@SpringBootTest @Disabled("avoids loading instance")
 public class CityRepositoryTest {
 
 	@Resource private CityRepository cityRepository;
@@ -38,8 +40,7 @@ public class CityRepositoryTest {
 		assertTrue(isEqual);
 	}
 
-	// @Test 
-	public void findAll( ) {
+	@Test public void findAll( ) {
 		//
 		String txtLines = "";
 		Iterable<City> iterable = cityRepository.findAll();

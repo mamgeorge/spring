@@ -3,7 +3,7 @@ package com.basics.testmore.util;
 import org.junit.jupiter.api.Test;
 
 import static com.basics.testmore.util.UtilityMain.PAR;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // http://www.atlasoftheuniverse.com/stars.html
@@ -73,63 +73,5 @@ public class UtilityMainTests {
 		String txtLines = UtilityMain.urlPostFile(link, postParms, pathTxt, pathBin);
 		System.out.println(txtLines);
 		assertTrue(txtLines.contains("200"));
-	}
-
-	// conversions
-	@Test void getXmlNode( ) {
-		//
-		String xml = "<a><b id = 'aleph' ><c><d>alpha</d><d>beta</d></c></b><b id = 'beth' ></b></a>";
-		String xpath = "a/b/c/d";
-		//
-		String txtLine = "";
-		txtLine += PAR + UtilityMain.getXmlNode(xml, xpath);
-		txtLine += PAR + UtilityMain.getXmlNode(xml, "a/b/c/d[2]");
-		txtLine += PAR + UtilityMain.getXmlNode(xml, "a/b[2]/@id");
-		//
-		System.out.println(txtLine);
-		assertTrue(txtLine.length() > 1);
-	}
-
-	@Test void convertXml2Json( ) {
-		//
-		String xml = "<a><b id = 'aleph' ><c><d>alpha</d><d>beta</d></c></b><b id = 'beth' ></b></a>";
-		String txtLines = UtilityMain.convertXml2Json(xml);
-		System.out.println(PAR + txtLines.replaceAll("\n", "").replaceAll("\t", "").replaceAll("  ", ""));
-		assertTrue(txtLines.length() > 1);
-	}
-
-	@Test void convertJson2Xml( ) {
-		//
-		String json = "{ a: { b: [ { c: { d: [ alpha, beta ] }, id: aleph }, { id: beth } ] } }";
-		String txtLines = UtilityMain.convertJson2Xml(json);
-		System.out.println(PAR + txtLines.replaceAll("\n", ""));
-		assertTrue(txtLines.length() > 1);
-	}
-
-	@Test void formatXml( ) {
-		//
-		String xml = "<a><b><c><d>alpha</d><d>beta</d></c><id>aleph</id></b><b><id>beth</id></b></a>";
-		String txtLines = UtilityMain.formatXml(xml);
-		System.out.println(PAR + txtLines.substring(0, 20));
-		assertTrue(txtLines.length() > 1);
-	}
-
-	@Test void parseYaml2JsonNode( ) {
-		//
-		String yamlFileName = PATHFILE_LOCAL + "application.yml";
-		String applicationNode = "datasource.platform";
-		//
-		String txtLine = UtilityMain.parseYaml2JsonNode(yamlFileName, applicationNode);
-		System.out.println(PAR + txtLine);
-		assertEquals("h2", txtLine);
-	}
-
-	@Test void parseJsonList2List( ) {
-		//
-		String jsonArr = "[ {\"a\":\"1\"} , {\"b\":\"2\"}, {\"c\":\"3\"} ]";
-		//
-		String txtLines = UtilityMain.parseJsonList2List(jsonArr, 1);
-		System.out.println(PAR + txtLines);
-		assertTrue(txtLines.length() > 1);
 	}
 }

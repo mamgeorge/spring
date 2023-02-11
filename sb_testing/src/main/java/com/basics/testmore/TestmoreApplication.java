@@ -2,6 +2,7 @@ package com.basics.testmore;
 
 import com.basics.testmore.services.ICountryService;
 import com.basics.testmore.util.CSVHelper;
+import com.basics.testmore.util.UtilityMain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
@@ -31,6 +32,6 @@ public class TestmoreApplication implements CommandLineRunner {
 	@Override public void run( String... strings ) throws Exception {
 		//
 		LOGGER.info( "USERNAME: " + environment.getProperty( "USERNAME" ) );
-		countryService.load( CSVHelper.getLocalFile() );
+		countryService.load( UtilityMain.getFileLocal("countries.csv") );
 	}
 }

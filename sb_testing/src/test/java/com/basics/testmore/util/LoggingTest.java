@@ -11,9 +11,9 @@ import java.util.logging.SimpleFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class UtilityExtraTest {
+public class LoggingTest {
 
-	public static final Logger LOGGER = Logger.getLogger(UtilityExtraTest.class.getName());
+	public static final Logger LOGGER = Logger.getLogger(LoggingTest.class.getName());
 
 	public final static String valueId = Instant.now().toString();
 
@@ -30,7 +30,7 @@ class UtilityExtraTest {
 		String LOG_FORMAT = "1[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] \n\t 2[%2$s] \n\t 3[%3$s] \n\t 4[%4$s] \n\t 5[%5$s] \n\t 6[%6$s]";
 		System.setProperty("java.util.logging.SimpleFormatter.format", LOG_FORMAT);
 
-		LOGGER.info(String.format("{%s}", "Any Message Possible, valueId={" + UtilityExtraTest.valueId + "} !"));
+		LOGGER.info(String.format("{%s}", "Any Message Possible, valueId={" + LoggingTest.valueId + "} !"));
 		assertNotNull(LOGGER);
 	}
 
@@ -64,7 +64,7 @@ class SimpleFormatterImpl extends SimpleFormatter {
 		7 thrown	string representing throwable and backtrace with newline if any, otherwise an empty string
 	*/
 	private static final String logFormatMeth =
-		"[%1$tF %1$tT] [%2$-7s] %3$s %4$s valueId={" + UtilityExtraTest. valueId + "}, %n";
+		"[%1$tF %1$tT] [%2$-7s] %3$s %4$s valueId={" + LoggingTest. valueId + "}, %n";
 
 	@Override
 	public synchronized String format(LogRecord logRecord) {

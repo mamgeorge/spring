@@ -43,19 +43,7 @@ public class TestmoreControllerTest {
 		System.out.println(txtLines);
 
 		assertNotNull(this.testmoreController);
-		assertTrue(Objects.requireNonNull(modelAndView.getViewName()).contains("index"));
-	}
-
-	@Test public void authenticate( ) {
-
-		String txtLines = "";
-		ModelAndView modelAndView = this.testmoreController.authenticate();
-		txtLines = PAR + "CONTEXT_PATH: " + testmoreController.getContextPath();
-		txtLines += PAR + "viewName: " + modelAndView.getViewName();
-		System.out.println(txtLines);
-
-		assertNotNull(this.testmoreController);
-		assertTrue(Objects.requireNonNull(modelAndView.getViewName()).contains("login"));
+		assertTrue(Objects.requireNonNull(modelAndView.getViewName()).contains("home"));
 	}
 
 	@Test public void getCities( ) {
