@@ -9,11 +9,10 @@ import org.springframework.core.env.MutablePropertySources;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.basics.testmore.util.UtilityMainTests.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class EnvironmentTests {
-
-	public static final String EOL = "\n";
 
 	@Test void context( ) {
 

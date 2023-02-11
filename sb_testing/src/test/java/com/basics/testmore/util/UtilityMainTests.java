@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 // http://www.atlasoftheuniverse.com/stars.html
 // J4: @Test (expected = IOException.class), J5: uses lambda
 public class UtilityMainTests {
-	//
 	public static final String ASSERT_MSG = "ASSERT_MSG";
 	public static final String PATHFILE_LOCAL = "src/test/resources/";
+	public static final String EOL = "\n";
 
 	@Test void showSys( ) {
 		//
@@ -27,7 +27,6 @@ public class UtilityMainTests {
 		assertTrue(txtLine.length() > 1);
 	}
 
-	// files -n- stuff
 	@Test void getFileLines( ) {
 		//
 		String fileName = "C:/workspace/greetings.txt";
@@ -43,7 +42,6 @@ public class UtilityMainTests {
 		assertTrue(txtLines.startsWith("Genesis"));
 	}
 
-	// url
 	@Test void urlGet( ) {
 		//
 		String link = "http://www.google.com";

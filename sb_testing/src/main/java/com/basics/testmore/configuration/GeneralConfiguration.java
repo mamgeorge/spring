@@ -12,17 +12,24 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/*
+	https://stackoverflow.com/questions/41480102/how-spring-security-filter-chain-works
+	https://www.baeldung.com/java-config-spring-security#
+*/
 @EnableWebSecurity
 public class GeneralConfiguration {
 
-	// https://stackoverflow.com/questions/41480102/how-spring-security-filter-chain-works
+	private String DEFAULT_USER = "user";
+	private String DEFAULT_PASS = "secret";
+	private String DEFAULT_ROLE = "USER";
+
 	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
 		// authorizeHttpRequests takes Customizer functional interface AuthorizationManagerRequestMatcherRegistry ?
 		httpSecurity
-			.authorizeHttpRequests( requests -> requests.antMatchers("/").hasRole("USER") )
-			.formLogin(withDefaults() ) // form -> form.loginPage("/login").permitAll() // .successHandler(successHandler()) // .defaultSuccessUrl("/")
-			.logout( logout -> logout.permitAll())
+			.authorizeHttpRequests(requests -> requests.antMatchers("/").hasRole("USER"))
+			.formLogin(withDefaults()) // form -> form.loginPage("/login").permitAll() // .successHandler(successHandler()) // .defaultSuccessUrl("/")
+			.logout(logout -> logout.permitAll())
 		;
 
 		return httpSecurity.build();
@@ -32,16 +39,18 @@ public class GeneralConfiguration {
 
 		UserDetails userDetails =
 			User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("secret")
-				.roles("USER")
+				.username(DEFAULT_USER)
+				.password(DEFAULT_PASS)
+				.roles(DEFAULT_ROLE)
 				.build();
 
 		return new InMemoryUserDetailsManager(userDetails);
 	}
 
 	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
+	public WebSecurityCustomizer webSecurityCustomizer( ) {
 		return web -> web.ignoring().antMatchers("/resources/**");
 	}
+
+	private String getPassword( ) { return DEFAULT_PASS; }
 }
