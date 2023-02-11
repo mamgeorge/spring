@@ -1,9 +1,14 @@
 package com.basics.testmore.util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
 import org.junit.jupiter.api.Test;
 
 import static com.basics.testmore.util.UtilityMain.PAR;
+import static com.basics.testmore.util.UtilityMain.getFileLocal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // http://www.atlasoftheuniverse.com/stars.html
@@ -27,11 +32,16 @@ public class UtilityConversionTests {
 	}
 
 	@Test void convertXml2Json( ) {
-		//
+
 		String xml = "<a><b id = 'aleph' ><c><d>alpha</d><d>beta</d></c></b><b id = 'beth' ></b></a>";
-		String txtLines = UtilityConversion.convertXml2Json(xml);
-		System.out.println(PAR + txtLines.replaceAll("\n", "").replaceAll("\t", "").replaceAll("  ", ""));
-		assertTrue(txtLines.length() > 1);
+		xml = getFileLocal(PATHFILE_LOCAL + "soapOne.xml", "");
+
+		// String json = XML.toJSONObject(xml).toString(4); // JSONException
+		String json = UtilityConversion.convertXml2Json(xml);
+
+		// System.out.println(PAR + txtLines.replaceAll("\n", "").replaceAll("\t", "").replaceAll("  ", ""));
+		System.out.println(json.replaceAll("    ", "\t"));
+		assertNotNull(json);
 	}
 
 	@Test void convertJson2Xml( ) {

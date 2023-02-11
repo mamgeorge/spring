@@ -162,17 +162,15 @@ public class UtilityConversion {
 	}
 
 	public static String convertXml2Json(String xml) {
-		//
+
 		String json = "";
 		int INDENT_FACTOR = 4;
-		//
+
 		try {
 			JSONObject jsonObject = XML.toJSONObject(xml);
 			json = jsonObject.toString(INDENT_FACTOR);
 		}
-		catch (JSONException ex) {
-			LOGGER.warning(ex.getMessage());
-		}
+		catch (JSONException ex) { LOGGER.warning(ex.getMessage()); }
 		return json;
 	}
 

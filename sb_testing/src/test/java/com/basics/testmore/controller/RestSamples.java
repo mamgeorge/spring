@@ -1,4 +1,4 @@
-package com.basics.testmore.util;
+package com.basics.testmore.controller;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.basics.testmore.util.EnvironmentTests.EOL;
+import static com.basics.testmore.configuration.EnvironmentTests.EOL;
 import static com.basics.testmore.util.UtilityMain.getFileLocal;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpMethod.GET;

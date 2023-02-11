@@ -1,4 +1,4 @@
-package com.basics.testmore.util;
+package com.basics.testmore.configuration;
 
 import com.basics.testmore.configuration.BeanConfiguration;
 import com.basics.testmore.model.City;

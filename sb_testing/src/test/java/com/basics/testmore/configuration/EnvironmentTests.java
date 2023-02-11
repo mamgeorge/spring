@@ -1,4 +1,4 @@
-package com.basics.testmore.util;
+package com.basics.testmore.configuration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
