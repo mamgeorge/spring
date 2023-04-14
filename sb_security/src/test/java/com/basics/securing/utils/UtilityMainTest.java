@@ -3,6 +3,7 @@ package com.basics.securing.utils;
 import com.sun.security.auth.callback.TextCallbackHandler;
 import org.junit.jupiter.api.Test;
 
+import javax.net.ssl.SSLContext;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -17,11 +18,33 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.UUID;
 
+import static com.basics.securing.utils.UtilityMain.EOL;
+import static com.basics.securing.utils.UtilityMain.exposeObject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GenericSecurity {
+public class UtilityMainTest {
 
-	private final static String EOL = "\n";
+	public static final String PATH_RESOURCES_TEST = "src/test/resources/";
+	public static final String PATH_RESOURCES_MAIN = "src/main/resources/";
+
+	@Test void showSys( ) {
+
+		String txtLines = UtilityMain.showSys();
+		System.out.println(txtLines);
+		assertNotNull(txtLines);
+	}
+
+	@Test void getSSLSocketFactory( ) {
+
+		String keystorePath = PATH_RESOURCES_MAIN + "cacerts17";
+		String keystoreSecret = "changeit";
+
+		SSLContext sslContext = UtilityMain.getSSLSocketFactory(keystorePath, keystoreSecret);
+		System.out.println(exposeObject(sslContext));
+		assertNotNull(sslContext);
+	}
+
+	//#### generic tests
 
 	@Test void getUUID( ) {
 

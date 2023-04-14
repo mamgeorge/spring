@@ -1,8 +1,0 @@
-INSERT INTO 
-	employees (firstname, lastname, email, salary)
-VALUES
-  	('Martin', 'George', 'mamgeorge@yahoo.com', 120000),
-  	('Mary', 'George', 'mgeorge0413@hotmail.com', 140000),
-  	('Samuel', 'George', 'samuel@gmail.com', 150000),
-  	('Lokesh', 'Gupta', 'howtodoinjava@gmail.com', 1220000),
-  	('John', 'Doe', 'xyz@email.com', 80000);
