@@ -3,7 +3,9 @@ package com.basics.securing.utils;
 import com.sun.security.auth.callback.TextCallbackHandler;
 import org.junit.jupiter.api.Test;
 
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -14,6 +16,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.UUID;
@@ -26,6 +29,8 @@ public class UtilityMainTest {
 
 	public static final String PATH_RESOURCES_TEST = "src/test/resources/";
 	public static final String PATH_RESOURCES_MAIN = "src/main/resources/";
+	public static final String KEYSTORE_FILE = "cacerts17";
+	public static final String KEYSTORE_SECRET = "changeit";
 
 	@Test void showSys( ) {
 
@@ -34,8 +39,35 @@ public class UtilityMainTest {
 		assertNotNull(txtLines);
 	}
 
+	@Test void getKeyManagers( ) {
+
+		// C:/Program Files/Java/jdk-17.0.1/lib/security
+		String keystorePath = PATH_RESOURCES_MAIN + KEYSTORE_FILE;
+		String keystoreSecret = KEYSTORE_SECRET;
+
+		KeyManager[] keyManagers = UtilityMain.getKeyManagers(keystorePath, keystoreSecret);
+		Arrays.asList(keyManagers).stream().forEach(keyManager ->
+			System.out.println(exposeObject(keyManager)));
+
+		assertNotNull(keyManagers);
+	}
+
+	@Test void getTrustManagers( ) {
+
+		// C:/Program Files/Java/jdk-17.0.1/lib/security
+		String truststorePath = PATH_RESOURCES_MAIN + KEYSTORE_FILE;
+		String truststoreSecret = KEYSTORE_SECRET;
+
+		TrustManager[] trustManagers = UtilityMain.getTrustManagers(truststorePath, truststoreSecret);
+		Arrays.asList(trustManagers).stream().forEach(keyManager ->
+			System.out.println(exposeObject(keyManager)));
+
+		assertNotNull(trustManagers);
+	}
+
 	@Test void getSSLSocketFactory( ) {
 
+		// C:/Program Files/Java/jdk-17.0.1/lib/security
 		String keystorePath = PATH_RESOURCES_MAIN + "cacerts17";
 		String keystoreSecret = "changeit";
 
