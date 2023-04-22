@@ -11,6 +11,8 @@
 	<name>securingWeb</name>
 	<description>Demo project for Spring Boot</description>
 
+	<!--<modules><module>/</module></modules>-->
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

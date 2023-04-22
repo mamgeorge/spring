@@ -1,5 +1,10 @@
 package com.basics.securing.utils;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.MutablePropertySources;
+
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -22,9 +27,11 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -33,6 +40,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class UtilityMain {
 
@@ -141,6 +150,22 @@ public class UtilityMain {
 		return stringBuilder + EOL;
 	}
 
+	public static ConfigurableEnvironment getEnvironment( ) {
+
+		// context comes from webmvc starter; may be included in others
+		AnnotationConfigApplicationContext ACAC = new AnnotationConfigApplicationContext();
+		ConfigurableEnvironment environment = ACAC.getEnvironment();
+		MutablePropertySources mutablePropertySources = environment.getPropertySources();
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("any.prop.path", "anyproperty");
+		map.put("spring.application.id", "MLG");
+
+		MapPropertySource mapPropertySource = new MapPropertySource("testEnvironment", map);
+		mutablePropertySources.addFirst(mapPropertySource);
+		return environment;
+	}
+
 	public static String getRandomString(int num) {
 		//
 		StringBuilder txtRandom = new StringBuilder();
@@ -151,6 +176,15 @@ public class UtilityMain {
 			txtRandom.append(chars[random.nextInt(chars.length)]);
 		}
 		return txtRandom.toString();
+	}
+
+	// security
+	public static String getAuthorization(String username, String password) {
+
+		String userpass = username + ":" + password;
+		String userpassEncoded = Base64.getEncoder().encodeToString(userpass.getBytes(UTF_8));
+		String authEncoded = "Basic " + userpassEncoded;
+		return authEncoded;
 	}
 
 	public static KeyManager[] getKeyManagers(String keystorePath, String keystoreSecret) {
@@ -196,7 +230,7 @@ public class UtilityMain {
 		System.out.println("truststorePath: " + truststorePath
 			+ "\n\t keyStoreDefaultType: " + keyStoreDefaultType
 			+ "\n\t truststoreAlgorithmDEF: " + truststoreAlgorithmDEF
-			+ "\n\t truststoreAlgorithm: " + "");
+			+ "\n\t truststoreAlgorithm: " + keyStoreDefaultType);
 		String truststoreAlgorithm = keyStoreDefaultType;
 
 		TrustManager[] trustManagers = null;
@@ -222,14 +256,15 @@ public class UtilityMain {
 		return trustManagers;
 	}
 
-	public static SSLContext getSSLSocketFactory(String keystorePath, String keystoreSecret) {
+	public static SSLContext getSSLContext(String keystorePath, String keystoreSecret) {
 
+		// C:/Program Files/Java/jdk-17.0.1/lib/security
 		SSLContext sslContext = null;
 		try {
 			// inititalize keyManagers, trustManagers, & secureRandom
 			KeyManager[] keyManagers = getKeyManagers(keystorePath, keystoreSecret);
 			TrustManager[] trustManagers = getTrustManagers(keystorePath, keystoreSecret);
-			SecureRandom secureRandom = null;
+			SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
 			// get sslContext from keyManagers, trustManagers, & secureRandom
 			sslContext = SSLContext.getInstance(SSLCONTEXT_INSTANCE);
