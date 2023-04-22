@@ -17,7 +17,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 	https://www.baeldung.com/java-config-spring-security#
 */
 @EnableWebSecurity
-public class GeneralConfiguration {
+public class SecurityConfiguration {
 
 	private String DEFAULT_USER = "user";
 	private String DEFAULT_PASS = "secret";

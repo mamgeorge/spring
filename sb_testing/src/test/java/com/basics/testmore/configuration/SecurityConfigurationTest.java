@@ -21,9 +21,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class GeneralConfigurationTest {
+public class SecurityConfigurationTest {
 
-	private final GeneralConfiguration generalConfiguration = new GeneralConfiguration();
+	private final SecurityConfiguration generalConfiguration = new SecurityConfiguration();
 
 	@Test void UserDetailsService( ) {
 

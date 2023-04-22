@@ -9,11 +9,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.logging.Logger;
 
 // @SpringBootApplication adds @Configuration, @ComponentScan, @EnableWebMvc, @EnableAutoConfiguration
 @SpringBootApplication
+@EnableScheduling
 public class TestmoreApplication implements CommandLineRunner {
 	//
 	private static final Logger LOGGER = Logger.getLogger( TestmoreApplication.class.getName( ) );
