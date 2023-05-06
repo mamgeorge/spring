@@ -28,7 +28,6 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,11 +44,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class UtilityMain {
 
+	private UtilityMain() { }
+
 	public static final Logger LOGGER = Logger.getLogger(UtilityMain.class.getName());
 
 	public static final String EOL = "\n";
 	public static final String SSLCONTEXT_INSTANCE = "TLSv1.2";
 	public static final String KEYSTORE_ALGORITHM = "JKS";
+	public static final String ERROR = "ERROR: ";
 
 	//#### basics
 	public static String showSys( ) {
@@ -63,8 +65,7 @@ public class UtilityMain {
 			//
 			val = val.replace("\\", "/");
 			val = val.replace("\"", "'");
-			// stringBuffer.append("{\"" + key + "\":\"" + val + "\"},");
-			stringBuilder.append(String.format("\t%03d %-20s : %s\n", aint.incrementAndGet(), key, val));
+			stringBuilder.append(String.format("\t%03d %-20s : %s%n", aint.incrementAndGet(), key, val));
 		});
 		stringBuilder.append("]\n");
 		stringBuilder.append("\tUSERNAME: ").append(System.getenv("USERNAME")).append(EOL);
@@ -92,23 +93,22 @@ public class UtilityMain {
 		StringBuilder stringBuilder = new StringBuilder();
 		Set<String> setLines = new TreeSet<>();
 		Method[] methods = object.getClass().getDeclaredMethods();
-		List<Method> listMethods = new ArrayList<>();
-		Arrays.stream(methods).forEach(method -> listMethods.add(method));
-		Collections.sort(listMethods, Comparator.comparing(Method::getName));
+		List<Method> listMethods = new ArrayList<>(Arrays.asList(methods));
+		listMethods.sort(Comparator.comparing(Method::getName));
 		//
-		int MAXLEN = 35;
+		int maxLen = 35;
 		AtomicInteger usedMethods = new AtomicInteger();
-		String FRMT = "%-30s | %-35s | %02d | %s \n";
+		String frmt = "%-30s | %-35s | %02d | %s \n";
 		listMethods.forEach(method -> {
 			//
 			String methodName = method.getName();
-			boolean boolAccess = methodName.startsWith("access$") | methodName.startsWith("$$$");
+			boolean boolAccess = methodName.startsWith("access$") || methodName.startsWith("$$$");
 			if ( !boolAccess ) {
 				usedMethods.incrementAndGet();
 				Object objectVal = "";
 				String returnType = method.getReturnType().toString();
-				if ( returnType.length() > MAXLEN ) {
-					returnType = returnType.substring(returnType.length() - MAXLEN);
+				if ( returnType.length() > maxLen ) {
+					returnType = returnType.substring(returnType.length() - maxLen);
 				}
 				method.setAccessible(true);
 				Object[] args;
@@ -126,18 +126,15 @@ public class UtilityMain {
 				} else { args = null; }
 				try {
 					objectVal = method.invoke(object, args);
-					if ( objectVal == null ) {
-						if ( method.getParameterCount() == 0 ) { objectVal = null; } else {
-							objectVal = args[0];
-						}
-					}
+					if ( objectVal == null && method.getParameterCount() != 0 )
+					{ objectVal = args[0]; }
 				}
 				catch (IllegalAccessException | InvocationTargetException ex) {
 					LOGGER.info(methodName + " | " + ex.getMessage());
 				}
-				catch (IllegalArgumentException IAE) { objectVal = "REQUIRES: " + args[0]; }
+				catch (IllegalArgumentException iae) { objectVal = "REQUIRES: " + args[0]; }
 				setLines.add(
-					String.format(FRMT, methodName, returnType, method.getParameterCount(), objectVal));
+					String.format(frmt, methodName, returnType, method.getParameterCount(), objectVal));
 			}
 		});
 		//
@@ -145,7 +142,7 @@ public class UtilityMain {
 			.append("] methods\n\n");
 
 		AtomicInteger atomicInteger = new AtomicInteger();
-		setLines.stream().forEach(val -> stringBuilder.append(String.format("\t %02d %s",
+		setLines.forEach(val -> stringBuilder.append(String.format("\t %02d %s",
 			atomicInteger.incrementAndGet(), val)));
 		return stringBuilder + EOL;
 	}
@@ -153,8 +150,8 @@ public class UtilityMain {
 	public static ConfigurableEnvironment getEnvironment( ) {
 
 		// context comes from webmvc starter; may be included in others
-		AnnotationConfigApplicationContext ACAC = new AnnotationConfigApplicationContext();
-		ConfigurableEnvironment environment = ACAC.getEnvironment();
+		AnnotationConfigApplicationContext acac = new AnnotationConfigApplicationContext();
+		ConfigurableEnvironment environment = acac.getEnvironment();
 		MutablePropertySources mutablePropertySources = environment.getPropertySources();
 
 		Map<String, Object> map = new HashMap<>();
@@ -199,25 +196,25 @@ public class UtilityMain {
 		String keystoreAlgorithm = KEYSTORE_ALGORITHM;
 
 		KeyManager[] keyManagers = null;
-		try {
-			// get keystore from file
-			File fileKeystore = new File(keystorePath);
-			InputStream inputStream = new FileInputStream(fileKeystore);
+		// get keystore from file
+		File fileKeystore = new File(keystorePath);
+		try ( InputStream inputStream = new FileInputStream(fileKeystore) ) {
 			KeyStore keyStore = KeyStore.getInstance(keystoreAlgorithm);
 			keyStore.load(inputStream, keystoreSecret.toCharArray());
 
 			// start KMF to get keyManagers
 			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(keystoreAlgorithmDEF);
 			keyManagerFactory.init(keyStore, keystoreSecret.toCharArray());
-			System.out.println("\t keyManagerFactory provider: " + keyManagerFactory.getProvider().toString());
+			System.out.println(
+				"\t keyManagerFactory provider: " + keyManagerFactory.getProvider().toString());
 			keyManagers = keyManagerFactory.getKeyManagers();
 		}
 		catch (FileNotFoundException | KeyStoreException | NoSuchAlgorithmException |
 		       UnrecoverableKeyException | CertificateException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
+			System.out.println(ERROR + ex.getMessage());
 		}
 		catch (IOException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
+			System.out.println(ERROR + ex.getMessage());
 		}
 		return keyManagers;
 	}
@@ -234,10 +231,11 @@ public class UtilityMain {
 		String truststoreAlgorithm = keyStoreDefaultType;
 
 		TrustManager[] trustManagers = null;
+		InputStream inputStream = null;
 		try {
 			// get trustStore from file
 			File fileTruststore = new File(truststorePath);
-			InputStream inputStream = new FileInputStream(fileTruststore);
+			inputStream = new FileInputStream(fileTruststore);
 			KeyStore trustStore = KeyStore.getInstance(truststoreAlgorithm);
 			trustStore.load(inputStream, truststoreSecret.toCharArray());
 
@@ -248,10 +246,14 @@ public class UtilityMain {
 		}
 		catch (FileNotFoundException | KeyStoreException | NoSuchAlgorithmException |
 		       CertificateException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
+			System.out.println(ERROR + ex.getMessage());
 		}
 		catch (IOException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
+			System.out.println(ERROR + ex.getMessage());
+		}
+		finally {
+			try { inputStream.close(); }
+			catch (IOException ex) { System.out.println(ERROR + ex.getMessage()); }
 		}
 		return trustManagers;
 	}
@@ -271,7 +273,7 @@ public class UtilityMain {
 			sslContext.init(keyManagers, trustManagers, secureRandom);
 		}
 		catch (NoSuchAlgorithmException | KeyManagementException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
+			System.out.println(ERROR + ex.getMessage());
 		}
 		return sslContext;
 	}
