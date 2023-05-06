@@ -59,38 +59,62 @@ public class UtilityMainTest {
 		String FRMT = "\t%-20s / %s\n";
 		ConfigurableEnvironment environment = UtilityMain.getEnvironment();
 
-		Map<String, Object> mapSystemEnv = environment.getSystemEnvironment();
-		stringBuilder.append(EOL + "mapSystemEnv: " + mapSystemEnv.size() + EOL);
-		mapSystemEnv.forEach(
-			(key, val) -> { stringBuilder.append(String.format(FRMT, key, val.toString())); });
+		stringBuilder.append(EOL + "1 environment: " + EOL);
+		stringBuilder.append("\t" + exposeObject(environment));
 
-		Map<String, Object> mapSystemProps = environment.getSystemProperties();
-		stringBuilder.append(EOL + "mapSystemProps: " + mapSystemProps.size() + EOL);
-		mapSystemProps.forEach(
-			(key, val) -> { stringBuilder.append(String.format(FRMT, key, val.toString())); });
-
-		String[] activeProfiles = environment.getActiveProfiles();
-		stringBuilder.append(EOL + "activeProfiles: " + activeProfiles.length + EOL);
-		Arrays.stream(activeProfiles)
-			.sorted()
-			.forEach(activeProfile -> { stringBuilder.append(String.format(FRMT, activeProfile, "")); });
-
-		String[] defaultProfiles = environment.getDefaultProfiles();
-		stringBuilder.append(EOL + "defaultProfiles: " + defaultProfiles.length + EOL);
-		Arrays.stream(defaultProfiles)
-			.sorted()
-			.forEach(defaultProfile -> { stringBuilder.append(String.format(FRMT, defaultProfile, "")); });
-
-		stringBuilder.append(EOL + "getProperty" + EOL);
-		stringBuilder.append(String.format(FRMT, "any.prop.path", environment.getProperty("any.prop.path")));
-		stringBuilder.append(
-			String.format(FRMT, "spring.application.id", environment.getProperty("spring.application.id")));
+		stringBuilder.append(EOL + "2 getProperty" + EOL);
+		stringBuilder.append(String.format(FRMT, "any.prop.path",
+			environment.getProperty("any.prop.path")));
+		stringBuilder.append(String.format(FRMT, "spring.application.id",
+			environment.getProperty("spring.application.id")));
 		stringBuilder.append(String.format(FRMT, "server.servlet.context-path",
 			environment.getProperty("server.servlet.context-path")));
 
 		System.out.println(stringBuilder);
-		System.out.println(exposeObject(environment));
+		assertNotNull(environment);
+	}
 
+	@Test void getEnvironment_profiles( ) {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		String FRMT = "\t%-20s / %s\n";
+		ConfigurableEnvironment environment = UtilityMain.getEnvironment();
+
+		String[] activeProfiles = environment.getActiveProfiles();
+		stringBuilder.append("1 activeProfiles: " + activeProfiles.length + EOL);
+		Arrays.stream(activeProfiles)
+			.sorted()
+			.forEach(activeProfile -> { stringBuilder.append(String.format(FRMT, activeProfile, "")); });
+		stringBuilder.append(EOL);
+
+		String[] defaultProfiles = environment.getDefaultProfiles();
+		stringBuilder.append("2 defaultProfiles: " + defaultProfiles.length + EOL);
+		Arrays.stream(defaultProfiles)
+			.sorted()
+			.forEach(defaultProfile -> { stringBuilder.append(String.format(FRMT, defaultProfile, "")); });
+
+		System.out.println(stringBuilder);
+		assertNotNull(environment);
+	}
+
+	@Test void getEnvironment_systemProps( ) {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		String FRMT = "\t%-20s / %s\n";
+		ConfigurableEnvironment environment = UtilityMain.getEnvironment();
+
+		Map<String, Object> mapSystemEnv = environment.getSystemEnvironment();
+		stringBuilder.append("1 mapSystemEnv: " + mapSystemEnv.size() + EOL);
+		mapSystemEnv.forEach(
+			(key, val) -> { stringBuilder.append(String.format(FRMT, key, val.toString())); });
+		stringBuilder.append(EOL);
+
+		Map<String, Object> mapSystemProps = environment.getSystemProperties();
+		stringBuilder.append("2 mapSystemProps: " + mapSystemProps.size() + EOL);
+		mapSystemProps.forEach(
+			(key, val) -> { stringBuilder.append(String.format(FRMT, key, val.toString())); });
+
+		System.out.println(stringBuilder);
 		assertNotNull(environment);
 	}
 

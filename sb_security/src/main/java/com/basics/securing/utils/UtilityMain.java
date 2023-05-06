@@ -159,7 +159,7 @@ public class UtilityMain {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("any.prop.path", "anyproperty");
-		map.put("spring.application.id", "MLG");
+		map.put("spring.application.id", "MLG_PROG");
 
 		MapPropertySource mapPropertySource = new MapPropertySource("testEnvironment", map);
 		mutablePropertySources.addFirst(mapPropertySource);
