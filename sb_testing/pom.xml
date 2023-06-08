@@ -61,7 +61,7 @@
 			<artifactId>spring-security-test</artifactId>
 		</dependency>
 
-		<!-- BEG: allows lombok, json, yml -->
+		<!-- BEG: allows lombok, json, yml, commons -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -86,7 +86,7 @@
 			<version>1.8</version>
 		</dependency>
 
-		<!-- DB -->
+		<!-- database -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -98,7 +98,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- added Testing -->
+		<!-- testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
@@ -111,8 +111,7 @@
 			<version>3.3.3</version>
 		</dependency>
 
-
-
+		<!-- testing selenium -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-api</artifactId>
