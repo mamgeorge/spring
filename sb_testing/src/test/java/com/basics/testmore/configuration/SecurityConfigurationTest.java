@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.basics.testmore.util.UtilityMain.EOL;
 import static com.basics.testmore.util.UtilityMain.exposeObject;
-import static com.basics.testmore.util.UtilityMainTests.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -32,8 +32,7 @@ public class SecurityConfigurationTest {
 
 		ReflectionTestUtils.setField(generalConfiguration, "DEFAULT_USER", testUser);
 		txtLines += ReflectionTestUtils.getField(generalConfiguration, "DEFAULT_USER") + EOL;
-		txtLines +=
-			ReflectionTestUtils.invokeGetterMethod(generalConfiguration, "getPassword") + EOL;
+		txtLines += ReflectionTestUtils.invokeGetterMethod(generalConfiguration, "getPassword") + EOL;
 
 		System.out.println(txtLines);
 		assertNotNull(txtLines);

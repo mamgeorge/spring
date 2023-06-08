@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.basics.testmore.util.UtilityMain.EOL;
 import static com.basics.testmore.util.UtilityMain.getFileLocal;
-import static com.basics.testmore.util.UtilityMainTests.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpMethod.GET;
 

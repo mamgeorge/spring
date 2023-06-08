@@ -1,5 +1,6 @@
 package com.basics.testmore.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.BufferedReader;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -59,21 +61,22 @@ public class UtilityMain {
 	}
 
 	//#### basics
-	public static String showSys( ) {
-		//
-		Map<String, String> mapEnv = System.getenv();
-		Map<String, String> mapEnvTree = new TreeMap<>(mapEnv);
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("[");
-		// env.forEach( ( key , val ) -> stringBuffer.append( key + ": " + val + dlm ) );
-		mapEnvTree.forEach((key, val) -> {
-			//
-			val = val.replace("\\", "/");
-			val = val.replace("\"", "'");
-			stringBuffer.append("{\"").append(key).append("\":\"").append(val).append("\"},");
-		});
-		stringBuffer.append("\n{\"" + "USERNAME" + "\":\"").append(System.getenv("USERNAME")).append("\"}");
-		stringBuffer.append("\n]");
+	public static String showEnvProps( ) {
+
+		String FRMT = "\t%-30s %s\n";
+		StringBuffer stringBuffer = new StringBuffer("showEnvProps" + EOL);
+
+		// Map<String, String> map = System.getenv();
+		stringBuffer.append(EOL + "getenv" + StringUtils.repeat("-",40) + EOL);
+		Set<String> setEnv = System.getenv().keySet();
+		setEnv.stream().sorted().forEach(key -> stringBuffer.append(String.format(FRMT, key, System.getenv(key))));
+		stringBuffer.append(EOL + String.format(FRMT, "USERNAME", System.getenv("USERNAME")));
+
+		// Properties properties = System.getProperties();
+		stringBuffer.append(EOL + "getProperties" + StringUtils.repeat("-",40) + EOL);
+		Set<String> setProps =System.getProperties().stringPropertyNames();
+		setProps.stream().sorted().forEach(key -> stringBuffer.append(String.format(FRMT, key, System.getProperty(key))));
+
 		return stringBuffer.toString();
 	}
 

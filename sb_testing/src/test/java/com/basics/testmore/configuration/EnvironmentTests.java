@@ -9,7 +9,7 @@ import org.springframework.core.env.MutablePropertySources;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.basics.testmore.util.UtilityMainTests.EOL;
+import static com.basics.testmore.util.UtilityMain.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class EnvironmentTests {

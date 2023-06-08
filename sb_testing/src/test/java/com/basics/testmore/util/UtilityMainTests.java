@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.basics.testmore.util.UtilityMain.PAR;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // http://www.atlasoftheuniverse.com/stars.html
@@ -11,13 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UtilityMainTests {
 	public static final String ASSERT_MSG = "ASSERT_MSG";
 	public static final String PATHFILE_LOCAL = "src/test/resources/";
-	public static final String EOL = "\n";
 
-	@Test void showSys( ) {
-		//
-		String txtLines = UtilityMain.showSys();
-		System.out.println(PAR + txtLines.replaceAll(",", ",\n\t"));
-		assertTrue(txtLines.split(",").length > 20);
+	@Test void showEnvProps( ) {
+
+		String txtLines = UtilityMain.showEnvProps();
+		System.out.println(txtLines);
+
+		System.out.println("getenv(USERNAME)...: " + System.getenv("USERNAME"));
+		System.out.println("getProperties(user.name): " + System.getProperty("user.name"));
+
+		assertNotNull(txtLines);
 	}
 
 	@Test void showTime( ) {
