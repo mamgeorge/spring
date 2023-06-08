@@ -13,7 +13,7 @@ fieldset { background-color: white; width: 90%; }
 <br /><h5>FreeMarker: ${ .now?datetime?iso_local }</h5>
 
 <br /><br />
-<table style = "width: 50%;" border = "1" >
+<table style = "width: 60%;" border = "1" >
 
 <tr class = "prp" ><td colspan = "2" style = "background-color: green;"></td></tr>
 
