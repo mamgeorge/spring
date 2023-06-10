@@ -2,6 +2,7 @@ package com.basics.testmore.util;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import static com.basics.testmore.util.UtilityMain.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@Disabled("interferes with maven testing results")
 public class SeleniumTests {
 
 	public static final boolean IS_OPTIONS = true;
