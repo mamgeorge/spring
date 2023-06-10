@@ -22,7 +22,7 @@ public class ScheduledTasks {
 	private static final String PREFIX_DEF = EOL + TAB + FRMT;
 	private int ictr = 0;
 
-	@Scheduled( fixedRate = LOG_SECONDS_5 )
+	// @Scheduled( fixedRate = LOG_SECONDS_5 )
 	public void logSeconds_5( ) {
 		System.out.printf(PREFIX_SEC, "LOG_SECONDS_5", Instant.now(), ++ictr);
 	}
