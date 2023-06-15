@@ -3,13 +3,13 @@ package com.basics.testmore.util;
 import org.junit.jupiter.api.Test;
 
 import static com.basics.testmore.util.UtilityMain.PAR;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // http://www.atlasoftheuniverse.com/stars.html
 // J4: @Test (expected = IOException.class), J5: uses lambda
 public class UtilityMainTests {
+
 	public static final String ASSERT_MSG = "ASSERT_MSG";
 	public static final String PATHFILE_LOCAL = "src/test/resources/";
 
@@ -47,31 +47,32 @@ public class UtilityMainTests {
 	}
 
 	@Test void urlGet( ) {
-		//
+
 		String link = "http://www.google.com";
-		//
 		String txtLines = UtilityMain.urlGet(link);
+
 		System.out.println(PAR + txtLines.substring(0, 60));
 		assertTrue(txtLines.contains("<!doctype html>"));
 	}
 
 	@Test void urlPost( ) {
-		//
+
 		String link = "https://httpbin.org/post";
 		String postParms = "name=Martin&occupation=programmer";
-		//
+
 		String txtLines = UtilityMain.urlPost(link, postParms);
+
 		System.out.println(txtLines.replaceAll(",", ",\n\t")); //.substring(0, 60));
 		assertTrue(txtLines.contains("Content-Type"));
 	}
 
 	@Test void urlPostFile( ) {
-		//
+
 		String link = "https://httpbin.org/post";
 		String postParms = "name=Martin&occupation=programmer";
 		String pathTxt = PATHFILE_LOCAL + "booksCatalog.json";
 		String pathBin = PATHFILE_LOCAL + "hal9000.wav";
-		//
+
 		String txtLines = UtilityMain.urlPostFile(link, postParms, pathTxt, pathBin);
 		System.out.println(txtLines);
 		assertTrue(txtLines.contains("200"));
