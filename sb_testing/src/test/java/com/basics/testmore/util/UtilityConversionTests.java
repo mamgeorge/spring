@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.basics.testmore.util.UtilityMain.PAR;
 import static com.basics.testmore.util.UtilityMain.getFileLocal;
+import static com.basics.testmore.util.UtilityMainTests.PATHFILE_LOCAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 // http://www.atlasoftheuniverse.com/stars.html
 // J4: @Test (expected = IOException.class), J5: uses lambda
 public class UtilityConversionTests {
-
-	public static final String PATHFILE_LOCAL = "src/test/resources/";
 
 	@Test void getXmlNode( ) {
 		//

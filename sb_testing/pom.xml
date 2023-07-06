@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.18</version>
+			<version>1.18.28</version>
 		</dependency>
 
 		<dependency><!-- json XML -->
@@ -176,14 +176,11 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- BEG -->
-			<plugin><!-- added to allow for running app -->
+			<!-- BEG --><!-- added to allow for running app; required lombok update -->
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<configuration>
-					<mainClass>com.basics.TestmoreApplication</mainClass>
-				</configuration>
+				<version>3.1.0</version>
 			</plugin>
 			<!-- END -->
 
