@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><title>showCities</title>
+<meta charset = "UTF-8">
+<link rel = "stylesheet" th:href = "@{/basics.css}">
+</head>
+
+<body><center>
+<br /><h3>showCities</h3>
+<br /><h5>ThymeLeaf: <span th:text="${#dates.formatISO(#dates.createNow())}"></span></h5>
+<br />
+<br /><h5>TOTAL CITIES: [ <span th:text="${ cityList.size }"></span> out of <span th:text="${ cityTotal }"></span> ]</h5>
+
+<br /><div class = "divbox" style = "width: 50%">
+<table>
+<tr>
+	<th>idx</th>
+	<th>id</th>
+	<th>name</th>
+	<th>population</th>
+	</tr>
+
+<tr th:each="city: ${cityList}">
+
+	<td th:text="${cityStat.count}" />
+	<td th:text="${city.id}" />
+	<td style = "text-align: left;" ><a th:href = "@{ /cityIds } + ${ '?id=' + city.id }" >
+		<span th:text="${ city.name }"></span></a></td>
+	<td th:text="${ #numbers.formatInteger( city.population, 3,'COMMA') }" />
+	</tr>
+</table>
+</div>
+
+<br/><a th:href = "@{/}">return</a>
+
+</center></body>
+</html>

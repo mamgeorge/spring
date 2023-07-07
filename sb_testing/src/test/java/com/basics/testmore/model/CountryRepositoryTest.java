@@ -2,11 +2,11 @@ package com.basics.testmore.model;
 
 import com.basics.testmore.repository.CountryRepository;
 import com.basics.testmore.util.UtilityMain;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +44,6 @@ public class CountryRepositoryTest {
 		}
 		txtLines += PAR + countries.size();
 		LOGGER.info(txtLines);
+		assertNotNull(iterable);
 	}
 }

@@ -5,9 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.XML;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -159,32 +156,6 @@ public class UtilityConversion {
 			LOGGER.warning(ex.getMessage());
 		}
 		return txtLines;
-	}
-
-	public static String convertXml2Json(String xml) {
-
-		String json = "";
-		int INDENT_FACTOR = 4;
-
-		try {
-			JSONObject jsonObject = XML.toJSONObject(xml);
-			json = jsonObject.toString(INDENT_FACTOR);
-		}
-		catch (JSONException ex) { LOGGER.warning(ex.getMessage()); }
-		return json;
-	}
-
-	public static String convertJson2Xml(String json) {
-		//
-		String xml = "";
-		try {
-			JSONObject jsonObj = new JSONObject(json);
-			xml = XML.toString(jsonObj);
-		}
-		catch (JSONException ex) {
-			LOGGER.warning(ex.getMessage());
-		}
-		return xml;
 	}
 
 	public static String formatXml(String xmlOld) {

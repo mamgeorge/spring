@@ -15,15 +15,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.3</version>
+		<version>3.1.1</version><!-- 2.7.3 -->
+		<!-- class version 61 is the class version of Java 17, used by Spring Framework 6.0 -->
 	</parent>
 
 	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
@@ -39,10 +40,10 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<dependency>
+		<dependency><!-- thymeleaf / freemarker-->
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-freemarker</artifactId>
-			<version>2.4.2</version>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<version>3.1.1</version>
 		</dependency>
 
 		<dependency>
@@ -65,19 +66,15 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.28</version>
+			<version>1.18.24</version>
+			<scope>provided</scope>
 		</dependency>
 
-		<dependency><!-- json XML -->
-			<groupId>org.json</groupId>
-			<artifactId>org.json</artifactId>
-			<version>chargebee-1.0</version>
-		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/com.chargebee/chargebee-java -->
 		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-yaml</artifactId>
-			<version>2.11.2</version>
+			<groupId>com.chargebee</groupId>
+			<artifactId>chargebee-java</artifactId>
+			<version>3.7.0</version>
 		</dependency>
 
 		<dependency>
@@ -90,12 +87,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>3.1.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<version>2.2.220</version>
 		</dependency>
 
 		<!-- testing -->
@@ -161,10 +159,11 @@
 			<version>4.10.0</version>
 		</dependency>
 
-		<dependency><!-- openapi replaced swagger -->
+		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.7.0</version>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.1.0</version>
 		</dependency>
 
 	</dependencies>

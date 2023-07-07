@@ -7,6 +7,8 @@ import com.basics.testmore.model.Country;
 import com.basics.testmore.services.ICityService;
 import com.basics.testmore.services.ICountryService;
 import com.basics.testmore.util.UtilityMain;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static com.basics.testmore.util.UtilityMain.PATHFILE_MAIN;
 
 @RestController
 public class TestmoreController {
@@ -40,9 +42,7 @@ public class TestmoreController {
 
 	@Value("${server.servlet.context-path}") private String CONTEXT_PATH;
 
-	public String getContextPath() {
-		return CONTEXT_PATH;
-	}
+	public String getContextPath() {return CONTEXT_PATH;}
 
 	private static final Logger LOGGER = Logger.getLogger(TestmoreController.class.getName());
 	private static final String RETURN_LINK = "<br /><a href = '/' >return</a><br />";
@@ -62,7 +62,6 @@ public class TestmoreController {
 	}
 
 	@GetMapping("/logins") public ModelAndView logins() {
-		//
 		System.out.println("logins authenticate");
 		return new ModelAndView("login", new HashMap<>());
 	}
@@ -197,7 +196,7 @@ public class TestmoreController {
 		//
 		String txtlines = "";
 		System.out.println("utils");
-		txtlines = UtilityMain.getFileLocal("", "<br />");
+		txtlines = UtilityMain.getFileLocal(PATHFILE_MAIN + "banner.txt", "<br />");
 		// txtlines = UtilityMain.getZipFileList( "" , "<br />" );
 		// txtlines = UtilityMain.getXmlFileNode( "" , "" , "" );
 		// txtlines = UtilityMain.convertXml2Json( "" );

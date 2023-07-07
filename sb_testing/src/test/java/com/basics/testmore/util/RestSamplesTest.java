@@ -11,6 +11,7 @@ import com.jayway.jsonpath.JsonPath;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
@@ -26,12 +27,10 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +38,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.basics.testmore.util.RestSamples.HOLIDAY_API.abstractapi;
-import static com.basics.testmore.util.RestSamples.HOLIDAY_API.calendarific;
-import static com.basics.testmore.util.RestSamples.HOLIDAY_API.holidays;
+import static com.basics.testmore.util.RestSamplesTest.HOLIDAY_API.abstractapi;
+import static com.basics.testmore.util.RestSamplesTest.HOLIDAY_API.calendarific;
+import static com.basics.testmore.util.RestSamplesTest.HOLIDAY_API.holidays;
 import static com.basics.testmore.util.UtilityMain.EOL;
 import static com.basics.testmore.util.UtilityMain.getFileLocal;
 import static com.basics.testmore.util.UtilityMainTests.PATHFILE_LOCAL;
@@ -61,7 +60,8 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 	https://apipheny.io/free-api/
 	https://rapidapi.com/blog/most-popular-api/ | Google Search, NLP Translation
 */
-public class RestSamples {
+@Disabled("SPEED UP TESTS")
+public class RestSamplesTest {
 
 	public enum HOLIDAY_API {abstractapi, calendarific, holidays}
 
@@ -78,6 +78,7 @@ public class RestSamples {
 	);
 
 	public static final Map<String, String> MAP_JSONTEST = new HashMap<>();
+
 	static {
 		MAP_JSONTEST.put("ip", "http://ip.jsontest.com/");
 		MAP_JSONTEST.put("ipMime", "http://ip.jsontest.com/?mime=5");
@@ -95,10 +96,11 @@ public class RestSamples {
 
 	public static final String URL_JSONBIBLE = "https://jsonbible.com/search/verses.php";
 	private static final String URL_JSONTEST_IP = "http://ip.jsontest.com/";
-	private static final String URL_JSONPLACE = "https://jsonplaceholder.typicode.com/";  // users, comments, posts, photos
+	private static final String URL_JSONPLACE = "https://jsonplaceholder.typicode.com/";
+	// users, comments, posts, photos
 	private static final String YEAR = String.valueOf(LocalDate.now().getYear());
 
-	@Test void jsonRead( ) {
+	@Test void jsonObject_read( ) {
 
 		String txtLines = "";
 		String json = getFileLocal(PATHFILE_LOCAL + "google_response.json", "");
@@ -109,12 +111,12 @@ public class RestSamples {
 			JSONArray jsonArray = jsonObject.getJSONArray("items");
 			txtLines = jsonArray.getJSONObject(0).getString("title");
 		}
-		catch (JSONException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		catch (JSONException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		System.out.println(txtLines);
 		assertNotNull(txtLines);
 	}
 
-	@Test void HttpClient( ) {
+	@Test void newHttpClient_send( ) {
 
 		String XRAPIDAPIHOST = "google-search72.p.rapidapi.com";
 		String XRAPIDAPIKEY = "70e87efb55mshf9f42022d0c3878p1a6ce0jsn88b17922572f";
@@ -139,27 +141,28 @@ public class RestSamples {
 		assertNotNull(httpResponse);
 	}
 
-	@Test void exchange_Verse( ) {
+	@Test void RT_getForObject( ) {
 
-		String txtLines = "";
-
-		String urq = "?json={x}";
-		String urx = "{'book':'John','chapter':'3','verse':'16','version':'nasb'}".replaceAll("'", "\\\"");
-		String url = URL_JSONBIBLE + urq;
+		String urlQuery = "?json={x}";
+		String url = URL_JSONBIBLE + urlQuery;
+		String variables =
+			"{'book':'John','chapter':'3','verse':'16','version':'nasb'}".replaceAll("'", "\\\"");
 
 		RestTemplate restTemplate = new RestTemplate();
-		String json = restTemplate.getForObject(url, String.class, urx);
+		String json = restTemplate.getForObject(url, String.class, variables);
+
 		JSONObject jsonObject = null;
+		String jsonParm = "";
 		try {
 			jsonObject = new JSONObject(json);
-			txtLines = jsonObject.getString("text");
+			jsonParm = jsonObject.getString("text");
 		}
 		catch (JSONException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-		System.out.println(txtLines);
-		assertNotNull(txtLines);
+		System.out.println(jsonParm);
+		assertNotNull(json);
 	}
 
-	@Test void exchange_Headers( ) {
+	@Test void RT_exchange_requestEntity_MVP( ) {
 
 		String url = MAP_JSONTEST.get("headers");
 		MultiValueMap<String, String> MVP = new LinkedMultiValueMap<>();
@@ -176,7 +179,7 @@ public class RestSamples {
 		assertNotNull(body);
 	}
 
-	@Test void exchange_RequestEntity( ) {
+	@Test void RT_exchange_requestEntity_loop( ) {
 
 		MultiValueMap<String, String> MVP = new LinkedMultiValueMap<>();
 		MVP.add("profile", "Developer");
@@ -188,10 +191,8 @@ public class RestSamples {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		Set<String> set = MAP_JSONTEST.keySet();
-		URI uri;
 		for ( String url : set ) {
-			uri = URI.create(MAP_JSONTEST.get(url));
-			requestEntity = new RequestEntity<>(MVP, GET, uri);
+			requestEntity = new RequestEntity<>(MVP, GET, URI.create(MAP_JSONTEST.get(url)));
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 			stringBuilder.append(responseEntity.getBody() + EOL);
 		}
@@ -199,10 +200,10 @@ public class RestSamples {
 		assertNotNull(stringBuilder);
 	}
 
-	@Test void exchange_HttpEntity( ) {
+	@Test void RT_exchange_httpEntity_loop( ) {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
 		HttpEntity<String> httpEntity;
 		ResponseEntity<String> responseEntity;
@@ -210,9 +211,8 @@ public class RestSamples {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		Set<String> set = MAP_JSONTEST.keySet();
-		String uri;
 		for ( String url : set ) {
-			uri = MAP_JSONTEST.get(url);
+			URI uri = URI.create(MAP_JSONTEST.get(url));
 			httpEntity = new HttpEntity<>(headers);
 			responseEntity = restTemplate.exchange(uri, GET, httpEntity, String.class);
 			stringBuilder.append(responseEntity.getBody() + EOL);
@@ -234,11 +234,7 @@ public class RestSamples {
 
 	@Test void RT_exchange_get( ) {
 
-		URI uri = null;
-		try { uri = new URI(URL_JSONTEST_IP); }
-		catch (URISyntaxException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-		RequestEntity<String> requestEntity = new RequestEntity(GET, uri);
-
+		RequestEntity<String> requestEntity = new RequestEntity(GET, URI.create(URL_JSONTEST_IP));
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
 
@@ -269,24 +265,25 @@ public class RestSamples {
 
 		String[] urls = {
 			"http://validate.jsontest.com",
-			"http://validate.jsontest.com/?json={'key':'value'}".replaceAll("'","\"")};
+			"http://validate.jsontest.com/?json={'key':'value'}".replaceAll("'", "\"") };
 		String filename = "contents.txt";
 		String fileclob = getFileLocal(PATHFILE_LOCAL + filename, "");
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.set(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE);
-		httpHeaders.set("json", "{'key':'value'}".replaceAll("'","\""));
+		httpHeaders.set("json", "{'key':'value'}".replaceAll("'", "\""));
 
-		MultiValueMap<String,Object> MVM_FORMDATA = new LinkedMultiValueMap<>();
+		MultiValueMap<String, Object> MVM_FORMDATA = new LinkedMultiValueMap<>();
 		ByteArrayResource byteArrayResource = new ByteArrayResource(fileclob.getBytes(UTF_8), filename) {
-			@Override public String getFilename() {return filename;}
+			@Override public String getFilename( ) { return filename; }
 		};
 		MVM_FORMDATA.add("file", byteArrayResource);
 
 		// HttpEntity<MultiValueMap<String,Object>> httpEntity = new HttpEntity(MVM_FORMDATA, httpHeaders);
 		HttpEntity<String> httpEntity = new HttpEntity(httpHeaders);
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> responseEntity = restTemplate.exchange(urls[0], POST, httpEntity, String.class);
+		ResponseEntity<String> responseEntity =
+			restTemplate.exchange(urls[0], POST, httpEntity, String.class);
 
 		String body = responseEntity.getBody();
 		System.out.println("responseEntity" + EOL + responseEntity);
@@ -392,7 +389,7 @@ public class RestSamples {
 	}
 
 	// utilities
-	private String getAuthorization() {
+	private String getAuthorization( ) {
 
 		String user = System.getenv("USERNAME");
 		String pass = System.getenv("PASSWORD");

@@ -1,15 +1,15 @@
 package com.basics.testmore.model;
 
-import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Objects;
 
 @Getter @Setter @NoArgsConstructor
 @Entity @Table(name = "cities")
@@ -25,17 +25,6 @@ public class City {
 		this.name = name;
 		this.population = population;
 	}
-
-/*
-	public Long getId( ) { return id; }
-	public void setId( Long id ) { this.id = id; }
-
-	public String getName( ) { return name; }
-	public void setName( String name ) { this.name = name; }
-
-	public int getPopulation( ) { return population; }
-	public void setPopulation(int population) { this.population = population; }
-*/
 
 	@Override
 	public int hashCode( ) {

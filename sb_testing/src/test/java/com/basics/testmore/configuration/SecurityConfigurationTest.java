@@ -1,5 +1,7 @@
 package com.basics.testmore.configuration;
 
+import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,9 +9,6 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import javax.servlet.Filter;
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.List;

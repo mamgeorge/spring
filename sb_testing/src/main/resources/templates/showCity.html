@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><title>showCity</title>
+<meta charset = "UTF-8">
+<link rel = "stylesheet" th:href = "@{/basics.css}">
+</head>
+
+<body><center>
+<br /><h3>showCity</h3>
+<br /><h5>ThymeLeaf: <span th:text="${#dates.formatISO(#dates.createNow())}"></span></h5>
+<br />
+<br /><h5>Object: [ <span th:text="${ city }" /> ]</h5>
+
+<br />
+<table border = "1" style = "width: 50%">
+<tr>
+	<th>id</th>
+	<th>name</th>
+	<th>population</th>
+	</tr>
+
+<tr>
+	<td th:text="${ city.id }" />
+	<td th:text="${ city.name }" />
+	<td th:text="${ city.population }" />
+	</tr>
+</table>
+
+<br/><a th:href = "@{/}">return</a>
+
+</center></body>
+</html>

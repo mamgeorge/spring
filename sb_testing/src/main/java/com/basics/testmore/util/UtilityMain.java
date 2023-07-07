@@ -22,31 +22,36 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static java.net.HttpURLConnection.HTTP_OK;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
+import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 public class UtilityMain {
 	//
 	public static final Logger LOGGER = Logger.getLogger(UtilityMain.class.getName());
+	public static final String USER_AGENT_MOZ5 = "Mozilla/5.0";
+	public static final String PATHFILE_MAIN = "src/main/resources/";
 
-	public static final String USER_AGENT = "Mozilla/5.0";
-	public static final String CONTENTTYPE_FORM = "application/x-www-form-urlencoded";
-	public static final String CONTENTTYPE_MULTI = "multipart/form-data; boundary=";
 	public static final String COLORS =
 		"Black: \u001b[30m, Red: \u001b[31m, Green: \u001b[32m, Yellow: \u001b[33m, Blue: \u001b[34m, Magenta: \u001b[35m, Cyan: \u001b[36m, White: \u001b[37m ";
-
 	public static final String GREEN = "\u001b[32,1m";
 	public static final String RESET = "\u001b[0m";
+
 	public static final String EOL = "\n";
 	public static final String TAB = "\t";
 	public static final String DLM = "\n";
@@ -67,15 +72,17 @@ public class UtilityMain {
 		StringBuffer stringBuffer = new StringBuffer("showEnvProps" + EOL);
 
 		// Map<String, String> map = System.getenv();
-		stringBuffer.append(EOL + "getenv" + StringUtils.repeat("-",40) + EOL);
+		stringBuffer.append(EOL + "getenv" + StringUtils.repeat("-", 40) + EOL);
 		Set<String> setEnv = System.getenv().keySet();
-		setEnv.stream().sorted().forEach(key -> stringBuffer.append(String.format(FRMT, key, System.getenv(key))));
+		setEnv.stream().sorted()
+			.forEach(key -> stringBuffer.append(String.format(FRMT, key, System.getenv(key))));
 		stringBuffer.append(EOL + String.format(FRMT, "USERNAME", System.getenv("USERNAME")));
 
 		// Properties properties = System.getProperties();
-		stringBuffer.append(EOL + "getProperties" + StringUtils.repeat("-",40) + EOL);
-		Set<String> setProps =System.getProperties().stringPropertyNames();
-		setProps.stream().sorted().forEach(key -> stringBuffer.append(String.format(FRMT, key, System.getProperty(key))));
+		stringBuffer.append(EOL + "getProperties" + StringUtils.repeat("-", 40) + EOL);
+		Set<String> setProps = System.getProperties().stringPropertyNames();
+		setProps.stream().sorted()
+			.forEach(key -> stringBuffer.append(String.format(FRMT, key, System.getProperty(key))));
 
 		return stringBuffer.toString();
 	}
@@ -159,8 +166,8 @@ public class UtilityMain {
 		try {
 			URL url = new URL(link);
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-			httpConn.setRequestMethod("GET");
-			httpConn.setRequestProperty("User-Agent", USER_AGENT);
+			httpConn.setRequestMethod(GET.name());
+			httpConn.setRequestProperty(USER_AGENT, USER_AGENT_MOZ5);
 			httpConn.setConnectTimeout(5000);
 			httpConn.setReadTimeout(5000);
 			//
@@ -186,16 +193,16 @@ public class UtilityMain {
 	}
 
 	public static String urlPost(String link, String postParms) {
-		//
+
 		// http://zetcode.com/java/getpostrequest/
 		String txtLines = "";
 		try {
 			URL url = new URL(link);
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setDoOutput(true);
-			httpConn.setRequestMethod("POST");
-			httpConn.setRequestProperty("User-Agent", USER_AGENT);
-			httpConn.setRequestProperty("Content-Type", CONTENTTYPE_FORM);
+			httpConn.setRequestMethod(POST.name());
+			httpConn.setRequestProperty(USER_AGENT, USER_AGENT_MOZ5);
+			httpConn.setRequestProperty(CONTENT_TYPE, APPLICATION_FORM_URLENCODED_VALUE);
 			//	httpConn.setRequestProperty( "Authorization", "JWT " + jwtSourceId );
 			//
 			OutputStream outputStream = httpConn.getOutputStream();
@@ -212,7 +219,7 @@ public class UtilityMain {
 			BufferedReader bufferedReader;
 			StringBuilder stringBuffer = new StringBuilder();
 			String txtLine;
-			if ( responseCode == HttpURLConnection.HTTP_OK ) {
+			if ( responseCode == HTTP_OK ) {
 				//
 				bufferedReader = new BufferedReader(isr);
 				while ( ( txtLine = bufferedReader.readLine() ) != null ) {
@@ -245,7 +252,7 @@ public class UtilityMain {
 			URL url = new URL(link);
 			urlConn = url.openConnection();
 			urlConn.setDoOutput(true);
-			urlConn.setRequestProperty("Content-Type", CONTENTTYPE_MULTI + boundary);
+			urlConn.setRequestProperty(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE + "; boundary=" + boundary);
 			//	urlConn.setRequestProperty( "Authorization", "JWT " + jwtSourceId );
 			//
 			System.out.println("0 urlConn.getOutputStream( )");
@@ -255,15 +262,17 @@ public class UtilityMain {
 			//
 			System.out.println("1 Send normal parms");
 			writer.append("--").append(boundary).append(CRLF);
-			writer.append("Content-Disposition: form-data; name=\"param\"").append(CRLF);
-			writer.append("Content-Type: text/plain; charset=").append(String.valueOf(UTF_8)).append(CRLF);
+			writer.append(CONTENT_DISPOSITION + ": " + "form-data; name=\"param\"").append(CRLF);
+			writer.append(CONTENT_TYPE + ": " + TEXT_PLAIN_VALUE + "; charset=").append(String.valueOf(UTF_8))
+				.append(CRLF);
 			writer.append(CRLF).append(postParms).append(CRLF).flush();
 			//
 			System.out.println("2 Send text file in charset UTF_8");
 			writer.append("--").append(boundary).append(CRLF);
-			writer.append("Content-Disposition: form-data; name=\"textFile\"; filename=\"")
+			writer.append(CONTENT_DISPOSITION + ": form-data; name=\"textFile\"; filename=\"")
 				.append(fileTxt.getName()).append("\"").append(CRLF);
-			writer.append("Content-Type: text/plain; charset=").append(String.valueOf(UTF_8)).append(CRLF);
+			writer.append(CONTENT_TYPE + ": " + TEXT_PLAIN_VALUE + "; charset=").append(String.valueOf(UTF_8))
+				.append(CRLF);
 			writer.append(CRLF).flush();
 			Files.copy(fileTxt.toPath(), outputStream);
 			outputStream.flush(); // Important before continuing with writer!
@@ -271,10 +280,10 @@ public class UtilityMain {
 			//
 			System.out.println("3 Send binary file");
 			writer.append("--").append(boundary).append(CRLF);
-			writer.append("Content-Disposition: form-data; name=\"binaryFile\"; filename=\"")
+			writer.append(CONTENT_DISPOSITION + ": form-data; name=\"binaryFile\"; filename=\"")
 				.append(fileBin.getName()).append("\"").append(CRLF);
 			String fileBinContentType = URLConnection.guessContentTypeFromName(fileBin.getName());
-			writer.append("Content-Type: ").append(fileBinContentType).append(CRLF);
+			writer.append(CONTENT_TYPE + ": ").append(fileBinContentType).append(CRLF);
 			writer.append("Content-Transfer-Encoding: binary").append(CRLF);
 			writer.append(CRLF).flush();
 			Files.copy(fileBin.toPath(), outputStream);

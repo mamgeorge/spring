@@ -6,12 +6,6 @@
 
 <body><center><br /><h3>Login!</h3>
 
-<#if RequestParameters.error??>
-	<br /><div align="center"><h5>Invalid Login! Invalid username or password!</h5></div>
-	<#elseif RequestParameters.logout??>
-	<br /><div align="center"><h5>Logged out! You have Logged out of application!</h5></div>
-	</#if>
-
 <br />
 <form action="/login" method = "post">
 	<table style = "width: 400px;">

@@ -1,56 +1,105 @@
 package com.basics.testmore.configuration; //.configuration;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import static com.basics.testmore.util.UtilityMain.EOL;
 
 /*
-	https://stackoverflow.com/questions/41480102/how-spring-security-filter-chain-works
-	https://www.baeldung.com/java-config-spring-security#
+	https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
+	https://spring.io/guides/gs/securing-web/
 */
-@EnableWebSecurity
+@Configuration @EnableWebSecurity
 public class SecurityConfiguration {
 
-	private String DEFAULT_USER = "user";
-	private String DEFAULT_PASS = "secret";
-	private String DEFAULT_ROLE = "USER";
+	private final String USER_DEFAULT = "user";
+	private final String PASS_DEFAULT = "secret";
+	private final String ROLE_USER = "USER";
+	private final String ROLE_ADMIN = "ADMIN";
 
-	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
 
-		// authorizeHttpRequests takes Customizer functional interface AuthorizationManagerRequestMatcherRegistry ?
-		httpSecurity
-			.authorizeHttpRequests(requests -> requests.antMatchers("/").hasRole("USER"))
-			.formLogin(withDefaults()) // form -> form.loginPage("/login").permitAll() // .successHandler(successHandler()) // .defaultSuccessUrl("/")
-			.logout(logout -> logout.permitAll())
-		;
+		DefaultSecurityFilterChain DSFC = null;
+		try {
+			httpSecurity
+				.authorizeHttpRequests(requests -> requests
+					.requestMatchers("/**").permitAll()
+					.anyRequest().authenticated()
+				)
+				.formLogin((form) -> form
+					.loginPage("/login")
+					.permitAll()
+				)
+				.logout(logout -> logout.permitAll())
+			;
+			DSFC = httpSecurity.build();
+		}
+		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
-		return httpSecurity.build();
+		System.out.println( EOL + "SecurityFilterChain");
+		return DSFC;
 	}
 
 	@Bean public UserDetailsService userDetailsService( ) {
 
-		UserDetails userDetails =
-			User.withDefaultPasswordEncoder()
-				.username(DEFAULT_USER)
-				.password(DEFAULT_PASS)
-				.roles(DEFAULT_ROLE)
-				.build();
+		UserDetails user = User.builder()
+			.username(USER_DEFAULT)
+			.password(PASS_DEFAULT)
+			.roles(ROLE_USER)
+			.build();
 
-		return new InMemoryUserDetailsManager(userDetails);
+		UserDetails admin = User.builder()
+			.username("admin")
+			.password("secret123")
+			.roles(ROLE_USER, ROLE_ADMIN)
+			.build();
+
+		System.out.println( EOL + "UserDetailsService");
+		UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user, admin);
+
+		return userDetailsService;
+	}
+
+	// the following can be commented out
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer( ) {
+
+		System.out.println( EOL + "WebSecurityCustomizer");
+		WebSecurityCustomizer webSecurityCustomizer = (web)
+			-> web.ignoring().requestMatchers("/ignore1", "/ignore2");
+
+		return webSecurityCustomizer;
 	}
 
 	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer( ) {
-		return web -> web.ignoring().antMatchers("/resources/**");
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
+
+		System.out.println( EOL + "AuthenticationManager");
+		AuthenticationManager authenticationManager = null;
+		try { authenticationManager = authConfig.getAuthenticationManager(); }
+		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+
+		return authenticationManager;
 	}
 
-	private String getPassword( ) { return DEFAULT_PASS; }
+	@Bean public PasswordEncoder passwordEncoder( ) {
+
+		System.out.println( EOL + "PasswordEncoder");
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(16);
+		return bCryptPasswordEncoder;
+	}
 }

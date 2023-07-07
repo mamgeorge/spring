@@ -2,12 +2,12 @@ package com.basics.testmore.services;
 
 import com.basics.testmore.model.City;
 import com.basics.testmore.repository.CityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CityService implements ICityService {

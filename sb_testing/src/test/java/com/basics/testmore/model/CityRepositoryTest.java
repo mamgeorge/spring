@@ -2,11 +2,11 @@ package com.basics.testmore.model;
 
 import com.basics.testmore.repository.CityRepository;
 import com.basics.testmore.util.UtilityMain;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest @Disabled("avoids loading instance")
-public class CityRepositoryTest {
+class CityRepositoryTest {
 
 	@Resource private CityRepository cityRepository;
 
 	// @BeforeAll public void setUp( ) throws Exception { }
 
-	@Test public void testSettersGetters( ) {
+	@Test void testSettersGetters( ) {
 		//
 		City city = new City();
 
@@ -30,7 +30,7 @@ public class CityRepositoryTest {
 		assertNotNull(city);
 	}
 
-	@Test public void equals( ) {
+	@Test void equals( ) {
 		//
 		City city1 = new City();
 		City city2 = new City();
@@ -40,7 +40,7 @@ public class CityRepositoryTest {
 		assertTrue(isEqual);
 	}
 
-	@Test public void findAll( ) {
+	@Test void findAll( ) {
 		//
 		String txtLines = "";
 		Iterable<City> iterable = cityRepository.findAll();
