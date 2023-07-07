@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,12 +24,12 @@ import static com.basics.testmore.util.UtilityMain.EOL;
 	https://spring.io/guides/gs/securing-web/
 */
 @Configuration @EnableWebSecurity
-public class SecurityConfiguration {
+class SecurityConfiguration {
 
-	private final String USER_DEFAULT = "user";
-	private final String PASS_DEFAULT = "secret";
-	private final String ROLE_USER = "USER";
-	private final String ROLE_ADMIN = "ADMIN";
+	private static final String USER_DEFAULT = "user";
+	private static final String PASS_DEFAULT = "secret";
+	private static final String ROLE_USER = "USER";
+	private static final String ROLE_ADMIN = "ADMIN";
 
 	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
 
@@ -40,11 +40,11 @@ public class SecurityConfiguration {
 					.requestMatchers("/**").permitAll()
 					.anyRequest().authenticated()
 				)
-				.formLogin((form) -> form
+				.formLogin( form -> form
 					.loginPage("/login")
 					.permitAll()
 				)
-				.logout(logout -> logout.permitAll())
+				.logout(LogoutConfigurer::permitAll) // .logout(logout -> logout.permitAll())
 			;
 			DSFC = httpSecurity.build();
 		}
@@ -75,18 +75,16 @@ public class SecurityConfiguration {
 	}
 
 	// the following can be commented out
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer( ) {
+	@Bean public WebSecurityCustomizer webSecurityCustomizer( ) {
 
 		System.out.println( EOL + "WebSecurityCustomizer");
-		WebSecurityCustomizer webSecurityCustomizer = (web)
+		WebSecurityCustomizer webSecurityCustomizer = web
 			-> web.ignoring().requestMatchers("/ignore1", "/ignore2");
 
 		return webSecurityCustomizer;
 	}
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
+	@Bean public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
 
 		System.out.println( EOL + "AuthenticationManager");
 		AuthenticationManager authenticationManager = null;

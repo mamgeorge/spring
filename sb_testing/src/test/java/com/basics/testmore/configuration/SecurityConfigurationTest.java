@@ -3,8 +3,15 @@ package com.basics.testmore.configuration;
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -20,27 +27,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SecurityConfigurationTest {
+class SecurityConfigurationTest {
 
-	private final SecurityConfiguration generalConfiguration = new SecurityConfiguration();
+	private final SecurityConfiguration securityConfiguration = new SecurityConfiguration();
+	private final String USER_DEFAULT = "user";
 
-	@Test void UserDetailsService( ) {
-
-		String txtLines = "";
-		String testUser = System.getenv("USERNAME");
-
-		ReflectionTestUtils.setField(generalConfiguration, "DEFAULT_USER", testUser);
-		txtLines += ReflectionTestUtils.getField(generalConfiguration, "DEFAULT_USER") + EOL;
-		txtLines += ReflectionTestUtils.invokeGetterMethod(generalConfiguration, "getPassword") + EOL;
-
-		System.out.println(txtLines);
-		assertNotNull(txtLines);
-	}
-
-	@Test void SecurityFilterChain( ) {
+	@Test void securityFilterChain( ) {
 
 		String txtLines = "";
-
 		try {
 			HttpSecurity httpSecurity = mock(HttpSecurity.class);
 			HttpSecurity httpSecurity1 = mock(HttpSecurity.class);
@@ -56,7 +50,8 @@ public class SecurityConfigurationTest {
 			when(httpSecurity2.logout(any(Customizer.class))).thenReturn(httpSecurity3);
 			when(httpSecurity.build()).thenReturn(DSFC);
 
-			SecurityFilterChain securityFilterChain = generalConfiguration.securityFilterChain(httpSecurity);
+			SecurityFilterChain securityFilterChain = securityConfiguration.securityFilterChain(httpSecurity);
+
 			txtLines += "[" + securityFilterChain.matches(HSR) + "]" + EOL;
 			txtLines += exposeObject(securityFilterChain);
 			System.out.println(txtLines);
@@ -66,4 +61,41 @@ public class SecurityConfigurationTest {
 		assertNotNull(txtLines);
 	}
 
+	@Test void userDetailsService( ) {
+
+		UserDetailsService userDetailsService = securityConfiguration.userDetailsService();
+		UserDetails userDetails = userDetailsService.loadUserByUsername(USER_DEFAULT);
+
+		System.out.println(exposeObject(userDetails));
+		assertNotNull(userDetailsService);
+	}
+
+	@Test void webSecurityCustomizer( ) {
+
+		WebSecurityCustomizer webSecurityCustomizer = securityConfiguration.webSecurityCustomizer();
+		System.out.println(exposeObject(webSecurityCustomizer));
+		assertNotNull(webSecurityCustomizer);
+	}
+
+	@Test void authenticationManager( ) {
+
+		AnnotationConfigApplicationContext ACAC = new AnnotationConfigApplicationContext();
+		AuthenticationConfiguration authConfig = new AuthenticationConfiguration();
+		authConfig.setApplicationContext(ACAC);
+
+		AuthenticationManager authenticationManager = securityConfiguration.authenticationManager(authConfig);
+		System.out.println(exposeObject(authConfig));
+		assertNotNull(authConfig);
+	}
+
+	@Test void passwordEncoder( ) {
+
+		String password = System.getenv("PASSWORD");
+		PasswordEncoder passwordEncoder = securityConfiguration.passwordEncoder();
+		String passwordEncoded = passwordEncoder.encode(password);
+
+		System.out.println("passwordEncoded: " + password + " >> " + passwordEncoded);
+		System.out.println(exposeObject(passwordEncoder));
+		assertNotNull(passwordEncoder);
+	}
 }
