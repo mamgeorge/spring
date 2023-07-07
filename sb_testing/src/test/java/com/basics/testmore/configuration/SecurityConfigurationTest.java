@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +83,7 @@ class SecurityConfigurationTest {
 		authConfig.setApplicationContext(ACAC);
 
 		AuthenticationManager authenticationManager = securityConfiguration.authenticationManager(authConfig);
+		System.out.println("authenticationManager: " + authenticationManager);
 		System.out.println(exposeObject(authConfig));
 		assertNotNull(authConfig);
 	}
