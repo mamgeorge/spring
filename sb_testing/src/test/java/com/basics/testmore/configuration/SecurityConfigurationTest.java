@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.ArrayList;
@@ -40,18 +41,19 @@ class SecurityConfigurationTest {
 			HttpSecurity httpSecurity2 = mock(HttpSecurity.class);
 			HttpSecurity httpSecurity3 = mock(HttpSecurity.class);
 			RequestMatcher requestMatcher = mock(RequestMatcher.class);
+			AntPathRequestMatcher APRM = new AntPathRequestMatcher("/ignore1", "/ignore2");
 			HttpServletRequest HSR = mock(HttpServletRequest.class);
 			List<Filter> filters = new ArrayList<>();
-			DefaultSecurityFilterChain DSFC = new DefaultSecurityFilterChain(requestMatcher, filters);
+		//	DefaultSecurityFilterChain DSFC = new DefaultSecurityFilterChain(requestMatcher, filters);
 
 			when(httpSecurity.authorizeHttpRequests(any(Customizer.class))).thenReturn(httpSecurity1);
 			when(httpSecurity1.formLogin(any(Customizer.class))).thenReturn(httpSecurity2);
 			when(httpSecurity2.logout(any(Customizer.class))).thenReturn(httpSecurity3);
-			when(httpSecurity.build()).thenReturn(DSFC);
+		//	when(httpSecurity.build()).thenReturn(DSFC);
 
 			SecurityFilterChain securityFilterChain = securityConfiguration.securityFilterChain(httpSecurity);
 
-			txtLines += "[" + securityFilterChain.matches(HSR) + "]" + EOL;
+		//	txtLines += "[" + securityFilterChain.matches(HSR) + "]" + EOL;
 			txtLines += exposeObject(securityFilterChain);
 			System.out.println(txtLines);
 		}
@@ -71,9 +73,9 @@ class SecurityConfigurationTest {
 
 	@Test void webSecurityCustomizer( ) {
 
-		WebSecurityCustomizer webSecurityCustomizer = securityConfiguration.webSecurityCustomizer();
-		System.out.println(exposeObject(webSecurityCustomizer));
-		assertNotNull(webSecurityCustomizer);
+		WebSecurityCustomizer WSC = securityConfiguration.webSecurityCustomizer();
+		System.out.println(exposeObject(WSC));
+		assertNotNull(WSC);
 	}
 
 	@Test void authenticationManager( ) {

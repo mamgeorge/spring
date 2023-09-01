@@ -1,6 +1,9 @@
 package com.basics.testmore.controller;
 
+import com.basics.testmore.TestmoreAppTest;
 import com.basics.testmore.model.City;
+import com.basics.testmore.repository.CityRepository;
+import com.basics.testmore.services.CityService;
 import com.basics.testmore.model.Country;
 import com.basics.testmore.util.UtilityMain;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,7 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 //@WebMvcTest(TestmoreController.class)
-@SpringBootTest
+//@SpringBootTest
+@SpringBootTest(classes = {TestmoreAppTest.class, TestmoreController.class, CityService.class, CityRepository.class})
 public class TestmoreControllerTest {
 
 	@Autowired private TestmoreController testmoreController;

@@ -2,6 +2,7 @@ package com.basics.testmore.configuration; //.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,8 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcherEntry;
 
 import static com.basics.testmore.util.UtilityMain.EOL;
+import static org.openqa.selenium.remote.DriverCommand.GET;
 
 /*
 	https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
@@ -34,10 +39,11 @@ class SecurityConfiguration {
 	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
 
 		DefaultSecurityFilterChain DSFC = null;
+		AntPathRequestMatcher APRM = new AntPathRequestMatcher("/**");
 		try {
 			httpSecurity
 				.authorizeHttpRequests(requests -> requests
-					.requestMatchers("/**").permitAll()
+					.requestMatchers(APRM).permitAll()
 					.anyRequest().authenticated()
 				)
 				.formLogin( form -> form
@@ -78,8 +84,9 @@ class SecurityConfiguration {
 	@Bean public WebSecurityCustomizer webSecurityCustomizer( ) {
 
 		System.out.println( EOL + "WebSecurityCustomizer");
+		RequestMatcher requestMatcher = new AntPathRequestMatcher("/ignore1", "GET");
 		WebSecurityCustomizer webSecurityCustomizer = web
-			-> web.ignoring().requestMatchers("/ignore1", "/ignore2");
+			-> web.ignoring().requestMatchers(requestMatcher);
 
 		return webSecurityCustomizer;
 	}
