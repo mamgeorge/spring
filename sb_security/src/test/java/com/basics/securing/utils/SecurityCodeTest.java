@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.basics.securing.utils.UtilityMain.EOL;
 import static com.basics.securing.utils.UtilityMain.exposeObject;
-import static com.basics.securing.utils.UtilityMainTest.PATH_RESOURCES_MAIN;
+import static com.basics.securing.utils.UtilityMainTest.PATHRESOURCE_MAIN;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SecurityCodeTest {
@@ -65,7 +65,7 @@ public class SecurityCodeTest {
 		LoginContext loginContext;
 		Subject subject = new Subject();
 		CallbackHandler callbackHandler = new TextCallbackHandler(); // DialogCallbackHandler, TextCallbackHandler
-		Configuration configuration = null;
+		Configuration configuration = Configuration.getConfiguration();
 		try {
 			loginContext = new LoginContext("sample", subject, callbackHandler, configuration);
 			loginContext.login();
@@ -170,10 +170,9 @@ public class SecurityCodeTest {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		// C:/Program Files/Java/jdk-17.0.1/lib/security
-		String keystorePath = PATH_RESOURCES_MAIN + KEYSTORE_FILE17;
-		String keystoreSecret = KEYSTORE_SECRET;
+		String keystorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
 
-		KeyManager[] keyManagers = SecurityCode.getKeyManagers(keystorePath, keystoreSecret);
+		KeyManager[] keyManagers = SecurityCode.getKeyManagers(keystorePath, KEYSTORE_SECRET);
 		Arrays.stream(keyManagers).forEach(keyManager ->
 			stringBuilder.append(exposeObject(keyManager))
 		);
@@ -184,10 +183,9 @@ public class SecurityCodeTest {
 	@Test void getTrustManagers( ) {
 
 		StringBuilder stringBuilder = new StringBuilder();
-		String truststorePath = PATH_RESOURCES_MAIN + KEYSTORE_FILE17;
-		String truststoreSecret = KEYSTORE_SECRET;
+		String truststorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
 
-		TrustManager[] trustManagers = SecurityCode.getTrustManagers(truststorePath, truststoreSecret);
+		TrustManager[] trustManagers = SecurityCode.getTrustManagers(truststorePath, KEYSTORE_SECRET);
 		Arrays.stream(trustManagers).forEach(trustManager ->
 			stringBuilder.append(exposeObject(trustManager))
 		);
@@ -198,14 +196,13 @@ public class SecurityCodeTest {
 	@Test void getTrustManagers_certs( ) {
 
 		StringBuilder stringBuilder = new StringBuilder();
-		String truststorePath = PATH_RESOURCES_MAIN + KEYSTORE_FILE17;
-		String truststoreSecret = KEYSTORE_SECRET;
+		String truststorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
 
-		TrustManager[] trustManagers = SecurityCode.getTrustManagers(truststorePath, truststoreSecret);
+		TrustManager[] trustManagers = SecurityCode.getTrustManagers(truststorePath, KEYSTORE_SECRET);
 		List<TrustManager> trustManagersList = Arrays.asList(trustManagers);
 		AtomicInteger ai = new AtomicInteger();
 		int MAXLEN = 120;
-		Arrays.asList(trustManagersList).forEach(trustManager -> {
+		List.of(trustManagersList).forEach(trustManager -> {
 			stringBuilder.append(trustManager.get(0).toString() + EOL);
 			X509TrustManager x509TrustManager = (X509TrustManager) trustManagersList.get(ai.get());
 			X509Certificate[] x509Certificates = x509TrustManager.getAcceptedIssuers();
@@ -223,10 +220,9 @@ public class SecurityCodeTest {
 	@Test void getSSLContext( ) {
 
 		StringBuilder stringBuilder = new StringBuilder();
-		String keystorePath = PATH_RESOURCES_MAIN + KEYSTORE_FILE17;
-		String keystoreSecret = KEYSTORE_SECRET;
+		String keystorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
 
-		SSLContext sslContext = SecurityCode.getSSLContext(keystorePath, keystoreSecret);
+		SSLContext sslContext = SecurityCode.getSSLContext(keystorePath, KEYSTORE_SECRET);
 		stringBuilder.append(exposeObject(sslContext));
 
 		System.out.println(stringBuilder);

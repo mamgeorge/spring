@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 	description = "Some very general Information" ) )
 public class SecuringWebApp {
 
-	public static void main(String[] strings) throws Throwable {
+	public static void main(String[] strings) {
 		//
 		System.out.println("#### SecuringWebApp ####");
 		SpringApplication.run(SecuringWebApp.class, strings);

@@ -3,8 +3,6 @@ package com.basics.securing.controller; // .controller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.Instant;
@@ -19,8 +17,8 @@ public class SecuringWebController {
 
 	private String getReturn( ) { return "<br /><a href = '" + CONTEXT_PATH + "'>return</a>"; }
 
-	// @GetMapping = @RequestMapping( value = {"/"}, method = RequestMApping.GET )
-	@RequestMapping( value = { "/roots" }, method = RequestMethod.GET ) @ResponseBody
+	// @GetMapping = @RequestMapping( value = {"/roots"}, method = RequestMapping.GET )
+	@GetMapping @ResponseBody
 	public String roots( ) {
 		//
 		String txtLines = Instant.now().toString() + getReturn();

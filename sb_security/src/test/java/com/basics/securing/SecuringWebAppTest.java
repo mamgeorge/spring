@@ -8,12 +8,12 @@ import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SecuringWebAppTest {
+class SecuringWebAppTest {
 
 	public static final Logger LOGGER = Logger.getLogger(SecuringWebAppTest.class.getName());
 
 	// test_addViewControllers
-	@Test public void testViewControllers( ) {
+	@Test void testViewControllers( ) {
 		//
 		String txtLine = "#### DONE ####";
 		System.out.println(txtLine + " / " + txtLine.length());

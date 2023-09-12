@@ -7,7 +7,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -24,6 +23,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SecurityCode {
 
+	private SecurityCode( ) { }
+
 	public static final String SSLCONTEXT_INSTANCE = "TLSv1.2";
 	public static final String KEYSTORE_ALGORITHM = "JKS";
 	public static final String ERROR = "ERROR: ";
@@ -32,9 +33,16 @@ public class SecurityCode {
 	// security
 	public static String getAuthorization(String username, String password) {
 
+		StringBuilder stringBuilder = new StringBuilder();
 		String userpass = username + ":" + password;
 		String userpassEncoded = Base64.getEncoder().encodeToString(userpass.getBytes(UTF_8));
 		String authEncoded = "Basic " + userpassEncoded;
+
+		stringBuilder.append("userpass: ").append(userpass);
+		stringBuilder.append("userpassEncoded: ").append(userpassEncoded);
+		stringBuilder.append("authEncoded: ").append(authEncoded);
+		System.out.println(stringBuilder);
+
 		return authEncoded;
 	}
 
@@ -48,13 +56,12 @@ public class SecurityCode {
 		stringBuilder.append(String.format(FRMT, "keyStoreDefaultType", keyStoreDefaultType));
 		stringBuilder.append(String.format(FRMT, "keystoreAlgorithmDEF", keystoreAlgorithmDEF));
 		stringBuilder.append(String.format(FRMT, "keystoreAlgorithm", KEYSTORE_ALGORITHM));
-		String keystoreAlgorithm = KEYSTORE_ALGORITHM;
 
 		KeyManager[] keyManagers = null;
 		// get keystore from file
 		File fileKeystore = new File(keystorePath);
 		try ( InputStream inputStream = new FileInputStream(fileKeystore) ) {
-			KeyStore keyStore = KeyStore.getInstance(keystoreAlgorithm);
+			KeyStore keyStore = KeyStore.getInstance(KEYSTORE_ALGORITHM);
 			keyStore.load(inputStream, keystoreSecret.toCharArray());
 
 			// start KMF to get keyManagers
@@ -80,7 +87,6 @@ public class SecurityCode {
 		stringBuilder.append(String.format(FRMT, "keyStoreDefaultType", keyStoreDefaultType));
 		stringBuilder.append(String.format(FRMT, "truststoreAlgorithmDEF", truststoreAlgorithmDEF));
 		stringBuilder.append(String.format(FRMT, "truststoreAlgorithm", keyStoreDefaultType));
-		String truststoreAlgorithm = keyStoreDefaultType;
 
 		TrustManager[] trustManagers = null;
 		InputStream inputStream = null;
@@ -88,7 +94,7 @@ public class SecurityCode {
 			// get trustStore from file
 			File fileTruststore = new File(truststorePath);
 			inputStream = new FileInputStream(fileTruststore);
-			KeyStore trustStore = KeyStore.getInstance(truststoreAlgorithm);
+			KeyStore trustStore = KeyStore.getInstance(keyStoreDefaultType);
 			trustStore.load(inputStream, truststoreSecret.toCharArray());
 
 			// start TMF to get trustManagers
@@ -100,7 +106,7 @@ public class SecurityCode {
 			System.out.println(ERROR + ex.getMessage());
 		}
 		finally {
-			try { inputStream.close(); }
+			try { if(inputStream != null) { inputStream.close(); } }
 			catch (IOException ex) { System.out.println(ERROR + ex.getMessage()); }
 		}
 		System.out.println(stringBuilder);

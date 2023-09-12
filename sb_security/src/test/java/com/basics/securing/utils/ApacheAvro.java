@@ -14,18 +14,17 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static com.basics.securing.utils.UtilityMainTest.PATHRESOURCE_TEST;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static com.basics.securing.utils.UtilityMain.EOL;
 
-public class ApacheAvro {
-
-	public static final String TESTPATH = "src/test/resources/";
+class ApacheAvro {
 
 	@Test void testAvroSchema( ) {
 
-		String txtLines = "";
-		String avroSchemaFile = TESTPATH + "user.avsc";
-		String avroObjectFile = TESTPATH + "user.avro";
+		StringBuilder stringBuilder = new StringBuilder();
+		String avroSchemaFile = PATHRESOURCE_TEST + "user.avsc";
+		String avroObjectFile = PATHRESOURCE_TEST + "user.avro";
 
 		try {
 			Schema schema = new Schema.Parser().parse(new File(avroSchemaFile));
@@ -55,11 +54,11 @@ public class ApacheAvro {
 			GenericRecord genericRecord = null;
 			while ( dataFileReader.hasNext() ) {
 				genericRecord = dataFileReader.next(genericRecord);
-				txtLines += "\t" + genericRecord + EOL;
+				stringBuilder.append("\t").append(genericRecord).append(EOL);
 			}
 		}
 		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-		System.out.println(txtLines);
-		assertNotNull(txtLines);
+		System.out.println(stringBuilder);
+		assertNotNull(stringBuilder);
 	}
 }

@@ -41,9 +41,10 @@ public class EncryptDecrypt {
 	public static final int BYTES_SALT_LEN = 16;
 	public static final int AES_KEY_BIT = 256;
 	public static final int TAG_LENGTH_BIT = 128;
-	public static final int KEYGENERATOR_SIZE = 256;
 	public static final int BLOCK_SIZE = 16;
 	public static final String SALT_SAMPLE = "ABCD";
+
+	private EncryptDecrypt( ) { }
 
 	public static byte[] getRandomIV(int numBytes) {
 		//
@@ -185,7 +186,7 @@ public class EncryptDecrypt {
 		byte[] bytesDecode = Base64.getDecoder().decode(contentEncryptedBase64.getBytes(UTF_8));
 		byte[] bytesIV = new byte[BYTES_IV_LEN];
 		byte[] bytesSalt = new byte[BYTES_SALT_LEN];
-		byte[] bytesCipher = null;
+		byte[] bytesCipher;
 		ByteBuffer byteBuffer = ByteBuffer.wrap(bytesDecode);
 		byteBuffer.get(bytesIV);
 		byteBuffer.get(bytesSalt);

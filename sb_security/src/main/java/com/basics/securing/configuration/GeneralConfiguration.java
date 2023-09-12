@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,20 +19,21 @@ public class GeneralConfiguration {
 	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
 		httpSecurity
-			.authorizeHttpRequests((requests) -> requests
+			.authorizeHttpRequests(requests -> requests
 				.antMatchers("/", "/home").permitAll()
 				.anyRequest().authenticated() // permitAll
 			)
-			.formLogin((form) -> form
+			.formLogin(form -> form
 				.loginPage("/login") // .successHandler(successHandler()) // .defaultSuccessUrl("/")
 				.permitAll()
 			)
-			.logout((logout) -> logout.permitAll())
+			.logout(LogoutConfigurer::permitAll)
 		;
 
 		return httpSecurity.build();
 	}
 
+	@SuppressWarnings( "deprecation" )
 	@Bean public UserDetailsService userDetailsService( ) {
 
 		UserDetails userDetails =

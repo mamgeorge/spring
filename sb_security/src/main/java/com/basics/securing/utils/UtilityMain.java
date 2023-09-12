@@ -26,11 +26,13 @@ import java.util.logging.Logger;
 
 public class UtilityMain {
 
-	private UtilityMain() { }
-
 	public static final Logger LOGGER = Logger.getLogger(UtilityMain.class.getName());
 
 	public static final String EOL = "\n";
+
+	private static final Random RANDOM = new Random();
+
+	private UtilityMain() { }
 
 	//#### basics
 	public static String showSys( ) {
@@ -97,7 +99,7 @@ public class UtilityMain {
 					} else if ( method.getParameterTypes()[0].getName().contains("Date") ) {
 						args = new Object[]{ new Date() };
 					} else if ( method.getParameterTypes()[0].getName().contains("int") ) {
-						args = new Object[]{ (int) Math.round(Math.random() * 4000) };
+						args = new Object[]{ RANDOM.nextInt() * 4000 };
 					} else {
 						String parmname = method.getParameterTypes()[0].getName();
 						args = new Object[]{ parmname };
@@ -106,12 +108,16 @@ public class UtilityMain {
 				try {
 					objectVal = method.invoke(object, args);
 					if ( objectVal == null && method.getParameterCount() != 0 )
-					{ objectVal = args[0]; }
+					{
+						assert args != null;
+						objectVal = args[0]; }
 				}
 				catch (IllegalAccessException | InvocationTargetException ex) {
 					LOGGER.info(methodName + " | " + ex.getMessage());
 				}
-				catch (IllegalArgumentException iae) { objectVal = "REQUIRES: " + args[0]; }
+				catch (IllegalArgumentException iae) {
+					assert args != null;
+					objectVal = "REQUIRES: " + args[0]; }
 				setLines.add(
 					String.format(frmt, methodName, returnType, method.getParameterCount(), objectVal));
 			}
@@ -129,12 +135,12 @@ public class UtilityMain {
 	public static ConfigurableEnvironment getEnvironment( ) {
 
 		// context comes from webmvc starter; may be included in others
-		AnnotationConfigApplicationContext acac = new AnnotationConfigApplicationContext();
-		ConfigurableEnvironment environment = acac.getEnvironment();
+		AnnotationConfigApplicationContext ACAC = new AnnotationConfigApplicationContext();
+		ConfigurableEnvironment environment = ACAC.getEnvironment();
 		MutablePropertySources mutablePropertySources = environment.getPropertySources();
 
 		Map<String, Object> map = new HashMap<>();
-		map.put("any.prop.path", "anyproperty");
+		map.put("any.prop.path", "anyProperty");
 		map.put("spring.application.id", "MLG_PROG");
 
 		MapPropertySource mapPropertySource = new MapPropertySource("testEnvironment", map);
@@ -145,11 +151,10 @@ public class UtilityMain {
 	public static String getRandomString(int num) {
 		//
 		StringBuilder txtRandom = new StringBuilder();
-		Random random = new Random();
 		char[] chars =
 			( "1234567890abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWZYZ" ).toCharArray();
 		for ( int ictr = 0; ictr < num; ictr++ ) {
-			txtRandom.append(chars[random.nextInt(chars.length)]);
+			txtRandom.append(chars[RANDOM.nextInt(chars.length)]);
 		}
 		return txtRandom.toString();
 	}
