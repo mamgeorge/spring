@@ -86,6 +86,7 @@ public class UtilityMain {
 	public static final String GREEN = "\u001b[32,1m";
 	public static final String RESET = "\u001b[0m";
 	public static final String EOL = "\n";
+	public static final String TAB = "\t";
 	public static final String PAR = "\n\t";
 	public static final String CRLF = "\r\n";
 

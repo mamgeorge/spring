@@ -27,8 +27,9 @@ import static org.springframework.http.HttpHeaders.USER_AGENT;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UtilityMainTest {
 
+	public static final String PATH_LOCAL = "src/test/java/resources/";
+
 	private static final Logger LOGGER = Logger.getLogger(UtilityMainTest.class.getName());
-	private static final String PATH_LOCAL = "src/test/java/resources/";
 	private static final String HOST_EXT = "https://httpbin.org/";
 	private static final String TXT_SAMPLE = "Genesis_01.txt";
 	private static final String FRMT = "\t%-20s %s\n";

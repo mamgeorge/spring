@@ -1,47 +1,58 @@
 package com.basics.services;
 
 import com.basics.model.City;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.basics.util.UtilityMain.LOGGER;
+import static com.basics.util.UtilityMain.EOL;
 import static com.basics.util.UtilityMain.PAR;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CityServiceTest {
+class CityServiceTest {
 
-	@Autowired private ICityService cityService;
+	@Test void testing( ) {
 
-	@BeforeAll public void setUp() throws Exception { }
+		StringBuilder sb = new StringBuilder();
+		CityService cityService = mock(CityService.class);
 
-	@Test public void testing() {
-		//
-		String txtLine = "testing";
-		LOGGER.info(PAR + txtLine);
-		assertTrue(txtLine.equals("testing"));
+		sb.append("testing: ").append(cityService.toString());
+		System.out.println(sb);
+		assertNotNull(sb);
 	}
 
-	// @Test
-	public void findAll() {
-		//
-		String txtLines = "";
-		Iterable<City> iterable = cityService.findAll();
-		List<City> cities = new ArrayList<City>();
-		for (City city : iterable) {
-			//
-			txtLines += "\n";
-			txtLines += "\t" + city.getId();
-			txtLines += "\t" + city.getName();
-			txtLines += "\t" + city.getPopulation();
-			cities.add(city);
+	@Test void findAll( ) {
+
+		StringBuilder sb = new StringBuilder();
+		String FRMT = "\n\t%02d %-15s %,9d";
+		Random random = new Random();
+		String cityNames = "Stowe Akron Homerville CanalFulton NorthCanton LakeCable Canton Massillon Columbus";
+
+		List<City> cityList = new ArrayList<>();
+		AtomicInteger ai = new AtomicInteger();
+		Arrays.stream(cityNames.split(" ")).sorted().forEach( cityName -> {
+
+			City city = new City();
+			city.setId((long) ai.incrementAndGet());
+			city.setName(cityName);
+			city.setPopulation(random.nextInt(1000000));
+			cityList.add(city);
+		});
+		CityService cityService = mock(CityService.class);
+		when(cityService.findAll()).thenReturn(cityList);
+
+		List<City> citiesFound = cityService.findAll();
+		for ( City city : citiesFound ) {
+			sb.append(String.format(FRMT, city.getId(), city.getName(), city.getPopulation()));
 		}
-		txtLines += PAR + cities.size();
-		LOGGER.info(txtLines);
+		sb.append(EOL).append("total: ").append(citiesFound.size());
+		System.out.println(sb);
+		assertNotNull(sb);
 	}
 }
