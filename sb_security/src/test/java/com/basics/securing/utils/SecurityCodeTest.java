@@ -2,6 +2,7 @@ package com.basics.securing.utils;
 
 import com.sun.security.auth.callback.TextCallbackHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.net.ssl.KeyManager;
@@ -35,13 +36,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.basics.securing.utils.UtilityMain.EOL;
 import static com.basics.securing.utils.UtilityMain.exposeObject;
 import static com.basics.securing.utils.UtilityMainTest.PATHRESOURCE_MAIN;
+import static com.basics.securing.utils.UtilityMainTest.PATHRESOURCE_TEST;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SecurityCodeTest {
 
-	public static final String KEYSTORE_FILE = "cacerts";
+	public static final String KEYSTORE_FILE11 = "cacerts11";
 	public static final String KEYSTORE_FILE17 = "cacerts17";
 	public static final String KEYSTORE_SECRET = "changeit";
+	public static final String TRUSTSTORE_SECRET = "changeit";
+
 	public static final String KEYSTORE_PATHTEMPLATE = "C:/Program Files/Java/*/lib/security/";
 	public static final String[] KEYSTORE_JDK = { "jdk-11.0.12", "jdk-17.0.1", "jre1.8.0_301" };
 
@@ -135,7 +139,7 @@ public class SecurityCodeTest {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		// https://www.baeldung.com/java-security-overview
-		String keystoreFile = KEYSTORE_PATHTEMPLATE.replace("*",KEYSTORE_JDK[0]) + KEYSTORE_FILE; // "cacerts", "keystore.jks"
+		String keystoreFile = KEYSTORE_PATHTEMPLATE.replace("*",KEYSTORE_JDK[0]) + "cacerts"; // "cacerts", "keystore.jks"
 		char[] keyStorePassword = KEYSTORE_SECRET.toCharArray();
 		String FRMT = "\t%s %s\n";
 
@@ -220,12 +224,42 @@ public class SecurityCodeTest {
 	@Test void getSSLContext( ) {
 
 		StringBuilder stringBuilder = new StringBuilder();
-		String keystorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
+		String[] props = { PATHRESOURCE_MAIN + KEYSTORE_FILE17,  KEYSTORE_SECRET,  PATHRESOURCE_MAIN + KEYSTORE_FILE17, TRUSTSTORE_SECRET};
 
-		SSLContext sslContext = SecurityCode.getSSLContext(keystorePath, KEYSTORE_SECRET);
+		SSLContext sslContext = SecurityCode.getSSLContext(props);
 		stringBuilder.append(exposeObject(sslContext));
 
 		System.out.println(stringBuilder);
 		assertNotNull(sslContext);
+	}
+
+	@Test @Disabled("INCOMPLETE") void getSSLContextApache( ) {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		String[] props = { "file://" + PATHRESOURCE_MAIN + KEYSTORE_FILE17,  KEYSTORE_SECRET,
+			"file://" + PATHRESOURCE_MAIN + KEYSTORE_FILE17, TRUSTSTORE_SECRET};
+
+		SSLContext sslContext = SecurityCode.getSSLContextApache(props);
+		stringBuilder.append(exposeObject(sslContext));
+
+		System.out.println(stringBuilder);
+		assertNotNull(sslContext);
+	}
+
+	@Test void getCertificate() {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		String filename = PATHRESOURCE_TEST + "samplecert.cer";
+		X509Certificate x509Certificate = SecurityCode.getCertificate(filename);
+
+		stringBuilder.append( "getSubjectDN: " + x509Certificate.getSubjectDN().getName() + EOL );
+		stringBuilder.append( "getIssuerDN: " + x509Certificate.getIssuerDN().getName() + EOL );
+		stringBuilder.append( "getIssuerX500Principal: " + x509Certificate.getIssuerX500Principal().getName() + EOL );
+		stringBuilder.append( "getType: " + x509Certificate.getType() + EOL );
+		stringBuilder.append( "getSigAlgName: " + x509Certificate.getSigAlgName() + EOL );
+		stringBuilder.append( "getSigAlgOID: " + x509Certificate.getPublicKey().toString() + EOL );
+		stringBuilder.append( "getSerialNumber: " + x509Certificate.getSerialNumber() + EOL );
+		System.out.println(stringBuilder);
+		assertNotNull(x509Certificate);
 	}
 }

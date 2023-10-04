@@ -57,6 +57,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency><!-- for SSL -->
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.8</version>
+		</dependency>
+
 		<!-- swagger, avro -->
 		<dependency>
 			<!-- "https://www.javainuse.com/spring/boot_swagger3" -->

@@ -1,5 +1,7 @@
 package com.basics.securing.utils;
 
+import org.apache.http.ssl.SSLContextBuilder;
+
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -7,8 +9,11 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -16,6 +21,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.Base64;
 
 import static com.basics.securing.utils.UtilityMain.EOL;
@@ -30,7 +37,6 @@ public class SecurityCode {
 	public static final String ERROR = "ERROR: ";
 	public static final String FRMT = "\t%-25s %s\n";
 
-	// security
 	public static String getAuthorization(String username, String password) {
 
 		StringBuilder stringBuilder = new StringBuilder();
@@ -113,14 +119,18 @@ public class SecurityCode {
 		return trustManagers;
 	}
 
-	public static SSLContext getSSLContext(String keystorePath, String keystoreSecret) {
+	public static SSLContext getSSLContext(String[] pathPassArray) {
 
 		// C:/Program Files/Java/jdk-17.0.1/lib/security
 		SSLContext sslContext = null;
+		String keystorePath = pathPassArray[0];
+		String keystoreSecret = pathPassArray[1];
+		String truststorePath = pathPassArray[2];
+		String truststoreSecret = pathPassArray[3];
 		try {
 			// inititalize keyManagers, trustManagers, & secureRandom
-			KeyManager[] keyManagers = getKeyManagers(keystorePath, keystoreSecret);
-			TrustManager[] trustManagers = getTrustManagers(keystorePath, keystoreSecret);
+			KeyManager[] keyManagers = getKeyManagers(keystorePath, keystoreSecret); // keystorePath, keystoreSecret
+			TrustManager[] trustManagers = getTrustManagers(truststorePath, truststoreSecret); // truststorePath, truststoreSecret
 			SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
 			// get sslContext from keyManagers, trustManagers, & secureRandom
@@ -131,5 +141,45 @@ public class SecurityCode {
 			System.out.println(ERROR + ex.getMessage());
 		}
 		return sslContext;
+	}
+
+	public static SSLContext getSSLContextApache(String[] pathPassArray) {
+
+		SSLContext sslContext = null;
+		String keystorePath = pathPassArray[0];
+		String keystoreSecret = pathPassArray[1];
+		String truststorePath = pathPassArray[2];
+		String truststoreSecret = pathPassArray[3];
+		try {
+			URL urlKey = new URL(keystorePath);
+			URL urlTrust = new URL(truststorePath);
+			char[] charArrayKey = keystoreSecret.toCharArray();
+			char[] charArrayTrust = truststoreSecret.toCharArray();
+			sslContext = SSLContextBuilder.create()
+				.loadTrustMaterial(urlKey, charArrayKey)
+				.loadTrustMaterial(urlTrust, charArrayTrust)
+				.setProtocol(SSLCONTEXT_INSTANCE)
+				.build();
+		}
+		catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException | CertificateException |
+		       IOException ex) {
+			System.out.println(ERROR + ex.getMessage());
+		}
+		return sslContext;
+	}
+
+	public static X509Certificate getCertificate(String filename) {
+
+		X509Certificate x509Certificate = null;
+		String CERT_TYPE = "X.509";
+		try{
+			InputStream inputStream = new FileInputStream(filename);
+			CertificateFactory certificateFactory = CertificateFactory.getInstance(CERT_TYPE);
+			x509Certificate = (X509Certificate) certificateFactory.generateCertificate(inputStream);
+		}
+		catch(FileNotFoundException | CertificateException ex){
+			System.out.println(ERROR + ex.getMessage());
+		}
+		return x509Certificate;
 	}
 }
