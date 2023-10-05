@@ -12,30 +12,46 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.PKIXParameters;
+import java.security.cert.TrustAnchor;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.basics.securing.utils.UtilityMain.EOL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SecurityCode {
 
+	/*
+		JSSE (Java Secure Socket Extension)
+		Keystore file: keystore.jks password changeit
+		Truststore file: %JAVA_HOME%/lib/cacerts.jks
+	*/
 	private SecurityCode( ) { }
 
 	public static final String SSLCONTEXT_INSTANCE = "TLSv1.2";
 	public static final String KEYSTORE_ALGORITHM = "JKS";
 	public static final String ERROR = "ERROR: ";
 	public static final String FRMT = "\t%-25s %s\n";
+
+	public static final String KEYSTORE_FILE11 = "cacerts11";
+	public static final String KEYSTORE_FILE17 = "cacerts17";
+	public static final String KEYSTORE_SECRET = "changeit";
+	public static final String TRUSTSTORE_SECRET = "changeit";
 
 	public static String getAuthorization(String username, String password) {
 
@@ -73,10 +89,12 @@ public class SecurityCode {
 			// start KMF to get keyManagers
 			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(keystoreAlgorithmDEF);
 			keyManagerFactory.init(keyStore, keystoreSecret.toCharArray());
-			stringBuilder.append(String.format(FRMT, "KMFactory provider", keyManagerFactory.getProvider().toString()));
+			stringBuilder.append(
+				String.format(FRMT, "KMFactory provider", keyManagerFactory.getProvider().toString()));
 			keyManagers = keyManagerFactory.getKeyManagers();
 		}
-		catch (IOException | KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException | CertificateException ex) {
+		catch (IOException | KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException |
+		       CertificateException ex) {
 			System.out.println(ERROR + ex.getMessage());
 		}
 		System.out.println(stringBuilder);
@@ -112,7 +130,7 @@ public class SecurityCode {
 			System.out.println(ERROR + ex.getMessage());
 		}
 		finally {
-			try { if(inputStream != null) { inputStream.close(); } }
+			try { if ( inputStream != null ) { inputStream.close(); } }
 			catch (IOException ex) { System.out.println(ERROR + ex.getMessage()); }
 		}
 		System.out.println(stringBuilder);
@@ -129,8 +147,10 @@ public class SecurityCode {
 		String truststoreSecret = pathPassArray[3];
 		try {
 			// inititalize keyManagers, trustManagers, & secureRandom
-			KeyManager[] keyManagers = getKeyManagers(keystorePath, keystoreSecret); // keystorePath, keystoreSecret
-			TrustManager[] trustManagers = getTrustManagers(truststorePath, truststoreSecret); // truststorePath, truststoreSecret
+			KeyManager[] keyManagers =
+				getKeyManagers(keystorePath, keystoreSecret); // keystorePath, keystoreSecret
+			TrustManager[] trustManagers =
+				getTrustManagers(truststorePath, truststoreSecret); // truststorePath, truststoreSecret
 			SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
 			// get sslContext from keyManagers, trustManagers, & secureRandom
@@ -168,18 +188,39 @@ public class SecurityCode {
 		return sslContext;
 	}
 
-	public static X509Certificate getCertificate(String filename) {
+	public static X509Certificate getCertificate(String filenameCert) {
 
 		X509Certificate x509Certificate = null;
 		String CERT_TYPE = "X.509";
-		try{
-			InputStream inputStream = new FileInputStream(filename);
+		try {
+			InputStream inputStream = new FileInputStream(filenameCert);
 			CertificateFactory certificateFactory = CertificateFactory.getInstance(CERT_TYPE);
 			x509Certificate = (X509Certificate) certificateFactory.generateCertificate(inputStream);
 		}
-		catch(FileNotFoundException | CertificateException ex){
+		catch (FileNotFoundException | CertificateException ex) {
 			System.out.println(ERROR + ex.getMessage());
 		}
 		return x509Certificate;
+	}
+
+	public static List<X509Certificate> getCertsTruststore(String truststorePath, String truststoreSecret) {
+
+		List<X509Certificate> certificates = null;
+		try {
+			InputStream inputStream = new FileInputStream(truststorePath);
+			KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			keyStore.load(inputStream, truststoreSecret.toCharArray());
+
+			PKIXParameters pkixParameters = new PKIXParameters(keyStore);
+			Set<TrustAnchor> trustAnchors = pkixParameters.getTrustAnchors();
+			certificates = trustAnchors.stream()
+				.map(TrustAnchor::getTrustedCert)
+				.collect(Collectors.toList());
+		}
+		catch (CertificateException | KeyStoreException | InvalidAlgorithmParameterException | IOException |
+		       NoSuchAlgorithmException ex) {
+			System.out.println(ERROR + ex.getMessage());
+		}
+		return certificates;
 	}
 }
