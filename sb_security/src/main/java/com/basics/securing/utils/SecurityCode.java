@@ -9,7 +9,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -20,7 +19,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.PKIXParameters;
@@ -29,7 +27,6 @@ import java.security.cert.X509Certificate;
 import java.util.Base64;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.basics.securing.utils.UtilityMain.EOL;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -43,7 +40,8 @@ public class SecurityCode {
 	*/
 	private SecurityCode( ) { }
 
-	public static final String SSLCONTEXT_INSTANCE = "TLSv1.2";
+	public static final String ENABLEDCIPHER_SUITES = "TLS_AES_128_GCM_SHA256";
+	public static final String[] SSLCONTEXT_INSTANCES = {"TLSv1.2", "TLSv1.3"};
 	public static final String KEYSTORE_ALGORITHM = "JKS";
 	public static final String ERROR = "ERROR: ";
 	public static final String FRMT = "\t%-25s %s\n";
@@ -145,6 +143,7 @@ public class SecurityCode {
 		String keystoreSecret = pathPassArray[1];
 		String truststorePath = pathPassArray[2];
 		String truststoreSecret = pathPassArray[3];
+		String sslCtx_instance = SSLCONTEXT_INSTANCES[0];
 		try {
 			// inititalize keyManagers, trustManagers, & secureRandom
 			KeyManager[] keyManagers =
@@ -154,7 +153,7 @@ public class SecurityCode {
 			SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
 			// get sslContext from keyManagers, trustManagers, & secureRandom
-			sslContext = SSLContext.getInstance(SSLCONTEXT_INSTANCE);
+			sslContext = SSLContext.getInstance(sslCtx_instance);
 			sslContext.init(keyManagers, trustManagers, secureRandom);
 		}
 		catch (NoSuchAlgorithmException | KeyManagementException ex) {
@@ -170,6 +169,7 @@ public class SecurityCode {
 		String keystoreSecret = pathPassArray[1];
 		String truststorePath = pathPassArray[2];
 		String truststoreSecret = pathPassArray[3];
+		String sslCtx_instance = SSLCONTEXT_INSTANCES[0];
 		try {
 			URL urlKey = new URL(keystorePath);
 			URL urlTrust = new URL(truststorePath);
@@ -178,7 +178,7 @@ public class SecurityCode {
 			sslContext = SSLContextBuilder.create()
 				.loadTrustMaterial(urlKey, charArrayKey)
 				.loadTrustMaterial(urlTrust, charArrayTrust)
-				.setProtocol(SSLCONTEXT_INSTANCE)
+				.setProtocol(sslCtx_instance)
 				.build();
 		}
 		catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException | CertificateException |
@@ -192,12 +192,11 @@ public class SecurityCode {
 
 		X509Certificate x509Certificate = null;
 		String CERT_TYPE = "X.509";
-		try {
-			InputStream inputStream = new FileInputStream(filenameCert);
+		try (InputStream inputStream = new FileInputStream(filenameCert)){
 			CertificateFactory certificateFactory = CertificateFactory.getInstance(CERT_TYPE);
 			x509Certificate = (X509Certificate) certificateFactory.generateCertificate(inputStream);
 		}
-		catch (FileNotFoundException | CertificateException ex) {
+		catch (CertificateException | IOException ex) {
 			System.out.println(ERROR + ex.getMessage());
 		}
 		return x509Certificate;
@@ -206,16 +205,14 @@ public class SecurityCode {
 	public static List<X509Certificate> getCertsTruststore(String truststorePath, String truststoreSecret) {
 
 		List<X509Certificate> certificates = null;
-		try {
-			InputStream inputStream = new FileInputStream(truststorePath);
+		try (InputStream inputStream = new FileInputStream(truststorePath);){
 			KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
 			keyStore.load(inputStream, truststoreSecret.toCharArray());
 
 			PKIXParameters pkixParameters = new PKIXParameters(keyStore);
 			Set<TrustAnchor> trustAnchors = pkixParameters.getTrustAnchors();
 			certificates = trustAnchors.stream()
-				.map(TrustAnchor::getTrustedCert)
-				.collect(Collectors.toList());
+				.map(TrustAnchor::getTrustedCert).toList();
 		}
 		catch (CertificateException | KeyStoreException | InvalidAlgorithmParameterException | IOException |
 		       NoSuchAlgorithmException ex) {

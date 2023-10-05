@@ -11,7 +11,7 @@ import static com.basics.securing.utils.UtilityMain.EOL;
 import static com.basics.securing.utils.UtilityMain.exposeObject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class UtilityMainTest {
+class UtilityMainTest {
 
 	public static final String PATHRESOURCE_TEST = "src/test/resources/";
 	public static final String PATHRESOURCE_MAIN = "src/main/resources/";

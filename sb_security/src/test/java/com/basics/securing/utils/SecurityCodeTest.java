@@ -52,9 +52,7 @@ import static com.basics.securing.utils.UtilityMainTest.PATHRESOURCE_MAIN;
 import static com.basics.securing.utils.UtilityMainTest.PATHRESOURCE_TEST;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class SecurityCodeTest {
-
-	public static final String[] KEYSTORE_JDK = { "jdk-11.0.12", "jdk-17.0.1", "jre1.8.0_301" };
+class SecurityCodeTest {
 
 	@Test void test_UUID( ) {
 
@@ -182,11 +180,11 @@ public class SecurityCodeTest {
 
 		StringBuilder sb = new StringBuilder();
 		// C:/Program Files/Java/jdk-17.0.1/lib/security
-		String keystorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
+		String keystorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE11;
 
 		KeyManager[] keyManagers = getKeyManagers(keystorePath, KEYSTORE_SECRET);
 		Arrays.stream(keyManagers).forEach(keyManager ->
-			sb.append(exposeObject(keyManager))
+			sb.append(keyManager.toString())
 		);
 		System.out.println(sb);
 		assertNotNull(keyManagers);
@@ -195,11 +193,11 @@ public class SecurityCodeTest {
 	@Test void test_getTrustManagers( ) {
 
 		StringBuilder sb = new StringBuilder();
-		String truststorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
+		String truststorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE11;
 
 		TrustManager[] trustManagers = getTrustManagers(truststorePath, KEYSTORE_SECRET);
 		Arrays.stream(trustManagers).forEach(trustManager ->
-			sb.append(exposeObject(trustManager))
+			sb.append(trustManager.toString())
 		);
 		System.out.println(sb);
 		assertNotNull(trustManagers);
@@ -208,7 +206,7 @@ public class SecurityCodeTest {
 	@Test void test_getTrustManagers_certs( ) {
 
 		StringBuilder sb = new StringBuilder();
-		String truststorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE17;
+		String truststorePath = PATHRESOURCE_MAIN + KEYSTORE_FILE11;
 
 		TrustManager[] trustManagers = getTrustManagers(truststorePath, KEYSTORE_SECRET);
 		List<TrustManager> trustManagersList = Arrays.asList(trustManagers);
@@ -220,7 +218,7 @@ public class SecurityCodeTest {
 			X509Certificate[] x509Certificates = x509TrustManager.getAcceptedIssuers();
 			Arrays.stream(x509Certificates).sorted(Comparator.comparing(String::valueOf))
 				.forEach(x509Certificate -> {
-					String dnNames = x509Certificate.getSubjectDN().getName();
+					String dnNames = x509Certificate.getSubjectX500Principal().getName();
 					if ( dnNames.length() > MAXLEN ) { dnNames = dnNames.substring(0, MAXLEN); }
 					sb.append(String.format("\t%02d %s\n", ai.incrementAndGet(), dnNames));
 				});
@@ -233,7 +231,7 @@ public class SecurityCodeTest {
 
 		StringBuilder sb = new StringBuilder();
 		String[] props =
-			{ PATHRESOURCE_MAIN + KEYSTORE_FILE17, KEYSTORE_SECRET, PATHRESOURCE_MAIN + KEYSTORE_FILE17,
+			{ PATHRESOURCE_MAIN + KEYSTORE_FILE11, KEYSTORE_SECRET, PATHRESOURCE_MAIN + KEYSTORE_FILE11,
 				TRUSTSTORE_SECRET };
 
 		SSLContext sslContext = getSSLContext(props);
@@ -262,8 +260,8 @@ public class SecurityCodeTest {
 		String filename = PATHRESOURCE_TEST + "samplecert.cer";
 		X509Certificate x509Certificate = getCertificate(filename);
 
-		sb.append("getSubjectDN: " + x509Certificate.getSubjectDN().getName() + EOL);
-		sb.append("getIssuerDN: " + x509Certificate.getIssuerDN().getName() + EOL);
+		sb.append("getSubjectDN: " + x509Certificate.getSubjectX500Principal().getName() + EOL);
+		sb.append("getIssuerDN: " + x509Certificate.getIssuerX500Principal().getName() + EOL);
 		sb.append("getIssuerX500Principal: " + x509Certificate.getIssuerX500Principal().getName() + EOL);
 		sb.append("getType: " + x509Certificate.getType() + EOL);
 		sb.append("getSigAlgName: " + x509Certificate.getSigAlgName() + EOL);
@@ -284,8 +282,8 @@ public class SecurityCodeTest {
 		Set<String> set = new TreeSet<>();
 		int LEN = 40;
 		certificates.forEach(certificate -> {
-			String SDN = certificate.getSubjectDN().getName();
-			String IDN = certificate.getIssuerDN().getName();
+			String SDN = certificate.getSubjectX500Principal().getName();
+			String IDN = certificate.getIssuerX500Principal().getName();
 			String PKA = certificate.getPublicKey().getAlgorithm();
 			if ( SDN.length() < LEN ) { SDN = StringUtils.rightPad(SDN, LEN); } else {
 				SDN = SDN.substring(0, LEN);

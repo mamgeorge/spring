@@ -149,7 +149,7 @@ public class UtilityMain {
 	}
 
 	public static String getRandomString(int num) {
-		//
+
 		StringBuilder txtRandom = new StringBuilder();
 		char[] chars =
 			( "1234567890abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWZYZ" ).toCharArray();

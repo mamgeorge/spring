@@ -20,7 +20,7 @@ public class GeneralConfiguration {
 
 		httpSecurity
 			.authorizeHttpRequests(requests -> requests
-				.antMatchers("/", "/home").permitAll()
+				.requestMatchers("/", "/home").permitAll() // requestMatchers replaced antMatchers
 				.anyRequest().authenticated() // permitAll
 			)
 			.formLogin(form -> form

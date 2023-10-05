@@ -11,18 +11,16 @@
 	<name>securingWeb</name>
 	<description>Demo project for Spring Boot</description>
 
-	<!--<modules><module>/</module></modules>-->
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.3</version>
+		<version>3.1.4</version><!-- 2.7.3, 3.1.4 -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
-		<java.version>11</java.version>
-		<spring.version>2.7.3</spring.version>
+		<java.version>17</java.version>
+		<spring.version>3.1.4</spring.version><!-- 2.7.3, 3.1.4 -->
 		<lombok.version>1.18.22</lombok.version>
 	</properties>
 
