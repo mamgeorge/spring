@@ -1,11 +1,30 @@
 Spring Security
 
-https://spring.io/guides/gs/securing-web/
-https://www.markdownguide.org/basic-syntax
+	https://spring.io/guides/gs/securing-web/
+	https://www.markdownguide.org/basic-syntax
 
 	> cd c:\workspace\github\spring\sb_security
 
-goto > http://localhost:8080
+	goto > http://localhost:8080
+
+SSL
+
+** 2way: "https://www.baeldung.com/java-https-client-certificate-authentication"
+
+* 1 server_certificate [ (Self_Signed) "serverkeystore.p12", "server-certificate.pem", "clienttruststore.jks"
+
+* 2 client_certificate [ (Self_Signed) "clientkeystore.p12", "client-certificate.pem", "servertruststore.jks"
+
+* 3 code [ SSLSocketServer, SSLSocketClient ]
+
+* 4 run code with certs [ note: Windows multiLine Shell Code: ^, \, ;, && ]
+
+
+	java -cp "C:/workspace/github/spring/sb_security/target/classes/;C:/workspace/github/spring/sb_security/target/test-classes/" -Djavax.net.ssl.keyStore="C:/workspace/training/serverkeystore.p12" -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore="C:/workspace/training/servertruststore.jks" -Djavax.net.ssl.trustStorePassword=password com.basics.securing.utils.SSLSocketServer
+
+	java -cp "C:/workspace/github/spring/sb_security/target/classes/;C:/workspace/github/spring/sb_security/target/test-classes/" -Djavax.net.ssl.keyStore="C:/workspace/training/clientkeystore.p12" -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore="C:/workspace/training/clienttruststore.jks" -Djavax.net.ssl.trustStorePassword=password com.basics.securing.utils.SSLSocketClient
+
+** 1way [ KeyStore, SSLContext, HttpClient, RestTemplate, ResponseEntity; SSLExchange, SSLExchangeTest ]
 
 ERROR:
 
