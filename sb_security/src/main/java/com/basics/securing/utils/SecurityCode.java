@@ -43,13 +43,16 @@ public class SecurityCode {
 	public static final String ENABLEDCIPHER_SUITES = "TLS_AES_128_GCM_SHA256";
 	public static final String[] SSLCONTEXT_INSTANCES = {"TLSv1.2", "TLSv1.3"};
 	public static final String KEYSTORE_ALGORITHM = "JKS";
-	public static final String ERROR = "ERROR: ";
-	public static final String FRMT = "\t%-25s %s\n";
+	public static final String KEYSTORE_INSTANCE = "PKCS12";
 
-	public static final String KEYSTORE_FILE11 = "cacerts11";
-	public static final String KEYSTORE_FILE17 = "cacerts17";
+	public static final String CACERTS = "cacerts11";
+	public static final String KEYSTORE_FILE11 = CACERTS + "11";
+	public static final String KEYSTORE_FILE17 = CACERTS + "17";
 	public static final String KEYSTORE_SECRET = "changeit";
 	public static final String TRUSTSTORE_SECRET = "changeit";
+
+	public static final String ERROR = "ERROR: ";
+	public static final String FRMT = "\t%-25s %s\n";
 
 	public static String getAuthorization(String username, String password) {
 

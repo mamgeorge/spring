@@ -19,20 +19,27 @@ public class SSLSocketServer {
 
 	public static void main(String[] args) {
 
+		startServer();
+	}
+
+	public static void startServer( ) {
+
 		ServerSocketFactory SSFactory = SSLServerSocketFactory.getDefault();
 		try {
 			// sslServerSocket (listener) checks server_truststore to confirm self_signed client_cert is there
 			SSLServerSocket sslServerSocket = (SSLServerSocket) SSFactory.createServerSocket(PORT);
 			sslServerSocket.setNeedClientAuth(true); // requires client to share client_cert with server
-			sslServerSocket.setEnabledCipherSuites(new String[] { ENABLEDCIPHER_SUITES });
-			sslServerSocket.setEnabledProtocols(new String[] { SSLCONTEXT_INSTANCES[1] });
+			sslServerSocket.setEnabledCipherSuites(new String[]{ ENABLEDCIPHER_SUITES });
+			sslServerSocket.setEnabledProtocols(new String[]{ SSLCONTEXT_INSTANCES[1] });
 			System.out.println("listening for messages...");
 			try {
 				Socket socket = sslServerSocket.accept();
 				InputStream inputStream = new BufferedInputStream(socket.getInputStream());
 				byte[] bytes = new byte[2048];
+				System.out.println("inputStream: " + inputStream);
 				int lenBytes = inputStream.read(bytes);
 
+				System.out.println("writing...");
 				String message = new String(bytes, 0, lenBytes);
 				OutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
 				System.out.printf("server received %d bytes: %s%n", lenBytes, message);
@@ -40,8 +47,8 @@ public class SSLSocketServer {
 				outputStream.write(response.getBytes(), 0, response.getBytes().length);
 				outputStream.flush();
 			}
-			catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+			catch (IOException ex) { System.out.println("ERROR Socket: " + ex.getMessage()); }
 		}
-		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage());}
+		catch (IOException ex) { System.out.println("ERROR SSLServerSocket: " + ex.getMessage()); }
 	}
 }

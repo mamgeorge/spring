@@ -19,12 +19,17 @@ public class SSLSocketClient {
 
 	public static void main(String[] args) {
 
+		startClient();
+	}
+
+	public static void startClient( ) {
+
 		SocketFactory socketFactory = SSLSocketFactory.getDefault();
-		try  {
+		try {
 			// sslSocket creates TLS connection, and client verifies server_cert is in the client_truststore
 			SSLSocket sslSocket = (SSLSocket) socketFactory.createSocket(HOST, PORT);
-			sslSocket.setEnabledCipherSuites(new String[] { ENABLEDCIPHER_SUITES });
-			sslSocket.setEnabledProtocols(new String[] { SSLCONTEXT_INSTANCES[1] });
+			sslSocket.setEnabledCipherSuites(new String[]{ ENABLEDCIPHER_SUITES });
+			sslSocket.setEnabledProtocols(new String[]{ SSLCONTEXT_INSTANCES[1] });
 
 			String message = "Hello World Message";
 			System.out.println("sending message: " + message);
