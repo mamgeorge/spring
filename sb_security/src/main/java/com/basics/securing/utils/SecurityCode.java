@@ -45,7 +45,7 @@ public class SecurityCode {
 	public static final String KEYSTORE_ALGORITHM = "JKS";
 	public static final String KEYSTORE_INSTANCE = "PKCS12";
 
-	public static final String CACERTS = "cacerts11";
+	public static final String CACERTS = "cacerts";
 	public static final String KEYSTORE_FILE11 = CACERTS + "11";
 	public static final String KEYSTORE_FILE17 = CACERTS + "17";
 	public static final String KEYSTORE_SECRET = "changeit";

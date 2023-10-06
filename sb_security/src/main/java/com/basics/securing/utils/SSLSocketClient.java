@@ -9,29 +9,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static com.basics.securing.utils.SSLSocketServer.PORT;
+import static com.basics.securing.utils.SSLSocketServer.SSLCONTEXT_INSTANCE;
 import static com.basics.securing.utils.SecurityCode.ENABLEDCIPHER_SUITES;
-import static com.basics.securing.utils.SecurityCode.SSLCONTEXT_INSTANCES;
 
 public class SSLSocketClient {
 
 	public static final String HOST = "localhost";
-	public static final int PORT = 80;
+	public static final int PORTED = PORT;
 
 	public static void main(String[] args) {
 
-		startClient();
+		System.out.println("SSLSocketClient.main()");
+		startClient(HOST, PORTED);
 	}
 
-	public static void startClient( ) {
+	public static void startClient(String host, int port ) {
 
 		SocketFactory socketFactory = SSLSocketFactory.getDefault();
 		try {
 			// sslSocket creates TLS connection, and client verifies server_cert is in the client_truststore
-			SSLSocket sslSocket = (SSLSocket) socketFactory.createSocket(HOST, PORT);
+			SSLSocket sslSocket = (SSLSocket) socketFactory.createSocket(host, port);
 			sslSocket.setEnabledCipherSuites(new String[]{ ENABLEDCIPHER_SUITES });
-			sslSocket.setEnabledProtocols(new String[]{ SSLCONTEXT_INSTANCES[1] });
+			sslSocket.setEnabledProtocols(new String[]{ SSLCONTEXT_INSTANCE });
 
-			String message = "Hello World Message";
+			String message = "CLIENT MESSAGE: Hello World!";
 			System.out.println("sending message: " + message);
 			OutputStream outputStream = new BufferedOutputStream(sslSocket.getOutputStream());
 			outputStream.write(message.getBytes());
@@ -40,7 +42,8 @@ public class SSLSocketClient {
 			InputStream inputStream = new BufferedInputStream(sslSocket.getInputStream());
 			byte[] bytes = new byte[2048];
 			int lenBytes = inputStream.read(bytes);
-			System.out.printf("client received %d bytes: %s%n", lenBytes, new String(bytes, 0, lenBytes));
+			String serverResponse = new String(bytes, 0, lenBytes);
+			System.out.printf("CLIENT RECEIVED %d bytes: %s%n", lenBytes, serverResponse);
 		}
 		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 	}

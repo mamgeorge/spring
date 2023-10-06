@@ -6,9 +6,12 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
@@ -29,21 +32,25 @@ import static com.basics.securing.utils.SSLExchange.SERVER_KEYSTORE;
 import static com.basics.securing.utils.SSLExchange.SERVER_TRUSTSTORE;
 import static com.basics.securing.utils.SSLExchange.getExchangeOneWay;
 import static com.basics.securing.utils.SSLExchange.getHttpClient;
+import static com.basics.securing.utils.SSLExchange.getSSLContext;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpStatus.CONTINUE;
 
 class SSLExchangeTest {
 
-	private static final String[] URLS =
-		{ "http://httpbin.org", "http://localhost:80", "localhost", "127.0.0.1" };
+	private static final String[] URL_EXCHANGES =
+		{ "https://localhost:80", "localhost", "127.0.0.1", "http://httpbin.org" };
 
 	// SSL OneWay
 	@Test @Disabled( "INCOMPLETE" ) void test_OneWay( ) {
 
-		String url = URLS[0];
+		String urlExchange = URL_EXCHANGES[0];
 		char[] charsPassword = PASSWORD_TRST.toCharArray();
+		String urlClientTruststore = CLIENT_TRUSTSTORE;
+
 		URL urlTrustStore = null;
-		try { urlTrustStore = new URL("file:///" + SERVER_TRUSTSTORE); }
+		try { urlTrustStore = new URL("file:///" + urlClientTruststore); }
 		catch (MalformedURLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
 		RestTemplate restTemplate = null;
@@ -60,10 +67,34 @@ class SSLExchangeTest {
 		catch (NoSuchAlgorithmException | KeyStoreException | CertificateException | IOException |
 		       KeyManagementException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
-		ResponseEntity<String> responseEntity = null;
+		ResponseEntity<String> responseEntity = new ResponseEntity<>("EMPTY", CONTINUE);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		HttpEntity<?> httpEntity = new HttpEntity<>(null, httpHeaders);
-		responseEntity = Objects.requireNonNull(restTemplate).exchange(url, GET, httpEntity, String.class);
+		HttpEntity<?> httpEntity = new HttpEntity<>("anybody", httpHeaders);
+		try { responseEntity = Objects.requireNonNull(restTemplate).exchange(urlExchange, GET, httpEntity, String.class);
+		} catch (ResourceAccessException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+
+		String txtlines = responseEntity.getBody();
+		System.out.println(txtlines);
+		assertNotNull(txtlines);
+	}
+
+	// SSL OneWay
+	@Test @Disabled( "INCOMPLETE" ) void test_OneWay_props( ) {
+
+		String urlExchange = URL_EXCHANGES[0];
+		String[] props = {CLIENT_KEYSTORE,PASSWORD_KEYS,CLIENT_TRUSTSTORE,PASSWORD_TRST};
+
+		SSLContext sslContext = getSSLContext(props);
+		HttpClient httpClient = getHttpClient(sslContext);
+		ClientHttpRequestFactory CHRF = new HttpComponentsClientHttpRequestFactory(httpClient);
+
+		RestTemplate restTemplate = new RestTemplate(CHRF);
+
+		ResponseEntity<String> responseEntity = new ResponseEntity<>("EMPTY", CONTINUE);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		HttpEntity<?> httpEntity = new HttpEntity<>("anybody", httpHeaders);
+		try { responseEntity = Objects.requireNonNull(restTemplate).exchange(urlExchange, GET, httpEntity, String.class);
+		} catch (ResourceAccessException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
 		String txtlines = responseEntity.getBody();
 		System.out.println(txtlines);
@@ -73,7 +104,7 @@ class SSLExchangeTest {
 	// SSL OneWay
 	@Test @Disabled( "INCOMPLETE" ) void test_getExchangeOneWay( ) {
 
-		String txtlines = getExchangeOneWay(SERVER_TRUSTSTORE, PASSWORD_TRST, URLS[0]);
+		String txtlines = getExchangeOneWay(CLIENT_TRUSTSTORE, PASSWORD_TRST, URL_EXCHANGES[0]);
 		System.out.println(txtlines);
 		assertNotNull(txtlines);
 	}
@@ -81,12 +112,13 @@ class SSLExchangeTest {
 	// SSL TwoWay
 	@Test @Disabled( "INCOMPLETE" ) void test_getExchangeTwoWay( ) {
 
-		if(false) {
+		if(true) {
 			System.setProperty("javax.net.ssl.keyStore", SERVER_KEYSTORE);
 			System.setProperty("javax.net.ssl.keyStorePassword", PASSWORD_KEYS);
 			System.setProperty("javax.net.ssl.trustStore", SERVER_TRUSTSTORE);
 			System.setProperty("javax.net.ssl.trustStorePassword", PASSWORD_TRST);
-
+		}
+		else {
 			System.setProperty("javax.net.ssl.keyStore", CLIENT_KEYSTORE);
 			System.setProperty("javax.net.ssl.keyStorePassword", PASSWORD_KEYS);
 			System.setProperty("javax.net.ssl.trustStore", CLIENT_TRUSTSTORE);

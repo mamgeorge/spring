@@ -20,9 +20,9 @@ SSL
 * 4 run code with certs [ note: Windows multiLine Shell Code: ^, \, ;, && ]
 
 
-	java -cp "C:/workspace/github/spring/sb_security/target/classes/;C:/workspace/github/spring/sb_security/target/test-classes/" -Djavax.net.ssl.keyStore="C:/workspace/training/serverkeystore.p12" -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore="C:/workspace/training/servertruststore.jks" -Djavax.net.ssl.trustStorePassword=password com.basics.securing.utils.SSLSocketServer
+	java -cp "C:/workspace/github/spring/sb_security/target/classes/;C:/workspace/github/spring/sb_security/target/test-classes/" -Djavax.net.ssl.keyStore="C:/workspace/training/xtra/serverkeystore.p12" -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore="C:/workspace/training/xtra/servertruststore.jks" -Djavax.net.ssl.trustStorePassword=password com.basics.securing.utils.SSLSocketServer
 
-	java -cp "C:/workspace/github/spring/sb_security/target/classes/;C:/workspace/github/spring/sb_security/target/test-classes/" -Djavax.net.ssl.keyStore="C:/workspace/training/clientkeystore.p12" -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore="C:/workspace/training/clienttruststore.jks" -Djavax.net.ssl.trustStorePassword=password com.basics.securing.utils.SSLSocketClient
+	java -cp "C:/workspace/github/spring/sb_security/target/classes/;C:/workspace/github/spring/sb_security/target/test-classes/" -Djavax.net.ssl.keyStore="C:/workspace/training/xtra/clientkeystore.p12" -Djavax.net.ssl.keyStorePassword=password -Djavax.net.ssl.trustStore="C:/workspace/training/xtra/clienttruststore.jks" -Djavax.net.ssl.trustStorePassword=password com.basics.securing.utils.SSLSocketClient
 
 ** 1way [ KeyStore, SSLContext, HttpClient, RestTemplate, ResponseEntity; SSLExchange, SSLExchangeTest ]
 

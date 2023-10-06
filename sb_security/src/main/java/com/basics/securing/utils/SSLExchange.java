@@ -15,14 +15,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -34,10 +37,11 @@ import java.util.function.Supplier;
 
 import static com.basics.securing.utils.SecurityCode.KEYSTORE_INSTANCE;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpStatus.CONTINUE;
 
 public class SSLExchange {
 
-	public static final String PATH_LOCAL = "C:/workspace/training/";
+	public static final String PATH_LOCAL = "C:/workspace/training/xtra/";
 	public static final String SERVER_KEYSTORE = PATH_LOCAL + "serverkeystore.p12";
 	public static final String SERVER_TRUSTSTORE = PATH_LOCAL + "servertruststore.jks";
 	public static final String SERVER_CERTIFICATE = PATH_LOCAL + "server-certificate.pem";
@@ -47,6 +51,7 @@ public class SSLExchange {
 
 	public static final String PASSWORD_KEYS = "password";
 	public static final String PASSWORD_TRST = "password";
+
 	public static String getExchangeOneWay(String pathfileKey, String password, String url) {
 
 		char[] charsPassword = password.toCharArray();
@@ -92,11 +97,48 @@ public class SSLExchange {
 		return sslContext;
 	}
 
+	public static SSLContext getSSLContext(String[] props) {
+
+		String pathClientKeyStore = props[0];
+		String passwordKey = props[1];
+		String pathClientTrustStore = props[2];
+		String passwordTrust = props[3];
+
+		SSLContext sslContext = null;
+		KeyStore keyStore = null;
+		try {
+			InputStream inputStream = new FileInputStream(pathClientKeyStore);
+			keyStore = KeyStore.getInstance(KEYSTORE_INSTANCE);
+			keyStore.load(inputStream, passwordKey.toCharArray());
+		}
+		catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
+		URL urlTrustStore = null;
+		try {
+			urlTrustStore = new URL("file:///" + pathClientTrustStore);
+		}
+		catch (MalformedURLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		try {
+			sslContext = SSLContextBuilder.create()
+				.loadKeyMaterial(keyStore, passwordKey.toCharArray())
+				.loadTrustMaterial(urlTrustStore, passwordTrust.toCharArray())
+				.build();
+		}
+		catch (NoSuchAlgorithmException | KeyStoreException | UnrecoverableKeyException |
+		       KeyManagementException | CertificateException | IOException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
+		return sslContext;
+	}
+
 	public static HttpClient getHttpClient(SSLContext sslContext) {
 
 		// apache classes
 		SSLConnectionSocketFactory SSL_CSF = SSLConnectionSocketFactoryBuilder.create()
 			.setSslContext(sslContext)
+		//	.setHostnameVerifier(new DefaultHostnameVerifier())
+		//	.setHostnameVerifier( BROWSER_COMPATIBLE_HOSTNAME_VERIFIER)
 			.build();
 		HttpClientConnectionManager HCCM = PoolingHttpClientConnectionManagerBuilder.create()
 			.setSSLSocketFactory(SSL_CSF)
@@ -113,7 +155,7 @@ public class SSLExchange {
 		// springframework classes
 		ClientHttpRequestFactory CHCR = new HttpComponentsClientHttpRequestFactory(httpClient);
 		RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-		restTemplateBuilder.requestFactory(() -> CHCR).build();
+		restTemplateBuilder.requestFactory(( ) -> CHCR).build();
 		SSLSupplierRequestFactoryImpl SSRFI = new SSLSupplierRequestFactoryImpl(); // Supplier
 		RestTemplate restTemplate = restTemplateBuilder.requestFactory(SSRFI).build();
 
@@ -126,10 +168,15 @@ public class SSLExchange {
 		try { uri = new URI(url); }
 		catch (URISyntaxException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
-		ResponseEntity<String> responseEntity = null;
+		ResponseEntity<String> responseEntity = new ResponseEntity<>("", CONTINUE);
 		HttpHeaders httpHeaders = new HttpHeaders();
-		HttpEntity<?> httpEntity = new HttpEntity<>(null, httpHeaders);
-		responseEntity = restTemplate.exchange(Objects.requireNonNull(uri), GET, httpEntity, String.class);
+		HttpEntity<?> httpEntity = new HttpEntity<>("anybody", httpHeaders);
+		try {
+			responseEntity =
+				restTemplate.exchange(Objects.requireNonNull(uri), GET, httpEntity, String.class);
+		}
+		catch (ResourceAccessException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+
 		return responseEntity;
 	}
 }
@@ -137,14 +184,15 @@ public class SSLExchange {
 class SSLSupplierRequestFactoryImpl implements Supplier<ClientHttpRequestFactory> {
 
 	@Override
-	public ClientHttpRequestFactory get() {
+	public ClientHttpRequestFactory get( ) {
 
 		// apache
 		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
 		HttpClient httpClient = httpClientBuilder.build();
 
 		// springframework
-		HttpComponentsClientHttpRequestFactory HCC_HRF = new HttpComponentsClientHttpRequestFactory(httpClient);
+		HttpComponentsClientHttpRequestFactory HCC_HRF =
+			new HttpComponentsClientHttpRequestFactory(httpClient);
 		HCC_HRF.setBufferRequestBody(false); // for big POST data use false to save memory
 		return HCC_HRF;
 	}

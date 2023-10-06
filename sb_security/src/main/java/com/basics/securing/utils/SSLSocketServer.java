@@ -15,23 +15,25 @@ import static com.basics.securing.utils.SecurityCode.SSLCONTEXT_INSTANCES;
 
 public class SSLSocketServer {
 
+	public static final String SSLCONTEXT_INSTANCE = SSLCONTEXT_INSTANCES[1];
 	public static final int PORT = 80;
 
 	public static void main(String[] args) {
 
-		startServer();
+		System.out.println("SSLSocketServer.main()");
+		startServer(PORT);
 	}
 
-	public static void startServer( ) {
+	public static void startServer(int port ) {
 
 		ServerSocketFactory SSFactory = SSLServerSocketFactory.getDefault();
 		try {
 			// sslServerSocket (listener) checks server_truststore to confirm self_signed client_cert is there
-			SSLServerSocket sslServerSocket = (SSLServerSocket) SSFactory.createServerSocket(PORT);
+			SSLServerSocket sslServerSocket = (SSLServerSocket) SSFactory.createServerSocket(port);
 			sslServerSocket.setNeedClientAuth(true); // requires client to share client_cert with server
 			sslServerSocket.setEnabledCipherSuites(new String[]{ ENABLEDCIPHER_SUITES });
-			sslServerSocket.setEnabledProtocols(new String[]{ SSLCONTEXT_INSTANCES[1] });
-			System.out.println("listening for messages...");
+			sslServerSocket.setEnabledProtocols(new String[]{ SSLCONTEXT_INSTANCE });
+			System.out.println("\nSERVER LISTENING FOR MESSAGES!\n");
 			try {
 				Socket socket = sslServerSocket.accept();
 				InputStream inputStream = new BufferedInputStream(socket.getInputStream());
@@ -42,9 +44,9 @@ public class SSLSocketServer {
 				System.out.println("writing...");
 				String message = new String(bytes, 0, lenBytes);
 				OutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
-				System.out.printf("server received %d bytes: %s%n", lenBytes, message);
-				String response = message + " processed by server";
-				outputStream.write(response.getBytes(), 0, response.getBytes().length);
+				System.out.printf("SERVER RECEIVED %d bytes: [%s]%n", lenBytes, message);
+				String serverResponse = "[" + message + "] processed by SERVER";
+				outputStream.write(serverResponse.getBytes(), 0, serverResponse.getBytes().length);
 				outputStream.flush();
 			}
 			catch (IOException ex) { System.out.println("ERROR Socket: " + ex.getMessage()); }
