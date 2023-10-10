@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static com.basics.securing.utils.SSLSocketServer.BYTE_BLOCK;
 import static com.basics.securing.utils.SSLSocketServer.PORT;
 import static com.basics.securing.utils.SSLSocketServer.SSLCONTEXT_INSTANCE;
 import static com.basics.securing.utils.SecurityCode.ENABLEDCIPHER_SUITES;
@@ -40,7 +41,7 @@ public class SSLSocketClient {
 			outputStream.flush();
 
 			InputStream inputStream = new BufferedInputStream(sslSocket.getInputStream());
-			byte[] bytes = new byte[2048];
+			byte[] bytes = new byte[BYTE_BLOCK];
 			int lenBytes = inputStream.read(bytes);
 			String serverResponse = new String(bytes, 0, lenBytes);
 			System.out.printf("CLIENT RECEIVED %d bytes: %s%n", lenBytes, serverResponse);

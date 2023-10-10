@@ -37,13 +37,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.CONTINUE;
 
+@Disabled( "INCOMPLETE" )
 class SSLExchangeTest {
 
 	private static final String[] URL_EXCHANGES =
 		{ "https://localhost:80", "localhost", "127.0.0.1", "http://httpbin.org" };
 
-	// SSL OneWay
-	@Test @Disabled( "INCOMPLETE" ) void test_OneWay( ) {
+	// 1way SSLContext
+	@Test void test_getHttpClient( ) {
 
 		String urlExchange = URL_EXCHANGES[0];
 		char[] charsPassword = PASSWORD_TRST.toCharArray();
@@ -70,7 +71,7 @@ class SSLExchangeTest {
 		ResponseEntity<String> responseEntity = new ResponseEntity<>("EMPTY", CONTINUE);
 		HttpHeaders httpHeaders = new HttpHeaders();
 		HttpEntity<?> httpEntity = new HttpEntity<>("anybody", httpHeaders);
-		try { responseEntity = Objects.requireNonNull(restTemplate).exchange(urlExchange, GET, httpEntity, String.class);
+		try { responseEntity = restTemplate.exchange(urlExchange, GET, httpEntity, String.class);
 		} catch (ResourceAccessException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
 		String txtlines = responseEntity.getBody();
@@ -78,8 +79,8 @@ class SSLExchangeTest {
 		assertNotNull(txtlines);
 	}
 
-	// SSL OneWay
-	@Test @Disabled( "INCOMPLETE" ) void test_OneWay_props( ) {
+	// 1way SSLContext
+	@Test void test_getHttpClient_props( ) {
 
 		String urlExchange = URL_EXCHANGES[0];
 		String[] props = {CLIENT_KEYSTORE,PASSWORD_KEYS,CLIENT_TRUSTSTORE,PASSWORD_TRST};
@@ -101,24 +102,23 @@ class SSLExchangeTest {
 		assertNotNull(txtlines);
 	}
 
-	// SSL OneWay
-	@Test @Disabled( "INCOMPLETE" ) void test_getExchangeOneWay( ) {
+	// 1way SSLExchange
+	@Test void test_1Way_getExchangeOneWay( ) {
 
 		String txtlines = getExchangeOneWay(CLIENT_TRUSTSTORE, PASSWORD_TRST, URL_EXCHANGES[0]);
 		System.out.println(txtlines);
 		assertNotNull(txtlines);
 	}
 
-	// SSL TwoWay
-	@Test @Disabled( "INCOMPLETE" ) void test_getExchangeTwoWay( ) {
+	// 2Way SSLSockets
+	@Test void test_SSLSockets( ) {
 
-		if(true) {
+		if(false) {
 			System.setProperty("javax.net.ssl.keyStore", SERVER_KEYSTORE);
 			System.setProperty("javax.net.ssl.keyStorePassword", PASSWORD_KEYS);
 			System.setProperty("javax.net.ssl.trustStore", SERVER_TRUSTSTORE);
 			System.setProperty("javax.net.ssl.trustStorePassword", PASSWORD_TRST);
-		}
-		else {
+
 			System.setProperty("javax.net.ssl.keyStore", CLIENT_KEYSTORE);
 			System.setProperty("javax.net.ssl.keyStorePassword", PASSWORD_KEYS);
 			System.setProperty("javax.net.ssl.trustStore", CLIENT_TRUSTSTORE);

@@ -16,15 +16,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class GeneralConfiguration {
 
+	private static final String[] PATHS_PERMITTED = {"/", "/home"};
+	private static final String PATH_LOGIN = "/login";
+
 	@Bean public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
 		httpSecurity
 			.authorizeHttpRequests(requests -> requests
-				.requestMatchers("/", "/home").permitAll() // requestMatchers replaced antMatchers
+				.requestMatchers(PATHS_PERMITTED).permitAll() // requestMatchers replaced antMatchers
 				.anyRequest().authenticated() // permitAll
 			)
 			.formLogin(form -> form
-				.loginPage("/login") // .successHandler(successHandler()) // .defaultSuccessUrl("/")
+				.loginPage(PATH_LOGIN) // .successHandler(successHandler()) // .defaultSuccessUrl("/")
 				.permitAll()
 			)
 			.logout(LogoutConfigurer::permitAll)

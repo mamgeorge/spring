@@ -17,6 +17,7 @@ public class SSLSocketServer {
 
 	public static final String SSLCONTEXT_INSTANCE = SSLCONTEXT_INSTANCES[1];
 	public static final int PORT = 80;
+	public static final int BYTE_BLOCK = 2048;
 
 	public static void main(String[] args) {
 
@@ -37,9 +38,10 @@ public class SSLSocketServer {
 			try {
 				Socket socket = sslServerSocket.accept();
 				InputStream inputStream = new BufferedInputStream(socket.getInputStream());
-				byte[] bytes = new byte[2048];
+				byte[] bytes = new byte[BYTE_BLOCK];
 				System.out.println("inputStream: " + inputStream);
-				int lenBytes = inputStream.read(bytes);
+				int lenBytes;
+				lenBytes = inputStream.read(bytes);
 
 				System.out.println("writing...");
 				String message = new String(bytes, 0, lenBytes);
