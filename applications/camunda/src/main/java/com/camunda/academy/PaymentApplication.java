@@ -1,12 +1,14 @@
 package com.camunda.academy;
 
 import io.camunda.zeebe.client.ZeebeClient;
+import io.camunda.zeebe.client.ZeebeClientConfiguration;
 import io.camunda.zeebe.client.api.response.Topology;
 import io.camunda.zeebe.client.api.worker.JobWorker;
 import io.camunda.zeebe.client.impl.oauth.OAuthCredentialsProvider;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -32,7 +34,7 @@ public class PaymentApplication {
 
 	public String runJobWorker( ) {
 
-		String txtLines = "";
+		String json = "";
 		PayAppConfiguration payAppConf = new PayAppConfiguration();
 		try {
 			// get Credentials
@@ -46,10 +48,10 @@ public class PaymentApplication {
 			// get Client
 			Topology topologyRequest = zeebeClient
 				.newTopologyRequest().send().join();
-			txtLines += topologyRequest.toString() + EOL;
+			json += topologyRequest.toString() + EOL;
 
 			// get/set Customer Charge
-			Map<String, Object> ccVariables = getCCVariables("",0.0,"","","");
+			Map<String, Object> ccVariables = getCCVariables("", 0.0, "", "", "");
 
 			zeebeClient.newCreateInstanceCommand()
 				.bpmnProcessId(BPMN_PROCESS)
@@ -68,11 +70,16 @@ public class PaymentApplication {
 				.timeout(longTime)
 				.open();
 
-			txtLines += EOL + "jobWorker.isOpen(): " + jobWorker.isOpen() + EOL;
+			// exploring only!
+			ZeebeClientConfiguration zcConfiguration = zeebeClient.getConfiguration();
+			List<String> jobWorkerTenants = zcConfiguration.getDefaultJobWorkerTenantIds();
+			System.out.println("\n\n#### jobWorkerTenants: " + jobWorkerTenants);
+
+			json += EOL + "jobWorker.isOpen(): " + jobWorker.isOpen() + EOL;
 			Thread.sleep(SECONDS * 1000L);
 		}
 		catch (Exception ex) { LOGGER.severe("ERROR: " + ex.getMessage()); }
-		return txtLines;
+		return json;
 	}
 
 	public Map<String, Object> getCCVariables(String reference,
@@ -83,11 +90,11 @@ public class PaymentApplication {
 
 		Map<String, Object> ccVariables = new HashMap<>();
 
-		if (reference==null || reference.equals("")) { reference = "C8_12345"; }
-		if (amount==null || amount==0) { amount = Double.valueOf(100.00); }
-		if (cardNumber==null || cardNumber.equals("")) { cardNumber = "1234567812345678"; }
-		if (cardExpiry==null || cardExpiry.equals("")) { cardExpiry = "12/2024"; }
-		if (cardCVC==null || cardCVC.equals("")) { cardCVC = "343"; }
+		if ( reference == null || reference.equals("") ) { reference = "C8_12345"; }
+		if ( amount == null || amount == 0 ) { amount = Double.valueOf(100.00); }
+		if ( cardNumber == null || cardNumber.equals("") ) { cardNumber = "1234567812345678"; }
+		if ( cardExpiry == null || cardExpiry.equals("") ) { cardExpiry = "12/2024"; }
+		if ( cardCVC == null || cardCVC.equals("") ) { cardCVC = "343"; }
 		{
 			ccVariables.put("reference", reference);
 			ccVariables.put("amount", amount);

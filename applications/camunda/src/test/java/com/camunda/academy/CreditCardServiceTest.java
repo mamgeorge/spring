@@ -2,7 +2,7 @@ package com.camunda.academy;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CreditCardServiceTest {
 
@@ -23,7 +23,8 @@ class CreditCardServiceTest {
 		String cardCVC = "cardCVC";
 
 		CreditCardService creditCardService = new CreditCardService();
-		String confirmation = creditCardService.chargeCreditCard(reference, amount, cardNumber, cardExpiryDate, cardCVC);
+		String confirmation =
+			creditCardService.chargeCreditCard(reference, amount, cardNumber, cardExpiryDate, cardCVC);
 		System.out.println("confirmation: " + confirmation);
 		assertTrue(true);
 	}

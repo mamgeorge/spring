@@ -8,7 +8,7 @@ public class CreditCardService {
 
 	public static final Logger LOGGER = Logger.getLogger(CreditCardServiceHandler.class.getName());
 
-	public String chargeCreditCard() {
+	public String chargeCreditCard( ) {
 
 		LOGGER.info("Charging Credit Card");
 		String confirmation = String.valueOf(System.currentTimeMillis());
@@ -22,16 +22,16 @@ public class CreditCardService {
 		final String cardCVC) {
 
 		String txtLines = "";
-		txtLines +="Starting Transaction: " + reference + EOL;
-		txtLines +="Card Number: " + cardNumber + EOL;
-		txtLines +="Card Expiry Date: " + cardExpiryDate+ EOL;
-		txtLines +="Card CVC: " + cardCVC + EOL;
-		txtLines +="Amount: " + amount + EOL;
+		txtLines += "Starting Transaction: " + reference + EOL;
+		txtLines += "Card Number: " + cardNumber + EOL;
+		txtLines += "Card Expiry Date: " + cardExpiryDate + EOL;
+		txtLines += "Card CVC: " + cardCVC + EOL;
+		txtLines += "Amount: " + amount + EOL;
 
 		String confirmation = String.valueOf(System.currentTimeMillis());
 
-		txtLines += "Successful Transaction: " + confirmation+ EOL;
-		LOGGER.info( txtLines );
+		txtLines += "Successful Transaction: " + confirmation + EOL;
+		LOGGER.info(txtLines);
 
 		return confirmation;
 	}

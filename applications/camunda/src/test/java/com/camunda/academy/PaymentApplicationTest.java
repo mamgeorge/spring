@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PaymentApplicationTest {
 
-	@Test @Disabled("No need to run unintentionally!") void runJobWorker_test( ) {
+	@Test @Disabled( "No need to run unintentionally!" ) void runJobWorker_test( ) {
 
 		PaymentApplication paymentApplication = new PaymentApplication();
 		String json = paymentApplication.runJobWorker();

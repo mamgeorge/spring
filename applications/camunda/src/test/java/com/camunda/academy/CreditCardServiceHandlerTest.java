@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class CreditCardServiceHandlerTest {
@@ -17,7 +17,7 @@ class CreditCardServiceHandlerTest {
 
 	@InjectMocks CreditCardServiceHandler creditCardServiceHandler;
 
-	@BeforeEach	void setup() { MockitoAnnotations.openMocks(this); }
+	@BeforeEach void setup( ) { MockitoAnnotations.openMocks(this); }
 
 	@Test void handle_test( ) {
 

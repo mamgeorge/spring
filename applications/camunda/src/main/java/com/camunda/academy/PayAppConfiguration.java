@@ -91,7 +91,7 @@ public class PayAppConfiguration {
 		txtLines += String.format(FRMJ, "zeebeClientId", zeebeClientId);
 		txtLines += String.format(FRMJ, "zeebeAuthServerUrl", zeebeAuthServerUrl);
 		txtLines += String.format(FRMJ, "zeebeTokenAudience", zeebeTokenAudience);
-		txtLines += "\t\"zeebeTokenPort\" : "+ zeebeTokenPort+ EOL;
+		txtLines += "\t\"zeebeTokenPort\" : " + zeebeTokenPort + EOL;
 		txtLines += String.format(FRMJ, "zeebeClusterIdAddressFull", zeebeClusterIdAddressFull);
 		txtLines += "}";
 
