@@ -1,9 +1,6 @@
 package com.basics.testmore.controller;
 
-import com.basics.testmore.TestmoreAppTest;
 import com.basics.testmore.model.City;
-import com.basics.testmore.repository.CityRepository;
-import com.basics.testmore.services.CityService;
 import com.basics.testmore.model.Country;
 import com.basics.testmore.util.UtilityMain;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,31 +26,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
-//@WebMvcTest(TestmoreController.class)
-//@SpringBootTest
-@SpringBootTest(classes = {TestmoreAppTest.class, TestmoreController.class, CityService.class, CityRepository.class})
-public class TestmoreControllerTest {
+@SpringBootTest
+class TestmoreControllerTest {
 
 	@Autowired private TestmoreController testmoreController;
 
-	// @BeforeAll public void setUp( ) throws Exception { }
+	// @BeforeEach void startup() { putObject(testmoreController, "cityService", cityService); }
 
-	@Test public void root( ) {
+	@Test void root_test( ) {
 
 		String txtLines = "";
-		ModelAndView modelAndView = this.testmoreController.root();
+		ModelAndView modelAndView = testmoreController.root();
 		txtLines = PAR + "CONTEXT_PATH: " + testmoreController.getContextPath();
 		txtLines += PAR + "viewName: " + modelAndView.getViewName();
 		System.out.println(txtLines);
 
-		assertNotNull(this.testmoreController);
+		assertNotNull(testmoreController);
 		assertTrue(Objects.requireNonNull(modelAndView.getViewName()).contains("home"));
 	}
 
-	@Test public void getCities( ) {
+	@Test void getCities( ) {
 
 		String txtLines = "";
-		ModelAndView modelAndView = this.testmoreController.getCities();
+		ModelAndView modelAndView = testmoreController.getCities();
 		ModelMap modelMap = modelAndView.getModelMap();
 		ArrayList<?> cityList = (ArrayList) modelMap.get("cityList"); // ArrayList<City>
 		City[] cities = new City[cityList.size()];
@@ -75,9 +70,9 @@ public class TestmoreControllerTest {
 		assertTrue(Objects.requireNonNull(modelAndView.getViewName()).contains("showCities"));
 	}
 
-	@Test public void getCityIds( ) {
+	@Test void getCityIds( ) {
 
-		ModelAndView modelAndView = this.testmoreController.getCityIds("1");
+		ModelAndView modelAndView = testmoreController.getCityIds("1");
 		ModelMap modelMap = modelAndView.getModelMap();
 		City city = (City) modelMap.get("city"); // ArrayList<City>
 		StringBuffer stringBuffer = new StringBuffer();
@@ -88,9 +83,9 @@ public class TestmoreControllerTest {
 		assertNotNull(city);
 	}
 
-	@Test public void getCityPth( ) {
+	@Test void getCityPth( ) {
 
-		ModelAndView modelAndView = this.testmoreController.getCityPth("1");
+		ModelAndView modelAndView = testmoreController.getCityPth("1");
 		ModelMap modelMap = modelAndView.getModelMap();
 		City city = (City) modelMap.get("city"); // ArrayList<City>
 		StringBuffer stringBuffer = new StringBuffer();
@@ -103,7 +98,7 @@ public class TestmoreControllerTest {
 
 	@Test void getCityBean( ) {
 
-		ResponseEntity<String> responseEntity = this.testmoreController.getCityBean();
+		ResponseEntity<String> responseEntity = testmoreController.getCityBean();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
@@ -118,7 +113,7 @@ public class TestmoreControllerTest {
 
 	@Test void getCountries( ) {
 
-		ModelAndView modelAndView = this.testmoreController.getCountries();
+		ModelAndView modelAndView = testmoreController.getCountries();
 		ModelMap modelMap = modelAndView.getModelMap();
 		List<Country> subCountries = (List<Country>) modelMap.get("countryList");
 
@@ -129,7 +124,7 @@ public class TestmoreControllerTest {
 
 	@Test void getCountryIds( ) {
 
-		ModelAndView modelAndView = this.testmoreController.getCountryIds("1");
+		ModelAndView modelAndView = testmoreController.getCountryIds("1");
 		ModelMap modelMap = modelAndView.getModelMap();
 		Country country = (Country) modelMap.get("country");
 		StringBuffer stringBuffer = new StringBuffer();
@@ -142,7 +137,7 @@ public class TestmoreControllerTest {
 
 	@Test void getCountryPth( ) {
 
-		ResponseEntity<String> responseEntity = (ResponseEntity) this.testmoreController.getCountryPth(1L);
+		ResponseEntity<String> responseEntity = testmoreController.getCountryPth(1L);
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
@@ -155,28 +150,29 @@ public class TestmoreControllerTest {
 		assertNotNull(responseEntity);
 	}
 
-	@Test public void showTimer( ) {
+	@Test void showTimer( ) {
 
-		String txtLines = this.testmoreController.showTimer();
+		String txtLines = testmoreController.showTimer();
 		LOGGER.info(PAR + "showTimer! " + txtLines);
 		assertTrue(txtLines.length() > 1);
 	}
 
-	@Test public void showUtils( ) {
+	@Test void showUtils( ) {
 
-		String txtLines = this.testmoreController.showUtils().substring(0, 10);
+		String txtLines = testmoreController.showUtils().substring(0, 10);
 		LOGGER.info(PAR + "showUtils! " + txtLines);
 		assertTrue(txtLines.length() > 1);
 	}
 
-	@Test @Disabled public void exits( ) {
+	@Test @Disabled("too much time") void exits( ) {
 
 		System.out.println("BEFORE A SHUTDOWN");
 		testmoreController.exits();
 		System.out.println("DONE");
+		assertTrue(true);
 	}
 
-	@Test public void handleError( ) {
+	@Test void handleError( ) {
 
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		ModelAndView modelAndView = testmoreController.handleError(request);

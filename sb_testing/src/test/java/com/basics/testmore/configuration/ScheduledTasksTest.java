@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ScheduledTasksTest {
 
-	private ScheduledTasks scheduledTasks = new ScheduledTasks();
+	private final ScheduledTasks scheduledTasks = new ScheduledTasks();
 
 	@Test
 	void logSeconds_5( ) {

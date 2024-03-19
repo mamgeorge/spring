@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @EqualsAndHashCode @NoArgsConstructor
-@Entity @Table(name = "countries")
+@Entity @Table( name = "countries" )
 public class Country {
 
 	// id, continent, abbr, country, code2, code3, number
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
 	public Long id;
 	public String continent;
 	public String abbr;
@@ -24,32 +24,31 @@ public class Country {
 	public String code3;
 	public Long number;
 
-	public Country( Long id, String continent, String abbr, String country, String code2, String code3, Long number ) {
+	public Country(Long id, String continent, String abbr, String country, String code2, String code3,
+		Long number) {
 		//
-		this.id			= id;
-		this.continent	= continent;
-		this.abbr		= abbr;
-		this.country	= country;
-		this.code2		= code2;
-		this.code3		= code3;
-		this.number		= number;
+		this.id = id;
+		this.continent = continent;
+		this.abbr = abbr;
+		this.country = country;
+		this.code2 = code2;
+		this.code3 = code3;
+		this.number = number;
 	}
 
 	@Override
 	public String toString( ) {
 		//
-		StringBuilder builder = new StringBuilder( );
-		builder
-			.append( "Country"		).append( "{" )
-			.append( "id="			).append( id )			.append( ", " )
-			.append( "continent="	).append( continent )	.append( ", " )
-			.append( "abbr="		).append( abbr )		.append( ", " )
-			.append( "country="		).append( country )		.append( ", " )
-			.append( "code2="		).append( code2 )		.append( ", " )
-			.append( "code3="		).append( code3 )		.append( ", " )
-			.append( "number="		).append( number )
-			.append( "}" );
+		String builder = "Country" + "{" +
+			"id=" + id + ", " +
+			"continent=" + continent + ", " +
+			"abbr=" + abbr + ", " +
+			"country=" + country + ", " +
+			"code2=" + code2 + ", " +
+			"code3=" + code3 + ", " +
+			"number=" + number +
+			"}";
 
-		return builder.toString( );
+		return builder;
 	}
 }

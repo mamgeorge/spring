@@ -3,7 +3,7 @@ package com.basics.testmore.model;
 import org.junit.jupiter.api.Test;
 
 import static com.basics.testmore.util.UtilityMain.exposeObject;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CityTest {
 

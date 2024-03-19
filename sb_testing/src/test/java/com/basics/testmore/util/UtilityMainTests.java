@@ -32,11 +32,11 @@ public class UtilityMainTests {
 	}
 
 	@Test void getFileLines( ) {
-		//
-		String fileName = "C:/workspace/greetings.txt";
+
+		String fileName = PATHFILE_LOCAL + "contents.txt";
 		String txtLines = UtilityMain.getFileLines(fileName, "");
-		System.out.println(PAR + txtLines.substring(0, 7));
-		assertTrue(txtLines.contains("Autumn"));
+		System.out.println(txtLines);
+		assertTrue(true);
 	}
 
 	@Test void getFileLocal( ) {

@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang = "en" xmlns:th = "http://www.thymeleaf.org">
 <head><title>login</title>
-<meta charset = "UTF-8">
-<link rel = "stylesheet" th:href = "@{/basics.css}">
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 
-<body><center><br /><h3>Login!</h3>
+<body>
+<center><br/>
+	<h3>Login!</h3>
 
-<br />
-<form action="/login" method = "post">
-	<table style = "width: 400px;">
-	<tr><td>UserName: </td><td><input type="text"		name="username" value="user"	/></td></tr>
-	<tr><td>Password: </td><td><input type="password"	name="password" value="secret"	/></td></tr>
-	<tr><td colspan = "2" ><input class = "btn" type="submit" /></td></tr>
-	<table>
+	<br/>
+	<form action = "/login" method = "post">
+		<table style = "width: 400px;">
+			<tr>
+				<td>UserName:</td>
+				<td><input type = "text" name = "username" value = "user"/></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type = "password" name = "password" value = "secret"/></td>
+			</tr>
+			<tr>
+				<td colspan = "2"><input class = "btn" type = "submit"/></td>
+			</tr>
+			<table>
 	</form>
 
-<br/><a href = "/">return</a>
-</center></body>
+	<br/><a href = "/">return</a>
+</center>
+</body>
 </html>

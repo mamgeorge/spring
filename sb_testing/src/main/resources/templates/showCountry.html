@@ -1,40 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang = "en" xmlns:th = "http://www.thymeleaf.org">
 <head><title>showCountry</title>
-<meta charset = "UTF-8">
-<link rel = "stylesheet" th:href = "@{/basics.css}">
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 
-<body><center>
-<br /><h3>showCountry</h3>
-<br /><h5>ThymeLeaf: <span th:text="${#dates.formatISO(#dates.createNow())}"></span></h5>
-<br />
-<br /><h5>Object: [ ${ country } ]</h5>
-<br /><h5>Object: [ <span th:text="${ country }" /> ]</h5>
+<body>
+<center>
+	<br/>
+	<h3>showCountry</h3>
+	<br/><h5>ThymeLeaf: <span th:text = "${#dates.formatISO(#dates.createNow())}"></span></h5>
+	<br/>
+	<br/><h5>Object: [ ${ country } ]</h5>
+	<br/><h5>Object: [ <span th:text = "${ country }"/> ]</h5>
 
-<br />
-<table border = "1" style = "width: 50%">
-<tr>
-	<th>id</th>
-	<th>continent</th>
-	<th>abbr</th>
-	<th>country</th>
-	<th>code2</th>
-	<th>code3</th>
-	<th>number</th>
-	</tr>
-<tr>
-	<td th:text="${ country.id }" />
-	<td th:text="${ country.continent }" />
-	<td th:text="${ country.abbr }" />
-	<td th:text="${ country.country }" />
-	<td th:text="${ country.code2 }" />
-	<td th:text="${ country.code3 }" />
-	<td th:text="${ country.number }" />
-	</tr>
-</table>
+	<br/>
+	<table border = "1" style = "width: 50%">
+		<tr>
+			<th>id</th>
+			<th>continent</th>
+			<th>abbr</th>
+			<th>country</th>
+			<th>code2</th>
+			<th>code3</th>
+			<th>number</th>
+		</tr>
+		<tr>
+			<td th:text = "${ country.id }"/>
+			<td th:text = "${ country.continent }"/>
+			<td th:text = "${ country.abbr }"/>
+			<td th:text = "${ country.country }"/>
+			<td th:text = "${ country.code2 }"/>
+			<td th:text = "${ country.code3 }"/>
+			<td th:text = "${ country.number }"/>
+		</tr>
+	</table>
 
-<br/><a th:href = "@{/}">return</a>
+	<br/><a th:href = "@{/}">return</a>
 
-</center></body>
+</center>
+</body>
 </html>

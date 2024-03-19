@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class SamplePOJO {
+class SamplePOJO {
 
 	private String alpha;
 	private String beta;

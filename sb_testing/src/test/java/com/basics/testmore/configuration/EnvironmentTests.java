@@ -12,7 +12,7 @@ import java.util.Map;
 import static com.basics.testmore.util.UtilityMain.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class EnvironmentTests {
+class EnvironmentTests {
 
 	@Test void context( ) {
 

@@ -12,16 +12,16 @@ import lombok.Setter;
 import java.util.Objects;
 
 @Getter @Setter @NoArgsConstructor
-@Entity @Table(name = "cities")
+@Entity @Table( name = "cities" )
 public class City {
 
 	// id name population
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
 	private Long id;
 	private String name;
 	private int population;
 
-	public City( String name, int population ) {
+	public City(String name, int population) {
 		this.name = name;
 		this.population = population;
 	}
@@ -29,34 +29,33 @@ public class City {
 	@Override
 	public int hashCode( ) {
 		int hash = 7;
-		hash = 79 * hash + Objects.hashCode( this.id );
-		hash = 79 * hash + Objects.hashCode( this.name );
+		hash = 79 * hash + Objects.hashCode(this.id);
+		hash = 79 * hash + Objects.hashCode(this.name);
 		hash = 79 * hash + this.population;
 		return hash;
 	}
+
 	@Override
 	public boolean equals(Object object) {
 		//
 		if ( this == object ) { return true; }
 		if ( object == null ) { return false; }
-		if ( getClass( ) != object.getClass( ) ) { return false; }
-		final City otherCity = ( City ) object;
+		if ( getClass() != object.getClass() ) { return false; }
+		final City otherCity = (City) object;
 		if ( this.population != otherCity.population ) { return false; }
-		if ( !Objects.equals( this.name, otherCity.name ) ) { return false; }
-		return Objects.equals( this.id, otherCity.id );
+		if ( !Objects.equals(this.name, otherCity.name) ) { return false; }
+		return Objects.equals(this.id, otherCity.id);
 	}
 
 	@Override
 	public String toString( ) {
 		//
-		StringBuilder builder = new StringBuilder( );
-		builder
-			.append( "City" ).append( "{" )
-			.append( "id=" ).append(id).append( ", " )
-			.append( "name=" ).append(name).append( ", " )
-			.append( "population=" ).append( population )
-			.append( "}" );
+		String builder = "City" + "{" +
+			"id=" + id + ", " +
+			"name=" + name + ", " +
+			"population=" + population +
+			"}";
 
-		return builder.toString( );
+		return builder;
 	}
 }

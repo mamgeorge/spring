@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration // @Import(RepositoryRestConfiguration.class)
 public class BeanConfiguration {
 
-	@Bean @Qualifier("CityBean") public City cityBean() {
+	@Bean @Qualifier( "CityBean" ) public City cityBean( ) {
 		//
 		City city = new City("Georgetown", 123000);
 		city.setId(5000L);
 		return city;
 	}
 
-	@Bean public City cityLegume() {
+	@Bean public City cityLegume( ) {
 		//
 		City city = new City("Annapolis", 750000);
 		city.setId(6000L);

@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface ICityService {
 
-	City findById(Long id);	
+	City findById(Long id);
 
 	City save(City city);
 
 	// void load(InputStream inputStream);
 
 	List<City> findAll( );
-	
-	List<City> findSome( int maxAmount );	
+
+	List<City> findSome(int maxAmount);
 }

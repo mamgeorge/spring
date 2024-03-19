@@ -44,7 +44,7 @@ public class LoggingTest {
 
 		// JUNIT
 		org.junit.platform.commons.logging.Logger LOGGER_JUNIT = LoggerFactory.getLogger(LoggingTest.class);
-		System.out.println("LOGGER_JUNIT.toString(): " + LOGGER_JUNIT.toString());
+		System.out.println("LOGGER_JUNIT.toString(): " + LOGGER_JUNIT);
 
 		// logback
 		ch.qos.logback.classic.Logger LOGGER_LOGBACK =

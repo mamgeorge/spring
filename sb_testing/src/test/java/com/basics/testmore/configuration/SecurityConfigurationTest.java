@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -20,7 +19,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.basics.testmore.util.UtilityMain.EOL;
 import static com.basics.testmore.util.UtilityMain.exposeObject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,16 +42,16 @@ class SecurityConfigurationTest {
 			AntPathRequestMatcher APRM = new AntPathRequestMatcher("/ignore1", "/ignore2");
 			HttpServletRequest HSR = mock(HttpServletRequest.class);
 			List<Filter> filters = new ArrayList<>();
-		//	DefaultSecurityFilterChain DSFC = new DefaultSecurityFilterChain(requestMatcher, filters);
+			//	DefaultSecurityFilterChain DSFC = new DefaultSecurityFilterChain(requestMatcher, filters);
 
 			when(httpSecurity.authorizeHttpRequests(any(Customizer.class))).thenReturn(httpSecurity1);
 			when(httpSecurity1.formLogin(any(Customizer.class))).thenReturn(httpSecurity2);
 			when(httpSecurity2.logout(any(Customizer.class))).thenReturn(httpSecurity3);
-		//	when(httpSecurity.build()).thenReturn(DSFC);
+			//	when(httpSecurity.build()).thenReturn(DSFC);
 
 			SecurityFilterChain securityFilterChain = securityConfiguration.securityFilterChain(httpSecurity);
 
-		//	txtLines += "[" + securityFilterChain.matches(HSR) + "]" + EOL;
+			//	txtLines += "[" + securityFilterChain.matches(HSR) + "]" + EOL;
 			txtLines += exposeObject(securityFilterChain);
 			System.out.println(txtLines);
 		}

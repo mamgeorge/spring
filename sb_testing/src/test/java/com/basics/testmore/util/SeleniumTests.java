@@ -23,14 +23,14 @@ import java.util.concurrent.TimeUnit;
 import static com.basics.testmore.util.UtilityMain.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Disabled("interferes with maven testing results")
-public class SeleniumTests {
+@Disabled( "interferes with maven testing results" )
+class SeleniumTests {
 
 	public static final boolean IS_OPTIONS = true;
 	public static final boolean IS_DESCAP = false;
 	public static final boolean IS_SUBMIT = true;
 
-	String[] BROWSER = {"edge", "chrome", "firefox" };
+	String[] BROWSER = { "edge", "chrome", "firefox" };
 	public static final String[] URL_WEBPAGES = { "http://localhost:2000",
 		"http://www.selenium.dev/selenium/web/web-form.html" };
 	public static final String STARTLINES = EOL + StringUtils.repeat("-", 40) + EOL;
@@ -93,7 +93,7 @@ public class SeleniumTests {
 		txtLines += "getTitle: " + webDriver.getTitle() + EOL;
 		// txtLines += "getPageSource: " + webDriver.getPageSource() + EOL;
 
-		if(IS_SUBMIT) {
+		if ( IS_SUBMIT ) {
 			try {
 				WebElement txtBoxUser = webDriver.findElement(By.name("my-text"));
 				WebElement txtBoxPass = webDriver.findElement(By.name("my-password"));

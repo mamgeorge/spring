@@ -60,8 +60,8 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 	https://apipheny.io/free-api/
 	https://rapidapi.com/blog/most-popular-api/ | Google Search, NLP Translation
 */
-@Disabled("SPEED UP TESTS")
-public class RestSamplesTest {
+@Disabled( "SPEED UP TESTS" )
+class RestSamplesTest {
 
 	public enum HOLIDAY_API {abstractapi, calendarific, holidays}
 

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 @Service
 public class CityService implements ICityService {
 
-	private static final Logger LOGGER = Logger.getLogger( CountryService.class.getName( ) );
+	private static final Logger LOGGER = Logger.getLogger(CountryService.class.getName());
 
 	@Autowired private CityRepository cityRepository;
 
@@ -20,9 +20,9 @@ public class CityService implements ICityService {
 
 	@Override public City save(City city) { return cityRepository.save(city); }
 
-	@Override public List<City> findAll( ) { return ( List<City> ) cityRepository.findAll( ); }
+	@Override public List<City> findAll( ) { return (List<City>) cityRepository.findAll(); }
 
-	@Override public List<City> findSome( int maxAmount ) { return new ArrayList<City>( ); } // not implemented
+	@Override public List<City> findSome(int maxAmount) { return new ArrayList<City>(); } // not implemented
 
 	/*
 	@Override public List<City> findThis( ) { 

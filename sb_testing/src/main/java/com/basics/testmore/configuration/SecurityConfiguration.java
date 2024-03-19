@@ -1,8 +1,8 @@
 package com.basics.testmore.configuration; //.configuration;
 
+import com.basics.testmore.TestmoreApp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,10 +19,10 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcherEntry;
+
+import java.util.logging.Logger;
 
 import static com.basics.testmore.util.UtilityMain.EOL;
-import static org.openqa.selenium.remote.DriverCommand.GET;
 
 /*
 	https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
@@ -31,6 +31,7 @@ import static org.openqa.selenium.remote.DriverCommand.GET;
 @Configuration @EnableWebSecurity
 class SecurityConfiguration {
 
+	private static final Logger LOGGER = Logger.getLogger(SecurityConfiguration.class.getName());
 	private static final String USER_DEFAULT = "user";
 	private static final String PASS_DEFAULT = "secret";
 	private static final String ROLE_USER = "USER";
@@ -46,7 +47,7 @@ class SecurityConfiguration {
 					.requestMatchers(APRM).permitAll()
 					.anyRequest().authenticated()
 				)
-				.formLogin( form -> form
+				.formLogin(form -> form
 					.loginPage("/login")
 					.permitAll()
 				)
@@ -54,9 +55,9 @@ class SecurityConfiguration {
 			;
 			DSFC = httpSecurity.build();
 		}
-		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		catch (Exception ex) { LOGGER.severe("ERROR: " + ex.getMessage()); }
 
-		System.out.println( EOL + "SecurityFilterChain");
+		LOGGER.info(EOL + "SecurityFilterChain");
 		return DSFC;
 	}
 
@@ -74,7 +75,7 @@ class SecurityConfiguration {
 			.roles(ROLE_USER, ROLE_ADMIN)
 			.build();
 
-		System.out.println( EOL + "UserDetailsService");
+		LOGGER.info(EOL + "UserDetailsService");
 		UserDetailsService userDetailsService = new InMemoryUserDetailsManager(user, admin);
 
 		return userDetailsService;
@@ -83,7 +84,7 @@ class SecurityConfiguration {
 	// the following can be commented out
 	@Bean public WebSecurityCustomizer webSecurityCustomizer( ) {
 
-		System.out.println( EOL + "WebSecurityCustomizer");
+		LOGGER.info(EOL + "WebSecurityCustomizer");
 		RequestMatcher requestMatcher = new AntPathRequestMatcher("/ignore1", "GET");
 		WebSecurityCustomizer webSecurityCustomizer = web
 			-> web.ignoring().requestMatchers(requestMatcher);
@@ -93,17 +94,17 @@ class SecurityConfiguration {
 
 	@Bean public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
 
-		System.out.println( EOL + "AuthenticationManager");
+		LOGGER.info(EOL + "AuthenticationManager");
 		AuthenticationManager authenticationManager = null;
 		try { authenticationManager = authConfig.getAuthenticationManager(); }
-		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		catch (Exception ex) { LOGGER.severe("ERROR: " + ex.getMessage()); }
 
 		return authenticationManager;
 	}
 
 	@Bean public PasswordEncoder passwordEncoder( ) {
 
-		System.out.println( EOL + "PasswordEncoder");
+		LOGGER.info(EOL + "PasswordEncoder");
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(16);
 		return bCryptPasswordEncoder;
 	}

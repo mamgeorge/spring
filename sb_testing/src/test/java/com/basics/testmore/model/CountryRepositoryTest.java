@@ -15,13 +15,13 @@ import static com.basics.testmore.util.UtilityMain.PAR;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest @Disabled( "avoids loading instance" )
-public class CountryRepositoryTest {
+class CountryRepositoryTest {
 
 	@Resource private CountryRepository countryRepository;
 
 	// @BeforeAll public void setUp( ) throws Exception { }
 
-	@Test public void testSettersGetters( ) {
+	@Test void testSettersGetters( ) {
 		//
 		Country country = new Country();
 		System.out.println(UtilityMain.exposeObject(country));
@@ -29,7 +29,7 @@ public class CountryRepositoryTest {
 		assertNotNull(country);
 	}
 
-	@Test public void findAll( ) {
+	@Test void findAll( ) {
 		//
 		String txtLines = "";
 		Iterable<Country> iterable = countryRepository.findAll();

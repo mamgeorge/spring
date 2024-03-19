@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // http://www.atlasoftheuniverse.com/stars.html
 // J4: @Test (expected = IOException.class), J5: uses lambda
-public class UtilityConversionTests {
+class UtilityConversionTests {
 
 	@Test void getXmlNode( ) {
 		//

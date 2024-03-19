@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ContextConfiguration( classes = { BeanConfiguration.class } )
 @ActiveProfiles( "local" )
 @SpringBootTest // creates applicationContext
-public class EnvironmentAutowiredTests {
+class EnvironmentAutowiredTests {
 	//
 	@Autowired private ApplicationContext appContext;
 	@Autowired private Environment environment;

@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @Service
 public class CountryService implements ICountryService {
 
-	private static final Logger LOGGER = Logger.getLogger( CountryService.class.getName( ) );
+	private static final Logger LOGGER = Logger.getLogger(CountryService.class.getName());
 
 	private int total = 0;
 
@@ -28,27 +28,27 @@ public class CountryService implements ICountryService {
 
 	@Override public Country save(Country country) { return countryRepository.save(country); }
 
-	@Override public void load( InputStream inputStream ) {
+	@Override public void load(InputStream inputStream) {
 		//
 		try {
-			LOGGER.info( "loading inputStream into saved" );
-			List<Country> countries = CSVHelper.csvToCountries( inputStream );
+			LOGGER.info("loading inputStream into saved");
+			List<Country> countries = CSVHelper.csvToCountries(inputStream);
 			total = countries.size();
-			countryRepository.saveAll( countries );
-		} 
-		catch (Exception ex) { LOGGER.warning( ex.getMessage( ) ); }
+			countryRepository.saveAll(countries);
+		}
+		catch (Exception ex) { LOGGER.warning(ex.getMessage()); }
 	}
 
 	@Override public int getTotal( ) { return total; }
 
-	@Override public List<Country> findAll( ) { return ( List<Country> ) countryRepository.findAll( ); }
+	@Override public List<Country> findAll( ) { return countryRepository.findAll(); }
 
-	@Override public List<Country> findSome( int maxAmount ) { 
+	@Override public List<Country> findSome(int maxAmount) {
 		//
-		List<Country> countries = this.findAll( ); 
-		ArrayList<Country> subCountries = new ArrayList<Country>( countries.subList( 0 , maxAmount ) );
-		Collections.sort( subCountries, Comparator.comparing( Country::getContinent ) );
-		return subCountries; 
+		List<Country> countries = this.findAll();
+		ArrayList<Country> subCountries = new ArrayList<>(countries.subList(0, maxAmount));
+		Collections.sort(subCountries, Comparator.comparing(Country::getContinent));
+		return subCountries;
 	}
 
 	/*

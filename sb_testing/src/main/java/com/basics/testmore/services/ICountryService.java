@@ -13,9 +13,9 @@ public interface ICountryService {
 
 	void load(InputStream inputStream);
 
-	int getTotal();
+	int getTotal( );
 
 	List<Country> findAll( );
 
-	List<Country> findSome( int maxAmount );
+	List<Country> findSome(int maxAmount);
 }

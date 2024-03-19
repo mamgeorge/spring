@@ -1,44 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang = "en" xmlns:th = "http://www.thymeleaf.org">
 <head><title>countries</title>
-<meta charset = "UTF-8">
-<link rel = "stylesheet" th:href = "@{/basics.css}">
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 
-<body><center>
-<br /><h3>showCountries</h3>
-<br /><h5>ThymeLeaf: <span th:text="${#dates.formatISO(#dates.createNow())}"></span></h5>
-<br />
-<br /><h5>TOTAL COUNTRIES: [ <span th:text="${ countryList.size }"></span> out of <span th:text="${ countryTotal }"></span> ]</h5>
+<body>
+<center>
+	<br/>
+	<h3>showCountries</h3>
+	<br/><h5>ThymeLeaf: <span th:text = "${#dates.formatISO(#dates.createNow())}"></span></h5>
+	<br/>
+	<br/><h5>TOTAL COUNTRIES: [ <span th:text = "${ countryList.size }"></span> out of <span
+	th:text = "${ countryTotal }"></span> ]</h5>
 
-<br /><div class = "divbox" style = "width: 70%;">
-<table>
-<tr>
-	<th>idx</th>
-	<th>id</th>
-	<th>continent</th>
-	<th>abbr</th>
-	<th>country</th>
-	<th>code2</th>
-	<th>code3</th>
-	<th>number</th>
-	</tr>
-<tr th:each="country: ${countryList}">
+	<br/>
+	<div class = "divbox" style = "width: 70%;">
+		<table>
+			<tr>
+				<th>idx</th>
+				<th>id</th>
+				<th>continent</th>
+				<th>abbr</th>
+				<th>country</th>
+				<th>code2</th>
+				<th>code3</th>
+				<th>number</th>
+			</tr>
+			<tr th:each = "country: ${countryList}">
 
-	<td th:text="${countryStat.count}" />
-	<td th:text="${country.id}" />
-	<td th:text="${country.continent}" style = "text-align: left;" />
-	<td th:text="${country.abbr}" />
-	<td style = "text-align: left;" ><a th:href = "@{ /countryIds } + ${ '?id=' + country.id }" >
-		<span th:text="${ country.country }"></span></a></td>
-	<td th:text="${country.code2}" />
-	<td th:text="${country.code3}" />
-	<td th:text="${country.number}" />
+				<td th:text = "${countryStat.count}"/>
+				<td th:text = "${country.id}"/>
+				<td th:text = "${country.continent}" style = "text-align: left;"/>
+				<td th:text = "${country.abbr}"/>
+				<td style = "text-align: left;"><a th:href = "@{ /countryIds } + ${ '?id=' + country.id }">
+					<span th:text = "${ country.country }"></span></a></td>
+				<td th:text = "${country.code2}"/>
+				<td th:text = "${country.code3}"/>
+				<td th:text = "${country.number}"/>
 
-</table>
-</div>
+		</table>
+	</div>
 
-<br/><a th:href = "@{/}">return</a>
+	<br/><a th:href = "@{/}">return</a>
 
-</center></body>
+</center>
+</body>
 </html>

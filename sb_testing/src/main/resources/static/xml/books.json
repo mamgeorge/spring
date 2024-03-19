@@ -1,7 +1,6 @@
 {
-	"catalog": 
-	{ "book": 
-		[
+	"catalog": {
+		"book": [
 			{
 				"author": "Gambardella , Matthew",
 				"price": 44.95,

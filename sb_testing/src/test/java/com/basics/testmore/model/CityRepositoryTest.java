@@ -15,7 +15,7 @@ import static com.basics.testmore.util.UtilityMain.PAR;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest @Disabled("avoids loading instance")
+@SpringBootTest @Disabled( "avoids loading instance" )
 class CityRepositoryTest {
 
 	@Resource private CityRepository cityRepository;
@@ -36,7 +36,7 @@ class CityRepositoryTest {
 		City city2 = new City();
 		boolean isEqual = city1.equals(city2);
 
-		System.out.println("isEqual: " +isEqual);
+		System.out.println("isEqual: " + isEqual);
 		assertTrue(isEqual);
 	}
 
@@ -55,5 +55,6 @@ class CityRepositoryTest {
 		}
 		txtLines += PAR + cities.size();
 		LOGGER.info(txtLines);
+		assertTrue(true);
 	}
 }

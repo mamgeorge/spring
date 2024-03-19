@@ -11,29 +11,30 @@ import java.util.List;
 
 import static com.basics.testmore.util.UtilityMain.LOGGER;
 import static com.basics.testmore.util.UtilityMain.PAR;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest @Disabled("avoids loading instance")
-public class CityServiceTest {
+@SpringBootTest @Disabled( "avoids loading instance" )
+class CityServiceTest {
 
 	@Autowired private ICityService cityService;
 
 	// @BeforeAll public void setUp( ) throws Exception { }
 
-	@Test public void testing( ) {
-		//
+	@Test void testing( ) {
+
 		String txtLine = "testing";
 		LOGGER.info(PAR + txtLine);
-		assertTrue(txtLine.equals("testing"));
+		assertEquals("testing", txtLine);
 	}
 
-	@Test public void findAll( ) {
-		//
+	@Test void findAll( ) {
+
 		String txtLines = "";
 		Iterable<City> iterable = cityService.findAll();
 		List<City> cities = new ArrayList<City>();
 		for ( City city : iterable ) {
-			//
+
 			txtLines += "\n";
 			txtLines += "\t" + city.getId();
 			txtLines += "\t" + city.getName();
@@ -42,5 +43,6 @@ public class CityServiceTest {
 		}
 		txtLines += PAR + cities.size();
 		LOGGER.info(txtLines);
+		assertTrue(true);
 	}
 }

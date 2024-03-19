@@ -38,39 +38,39 @@ public class TestmoreController {
 	@Autowired private ICityService cityService;
 	@Autowired private ICountryService countryService;
 	@Autowired private ApplicationContext applicationContext;
-	@Autowired @Qualifier("CityBean") private City cityBean;
+	@Autowired @Qualifier( "CityBean" ) private City cityBean;
 
-	@Value("${server.servlet.context-path}") private String CONTEXT_PATH;
+	@Value( "${server.servlet.context-path}" ) private String CONTEXT_PATH;
 
-	public String getContextPath() {return CONTEXT_PATH;}
+	public String getContextPath( ) { return CONTEXT_PATH; }
 
 	private static final Logger LOGGER = Logger.getLogger(TestmoreController.class.getName());
 	private static final String RETURN_LINK = "<br /><a href = '/' >return</a><br />";
 	private static final int MAX_DISPLAY = 20;
 	private static final int SAMPLE_ITEM = 5;
 
-	@GetMapping({"/", "/home"})
-	public ModelAndView root() {
+	@GetMapping( { "/", "/home" } )
+	public ModelAndView root( ) {
 		//
-		System.out.println("home");
+		LOGGER.info("home");
 		return new ModelAndView("home", new HashMap<>());
 	}
 
-	@GetMapping("/login") public ModelAndView login() {
-		System.out.println("login authenticate");
+	@GetMapping( "/login" ) public ModelAndView login( ) {
+		LOGGER.info("login authenticate");
 		return new ModelAndView("login", new HashMap<>());
 	}
 
-	@GetMapping("/logins") public ModelAndView logins() {
-		System.out.println("logins authenticate");
+	@GetMapping( "/logins" ) public ModelAndView logins( ) {
+		LOGGER.info("logins authenticate");
 		return new ModelAndView("login", new HashMap<>());
 	}
 
-	@GetMapping("/cities")
-	public ModelAndView getCities() {
+	@GetMapping( "/cities" )
+	public ModelAndView getCities( ) {
 		//
 		// Set<Integer> subset = ImmutableSet.copyOf(Iterables.limit(set, MAX_DISPLAY));
-		System.out.println("getCities");
+		LOGGER.info("getCities");
 		List<City> cities = cityService.findAll();
 		ArrayList<City> subCities = new ArrayList<>(cities.subList(0, MAX_DISPLAY));
 		subCities.sort(Comparator.comparing(City::getName));
@@ -81,27 +81,28 @@ public class TestmoreController {
 		return new ModelAndView("showCities", params);
 	}
 
-	@GetMapping("/cityIds")
-	public ModelAndView getCityIds(@RequestParam(name = "id") String id) {
+	@GetMapping( "/cityIds" )
+	public ModelAndView getCityIds(@RequestParam( name = "id" ) String id) {
 		//
-		System.out.println("getCityIds: [" + id + "]");
+		LOGGER.info("getCityIds: [" + id + "]");
 		long longId;
 		try {
 			longId = Long.parseLong(id);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			LOGGER.info(ex.getMessage());
 			longId = SAMPLE_ITEM;
 		}
 		City city = cityService.findById(longId);
 		//
-		System.out.println("city: [" + city + "]");
+		LOGGER.info("city: [" + city + "]");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("showCity");
 		modelAndView.addObject("city", city);
 		return modelAndView;
 	}
 
-	@RequestMapping("/cityPth/{id}")
+	@RequestMapping( "/cityPth/{id}" )
 	public ModelAndView getCityPth(@PathVariable String id) {
 		/*
 			https://stackoverflow.com/questions/36325529/spring-controller-method-called-twice
@@ -113,7 +114,7 @@ public class TestmoreController {
 			public ModelAndView showCityPth( @PathVariable(required = false) String id ) {
 			public ModelAndView showCityPth( @PathVariable("id") String id ) {
 		*/
-		System.out.println("getCityPth: [" + id + "]");
+		LOGGER.info("getCityPth: [" + id + "]");
 		long longId;
 		try {
 			longId = Long.parseLong(id);
@@ -130,16 +131,16 @@ public class TestmoreController {
 		return modelAndView;
 	}
 
-	@GetMapping("/cityBean")
-	public ResponseEntity<String> getCityBean() {
+	@GetMapping( "/cityBean" )
+	public ResponseEntity<String> getCityBean( ) {
 		//
 		String cityBeanName = cityBean.getName();
-		System.out.println("cityBean: [" + cityBean + "]");
+		LOGGER.info("cityBean: [" + cityBean + "]");
 		return ResponseEntity.status(HttpStatus.OK).body(cityBeanName + RETURN_LINK);
 	}
 
-	@GetMapping(value = "/countries")
-	public ModelAndView getCountries() {
+	@GetMapping( value = "/countries" )
+	public ModelAndView getCountries( ) {
 		//
 		LOGGER.info("getCountries");
 		List<Country> subCountries = countryService.findSome(MAX_DISPLAY);
@@ -150,33 +151,34 @@ public class TestmoreController {
 		return new ModelAndView("showCountries", params);
 	}
 
-	@GetMapping(value = "/countryIds")
-	public ModelAndView getCountryIds(@RequestParam(name = "id") String id) {
+	@GetMapping( value = "/countryIds" )
+	public ModelAndView getCountryIds(@RequestParam( name = "id" ) String id) {
 		//
-		System.out.println("getCountryIds: [" + id + "]");
+		LOGGER.info("getCountryIds: [" + id + "]");
 		long longId;
 		try {
 			longId = Long.parseLong(id);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			LOGGER.info(ex.getMessage());
 			longId = SAMPLE_ITEM;
 		}
 		Country country = countryService.findById(longId);
 		//
-		System.out.println("country: [" + country + "]");
+		LOGGER.info("country: [" + country + "]");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("showCountry");
 		modelAndView.addObject("country", country);
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/countryPth/{idPath}")
+	@RequestMapping( value = "/countryPth/{idPath}" )
 	public ResponseEntity<String> getCountryPth(@PathVariable Long idPath) {
 		//
 		LOGGER.info("getCountryPth: [" + idPath + "]");
 		Country country = countryService.findById(idPath);
 		String countryText = "";
-		if (country == null) {
+		if ( country == null ) {
 		} else {
 			countryText = country.toString();
 		}
@@ -185,40 +187,40 @@ public class TestmoreController {
 		return ResponseEntity.status(HttpStatus.OK).body(message + RETURN_LINK);
 	}
 
-	@GetMapping("/timer") public String showTimer() {
+	@GetMapping( "/timer" ) public String showTimer( ) {
 		//
-		System.out.println("timer");
-		System.out.println(UtilityMain.showTime());
+		LOGGER.info("timer");
+		LOGGER.info(UtilityMain.showTime());
 		return UtilityMain.showTime() + RETURN_LINK;
 	}
 
-	@GetMapping("/utils") public String showUtils() {
+	@GetMapping( "/utils" ) public String showUtils( ) {
 		//
 		String txtlines = "";
-		System.out.println("utils");
+		LOGGER.info("utils");
 		txtlines = UtilityMain.getFileLocal(PATHFILE_MAIN + "banner.txt", "<br />");
 		// txtlines = UtilityMain.getZipFileList( "" , "<br />" );
 		// txtlines = UtilityMain.getXmlFileNode( "" , "" , "" );
 		// txtlines = UtilityMain.convertXml2Json( "" );
 		// txtlines = UtilityMain.convertJson2Xml( "" );
 		// txtlines = UtilityMain.formatXml( UtilityMain.convertJson2Xml( "" ) );
-		System.out.println(txtlines);
+		LOGGER.info(txtlines);
 		return RETURN_LINK + txtlines + RETURN_LINK;
 	}
 
-	@GetMapping("/exits") public void exits() {
+	@GetMapping( "/exits" ) public void exits( ) {
 		//
-		System.out.println("EXIT");
+		LOGGER.info("EXIT");
 		SpringApplication.exit(applicationContext);
 		System.exit(0);
 	}
 
-	@CrossOrigin @RequestMapping("/errors") // not "/error"
+	@CrossOrigin @RequestMapping( "/errors" ) // not "/error"
 	public ModelAndView handleError(HttpServletRequest request) {
 		//
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		LOGGER.warning("status: " + status);
-		if (status != null) {
+		if ( status != null ) {
 			//
 			String statusCode = status.toString();
 			LOGGER.warning("statusCode: " + statusCode);
