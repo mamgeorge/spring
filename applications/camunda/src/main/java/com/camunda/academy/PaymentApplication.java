@@ -8,11 +8,14 @@ import io.camunda.zeebe.client.impl.oauth.OAuthCredentialsProvider;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static com.camunda.academy.PayAppConfiguration.EOL;
 
 // JobWorker
 public class PaymentApplication {
+
+	public static final Logger LOGGER = Logger.getLogger(PaymentApplication.class.getName());
 
 	public static final String BPMN_PROCESS = "processPayment";
 	public static final String JOB_TYPE_CHARGE = "chargeCreditCard";
@@ -23,8 +26,8 @@ public class PaymentApplication {
 		PaymentApplication paymentApplication = new PaymentApplication();
 		String json = paymentApplication.runJobWorker();
 
-		System.out.println(json);
-		System.out.println("DONE!");
+		LOGGER.info(json);
+		LOGGER.info("DONE!");
 	}
 
 	public String runJobWorker( ) {
@@ -66,9 +69,9 @@ public class PaymentApplication {
 				.open();
 
 			txtLines += EOL + "jobWorker.isOpen(): " + jobWorker.isOpen() + EOL;
-			Thread.sleep(SECONDS * 1000);
+			Thread.sleep(SECONDS * 1000L);
 		}
-		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		catch (Exception ex) { LOGGER.severe("ERROR: " + ex.getMessage()); }
 		return txtLines;
 	}
 
@@ -89,8 +92,8 @@ public class PaymentApplication {
 			ccVariables.put("reference", reference);
 			ccVariables.put("amount", amount);
 			ccVariables.put("cardNumber", cardNumber);
-			ccVariables.put("cardExpiry", "12/2023");
-			ccVariables.put("cardCVC", "123");
+			ccVariables.put("cardExpiry", cardExpiry);
+			ccVariables.put("cardCVC", cardCVC);
 		}
 		return ccVariables;
 	}

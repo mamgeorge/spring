@@ -6,9 +6,11 @@ import io.camunda.zeebe.client.api.worker.JobHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class CreditCardServiceHandler implements JobHandler {
 
+	public static final Logger LOGGER = Logger.getLogger(CreditCardServiceHandler.class.getName());
 	private final CreditCardService creditCardService = new CreditCardService();
 
 	@Override
@@ -31,6 +33,6 @@ public class CreditCardServiceHandler implements JobHandler {
 			// jobClient.newCompleteCommand(activatedJob.getKey()).send().join();
 			jobClient.newCompleteCommand(activatedJob.getKey()).variables(variablesOutput).send().join();
 		}
-		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		catch (Exception ex) { LOGGER.severe("ERROR: " + ex.getMessage()); }
 	}
 }

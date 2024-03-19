@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 @Getter @Setter
 public class PayAppConfiguration {
+
+	public static final Logger LOGGER = Logger.getLogger(PayAppConfiguration.class.getName());
 
 	public static final String FRMT = "\t%-20s %s\n";
 	public static final String FRMJ = "\t\"%s\" : \"%s\",\n";
@@ -63,7 +66,7 @@ public class PayAppConfiguration {
 			properties.load(inputStream);
 			inputStream.close();
 		}
-		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		catch (IOException ex) { LOGGER.severe("ERROR: " + ex.getMessage()); }
 		return properties;
 	}
 

@@ -1,12 +1,16 @@
 package com.camunda.academy;
 
+import java.util.logging.Logger;
+
 import static com.camunda.academy.PayAppConfiguration.EOL;
 
 public class CreditCardService {
 
+	public static final Logger LOGGER = Logger.getLogger(CreditCardServiceHandler.class.getName());
+
 	public String chargeCreditCard() {
 
-		System.out.println("Charging Credit Card");
+		LOGGER.info("Charging Credit Card");
 		String confirmation = String.valueOf(System.currentTimeMillis());
 		return confirmation;
 	}
@@ -27,7 +31,7 @@ public class CreditCardService {
 		String confirmation = String.valueOf(System.currentTimeMillis());
 
 		txtLines += "Successful Transaction: " + confirmation+ EOL;
-		System.out.println( txtLines );
+		LOGGER.info( txtLines );
 
 		return confirmation;
 	}

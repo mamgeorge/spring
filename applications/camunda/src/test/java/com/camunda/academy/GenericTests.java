@@ -4,10 +4,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
+import java.util.logging.Logger;
+
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GenericTests {
+
+	public static final Logger LOGGER = Logger.getLogger(GenericTests.class.getName());
+
+	@Test void logger_test( ) {
+
+		LOGGER.severe("severe");
+		LOGGER.warning("warning");
+		LOGGER.info("info");
+		LOGGER.fine("fine");
+		assertTrue(true);
+	}
 
 	@Test void prettyPrintDefault_test( ) {
 
