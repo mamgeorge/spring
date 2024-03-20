@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RdbmsApplication {
 
 	public static void main(String[] args) {
-		//
+
 		System.out.println("Greetings from DB");
 		SpringApplication.run(RdbmsApplication.class, args);
 	}
