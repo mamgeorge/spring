@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dvdrental
+    username: postgres
+    password: da4xiang4
+    driver-class-name: org.postgresql.Driver
+    # DriverManager automatically selects driver className since JDBC4 (SDK6)
+  jpa:
+    hibernate:
+      ddl-auto: none #create, create-drop, validate, update, none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
