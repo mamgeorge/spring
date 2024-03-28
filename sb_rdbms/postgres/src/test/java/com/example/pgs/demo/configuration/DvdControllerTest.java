@@ -1,6 +1,10 @@
 package com.example.pgs.demo.configuration;
 
 import com.example.pgs.demo.model.Actor;
+import com.example.pgs.demo.persistence.ActorRepository;
+import com.example.pgs.demo.persistence.ActorService;
+import com.example.pgs.demo.persistence.CustomerRepository;
+import com.example.pgs.demo.persistence.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 @Entity // @Table( name = "actor")
 public class Actor {
 
+	// actor_id, first_name, first_name, last_update
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
 	@Column( columnDefinition = "actor_id" )
 	private Long actor_id;

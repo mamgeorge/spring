@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml" xmlns:th = "https://www.thymeleaf.org">
+<head><title>Item</title>
+	<link rel = "stylesheet" th:href = "@{/style.css}">
+</head>
+<body>
+	<h3>Customer Item!</h3>
+	<h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+	<div>
+	<td th:text="${customer.customer_id}" />
+	<td th:text="${customer.store_id}" />
+	<br />
+	<td th:text="${customer.first_name}" />
+	<td th:text="${customer.last_name}" />
+	<br />
+	<td th:text="${customer.email}" />
+	<td th:text="${customer.address_id}" />
+	<td th:text="${customer.activebool}" />
+	<br />
+	<td th:text="${customer.create_date}" />
+	<td th:text="${customer.last_update}" />
+	<td th:text="${customer.active}" />
+	<br />
+	<hr />
+	<a th:href = "@{/}">return</a>
+	</div>
+</body>
+</html>

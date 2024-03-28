@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 @Entity // @Table( name = "customer")
 public class Customer {
 
+	// customer_id, store_id, first_name, last_name, email, address_id, activebool, create_date, last_update, active
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
 	@Column( columnDefinition = "customer_id" )
 	private int customer_id;

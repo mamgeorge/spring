@@ -1,0 +1,10 @@
+body { display: inline; font-family: verdana; margin-left: auto; margin-right: auto;
+	width: 50%; text-align: center; }
+
+fieldset { text-align: left; width: 50%; border-radius: 40px; border: 10px gray inset; }
+
+fieldset, div { display: block; margin-left: auto; margin-right: auto; }
+
+td { border: 1px inset black; font-size: 0.8em; }
+
+hr { width: 80%;}

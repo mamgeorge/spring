@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml" xmlns:th = "https://www.thymeleaf.org">
+<head><title>index</title>
+	<link rel = "stylesheet" th:href = "@{/style.css}">
+</head>
+<body>
+	<h3>Welcome!</h3>
+	<h5 th:text = "${#dates.formatISO(#dates.createNow())}" ></h5>
+	<div />
+	<fieldset>This is a SpringBoot PostgreSQL example using JPA, Thymeleaf, REST.
+		<br />
+		<br />The Model layer loads any database thru properties alone.
+		<li />Objects are dynamically populated without added DAO, Service, & Repository coding.
+		<li />Full CRUD operations are already possible!
+		<br /><hr />
+		<li />The View layer uses Thymeleaf templates and is easily programmable.
+		<li />It defaults to HTML, which makes it easy for anyone to alter or add CSS/JS/Bootstrap...
+		<br /><hr />
+		<li />The Controller is minimal and REST based.
+		<li />It can easily be configured for app to app activity.
+		<br />
+		<hr />Note: No Animals were harmed in the production of this Website.
+	</fieldset>
+	<br/>
+	<a th:href = "@{/}">/(root)</a> | <a th:href = "@{/actuator}">/actuator</a>
+	<br />
+	<a th:href = "@{/getActors}">/getActors</a> |
+	<a th:href = "@{/getActor/10}">/getActor/10</a> |
+	<br />
+	<a th:href = "@{/getCustomers}">/getCustomers</a> |
+	<a th:href = "@{/getCustomer/20}">/getCustomers/20</a>
+	<hr />
+	<a th:href = "@{/showCustomers}">/showCustomers</a> |
+	<a th:href = "@{/showCustomer/30}">/showCustomer/30</a>
+</div>
+</body>
+</html>
