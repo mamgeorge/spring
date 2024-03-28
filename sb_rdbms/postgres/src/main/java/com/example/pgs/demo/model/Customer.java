@@ -1,4 +1,4 @@
-package com.example.pgs.demo.configuration;
+package com.example.pgs.demo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,18 +10,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-@Entity // @Table( name = "actor")
-public class Actor {
+@Entity // @Table( name = "customer")
+public class Customer {
 
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
-	@Column( columnDefinition = "actor_id" )
-	private Long actor_id;
+	@Column( columnDefinition = "customer_id" )
+	private int customer_id;
 
+	private int store_id;
 	private String first_name;
 	private String last_name;
+	private String email;
+	private int address_id;
+	private boolean activebool;
+	private Date create_date;
 	private Timestamp last_update;
+	private int active;
 }

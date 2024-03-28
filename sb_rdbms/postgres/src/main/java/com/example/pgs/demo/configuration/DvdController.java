@@ -1,5 +1,7 @@
 package com.example.pgs.demo.configuration;
 
+import com.example.pgs.demo.model.Actor;
+import com.example.pgs.demo.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,12 @@ import java.util.List;
 public class DvdController {
 
 	private final ActorService actorService;
+	private final CustomerService customerService;
 
 	@Autowired
-	public DvdController(ActorService actorService) {
+	public DvdController(ActorService actorService, CustomerService customerService) {
 		this.actorService = actorService;
+		this.customerService = customerService;
 	}
 
 	@GetMapping( "/getActors" )
@@ -25,6 +29,15 @@ public class DvdController {
 		ResponseEntity<List<Actor>> responseEntity;
 		List<Actor> actors = actorService.findAll();
 		responseEntity = new ResponseEntity<>(actors, HttpStatus.OK);
+		return responseEntity;
+	}
+
+	@GetMapping( "/getCustomers" )
+	public ResponseEntity<List<Customer>> getCustomers( ) {
+
+		ResponseEntity<List<Customer>> responseEntity;
+		List<Customer> customer = customerService.findAll();
+		responseEntity = new ResponseEntity<>(customer, HttpStatus.OK);
 		return responseEntity;
 	}
 }

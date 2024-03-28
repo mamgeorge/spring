@@ -1,5 +1,6 @@
 package com.example.pgs.demo.configuration;
 
+import com.example.pgs.demo.model.Actor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
