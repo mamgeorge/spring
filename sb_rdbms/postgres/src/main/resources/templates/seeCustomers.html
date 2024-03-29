@@ -31,8 +31,8 @@
 		<td th:text="${customer.email}" />
 		<td th:text="${customer.address_id}" />
 		<td th:text="${customer.activebool}" />
-		<td th:text="${#dates.format(customer.create_date, 'yyyy/dd/MM')}" />
-		<td style = "white-space: nowrap;" th:text="${#dates.format(customer.last_update, 'yyyy/dd/MM HH:mm')}" />
+		<td th:text="${#dates.format(customer.create_date, 'yyyy/MM/dd')}" />
+		<td style = "white-space: nowrap;" th:text="${#dates.format(customer.last_update, 'yyyy/MM/dd HH:mm')}" />
 		<td th:text="${customer.active}" />
 	</tr>
 	</table></div>
