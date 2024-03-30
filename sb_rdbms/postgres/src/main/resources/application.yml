@@ -7,7 +7,7 @@ spring:
     # DriverManager automatically selects driver className since JDBC4 (SDK6)
   jpa:
     hibernate:
-      ddl-auto: none #create, create-drop, validate, update, none
+      ddl-auto: none # create, create-drop, validate, update, none; none allows app to load if db fails
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

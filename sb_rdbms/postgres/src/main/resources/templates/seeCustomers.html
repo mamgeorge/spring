@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml" xmlns:th = "https://www.thymeleaf.org">
 <head><title>List</title>
-	<link rel = "stylesheet" th:href = "@{/style.css}">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 <body><!-- customer_id, store_id, first_name, last_name, email, address_id, activebool, create_date, last_update, active -->
 	<h3>Customer List!</h3>
-	<h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
-	<div>
-	<a th:href = "@{/}">return</a>
+	<br /><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+	<br /><div>
+		<a th:href = "@{/}">return</a>
+	<br /><br />
 	<div style = "overflow:auto; width: 600px; height: 400px;">
 	<table>
+		<thead><span th:text="${'Total: ' + #lists.size(customers)}" /></thead>
 	<tr>
+		<th>idx</th>
 		<th>id</th>
 		<th>store</th>
-		<th>first</th>
-		<th>last</th>
+		<th>name</th>
 		<th>email</th>
 		<th>address</th>
 		<th>active?</th>
@@ -22,17 +24,21 @@
 		<th>updated</th>
 		<th>active</th>
 		</tr>
-	<tr th:each="customer: ${customers}" >
+	<tr th:each="customer, ictr: ${customers}" >
 
+		<td th:text="${ictr.index}" />
 		<td th:text="${customer.customer_id}" />
 		<td th:text="${customer.store_id}" />
-		<td th:text="${customer.first_name}" />
-		<td th:text="${customer.last_name}" />
+		<td style = "white-space: nowrap;">
+			<a th:href="@{|/showCustomer/${customer.customer_id}|}" >
+				<span th:text="|${customer.first_name} ${customer.last_name}|" />
+			</a></td>
 		<td th:text="${customer.email}" />
 		<td th:text="${customer.address_id}" />
 		<td th:text="${customer.activebool}" />
 		<td th:text="${#dates.format(customer.create_date, 'yyyy/MM/dd')}" />
-		<td style = "white-space: nowrap;" th:text="${#dates.format(customer.last_update, 'yyyy/MM/dd HH:mm')}" />
+		<td style = "white-space: nowrap;"
+			th:text="${#dates.format(customer.last_update, 'yyyy/MM/dd HH:mm')}" />
 		<td th:text="${customer.active}" />
 	</tr>
 	</table></div>

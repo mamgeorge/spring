@@ -1,0 +1,18 @@
+
+body { background-color: #e0e0d0; font-family: verdana;
+    margin-left: auto; margin-right: auto; text-align: center; }
+
+h1, h2, h3, h4, h5, h6 { display: inline; }
+
+fieldset { background-color: #ffffff; text-align: left; width: 50%;
+	border-radius: 40px; border: 10px gray inset; }
+
+fieldset, div, table { margin-left: auto; margin-right: auto; }
+
+thead, .thead { background: #a0a0a0; }
+td { border: 1px inset black; font-size: 0.8em; font-family: verdana; border-radius: 5px; }
+
+tr:nth-child(even) { background-color: #c0c0c0; }
+tr:nth-child(odd ) { background-color: #ffffff; }
+
+hr { width: 80%;}

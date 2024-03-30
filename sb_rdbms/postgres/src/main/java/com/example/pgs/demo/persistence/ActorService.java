@@ -16,5 +16,9 @@ public class ActorService {
 		this.actorRepository = actorRepository;
 	}
 
-	public List<Actor> findAll( ) { return actorRepository.findAll(); }
+	public List<Actor> findAll( ) { return (List<Actor>) actorRepository.findAll(); }
+
+	public Actor findById(Long id) { return actorRepository.findById(id).get(); }
+
+	public long getMaxId( ) { return actorRepository.count(); }
 }

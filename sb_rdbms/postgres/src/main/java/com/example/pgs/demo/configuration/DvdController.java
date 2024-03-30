@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Random;
 
 // https://mkyong.com/spring-boot/spring-boot-spring-data-jpa-postgresql/
 // @CrossOrigin(origins = "http://localhost:8081")
@@ -21,6 +22,7 @@ public class DvdController {
 
 	private final ActorService actorService;
 	private final CustomerService customerService;
+	private final Random random = new Random();
 
 	@Autowired
 	public DvdController(ActorService actorService, CustomerService customerService) {
@@ -46,8 +48,21 @@ public class DvdController {
 		return responseEntity;
 	}
 
+	@GetMapping( "/getActorRnd" )
+	public ResponseEntity<Actor> getActorRnd( ) {
+
+		ResponseEntity<Actor> responseEntity;
+		long maxId = actorService.getMaxId();
+		Long randomLongId = (long) random.nextInt((int) maxId) + 1;
+		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, randomLongId);
+		Actor actor = actorService.findById(randomLongId);
+		responseEntity = new ResponseEntity<>(actor, HttpStatus.OK);
+		return responseEntity;
+	}
+
+	//
 	@GetMapping( "/getCustomers" )
-	public ResponseEntity<List<Customer>> getCustomers() {
+	public ResponseEntity<List<Customer>> getCustomers( ) {
 
 		ResponseEntity<List<Customer>> responseEntity;
 		List<Customer> customers = customerService.findAll();
@@ -56,29 +71,41 @@ public class DvdController {
 	}
 
 	@GetMapping( "/getCustomer/{id}" )
-	public ResponseEntity<Customer> getCustomer(@PathVariable String id) {
+	public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
 
 		ResponseEntity<Customer> responseEntity;
-		Customer customer = customerService.findAll().get(Integer.parseInt(id));
+		Customer customer = customerService.findById(id);
 		responseEntity = new ResponseEntity<>(customer, HttpStatus.OK);
 		return responseEntity;
 	}
 
 	@GetMapping( "/showCustomers" )
-	public ModelAndView showCustomers() {
+	public ModelAndView showCustomers( ) {
 
 		List<Customer> customers = customerService.findAll();
-		ModelAndView MAV = new ModelAndView("seeCustomers");
-		MAV.addObject("customers", customers);
-		return MAV;
+		ModelAndView mView = new ModelAndView("seeCustomers");
+		mView.addObject("customers", customers);
+		return mView;
 	}
 
 	@GetMapping( "/showCustomer/{id}" )
-	public ModelAndView showCustomer(@PathVariable int id) {
+	public ModelAndView showCustomer(@PathVariable long id) {
 
-		Customer customer = customerService.findAll().get(id);
-		ModelAndView MAV = new ModelAndView("seeCustomer");
-		MAV.addObject("customer", customer);
-		return MAV;
+		Customer customer = customerService.findById(id);
+		ModelAndView mView = new ModelAndView("seeCustomer");
+		mView.addObject("customer", customer);
+		return mView;
+	}
+
+	@GetMapping( "/showCustomerRnd" )
+	public ModelAndView showCustomerRnd( ) {
+
+		long maxId = customerService.getMaxId();
+		Long randomLongId = (long) random.nextInt((int) maxId) + 1;
+		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, randomLongId);
+		Customer customer = customerService.findById(randomLongId);
+		ModelAndView mView = new ModelAndView("seeCustomer");
+		mView.addObject("customer", customer);
+		return mView;
 	}
 }

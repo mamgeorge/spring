@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml" xmlns:th = "https://www.thymeleaf.org">
 <head><title>index</title>
-	<link rel = "stylesheet" th:href = "@{/style.css}">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 <body>
 	<h3>Welcome!</h3>
-	<h5 th:text = "${#dates.formatISO(#dates.createNow())}" ></h5>
-	<div />
+	<br /><h5 th:text = "${#dates.formatISO(#dates.createNow())}" ></h5>
+	<br /><br />
+	<div >
 	<fieldset>This is a SpringBoot PostgreSQL example using JPA, Thymeleaf, REST.
 		<br />
 		<br />The Model layer loads any database thru properties alone.
@@ -26,12 +27,15 @@
 	<br />
 	<a th:href = "@{/getActors}">/getActors</a> |
 	<a th:href = "@{/getActor/10}">/getActor/10</a> |
+	<a th:href = "@{/getActorRnd}">/getActorRnd</a>
 	<br />
 	<a th:href = "@{/getCustomers}">/getCustomers</a> |
 	<a th:href = "@{/getCustomer/20}">/getCustomers/20</a>
 	<hr />
 	<a th:href = "@{/showCustomers}">/showCustomers</a> |
 	<a th:href = "@{/showCustomer/30}">/showCustomer/30</a>
-</div>
+	<br />
+	<a th:href = "@{/showCustomerRnd}">/showCustomerRnd</a>
+	</div>
 </body>
 </html>
