@@ -4,11 +4,14 @@
 	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 <body>
+<div th:replace="~{/showHeader :: showHeaderLinks}"> </div>
+
+<br />
 	<h3>Customer Item!</h3>
 	<br /><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 	<br />
-	<br />
-<table>
+
+<br /><table>
 <tr>
 	<td th:text="${#dates.format(#dates.createNow(),'HH:mm:ss.SSSS')}" />
 	<td th:text="${customer.customer_id}" />
@@ -26,13 +29,10 @@
 	</tr>
 <tr>
 	<td th:text="${customer.create_date}" />
-	<td th:text="${customer.last_update}" />
 	<td th:text="${customer.active}" />
+	<td th:text="${customer.last_update}" />
 	</tr>
 </table>
-
-	<br /><hr />
-	<a th:href = "@{/}">return</a>
 
 </body>
 </html>

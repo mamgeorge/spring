@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +31,18 @@ public class DvdController {
 		this.customerService = customerService;
 	}
 
-	@GetMapping({"/", "/root", "/home", "/index"}) public ModelAndView home() { return new ModelAndView("index");}
+	@GetMapping( { "/", "/root", "/home", "/index" } )
+	public ModelAndView home( ) {
+		return new ModelAndView("index");
+	}
+
+	@GetMapping( { "/timer" } )
+	public ResponseEntity<String> timer( ) {
+		ResponseEntity<String> responseEntity;
+		String timer  = Instant.now().toString();
+		responseEntity = new ResponseEntity<>(timer, HttpStatus.OK);
+		return responseEntity;
+	}
 
 	@GetMapping( "/getActors" )
 	public ResponseEntity<List<Actor>> getActors( ) {

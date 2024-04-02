@@ -4,11 +4,14 @@
 	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 <body><!-- customer_id, store_id, first_name, last_name, email, address_id, activebool, create_date, last_update, active -->
+<div th:replace="~{/showHeader :: showHeaderLinks}"> </div>
+
+<br />
 	<h3>Customer List!</h3>
 	<br /><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
-	<br /><div>
-		<a th:href = "@{/}">return</a>
-	<br /><br />
+	<br />
+
+<br />
 	<div style = "overflow:auto; width: 600px; height: 400px;">
 	<table>
 		<thead><span th:text="${'Total: ' + #lists.size(customers)}" /></thead>
@@ -43,7 +46,5 @@
 	</tr>
 	</table></div>
 
-	<a th:href = "@{/}">return</a>
-	</div>
 </body>
 </html>
