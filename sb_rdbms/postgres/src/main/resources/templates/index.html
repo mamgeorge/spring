@@ -17,25 +17,34 @@
 		<li />The View layer uses Thymeleaf templates and is easily programmable.
 		<li />It defaults to HTML, which makes it easy for anyone to alter or add CSS/JS/Bootstrap...
 		<br /><hr />
-		<li />The Controller is minimal and REST based.
+		<li />The Controller is minimal and REST based. Actuators & OpenAI Swagger are accessible.
 		<li />It can easily be configured for app to app activity.
 		<br />
 		<hr />Note: No Animals were harmed in the production of this Website.
 	</fieldset>
 	<br/>
-	<a th:href = "@{/}">/(root)</a> | <a th:href = "@{/actuator}">/actuator</a>
+	<a th:href = "@{/home}">/home</a> |
+	<a th:href = "@{/actuator}">/actuator</a> |
+	<a th:href = "@{/actuator/health}">/actuator/health</a> |
+	<a th:href = "@{/swagger-ui.html}">/swagger-ui.html</a>
 	<br />
+	<hr />ResponseEntities<br />
 	<a th:href = "@{/getActors}">/getActors</a> |
 	<a th:href = "@{/getActor/10}">/getActor/10</a> |
 	<a th:href = "@{/getActorRnd}">/getActorRnd</a>
 	<br />
 	<a th:href = "@{/getCustomers}">/getCustomers</a> |
-	<a th:href = "@{/getCustomer/20}">/getCustomers/20</a>
-	<hr />
-	<a th:href = "@{/showCustomers}">/showCustomers</a> |
-	<a th:href = "@{/showCustomer/30}">/showCustomer/30</a>
+	<a th:href = "@{/getCustomer/20}">/getCustomer/20</a> |
+	<a th:href = "@{/getCustomerRnd}">/getCustomerRnd</a>
 	<br />
+	<hr />ModelAndView<br />
+	<a th:href = "@{/showCustomers}">/showCustomers</a> |
+	<a th:href = "@{/showCustomer/30}">/showCustomer/30</a> |
 	<a th:href = "@{/showCustomerRnd}">/showCustomerRnd</a>
+	<br />
+	<a th:href = "@{/bootCustomers}">/bootCustomers</a> |
+	<a th:href = "@{/bootCustomer/40}">/bootCustomer/40</a> |
+	<a th:href = "@{/bootCustomerRnd}">/bootCustomerRnd</a>
 	</div>
 </body>
 </html>
