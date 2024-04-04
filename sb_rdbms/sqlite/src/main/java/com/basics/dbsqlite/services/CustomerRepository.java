@@ -1,6 +1,7 @@
 package com.basics.dbsqlite.services;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository public interface CustomerRepository extends CrudRepository<Customer, Integer> { }
+//@Repository
+public interface CustomerRepository extends JpaRepository<Customer, Integer> { }

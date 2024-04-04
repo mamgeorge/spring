@@ -3,25 +3,24 @@
 	xmlns:th = "https://www.thymeleaf.org"
 >
 <head><title>Spring Sqlite Example</title>
-	<link rel = "stylesheet" href = "style.css">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 <body>
-<center>
 
 	<br/>
 	<h3>Welcome!</h3>
 	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 	<br/>
-	<br/><a th:href = "@{/roots}">/roots</a>
-	<br/><a th:href = "@{/}">/(root)</a>
+	<br/><a th:href = "@{/}">/(root))</a>
 	<br/><a th:href = "@{/home}">/home</a>
-
+	<br/><a th:href = "@{/actuator}">/actuator</a>
+	<br/><a th:href = "@{/actuator/health}">/actuator/health</a>
+	<br/>
+	<br/><hr />
+	<br/><a th:href = "@{/getCustomerRnd}">/getCustomerRnd</a>
 	<br/><a th:href = "@{/showCustomers}">/showCustomers</a>
-	<br/><a th:href = "@{/showCustomerPath/5}">/showCustomerPath/5</a>
-	<br/><a th:href = "@{/showCustomer?idVal=5}">/showCustomer?idVal=5</a>
+	<br/><a th:href = "@{/showCustomersAll}">/showCustomersAll</a>
+	<br/><a th:href = "@{/showCustomer/10}">/showCustomer/10</a>
 
-	</form>
-
-</center>
 </body>
 </html>

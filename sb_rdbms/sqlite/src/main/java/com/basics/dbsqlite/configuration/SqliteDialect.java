@@ -2,7 +2,6 @@ package com.basics.dbsqlite.configuration;
 
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.identity.IdentityColumnSupport;
-
 import java.sql.Types;
 
 // because hibernate.dialect is not automatic: hibernate.dialect=com.basics.dbsqlite.configuration.SqliteDialect

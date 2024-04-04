@@ -1,4 +1,4 @@
-package com.basics.securing;
+package com.basics.dbsqlite;
 
 // import org.junit.Test; // JUnit 4
 
@@ -8,12 +8,12 @@ import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MvcConfigurationTest {
+public class DbSqliteAppTest {
 
-	public static final Logger LOGGER = Logger.getLogger(MvcConfigurationTest.class.getName());
+	public static final Logger LOGGER = Logger.getLogger(DbSqliteAppTest.class.getName());
 
 	// test_addViewControllers
-	@Test public void testViewControllers( ) {
+	@Test void testViewControllers( ) {
 		//
 		String txtLine = "#### DONE ####";
 		System.out.println(txtLine + " / " + txtLine.length());

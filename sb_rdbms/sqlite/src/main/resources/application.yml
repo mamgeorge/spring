@@ -1,7 +1,14 @@
-driverClassName=org.sqlite.JDBC
-jdbcUrl=C:/workspace/dbase/sqlite/chinook.db
-
-hibernate.dialect=com.basics.dbsqlite.configuration.SqliteDialect
-hibernate.hbm2ddl.auto=none
-hibernate.show_sql=true
-
+spring:
+  datasource:
+    url: jdbc:sqlite:C:/workspace/dbase/sqlite/chinook.db
+    username:
+    password:
+    driver-class-name: org.sqlite.JDBC
+    # DriverManager automatically selects driver className since JDBC4 (SDK6)
+  jpa:
+    hibernate:
+      ddl-auto: none # create, create-drop, validate, update, none; none allows app to load if db fails
+    properties:
+      hibernate:
+        dialect: com.basics.dbsqlite.configuration.SqliteDialect
+        # SqliteDialect was hardcoded

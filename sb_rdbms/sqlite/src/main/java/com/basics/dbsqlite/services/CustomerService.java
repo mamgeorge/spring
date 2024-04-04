@@ -5,13 +5,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service public class CustomerService implements ICustomerService {
+@Service
+public class CustomerService {
 
-	@Autowired private CustomerRepository customerRepository;
+	private final CustomerRepository customerRepository;
 
-	@Override public Customer findById(Integer id) { return customerRepository.findById(id).get(); }
+	@Autowired public CustomerService(CustomerRepository customerRepository) {
+		this.customerRepository = customerRepository;
+	}
 
-	@Override public Customer save(Customer customer) { return customerRepository.save(customer); }
+	public Customer findById(Integer id) { return customerRepository.findById(id).get(); }
 
-	@Override public List<Customer> findAll( ) { return (List<Customer>) customerRepository.findAll(); }
+	public List<Customer> findAll( ) { return customerRepository.findAll(); }
+
+	public Customer save(Customer customer) { return customerRepository.save(customer); }
+
+	public long getMaxId( ) { return customerRepository.count(); }
 }

@@ -28,12 +28,12 @@ public class GeneralConfiguration {
 
 	@Autowired Environment environment;
 
-	// @Primary, @ConfigurationProperties( prefix = "spring.datasource" ) // had issues
-	@Bean public DataSource dataSource( ) {
+	@Bean
+	public DataSource dataSource( ) {
 
 		DataSourceBuilder DSB = DataSourceBuilder.create();
-		String driverClassName = environment.getProperty("driverClassName");
-		String jdbcUrl = "jdbc:sqlite:" + environment.getProperty("jdbcUrl");
+		String driverClassName =  environment.getProperty("spring.datasource.driver-class-name");
+		String jdbcUrl = environment.getProperty("spring.datasource.url");
 		System.out.println("#### driverCN: " + driverClassName);
 		System.out.println("#### jdbcUrl: " + jdbcUrl);
 		DSB.driverClassName(driverClassName);
@@ -45,7 +45,8 @@ public class GeneralConfiguration {
 		return dataSource;
 	}
 
-	@Bean public LocalContainerEntityManagerFactoryBean entityManagerFactory( ) {
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory( ) {
 
 		LocalContainerEntityManagerFactoryBean LCEMFB = new LocalContainerEntityManagerFactoryBean();
 		JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
@@ -58,19 +59,22 @@ public class GeneralConfiguration {
 		return LCEMFB;
 	}
 
-	// hibernateDialect must call SqliteDialect
-	// hibernateHbm2ddlAuto nust call none (since the DB exists)
+	// hibernateDialect must call hardcoded SqliteDialect
+	// hibernateHbm2ddlAuto must call none (since the DB exists)
 	@NotNull final Properties getProperties( ) {
 
 		final Properties properties = new Properties();
-		String hibernateHbm2ddlAuto = environment.getProperty("hibernate.hbm2ddl.auto");
-		String hibernateDialect = environment.getProperty("hibernate.dialect");
-		String hibernateShowSql = environment.getProperty("hibernate.show_sql");
+		String springUrl = environment.getProperty("spring.datasource.url");
+		String springUsername = environment.getProperty("spring.datasource.username");
+		String springPassword = environment.getProperty("spring.datasource.password");
+		String springDriver = environment.getProperty("spring.datasource.driver-class-name");
+
+		String hibernateAuto = environment.getProperty("spring.jpa.hibernate.ddl-auto");
+		String hibernateDialect = environment.getProperty("spring.jpa.properties.hibernate.dialect");
+		String hibernateShowSql = "true"; //environment.getProperty("hibernate.show_sql");
 		System.out.println("#### hibernateDialect: " + hibernateDialect);
 
-		if ( hibernateHbm2ddlAuto != null ) {
-			properties.setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto);
-		}
+		if ( hibernateAuto != null ) { properties.setProperty("hibernate.hbm2ddl.auto", hibernateAuto); }
 		if ( hibernateDialect != null ) { properties.setProperty("hibernate.dialect", hibernateDialect); }
 		if ( hibernateShowSql != null ) { properties.setProperty("hibernate.show_sql", hibernateShowSql); }
 

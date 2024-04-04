@@ -1,17 +1,18 @@
 
-body { font-family: verdana, monospace; margin: auto; text-align: center; color: #000080; }
+body { font-family: verdana, monospace; margin: auto; text-align: center; color: #000080;
+	font-size: 12pt; }
 
 h1, h2, h3, h4, h5, h6 { color: #000080; display: inline; }
 form { display: inline; }
 
-a, a.hover, a.visited { color: blue; text-decoration: none ; font-size: 9pt; }
+a, a.hover, a.visited { font-family: verdana,color: blue; text-decoration: none ; }
 
 table { width: 98%; margin: auto; border-spacing: 1px; border-collapse: collapse; }
 tr:nth-child(even) { background: #ffffff; }
 tr:nth-child( odd) { background: #e0e0e0; }
-th, td { border 0.5px solid black; padding: 4px; padding-left: 16px; font-size: 9pt; }
-td { text-align: left; }
 td:nth-child( 2 ) { text-align: right; }
+th, td { border 0.5px solid black; padding: 4px; padding-left: 16px; font-size: 0.8em; }
+td { text-align: left; }
 
 hr { color: #cccccc; width: 80%; }
 
