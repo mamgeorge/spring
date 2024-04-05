@@ -3,19 +3,28 @@ spring:
     name: graphqlo
 
   datasource:
-    url: jdbc:derby:C:\workspace\dbase\derby\db-derby-10.15.2.0-bin\demo\derbytutor\toursdb15
+    url: jdbc:derby:C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/demo/derbytutor/toursdb15
     username:
     password:
     driverClassName: org.apache.derby.jdbc.EmbeddedDriver
+    # driverClassName: org.apache.derby.jdbc.EmbeddedDriver, ClientDriver
     # DriverManager automatically selects driver className since JDBC4 (SDK6)
 
   jpa:
     show-sql: true
+    open-in-view: false
     hibernate:
-      ddl-auto: update # create, create-drop, validate, update, none; none allows app to load if db fails
+      ddl-auto: none
       properties:
         hibernate:
           dialect: org.hibernate.dialect.DerbyDialect
-  # jakarta.persistence.jdbc.url:
-hibernate:
-  dialect: org.hibernate.dialect.DerbyDialect
+      # ddl-auto:create, create-drop, validate, update, none; none allows app to load if db fails
+      # dialect: org.hibernate.dialect.DerbyDialect, DerbyTenSevenDialect
+
+#hibernate:
+#  dialect: org.hibernate.dialect.DerbyDialect
+#  connection:
+#    driver_class: org.apache.derby.jdbc.EmbeddedDriver
+#    url: jdbc:derby:C:\workspace\dbase\derby\db-derby-10.15.2.0-bin\demo\derbytutor\toursdb15
+#    username:
+#    password:

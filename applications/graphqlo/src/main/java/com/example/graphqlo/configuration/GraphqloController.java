@@ -81,10 +81,10 @@ public class GraphqloController {
 
 		ResponseEntity<City> responseEntity;
 		int intMax = (int) cityService.getMaxId() + 1;
-		Integer intId = random.nextInt(intMax) ;
-		System.out.println("intId: " + intId);
+		Integer cityId = random.nextInt(intMax+10);
+		System.out.println("cityId: " + cityId);
 
-		City city = cityService.findById(intId);
+		City city = cityService.findById(cityId);
 		responseEntity = new ResponseEntity<>(city, HttpStatus.OK);
 		return responseEntity;
 	}

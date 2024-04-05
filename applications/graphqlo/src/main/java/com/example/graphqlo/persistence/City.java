@@ -16,9 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Getter @Setter
-@NoArgsConstructor
-@Entity @Table( name = "App.Cities")
+@Getter @Setter @NoArgsConstructor
+@Entity @Table( name = "APP.CITIES")
 public class City {
 
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
