@@ -20,9 +20,9 @@ public class ActorService {
 	public List<Actor> findAll( ) {
 
 		Iterable<Actor> iterable = actorRepository.findAll();
-		List<Actor> cities = new ArrayList<>();
-		iterable.forEach(cities::add);
-		return cities;
+		List<Actor> actors = new ArrayList<>();
+		iterable.forEach(actors::add);
+		return actors;
 	}
 
 	public Actor findById(Integer id) {

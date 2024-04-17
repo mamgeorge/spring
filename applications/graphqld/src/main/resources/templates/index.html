@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang = "en">
-<head>
-	<meta charset = "UTF-8">
-	<title>graphqlo</title>
-</head>
-<body><h3>graphqlo</h3>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+	xmlns:th = "https://www.thymeleaf.org"
+>
+<head><title>graphql derby</title><meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
 
+</head>
+<body><h3>graphql derby</h3>
+<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+
+<br/>
 <br /><a href = "/getCountries">/getCountries</a>
 <br /><a href = "/getCountryRnd">/getCountryRnd</a>
 <br />

@@ -10,14 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 @Getter @Setter @NoArgsConstructor
-@Entity @Table( name = "address", schema = "appublicp")
+@Entity @Table( name = "address", schema = "public")
 public class Address {
 
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
-	@Column( name = "address_id" )
-	private Integer address_id;
+	@Column( name = "address_id" ) private Integer address_id;
 
 	private String address;
 	private String address2;
@@ -25,5 +25,5 @@ public class Address {
 	private Integer city_id;
 	private String postal_code;
 	private String phone;
-	private String last_update;
+	private Timestamp last_update;
 }

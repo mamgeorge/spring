@@ -17,9 +17,6 @@ import java.sql.Timestamp;
 public class Actor {
 
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
-	@Column( name = "city_id" )
-	private int city_id;
-
 	@Column( name = "actor_id" ) private Integer actor_id;
 	@Column( name = "first_name" ) private String first_name;
 	@Column( name = "last_name" ) private String last_name;
