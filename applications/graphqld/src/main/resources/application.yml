@@ -1,6 +1,6 @@
 spring:
   application:
-    name: graphqlo
+    name: graphqld
 
   datasource:
     # JPA required @Table( name = "cities", schema = "app")

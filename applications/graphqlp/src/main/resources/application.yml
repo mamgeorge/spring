@@ -1,13 +1,13 @@
 spring:
   application:
-    name: graphqlo
+    name: graphqlp
 
   datasource:
     # JPA required @Table( name = "cities", schema = "app")
-    url: jdbc:derby:C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/demo/derbytutor/toursdb15
-    username:
-    password:
-    driverClassName: org.apache.derby.jdbc.EmbeddedDriver
+    url: jdbc:postgresql://localhost:5432/dvdrental
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
+    driverClassName: org.postgresql.Driver
     # driverClassName: org.apache.derby.jdbc.EmbeddedDriver, ClientDriver
     # DriverManager automatically selects driver className since JDBC4 (SDK6)
 
@@ -16,12 +16,12 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
-      dialect: org.hibernate.dialect.DerbyDialect
+      dialect: org.hibernate.dialect.PostgreSQLDialect
       properties:
         hibernate:
-          dialect: org.hibernate.dialect.DerbyDialect
+          dialect: org.hibernate.dialect.PostgreSQLDialect
       # ddl-auto:create, create-drop, validate, update, none; none allows app to load if db fails
-      # dialect: org.hibernate.dialect.DerbyDialect, DerbyTenSevenDialect
+      # dialect: org.hibernate.dialect.DerbyDialect, DerbyTenSevenDialect, PostgreSQLDialect
 
 #hibernate:
 #  dialect: org.hibernate.dialect.DerbyDialect
