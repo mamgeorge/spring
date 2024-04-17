@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>graphqlo</artifactId>
+	<artifactId>graphqld</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>graphqlo</name>
+	<name>graphqld</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
@@ -59,6 +59,12 @@
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
 			<version>10.15.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.2</version>
 		</dependency>
 
 		<!-- extra -->

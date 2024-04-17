@@ -1,10 +1,5 @@
-package com.example.graphqlo.persistence;
+package com.example.graphqld.persistence;
 
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Getter @Setter
-@NoArgsConstructor
-@Entity @Table( name = "Countries")
+@Getter @Setter @NoArgsConstructor
+@Entity @Table( name = "COUNTRIES", schema = "app")
 public class Country {
 
 	public static final String[] ISO_CODES = new String("AF AL DZ AS AO AR AM AU AT AZ BS BD BB BE BZ BM BO BW BR BG KH "

@@ -1,4 +1,4 @@
-package com.example.graphqlo.persistence;
+package com.example.graphqld.persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

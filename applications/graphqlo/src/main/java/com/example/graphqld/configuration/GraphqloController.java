@@ -1,9 +1,9 @@
-package com.example.graphqlo.configuration;
+package com.example.graphqld.configuration;
 
-import com.example.graphqlo.persistence.City;
-import com.example.graphqlo.persistence.CityService;
-import com.example.graphqlo.persistence.Country;
-import com.example.graphqlo.persistence.CountryService;
+import com.example.graphqld.persistence.City;
+import com.example.graphqld.persistence.CityService;
+import com.example.graphqld.persistence.Country;
+import com.example.graphqld.persistence.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
-import static com.example.graphqlo.persistence.Country.ISO_CODES;
+import static com.example.graphqld.persistence.Country.ISO_CODES;
 
 @RestController
 public class GraphqloController {

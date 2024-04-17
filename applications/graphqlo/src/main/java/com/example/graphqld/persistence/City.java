@@ -1,10 +1,5 @@
-package com.example.graphqlo.persistence;
+package com.example.graphqld.persistence;
 
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Getter @Setter @NoArgsConstructor
-@Entity @Table( name = "APP.CITIES")
+@Entity @Table( name = "cities", schema = "app")
 public class City {
 
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )

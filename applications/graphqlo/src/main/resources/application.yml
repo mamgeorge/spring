@@ -3,6 +3,7 @@ spring:
     name: graphqlo
 
   datasource:
+    # JPA required @Table( name = "cities", schema = "app")
     url: jdbc:derby:C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/demo/derbytutor/toursdb15
     username:
     password:
@@ -15,6 +16,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
+      dialect: org.hibernate.dialect.DerbyDialect
       properties:
         hibernate:
           dialect: org.hibernate.dialect.DerbyDialect
@@ -28,3 +30,5 @@ spring:
 #    url: jdbc:derby:C:\workspace\dbase\derby\db-derby-10.15.2.0-bin\demo\derbytutor\toursdb15
 #    username:
 #    password:
+#derby.system.home: C:/workspace/dbase/derby/
+#derby.database.classpath: C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/lib/derby.jar
