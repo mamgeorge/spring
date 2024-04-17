@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CityRepository extends JpaRepository<City, Integer> {
+public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
-	@Override List<City> findAll( );
+	@Override List<Actor> findAll( );
 }
 

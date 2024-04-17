@@ -8,29 +8,29 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CityService {
+public class ActorService {
 
-	public final CityRepository cityRepository;
+	public final ActorRepository actorRepository;
 
 	@Autowired
-	public CityService(CityRepository cityRepository) {
-		this.cityRepository = cityRepository;
+	public ActorService(ActorRepository actorRepository) {
+		this.actorRepository = actorRepository;
 	}
 
-	public List<City> findAll( ) {
+	public List<Actor> findAll( ) {
 
-		Iterable<City> iterable = cityRepository.findAll();
-		List<City> cities = new ArrayList<>();
+		Iterable<Actor> iterable = actorRepository.findAll();
+		List<Actor> cities = new ArrayList<>();
 		iterable.forEach(cities::add);
 		return cities;
 	}
 
-	public City findById(Integer id) {
+	public Actor findById(Integer id) {
 
-		City city = new City();
-		Optional<City> optional =  cityRepository.findById(id);
+		Actor actor = new Actor();
+		Optional<Actor> optional =  actorRepository.findById(id);
 		if ( optional.isPresent() ) {
-			city = optional.get();
+			actor = optional.get();
 		} else {
 //			city = cityRepository.getOne(id);
 //			city = cityRepository.getReferenceById(id);
@@ -39,8 +39,8 @@ public class CityService {
 			//city = cityRepository.findById(id.intValue()).get();
 			//city = cityRepository.findAll().get(id.intValue());
 		}
-		return city;
+		return actor;
 	} // getReferenceById
 
-	public long getMaxId( ) { return cityRepository.count(); }
+	public long getMaxId( ) { return actorRepository.count(); }
 }

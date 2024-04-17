@@ -1,9 +1,9 @@
 package com.example.graphqlp.configuration;
 
-import com.example.graphqlp.persistence.City;
-import com.example.graphqlp.persistence.CityService;
-import com.example.graphqlp.persistence.Country;
-import com.example.graphqlp.persistence.CountryService;
+import com.example.graphqlp.persistence.Actor;
+import com.example.graphqlp.persistence.ActorService;
+import com.example.graphqlp.persistence.Address;
+import com.example.graphqlp.persistence.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +16,17 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
-import static com.example.graphqlp.persistence.Country.ISO_CODES;
-
 @RestController
 public class GraphqlpController {
 
-	private final CountryService countryService;
-	private final CityService cityService;
+	private final AddressService addressService;
+	private final ActorService actorService;
 	private final Random random = new Random();
 
 	@Autowired
-	public GraphqlpController(CountryService countryService,  CityService cityService) {
-		this.countryService = countryService;
-		this.cityService = cityService;
+	public GraphqlpController(AddressService addressService,  ActorService actorService) {
+		this.addressService = addressService;
+		this.actorService = actorService;
 	}
 
 	@GetMapping ({"/", "/home", "/root" })
@@ -40,52 +38,49 @@ public class GraphqlpController {
 		return MAV;
 	}
 
-	@GetMapping( "/getCountries" )
-	public ResponseEntity<List<Country>> getCountries( ) {
-
-		ResponseEntity<List<Country>> responseEntity;
-		List<Country> countries = countryService.findAll();
-		responseEntity = new ResponseEntity<>(countries, HttpStatus.OK);
-		return responseEntity;
-	}
-
-	@ResponseBody
-	@GetMapping( "/getCountryRnd" )
-	public ResponseEntity<Country> getCountryRnd( ) {
-
-		ResponseEntity<Country> responseEntity;
-		int intRnd = random.nextInt(ISO_CODES.length) + 1;
-		String isoCodeId = ISO_CODES[intRnd];
-		System.out.println("isoCodeId: " + isoCodeId);
-
-		Country country = countryService.findById(isoCodeId);
-		responseEntity = new ResponseEntity<>(country, HttpStatus.OK);
-		return responseEntity;
-	}
-
 	//############
-	@GetMapping( "/getCities" )
-	public ResponseEntity<List<City>> getCities( ) {
+	@GetMapping( "/getActors" ) public ResponseEntity<List<Actor>> getActors( ) {
 
-		ResponseEntity<List<City>> responseEntity;
-		List<City> cities = cityService.findAll();
-		System.out.println("cities: " + cities);
+		ResponseEntity<List<Actor>> responseEntity;
+		List<Actor> actors = actorService.findAll();
+		System.out.println("actors: " + actors);
 
-		responseEntity = new ResponseEntity<>(cities, HttpStatus.OK);
+		responseEntity = new ResponseEntity<>(actors, HttpStatus.OK);
 		return responseEntity;
 	}
 
 	// @ResponseBody
-	@GetMapping( "/getCityRnd" )
-	public ResponseEntity<City> getCityRnd( ) {
+	@GetMapping( "/getActorRnd" ) public ResponseEntity<Actor> getActorRnd( ) {
 
-		ResponseEntity<City> responseEntity;
-		int intMax = (int) cityService.getMaxId() + 1;
-		Integer cityId = random.nextInt(intMax+10);
-		System.out.println("cityId: " + cityId);
+		ResponseEntity<Actor> responseEntity;
+		int intMax = (int) actorService.getMaxId() + 1;
+		Integer actorId = random.nextInt(intMax);
+		System.out.println("actorId: " + actorId);
 
-		City city = cityService.findById(cityId);
-		responseEntity = new ResponseEntity<>(city, HttpStatus.OK);
+		Actor actor = actorService.findById(actorId);
+		responseEntity = new ResponseEntity<>(actor, HttpStatus.OK);
+		return responseEntity;
+	}
+
+	//############
+	@GetMapping( "/getAddresses" ) public ResponseEntity<List<Address>> getAddresses( ) {
+
+		ResponseEntity<List<Address>> responseEntity;
+		List<Address> addresses = addressService.findAll();
+		responseEntity = new ResponseEntity<>(addresses, HttpStatus.OK);
+		return responseEntity;
+	}
+
+	@ResponseBody
+	@GetMapping( "/getAddressRnd" ) public ResponseEntity<Address> getCountryRnd( ) {
+
+		ResponseEntity<Address> responseEntity;
+		int intMax = (int) addressService.getMaxId() + 1;
+		Integer addressId = random.nextInt(intMax);
+		System.out.println("addressId: " + addressId);
+
+		Address address = addressService.findById(addressId);
+		responseEntity = new ResponseEntity<>(address, HttpStatus.OK);
 		return responseEntity;
 	}
 }
