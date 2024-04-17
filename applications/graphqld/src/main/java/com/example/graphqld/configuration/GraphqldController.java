@@ -19,14 +19,14 @@ import java.util.Random;
 import static com.example.graphqld.persistence.Country.ISO_CODES;
 
 @RestController
-public class GraphqloController {
+public class GraphqldController {
 
 	private final CountryService countryService;
 	private final CityService cityService;
 	private final Random random = new Random();
 
 	@Autowired
-	public GraphqloController(CountryService countryService,  CityService cityService) {
+	public GraphqldController(CountryService countryService,  CityService cityService) {
 		this.countryService = countryService;
 		this.cityService = cityService;
 	}
