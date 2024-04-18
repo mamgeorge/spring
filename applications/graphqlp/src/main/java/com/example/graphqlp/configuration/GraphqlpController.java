@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -30,9 +31,9 @@ public class GraphqlpController {
 	private final CityService cityService;
 	private final Random random = new Random();
 
-	@Autowired
-	public GraphqlpController(AddressService addressService,  ActorService actorService,
-		CityService cityService ) {
+	@Autowired public GraphqlpController(AddressService addressService,
+		ActorService actorService, CityService cityService ) {
+
 		this.addressService = addressService;
 		this.actorService = actorService;
 		this.cityService = cityService;
@@ -47,15 +48,22 @@ public class GraphqlpController {
 		return MAV;
 	}
 
+	//############
 	@QueryMapping public List<Address> getAddresses(@Argument int count) {
 
-		List<Address> addresses = addressService.findAll();
+		List<Address> addresses = addressService.findAll().subList(0, count);
 		return addresses;
 	}
 
-	@QueryMapping public Address getAddress(@Argument int addressId) {
+	@QueryMapping public List<Address> getAddressRng(@Argument int beg, @Argument int end) {
 
-		Address address = addressService.findById(addressId);
+		List<Address> addresses = addressService.findAll().subList(beg, end);
+		return addresses;
+	}
+
+	@QueryMapping public Address getAddress(@Argument int address_id) {
+
+		Address address = addressService.findById(address_id);
 		return address;
 	}
 

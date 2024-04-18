@@ -4,7 +4,7 @@ type Actor {
 	actor_id: ID!
 	first_name: String
 	last_name: String
-#	last_update: TimeStamp
+	last_update: String
 }
 
 type Address {
@@ -17,7 +17,7 @@ type Address {
 	city_id: Int
 	postal_code: String
 	phone: String
-#	last_update: TimeStamp
+	last_update: String
 }
 
 type City {
@@ -26,14 +26,13 @@ type City {
 	city_id: ID!
 	city: String
 	country_id: Int
-#	last_update: TimeStamp
+	last_update: String
 }
 
-type Query {
+type Query { getAddresses(count: Int): [Address]! }
 
-	getAddresses(count: Int): [Address]!
-}
+# type Query { getAddressRng(beg: Int, end: Int): [Address]! }
 
-# type Query { getAddress(address_id: ID): [Address]! }
+# type Query { getAddress(address_id: ID!): Address! }
 
 # type Mutation { createActor(first_name: String, last_name: String, last_update: TimeStamp): Actor! }
