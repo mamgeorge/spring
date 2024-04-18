@@ -3,7 +3,6 @@ package com.example.graphqlp.persistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +16,11 @@ public class ActorService {
 		this.actorRepository = actorRepository;
 	}
 
-	public List<Actor> findAll( ) {
+	public List<Actor> findAll( ) { return (List<Actor>) actorRepository.findAll(); }
 
-		Iterable<Actor> iterable = actorRepository.findAll();
-		List<Actor> actors = new ArrayList<>();
-		iterable.forEach(actors::add);
-		return actors;
-	}
+	public Actor findById(Integer id) { return actorRepository.findById(id).get(); } // getReferenceById
 
-	public Actor findById(Integer id) {
+	public Actor findByIdOptional(Integer id) {
 
 		Actor actor = new Actor();
 		Optional<Actor> optional =  actorRepository.findById(id);

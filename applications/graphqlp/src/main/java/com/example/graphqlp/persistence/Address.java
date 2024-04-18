@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 @Entity @Table( name = "address", schema = "public")
 public class Address {
 
+	// address_id, address, address2, district, city_id, postal_code, phone, last_update
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
 	@Column( name = "address_id" ) private Integer address_id;
 

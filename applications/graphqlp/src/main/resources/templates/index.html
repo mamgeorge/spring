@@ -9,11 +9,27 @@
 <body><h3>graphql pgs</h3>
 <br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 
-<br/>
-<br /><a href = "/getActors">/getActors</a>
-<br /><a href = "/getActorRnd">/getActorRnd</a>
-<br />
-<br /><a href = "/getAddresses">/getAddresses</a>
-<br /><a href = "/getAddressRnd">/getAddressRnd</a>
+<br /><br />
+<a href = "/">/(root)</a> |
+<a href = "/actuator">/actuator</a> |
+<a href = "/actuator/health">/actuator/health</a>
+
+<br /><br /><hr /><br />
+<a href = "/getActors">/getActors</a> |
+<a href = "/getActorRnd">/getActorRnd</a>
+
+<br /><br />
+<a href = "/getAddresses">/getAddresses</a> |
+<a href = "/getAddressRnd">/getAddressRnd</a>
+
+<br /><br />
+<a href = "/getCities">/getCities</a> |
+<a href = "/getCityRnd">/getCityRnd</a>
+
+<br /><br /><hr /><br />
+<a href = "/graphiql">/graphiql</a> |
+<a href = "/listAddress(2)">/listAddress(2)</a> |
+<a href = "/getAddress(2)">/getAddress(2)</a>
+
 </body>
 </html>

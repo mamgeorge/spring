@@ -13,13 +13,13 @@ import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Getter @Setter @NoArgsConstructor
-@Entity @Table( name = "actor", schema = "public")
-public class Actor {
+@Entity @Table( name = "city", schema = "public")
+public class City {
 
-	// actor_id, first_name, last_name, last_update
+	// city_id, city, country_id, last_update
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
-	@Column( name = "actor_id" ) private Integer actor_id;
-	@Column( name = "first_name" ) private String first_name;
-	@Column( name = "last_name" ) private String last_name;
+	@Column( name = "city_id" ) private Integer city_id;
+	@Column( name = "city" ) private String city;
+	@Column( name = "country_id" ) private Integer country_id;
 	@Column( name = "last_update" ) private Timestamp last_update;
 }
