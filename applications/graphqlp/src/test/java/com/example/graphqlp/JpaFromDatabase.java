@@ -23,49 +23,28 @@ public class JpaFromDatabase {
 	private final String tableNamePattern = "%";
 	private final String[] types = { "TABLE" };
 
-	@Test void buildClassesfromSchema_DRB( ) {
+	// hilevel
+	@Test void showMetadataInfo_DRB( ) {
 
 		DbProfile dbProfile = new DbProfile(DRB, "", "", ""); // APP
 
-		String txtLines = buildClassesfromSchema(dbProfile);
+		String txtLines = showMetadataInfo(dbProfile);
 		System.out.println(txtLines);
 		assertTrue(true);
 	}
 
-	@Test void buildClassesfromSchema_PGS( ) {
+	@Test void showMetadataInfo_PGS( ) {
 
 		String user = System.getenv("POSTGRES_USER");
 		String pass = System.getenv("POSTGRES_PASS");
 		DbProfile dbProfile = new DbProfile(PGS, "", user, pass); // dvdrental
 
-		String txtLines = buildClassesfromSchema(dbProfile);
+		String txtLines = showMetadataInfo(dbProfile);
 		System.out.println(txtLines);
 		assertTrue(true);
 	}
 
-	@Test  void buildTableListGeneric_PGS( ) {
-
-		String user = System.getenv("POSTGRES_USER");
-		String pass = System.getenv("POSTGRES_PASS");
-		DbProfile dbProfile = new DbProfile(PGS, "", user, pass); // dvdrental
-
-		String catalog = "dvdrental";
-		String schema = "public";
-		ResultSet resultSet = null;
-		try {
-			DriverManager.registerDriver(dbProfile.getDriver());
-			Connection connection = DriverManager.getConnection(dbProfile.getDburl(), dbProfile.getProps());
-			DatabaseMetaData dbMetaData = connection.getMetaData();
-			resultSet = dbMetaData.getTables(catalog, schema, tableNamePattern, types);
-			getResultSetInfo("rsTables", resultSet);
-		}
-		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-
-		System.out.println(strb);
-		assertTrue(true);
-	}
-
-	@Test void buildTableList_PGS( ) {
+	@Test void buildTableList_fromRS_PGS( ) {
 
 		String user = System.getenv("POSTGRES_USER");
 		String pass = System.getenv("POSTGRES_PASS");
@@ -79,16 +58,7 @@ public class JpaFromDatabase {
 			DatabaseMetaData dbMetaData = connection.getMetaData();
 			ResultSet resultSet = dbMetaData.getTables(catalog, schema, tableNamePattern, types);
 
-			while ( resultSet.next() ) {
-
-				int ictr = resultSet.getMetaData().getColumnCount();
-				for ( int qctr = 1; qctr <= ictr; qctr++ ) {
-
-					String txtLine = resultSet.getString(qctr);
-					if ( txtLine != null && !txtLine.isEmpty() ) { strb.append("\t" + txtLine + " "); }
-				}
-				strb.append(EOL);
-			}
+			getResultSetInfo("rsTables", resultSet);
 		}
 		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
@@ -96,7 +66,7 @@ public class JpaFromDatabase {
 		assertTrue(true);
 	}
 
-	public String buildClassesfromSchema(DbProfile dbProfile) {
+	public String showMetadataInfo(DbProfile dbProfile) {
 
 		try {
 			DriverManager.registerDriver(dbProfile.getDriver());
@@ -104,7 +74,7 @@ public class JpaFromDatabase {
 			DatabaseMetaData dbMetaData = connection.getMetaData();
 
 			// extract cool info!
-			getDbMetaData(dbMetaData);
+			showDbMetadataInfo(dbMetaData);
 			String catalog = getResultSetInfo("1 rsCatalogs", dbMetaData.getCatalogs());
 			String schema = getResultSetInfo("2 rsSchemas", dbMetaData.getSchemas(catalog, schemaPattern));
 			getResultSetInfo("3 rsTableTypes", dbMetaData.getTableTypes());
@@ -117,7 +87,7 @@ public class JpaFromDatabase {
 		return strb.toString();
 	}
 
-	private void getDbMetaData(DatabaseMetaData dbmd) {
+	private void showDbMetadataInfo(DatabaseMetaData dbmd) {
 
 		try {
 			strb.append(String.format(FRMT, "getDbProductName..", dbmd.getDatabaseProductName()));
@@ -136,6 +106,7 @@ public class JpaFromDatabase {
 
 		String txtLine = "";
 		boolean boolFrmt = label.contains("rsTableInfo") || label.contains("rsTables");
+		boolean ifResultSetFull = false;
 		try {
 			while ( resultSet.next() ) {
 
@@ -159,10 +130,104 @@ public class JpaFromDatabase {
 					}
 				}
 				if ( boolFrmt ) { strb.append(EOL); }
+				ifResultSetFull = true;
 			}
+			if(!ifResultSetFull) { strb.append(String.format(FRMT, label, "EMPTY RESULTSET!"));}
 			strb.append(EOL);
 		}
 		catch (SQLException ex) { System.out.println("ERROR: " + label + " / " + ex.getMessage()); }
 		return txtLine;
+	}
+
+	// weediness
+	@Test void buildTableColumnList_DRB( ) {
+
+		String user = "";
+		String pass = "";
+		DbProfile dbProfile = new DbProfile(DRB, "", user, pass); // dvdrental
+
+		String catalog = "";
+		String schema = "APP";
+
+		buildTableList(dbProfile, catalog, schema);
+		System.out.println(strb);
+		assertTrue(true);
+	}
+
+	@Test void buildTableColumnList_PGS( ) {
+
+		String user = System.getenv("POSTGRES_USER");
+		String pass = System.getenv("POSTGRES_PASS");
+		DbProfile dbProfile = new DbProfile(PGS, "", user, pass); // dvdrental
+
+		String catalog = "dvdrental";
+		String schema = "public";
+
+		buildTableList(dbProfile, catalog, schema);
+		System.out.println(strb);
+		assertTrue(true);
+	}
+
+	private void buildTableList(DbProfile dbProfile, String catalog, String schema) {
+
+		try {
+			DriverManager.registerDriver(dbProfile.getDriver());
+			Connection connection = DriverManager.getConnection(dbProfile.getDburl(), dbProfile.getProps());
+			DatabaseMetaData dbMetaData = connection.getMetaData();
+			ResultSet resultSetTab = dbMetaData.getTables(catalog, schema, tableNamePattern, types);
+
+			int tctr = 0;
+			while ( resultSetTab.next() ) {
+
+				int ictr = resultSetTab.getMetaData().getColumnCount();
+				for ( int qctr = 1; qctr <= ictr; qctr++ ) {
+
+					String tabcolnam = resultSetTab.getMetaData().getColumnName(qctr);
+					String tabcolval = resultSetTab.getString(qctr);
+					if ( tabcolval != null && !tabcolval.isEmpty() ) {
+
+						if ( tabcolnam.equals("TABLE_NAME") ) {
+							strb.append(String.format("\t%02d %s\n", ++tctr, tabcolval));
+							buildColumnList(dbMetaData, catalog, schema, tabcolval);
+						}
+					}
+				}
+				strb.append(EOL);
+			}
+		}
+		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+	}
+
+	private void buildColumnList(DatabaseMetaData DMD, String catalog, String schema, String tabcolval) {
+
+		try {
+			ResultSet resultSetCol = DMD.getColumns(catalog, schema, tabcolval, "%");
+			while ( resultSetCol.next() ) {
+				int cctr = resultSetCol.getMetaData().getColumnCount();
+				for ( int rctr = 1; rctr <= cctr; rctr++ ) {
+
+					String colcolnam = resultSetCol.getMetaData().getColumnName(rctr);
+					String colcolval = resultSetCol.getString(rctr);
+					if ( colcolval != null && !colcolval.isEmpty() ) {
+
+						// COLUMN_NAME, DATA_TYPE, TYPE_NAME, COLUMN_SIZE
+						if ( colcolnam.equals("COLUMN_NAME") ) {
+							strb.append(String.format("\t\t%-20s", colcolval));
+						}
+						if ( colcolnam.equals("DATA_TYPE") ) {
+							strb.append(String.format("%-4d ", Integer.parseInt(colcolval)));
+						}
+						if ( colcolnam.equals("TYPE_NAME") ) {
+							strb.append(String.format("%-10s", colcolval));
+						}
+						if ( colcolnam.equals("COLUMN_SIZE") ) {
+							strb.append(String.format("%02d", Integer.parseInt(colcolval)));
+						}
+					}
+				}
+				strb.append("\n");
+			}
+		}
+		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 	}
 }

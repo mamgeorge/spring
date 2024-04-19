@@ -21,7 +21,7 @@ class GraphqlpAppTests {
 
 	@Test void contextLoads( ) { assertTrue(true); }
 
-	@Test void derby_EmbeddedDriver( ) {
+	@Test void executeQuery_DRB( ) {
 
 		String dbSQL = "SELECT * FROM Cities";
 		DbProfile dbProfile = new DbProfile(DRB, "APP", "", "");
@@ -43,7 +43,7 @@ class GraphqlpAppTests {
 		assertTrue(true);
 	}
 
-	@Test void pgs_driverManager( ) {
+	@Test void executeQuery_PGS( ) {
 
 		String dbSQL = "SELECT * FROM actor";
 		String user = System.getenv("POSTGRES_USER");
