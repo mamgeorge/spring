@@ -15,6 +15,7 @@ type Address {
 	address2: String
 	district: String
 	city_id: Int
+	city: City
 	postal_code: String
 	phone: String
 	last_update: String
@@ -34,5 +35,9 @@ type Query { getAddresses(count: Int): [Address]! }
 # type Query { getAddressRng(beg: Int, end: Int): [Address]! }
 
 # type Query { getAddress(address_id: ID!): Address! }
+
+# type Query { getCity(city_id: ID!): City! }
+
+# type Query { getCities(count: Int): [City]! }
 
 # type Mutation { createActor(first_name: String, last_name: String, last_update: TimeStamp): Actor! }

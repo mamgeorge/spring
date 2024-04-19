@@ -1,0 +1,52 @@
+
+query counter { getAddresses(count: 4) {
+
+	address_id 
+	address
+} }
+
+query countFull { getAddresses(count: 4) {
+
+	address_id
+	address
+	district
+	city_id
+	phone
+	last_update
+} }
+
+query countCty { getAddresses(count: 4) {
+
+	address_id
+	address
+	district
+	city_id
+	city {
+		city
+		country_id
+		last_update
+	}
+	phone
+	last_update
+} }
+
+query addr { getAddress(address_id: 3) {
+
+	address_id
+	address
+	district
+	city_id
+	phone
+	last_update
+} }
+
+query addrRng { getAddressRng(beg: 2, end: 4) {
+
+	address_id
+	address
+	district
+	city_id
+	phone
+	last_update
+} }
+

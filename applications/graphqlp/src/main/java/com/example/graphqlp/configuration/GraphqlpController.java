@@ -9,17 +9,14 @@ import com.example.graphqlp.persistence.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -65,6 +62,18 @@ public class GraphqlpController {
 
 		Address address = addressService.findById(address_id);
 		return address;
+	}
+
+	@QueryMapping public List<City> getCities(@Argument int count) {
+
+		List<City> cities = cityService.findAll().subList(0, count);
+		return cities;
+	}
+
+	@QueryMapping public City getCity(@Argument int city_id) {
+
+		City city = cityService.findById(city_id);
+		return city;
 	}
 
 	//############

@@ -10,6 +10,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static com.example.graphqlp.DbProfile.DBASE.DRB;
+import static com.example.graphqlp.DbProfile.DBASE.PGS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @SpringBootTest
@@ -22,68 +24,67 @@ class GraphqlpAppTests {
 
 	@Test @Disabled( "integration only" ) void derby_EmbeddedDriver( ) {
 
-		String dbSQL = "SELECT * FROM APP.Cities";
-		String dbURL = "jdbc:derby:C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/demo/derbytutor/toursdb15";
+		String dbSQL = "SELECT * FROM Cities";
+		DbProfile dbProfile = new DbProfile(DRB, "APP", "", "");
 
-		StringBuilder stringBuilder = new StringBuilder(EOL);
+		StringBuilder sb = new StringBuilder(EOL);
 		try {
-			DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-			Connection connection = DriverManager.getConnection(dbURL);
+			DriverManager.registerDriver(dbProfile.getDriver());
+			Connection connection = DriverManager.getConnection(dbProfile.getDburl(), dbProfile.getProps());
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(dbSQL);
 
-			stringBuilder.append(loopResultSet(resultSet));
+			sb.append(loopResultSet(resultSet));
 			statement.close();
 		}
 		catch (SQLException ex) {
 			System.out.println("ERROR: " + ex.getMessage());
 		}
-		System.out.println(stringBuilder);
+		System.out.println(sb);
 		assertTrue(true);
 	}
 
 	@Test @Disabled( "integration only" ) void pgs_driverManager( ) {
 
-		String dbSQL = "SELECT * FROM public.actor";
-		String dbURL = "jdbc:postgresql://localhost:5432/dvdrental";
-		String username = System.getenv("POSTGRES_USER");
-		String password = System.getenv("POSTGRES_PASS");
-		System.out.println("username: " + username);
+		String dbSQL = "SELECT * FROM actor";
+		String user = System.getenv("POSTGRES_USER");
+		String pass = System.getenv("POSTGRES_PASS");
+		DbProfile dbProfile = new DbProfile(PGS, "public", user, pass);
 
-		StringBuilder stringBuilder = new StringBuilder(EOL);
+		StringBuilder sb = new StringBuilder("username: " + user + EOL);
 		try {
-			DriverManager.registerDriver(new org.postgresql.Driver());
-			Connection connection = DriverManager.getConnection(dbURL, username, password);
+			DriverManager.registerDriver(dbProfile.getDriver());
+			Connection connection = DriverManager.getConnection(dbProfile.getDburl(), dbProfile.getProps());
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(dbSQL);
 
-			stringBuilder.append(loopResultSet(resultSet));
+			sb.append(loopResultSet(resultSet));
 			statement.close();
 		}
 		catch (SQLException ex) {
 			System.out.println("ERROR: " + ex.getMessage());
 		}
-		System.out.println(stringBuilder);
+		System.out.println(sb);
 		assertTrue(true);
 	}
 
 	// utilities
 	public static StringBuilder loopResultSet(ResultSet resultSet) {
 
-		StringBuilder stringBuilder = new StringBuilder(EOL);
+		StringBuilder sb = new StringBuilder(EOL);
 		try {
 			ResultSetMetaData rsmData = resultSet.getMetaData();
 			int columns = rsmData.getColumnCount();
 			while ( resultSet.next() ) {
 				for ( int ictr = 1; ictr < columns; ictr++ ) {
-					stringBuilder.append(resultSet.getString(ictr)).append(DLM);
+					sb.append(resultSet.getString(ictr)).append(DLM);
 				}
-				stringBuilder.append(EOL);
+				sb.append(EOL);
 			}
 		}
 		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 
-		return stringBuilder;
+		return sb;
 	}
 }
 
