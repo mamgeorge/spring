@@ -11,6 +11,7 @@ import java.sql.Statement;
 
 import static com.example.graphqlp.DbProfile.DBASE.DRB;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
+import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @Disabled( "integration only" )
@@ -20,6 +21,28 @@ class GraphqlpAppTests {
 	public static final String DLM = "\t";
 
 	@Test void contextLoads( ) { assertTrue(true); }
+
+	@Test void executeQuery_SQLITE( ) {
+
+		String dbSQL = "SELECT * FROM Customers";
+		DbProfile dbProfile = new DbProfile(SQLITE, "APP", "", "");
+
+		StringBuilder sb = new StringBuilder(EOL);
+		try {
+			DriverManager.registerDriver(dbProfile.getDriver());
+			Connection connection = DriverManager.getConnection(dbProfile.getDburl(), dbProfile.getProps());
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(dbSQL);
+
+			sb.append(loopResultSet(resultSet));
+			statement.close();
+		}
+		catch (SQLException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
+		System.out.println(sb);
+		assertTrue(true);
+	}
 
 	@Test void executeQuery_DRB( ) {
 

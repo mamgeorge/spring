@@ -9,7 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static com.example.graphqlp.DbProfile.DBASE.DRB;
+import static com.example.graphqlp.DbProfile.DBASE.MYSQL;
+import static com.example.graphqlp.DbProfile.DBASE.ORACLE;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
+import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @Disabled( "integration only" )
@@ -26,7 +29,31 @@ public class JpaFromDatabase {
 	// hilevel
 	@Test void showMetadataInfo_DRB( ) {
 
-		DbProfile dbProfile = new DbProfile(DRB, "", "", ""); // APP
+		String user = "";
+		String pass = "";
+		DbProfile dbProfile = new DbProfile(DRB, "", user, pass); // toursdb15
+
+		String txtLines = showMetadataInfo(dbProfile);
+		System.out.println(txtLines);
+		assertTrue(true);
+	}
+
+	@Test void showMetadataInfo_MYSQL( ) {
+
+		String user = System.getenv("MYSQL_USER");
+		String pass = System.getenv("MYSQL_PASS");
+		DbProfile dbProfile = new DbProfile(MYSQL, "", user, pass); // mydb
+
+		String txtLines = showMetadataInfo(dbProfile);
+		System.out.println(txtLines);
+		assertTrue(true);
+	}
+
+	@Test void showMetadataInfo_ORACLE( ) {
+
+		String user = System.getenv("ORACLE_USER");
+		String pass = System.getenv("ORACLE_PASS");
+		DbProfile dbProfile = new DbProfile(ORACLE, "", user, pass); // ANONYMOUS
 
 		String txtLines = showMetadataInfo(dbProfile);
 		System.out.println(txtLines);
@@ -38,6 +65,17 @@ public class JpaFromDatabase {
 		String user = System.getenv("POSTGRES_USER");
 		String pass = System.getenv("POSTGRES_PASS");
 		DbProfile dbProfile = new DbProfile(PGS, "", user, pass); // dvdrental
+
+		String txtLines = showMetadataInfo(dbProfile);
+		System.out.println(txtLines);
+		assertTrue(true);
+	}
+
+	@Test void showMetadataInfo_SQLITE( ) {
+
+		String user = "";
+		String pass = "";
+		DbProfile dbProfile = new DbProfile(SQLITE, "", user, pass); // APP
 
 		String txtLines = showMetadataInfo(dbProfile);
 		System.out.println(txtLines);
@@ -154,6 +192,34 @@ public class JpaFromDatabase {
 		assertTrue(true);
 	}
 
+	@Test void buildTableColumnList_MYSQL( ) {
+
+		String user = System.getenv("MYSQL_USER");
+		String pass = System.getenv("MYSQL_PASS");
+		DbProfile dbProfile = new DbProfile(MYSQL, "", user, pass); // mydb
+
+		String catalog = "mydb";
+		String schema = "";
+
+		buildTableList(dbProfile, catalog, schema);
+		System.out.println(strb);
+		assertTrue(true);
+	}
+
+	@Test void buildTableColumnList_ORACLE( ) {
+
+		String user = System.getenv("ORACLE_USER");
+		String pass = System.getenv("ORACLE_PASS");
+		DbProfile dbProfile = new DbProfile(ORACLE, "", user, pass); // ANONYMOUS
+
+		String catalog = "";
+		String schema = "";
+
+		buildTableList(dbProfile, catalog, schema);
+		System.out.println(strb);
+		assertTrue(true);
+	}
+
 	@Test void buildTableColumnList_PGS( ) {
 
 		String user = System.getenv("POSTGRES_USER");
@@ -162,6 +228,20 @@ public class JpaFromDatabase {
 
 		String catalog = "dvdrental";
 		String schema = "public";
+
+		buildTableList(dbProfile, catalog, schema);
+		System.out.println(strb);
+		assertTrue(true);
+	}
+
+	@Test void buildTableColumnList_SQLITE( ) {
+
+		String user = "";
+		String pass = "";
+		DbProfile dbProfile = new DbProfile(SQLITE, "", user, pass); // dvdrental
+
+		String catalog = "";
+		String schema = "";
 
 		buildTableList(dbProfile, catalog, schema);
 		System.out.println(strb);
