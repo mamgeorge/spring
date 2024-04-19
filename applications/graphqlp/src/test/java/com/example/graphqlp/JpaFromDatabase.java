@@ -1,6 +1,5 @@
 package com.example.graphqlp;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -13,6 +12,7 @@ import static com.example.graphqlp.DbProfile.DBASE.DRB;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+// @Disabled( "integration only" )
 public class JpaFromDatabase {
 
 	public static final String EOL = "\n";
@@ -23,7 +23,7 @@ public class JpaFromDatabase {
 	private final String tableNamePattern = "%";
 	private final String[] types = { "TABLE" };
 
-	@Test @Disabled( "integration only" ) void buildClassesfromSchema_DRB( ) {
+	@Test void buildClassesfromSchema_DRB( ) {
 
 		DbProfile dbProfile = new DbProfile(DRB, "", "", ""); // APP
 
@@ -32,7 +32,7 @@ public class JpaFromDatabase {
 		assertTrue(true);
 	}
 
-	@Test @Disabled( "integration only" ) void buildClassesfromSchema_PGS( ) {
+	@Test void buildClassesfromSchema_PGS( ) {
 
 		String user = System.getenv("POSTGRES_USER");
 		String pass = System.getenv("POSTGRES_PASS");
@@ -43,7 +43,7 @@ public class JpaFromDatabase {
 		assertTrue(true);
 	}
 
-	@Test @Disabled( "integration only" ) void buildTableListGeneric_PGS( ) {
+	@Test  void buildTableListGeneric_PGS( ) {
 
 		String user = System.getenv("POSTGRES_USER");
 		String pass = System.getenv("POSTGRES_PASS");
@@ -65,7 +65,7 @@ public class JpaFromDatabase {
 		assertTrue(true);
 	}
 
-	@Test @Disabled( "integration only" ) void buildTableList_PGS( ) {
+	@Test void buildTableList_PGS( ) {
 
 		String user = System.getenv("POSTGRES_USER");
 		String pass = System.getenv("POSTGRES_PASS");

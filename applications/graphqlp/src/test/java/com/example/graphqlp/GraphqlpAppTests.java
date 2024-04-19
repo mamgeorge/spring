@@ -1,6 +1,5 @@
 package com.example.graphqlp;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -14,7 +13,7 @@ import static com.example.graphqlp.DbProfile.DBASE.DRB;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// @SpringBootTest
+// @Disabled( "integration only" )
 class GraphqlpAppTests {
 
 	public static final String EOL = "\n";
@@ -22,7 +21,7 @@ class GraphqlpAppTests {
 
 	@Test void contextLoads( ) { assertTrue(true); }
 
-	@Test @Disabled( "integration only" ) void derby_EmbeddedDriver( ) {
+	@Test void derby_EmbeddedDriver( ) {
 
 		String dbSQL = "SELECT * FROM Cities";
 		DbProfile dbProfile = new DbProfile(DRB, "APP", "", "");
@@ -44,7 +43,7 @@ class GraphqlpAppTests {
 		assertTrue(true);
 	}
 
-	@Test @Disabled( "integration only" ) void pgs_driverManager( ) {
+	@Test void pgs_driverManager( ) {
 
 		String dbSQL = "SELECT * FROM actor";
 		String user = System.getenv("POSTGRES_USER");
