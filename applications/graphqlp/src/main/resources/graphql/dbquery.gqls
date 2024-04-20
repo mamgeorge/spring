@@ -1,10 +1,22 @@
 "datafetchers or resolver functions"
 #type Query { getActors(count: Int): [Actor]! }
 
+type Mutation {
+
+	putActor(first_name: String, last_name: String, last_update: String): Actor
+}
+
+input CreateInputActor {
+
+	first_name: String
+	last_name: String
+	last_update: String
+}
+
 type Actor {
 
 	"actor_id, first_name, last_name, last_update"
-	id: ID
+	actor_id: ID
 	first_name: String
 	last_name: String
 	last_update: String
@@ -18,5 +30,3 @@ type Actor {
 #		configuration: "application"
 #	)
 #}
-
-# type Mutation { createActor(first_name: String, last_name: String, last_update: TimeStamp): Actor! }

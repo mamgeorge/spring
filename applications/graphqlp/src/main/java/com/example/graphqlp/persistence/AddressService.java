@@ -11,9 +11,7 @@ public class AddressService {
 	private final AddressRepository addressRepository;
 
 	@Autowired
-	public AddressService(AddressRepository addressRepository) {
-		this.addressRepository = addressRepository;
-	}
+	public AddressService(AddressRepository addressRepository) { this.addressRepository = addressRepository; }
 
 	public List<Address> findAll( ) { return addressRepository.findAll(); }
 

@@ -11,9 +11,7 @@ public class CityService {
 	public final CityRepository cityRepository;
 
 	@Autowired
-	public CityService(CityRepository cityRepository) {
-		this.cityRepository = cityRepository;
-	}
+	public CityService(CityRepository cityRepository) { this.cityRepository = cityRepository; }
 
 	public List<City> findAll( ) { return cityRepository.findAll(); }
 

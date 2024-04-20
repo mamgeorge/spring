@@ -18,7 +18,7 @@ public class City {
 
 	// city_id, city, country_id, last_update
 	@Id @GeneratedValue( strategy = GenerationType.AUTO )
-	@Column( name = "city_id" ) private Integer id;
+	@Column( name = "city_id" ) private Integer city_id;
 	@Column( name = "city" ) private String city_name;
 	@Column( name = "country_id" ) private Integer country_id;
 	@Column( name = "last_update" ) private Timestamp last_update;
