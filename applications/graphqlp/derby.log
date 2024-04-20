@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Fri Apr 19 19:55:28 EDT 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-018e-f8c9-536e-00000ea63578 
+on database directory C:\workspace\dbase\derby\db-derby-10.15.2.0-bin\demo\derbytutor\toursdb15 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Users/mamge/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=17.0.1+12-LTS-39
+user.dir=C:\workspace\github\spring\applications\graphqlp
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

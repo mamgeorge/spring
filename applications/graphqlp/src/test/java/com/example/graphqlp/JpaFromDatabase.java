@@ -13,12 +13,12 @@ import static com.example.graphqlp.DbProfile.DBASE.MYSQL;
 import static com.example.graphqlp.DbProfile.DBASE.ORACLE;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
 import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
+import static com.example.graphqlp.GenericUtils.EOL;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @Disabled( "integration only" )
 public class JpaFromDatabase {
 
-	public static final String EOL = "\n";
 	public static final String FRMT = "\t%-20s: %s\n";
 
 	private final StringBuilder strb = new StringBuilder(EOL);
@@ -170,7 +170,7 @@ public class JpaFromDatabase {
 				if ( boolFrmt ) { strb.append(EOL); }
 				ifResultSetFull = true;
 			}
-			if(!ifResultSetFull) { strb.append(String.format(FRMT, label, "EMPTY RESULTSET!"));}
+			if ( !ifResultSetFull ) { strb.append(String.format(FRMT, label, "EMPTY RESULTSET!")); }
 			strb.append(EOL);
 		}
 		catch (SQLException ex) { System.out.println("ERROR: " + label + " / " + ex.getMessage()); }

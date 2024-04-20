@@ -15,7 +15,7 @@ public class AddressService {
 		this.addressRepository = addressRepository;
 	}
 
-	public List<Address> findAll( ) { return (List<Address>) addressRepository.findAll(); }
+	public List<Address> findAll( ) { return addressRepository.findAll(); }
 
 	public Address findById(Integer id) { return addressRepository.findById(id).get(); } // getReferenceById
 

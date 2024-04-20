@@ -1,0 +1,87 @@
+query addr { addressById(id: 3) {
+
+	id
+	address
+	district
+	city_id
+	phone
+	last_update
+} }
+
+query addrCty { addressById(id: 3) {
+
+	id
+	address
+	district
+	city_id
+	city {
+		id
+		city_name
+		country_id
+		last_update
+	}
+	phone
+	last_update
+} }
+
+query addrCtyVar($id: ID!) { # variable: { "id": 3 }
+	addressById(id: $id) {
+
+	id
+	address
+	district
+	city_id
+	city {
+		id
+		city_name
+		country_id
+		last_update
+	}
+	phone
+	last_update
+} }
+
+
+query cty { getCity(city_id: 300) {
+
+	city_id
+	city_name
+	country_id
+	last_update
+} }
+
+query addrFullCtr { getAddresses(count: 4) {
+
+	address_id
+	address
+	district
+	city_id
+	phone
+	last_update
+} }
+
+query addrCtyCtr { getAddresses(count: 4) {
+
+	address_id
+	address
+	district
+	city_id
+	city {
+		city_id
+		city_name
+		country_id
+		last_update
+	}
+	phone
+	last_update
+} }
+
+query addrRng { getAddressRng(beg: 2, end: 4) {
+
+	address_id
+	address
+	district
+	city_id
+	phone
+	last_update
+} }

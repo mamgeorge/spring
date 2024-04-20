@@ -16,14 +16,14 @@ public class ActorService {
 		this.actorRepository = actorRepository;
 	}
 
-	public List<Actor> findAll( ) { return (List<Actor>) actorRepository.findAll(); }
+	public List<Actor> findAll( ) { return actorRepository.findAll(); }
 
 	public Actor findById(Integer id) { return actorRepository.findById(id).get(); } // getReferenceById
 
 	public Actor findByIdOptional(Integer id) {
 
 		Actor actor = new Actor();
-		Optional<Actor> optional =  actorRepository.findById(id);
+		Optional<Actor> optional = actorRepository.findById(id);
 		if ( optional.isPresent() ) {
 			actor = optional.get();
 		} else {

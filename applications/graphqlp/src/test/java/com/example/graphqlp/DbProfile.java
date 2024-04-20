@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
 import static com.example.graphqlp.DbProfile.DBASE.DRB;
+import static com.example.graphqlp.DbProfile.DBASE.MYSQL;
 import static com.example.graphqlp.DbProfile.DBASE.ORACLE;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
-import static com.example.graphqlp.DbProfile.DBASE.MYSQL;
+import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
 
 @Getter @Setter
 public class DbProfile {
@@ -29,6 +29,7 @@ public class DbProfile {
 	private String pass;
 
 	public static final Map<DbProfile.DBASE, Driver> DRIVERS = new HashMap<>();
+
 	static {
 		try {
 			DRIVERS.put(DRB, new org.apache.derby.jdbc.EmbeddedDriver());
@@ -41,15 +42,17 @@ public class DbProfile {
 	}
 
 	public static final Map<DbProfile.DBASE, String> DBURLS = new HashMap<>();
+
 	static {
-		DBURLS.put(DRB,	"jdbc:derby:C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/demo/derbytutor/toursdb15" );
-		DBURLS.put(MYSQL, "jdbc:mysql://localhost:3306/mydb" );
-		DBURLS.put(ORACLE, "jdbc:oracle:thin:@localhost:1521:XE" );
-		DBURLS.put(PGS, "jdbc:postgresql://localhost:5432/dvdrental" );
-		DBURLS.put(SQLITE, "jdbc:sqlite:C:/workspace/dbase/sqlite/chinook.db" );
+		DBURLS.put(DRB,
+			"jdbc:derby:C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/demo/derbytutor/toursdb15");
+		DBURLS.put(MYSQL, "jdbc:mysql://localhost:3306/mydb");
+		DBURLS.put(ORACLE, "jdbc:oracle:thin:@localhost:1521:XE");
+		DBURLS.put(PGS, "jdbc:postgresql://localhost:5432/dvdrental");
+		DBURLS.put(SQLITE, "jdbc:sqlite:C:/workspace/dbase/sqlite/chinook.db");
 	}
 
-	public DbProfile() {}
+	public DbProfile( ) { }
 
 	public DbProfile(DBASE dbase, String dbName, String user, String pass) {
 
@@ -58,7 +61,7 @@ public class DbProfile {
 		this.dburl = DBURLS.get(dbase);
 		props = new Properties();
 		props.setProperty("dataSource", dburl);
-		if(dbase.equals(ORACLE)) {} else { props.setProperty("database", dbName); }
+		if ( dbase.equals(ORACLE) ) { } else { props.setProperty("database", dbName); }
 		props.setProperty("user", user);
 		props.setProperty("password", pass);
 		props.setProperty("jdbcDriver", driver.toString());

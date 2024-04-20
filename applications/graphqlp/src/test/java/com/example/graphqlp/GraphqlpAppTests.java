@@ -12,13 +12,12 @@ import java.sql.Statement;
 import static com.example.graphqlp.DbProfile.DBASE.DRB;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
 import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
+import static com.example.graphqlp.GenericUtils.DLM;
+import static com.example.graphqlp.GenericUtils.EOL;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @Disabled( "integration only" )
 class GraphqlpAppTests {
-
-	public static final String EOL = "\n";
-	public static final String DLM = "\t";
 
 	@Test void contextLoads( ) { assertTrue(true); }
 

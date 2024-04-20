@@ -15,7 +15,7 @@ public class CityService {
 		this.cityRepository = cityRepository;
 	}
 
-	public List<City> findAll( ) { return (List<City>) cityRepository.findAll(); }
+	public List<City> findAll( ) { return cityRepository.findAll(); }
 
 	public City findById(Integer id) { return cityRepository.findById(id).get(); } // getReferenceById
 
