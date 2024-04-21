@@ -17,13 +17,12 @@ th, td { text-align: left; padding: 4px; padding-left: 16px; font-size: 0.8em;
 hr { color: #cccccc; width: 80%; }
 
 .btn {  display: inline; margin: auto; text-align: center;
-	background: #6080a0; color: #ffffff; font-weight: bold;
-	border: 5px inset black; border-radius: 10px; }
+	font-weight: bold; border: 5px inset black; border-radius: 5px; }
 
 .divbox { height: 240px; overflow: scroll; width: 60%; margin: auto; background-color: #e0e0e0;}
 
-.red { background-color: #f0c0c0; }
-.blu { background-color: #c0c0f0; }
-.grn { background-color: #c0f0c0; }
-.prp { background-color: #f0c0f0; }
-.gra { background-color: #e0e0e0; }
+.red { background-color: #a06060; color: #ffffff; }
+.blu { background-color: #6080a0; color: #ffffff; }
+.grn { background-color: #60a060; color: #ffffff; }
+.prp { background-color: #a060a0; color: #ffffff; }
+.gra { background-color: #808080; color: #ffffff; }

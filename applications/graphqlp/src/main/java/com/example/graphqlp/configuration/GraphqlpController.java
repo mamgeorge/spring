@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,11 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_MODIFIED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.RESET_CONTENT;
 
 @Controller
 public class GraphqlpController {
@@ -81,7 +86,8 @@ public class GraphqlpController {
 
 		ResponseEntity<Actor> responseEntity;
 		if ( actor == null ) {
-			actor = new Actor(); } else {
+			actor = new Actor();
+		} else {
 			actor = actorService.save(actor);
 		}
 		responseEntity = new ResponseEntity<>(actor, OK);
@@ -139,7 +145,7 @@ public class GraphqlpController {
 		return MAV;
 	}
 
-	@GetMapping( "/showActorRnd" ) public ModelAndView showActorRnd() {
+	@GetMapping( "/showActorRnd" ) public ModelAndView showActorRnd( ) {
 
 		int intMax = (int) actorService.getMaxId() + 1;
 		int actor_id = random.nextInt(intMax);
@@ -152,19 +158,34 @@ public class GraphqlpController {
 		return MAV;
 	}
 
-	@PostMapping( "/putActorSave" ) public ModelAndView putActorSave(@ModelAttribute Actor actor,
+	@PostMapping( "/showActorMod" ) public ModelAndView showActorMod(@ModelAttribute Actor actor,
 		@RequestParam String action) {
 
-		if ( action.equals("save") ) {
-			actor = actorService.save(actor);
-		} else if ( action.equals("reset") ) {
+		HttpStatus httpStatus = NO_CONTENT;
+		if ( action.equals("reset") ) {
 			actor = new Actor();
 			actor.setLast_update(Timestamp.from(Instant.now()));
+			httpStatus = RESET_CONTENT;
+			//
+		} else if ( action.equals("save") ) {
+			actor = actorService.save(actor);
+			httpStatus = CREATED;
+			//
+		} else if ( action.equals("delete") ) {
+			int actor_id = actor.getActor_id();
+			if ( actor_id > 200 ) {
+				httpStatus = actorService.delete(actor_id);
+				actor = new Actor();
+				actor.setLast_update(Timestamp.from(Instant.now()));
+			} else {
+				httpStatus = NOT_MODIFIED;
+			}
 		}
 
 		ModelAndView MAV = new ModelAndView();
 		MAV.setViewName("actorShow");
 		MAV.addObject("actor", actor);
+		MAV.addObject("httpStatus", httpStatus);
 		return MAV;
 	}
 }

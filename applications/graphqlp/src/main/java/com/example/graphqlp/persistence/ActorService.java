@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.GONE;
 
 @Service
 public class ActorService {
@@ -18,11 +18,11 @@ public class ActorService {
 
 	public List<Actor> findAll( ) { return actorRepository.findAll(); }
 
-	public Actor findById(Integer id) { return actorRepository.findById(id).get(); } // getReferenceById
+	public Actor findById(Integer actor_id) { return actorRepository.findById(actor_id).get(); } // getReferenceById
 
 	public Actor save(Actor actor) { actor = actorRepository.save(actor); return actor; }
 
-	public HttpStatus delete(Actor actor) { actorRepository.delete(actor); return OK; }
+	public HttpStatus delete(Integer actor_id) { actorRepository.deleteById(actor_id); return GONE; }
 
 	public long getMaxId( ) { return actorRepository.count(); }
 
