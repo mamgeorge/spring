@@ -10,13 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Random;
@@ -73,8 +77,19 @@ public class GraphqlpController {
 		return city;
 	}
 
+	@PostMapping( "/putActor" ) public ResponseEntity<Actor> putActor(@RequestBody Actor actor) {
+
+		ResponseEntity<Actor> responseEntity;
+		if ( actor == null ) {
+			actor = new Actor(); } else {
+			actor = actorService.save(actor);
+		}
+		responseEntity = new ResponseEntity<>(actor, OK);
+		return responseEntity;
+	}
+
 	//#### regular REST ####
-	@GetMapping("/getActors") public ResponseEntity<List<Actor>> getActor( ) {
+	@GetMapping( "/getActors" ) public ResponseEntity<List<Actor>> getActors( ) {
 
 		ResponseEntity<List<Actor>> responseEntity;
 		List<Actor> actors = actorService.findAll();
@@ -82,7 +97,8 @@ public class GraphqlpController {
 		return responseEntity;
 	}
 
-	@GetMapping("/getActorsCnt/{count}") public ResponseEntity<List<Actor>> getActorsCnt(@PathVariable int count ) {
+	@GetMapping( "/getActorsCnt/{count}" )
+	public ResponseEntity<List<Actor>> getActorsCnt(@PathVariable int count) {
 
 		ResponseEntity<List<Actor>> responseEntity;
 		List<Actor> actors = actorService.findAll().subList(0, count);
@@ -90,8 +106,7 @@ public class GraphqlpController {
 		return responseEntity;
 	}
 
-	@GetMapping( "/getActorRnd" )
-	public ResponseEntity<Actor> getActorRnd( ) {
+	@GetMapping( "/getActorRnd" ) public ResponseEntity<Actor> getActorRnd( ) {
 
 		ResponseEntity<Actor> responseEntity;
 		int intMax = (int) actorService.getMaxId() + 1;
@@ -103,11 +118,53 @@ public class GraphqlpController {
 		return responseEntity;
 	}
 
-	@GetMapping("/putActor") public ResponseEntity<Actor> putActor(@PathVariable Actor actor ) {
+	//#### regular MVC ####
+	@GetMapping( "/showActors" ) public ModelAndView showActors( ) {
 
-		ResponseEntity<Actor> responseEntity;
-		HttpStatus httpStatus = actorService.save(actor);
-		responseEntity = new ResponseEntity<>(actor, httpStatus);
-		return responseEntity;
+		List<Actor> actors = actorService.findAll();
+
+		ModelAndView MAV = new ModelAndView();
+		MAV.setViewName("actorsShow");
+		MAV.addObject("actors", actors);
+		return MAV;
+	}
+
+	@GetMapping( "/showActor/{actor_id}" ) public ModelAndView showActor(@PathVariable int actor_id) {
+
+		Actor actor = actorService.findById(actor_id);
+
+		ModelAndView MAV = new ModelAndView();
+		MAV.setViewName("actorShow");
+		MAV.addObject("actor", actor);
+		return MAV;
+	}
+
+	@GetMapping( "/showActorRnd" ) public ModelAndView showActorRnd() {
+
+		int intMax = (int) actorService.getMaxId() + 1;
+		int actor_id = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", actor_id: " + actor_id);
+		Actor actor = actorService.findById(actor_id);
+
+		ModelAndView MAV = new ModelAndView();
+		MAV.setViewName("actorShow");
+		MAV.addObject("actor", actor);
+		return MAV;
+	}
+
+	@PostMapping( "/putActorSave" ) public ModelAndView putActorSave(@ModelAttribute Actor actor,
+		@RequestParam String action) {
+
+		if ( action.equals("save") ) {
+			actor = actorService.save(actor);
+		} else if ( action.equals("reset") ) {
+			actor = new Actor();
+			actor.setLast_update(Timestamp.from(Instant.now()));
+		}
+
+		ModelAndView MAV = new ModelAndView();
+		MAV.setViewName("actorShow");
+		MAV.addObject("actor", actor);
+		return MAV;
 	}
 }

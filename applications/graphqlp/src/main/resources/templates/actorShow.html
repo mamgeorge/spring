@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+	xmlns:th = "https://www.thymeleaf.org"
+>
+<head><title>actorShow</title><meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
+
+</head>
+<body><h3>actorShow</h3>
+<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+
+<br /><br />
+<form action = "#" th:action = "@{/putActorSave}" method = "post" th:object = "${actor}">
+
+	<table style = "width: 400px;">
+
+	<tr><th>actor_id	</th><td><input type = "text" th:field = "*{actor_id}"		/></td></tr>
+
+	<tr><th>first_name	</th><td><input type = "text" th:field = "*{first_name}"	/></td></tr>
+
+	<tr><th>last_name	</th><td><input type = "text" th:field = "*{last_name}"		/></td></tr>
+
+	<tr><th>last_update	</th><td><input type = "text" th:field = "*{last_update}"	/></td></tr>
+
+	</table>
+
+	<br />
+	<input class = "btn" type="submit" name="action" value="save" />
+	<input class = "btn" type="submit" name="action" value="reset" />
+	</span>
+</form>
+
+<br /><br />
+<hr /><br /><a th:href = "@{/}" >return</a>
+
+</body>
+</html>

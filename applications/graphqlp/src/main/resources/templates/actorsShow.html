@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+	xmlns:th = "https://www.thymeleaf.org"
+>
+<head><title>actorList</title><meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
+
+</head>
+<body><h3>actorList</h3>
+<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+
+<br /><br />
+	<div class = "divbox">
+	<table>
+		<thread><span th:text = "'Total: ' + ${actors.size}" /></thread>
+	<tr>
+		<th>idx</th></th><th>actor_id</th><th>first_name</th><th>last_name</th><th>last_update</th>
+	</tr>
+	<tr th:each="actor, ictr: ${actors}">
+		<td><span th:text = "${ictr.count}"		/></td>
+		<td><span th:text = "${actor.actor_id}"		/></td>
+		<td><span th:text = "${actor.first_name}"		/></td>
+		<td><span th:text = "${actor.last_name}"		/></td>
+		<td style = "white-space: nowrap;"><span th:text = "${actor.last_update}"		/></td>
+	</tr>
+	</table>
+	</div>
+
+<br /><br />
+<hr /><br /><a th:href = "@{/}" >return</a>
+
+</body>
+</html>

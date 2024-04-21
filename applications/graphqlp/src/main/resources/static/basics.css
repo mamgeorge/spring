@@ -7,16 +7,20 @@ form { display: inline; }
 
 a, a.hover, a.visited { font-family: verdana,color: blue; text-decoration: none ; }
 
-table { width: 98%; margin: auto; border-spacing: 1px; border-collapse: collapse; }
+table { width: 98%; margin: auto; border-spacing: 1px inset black; border-radius: 10px; border-collapse: collapse; }
 tr:nth-child(even) { background: #ffffff; }
 tr:nth-child( odd) { background: #e0e0e0; }
-td:nth-child( 2 ) { text-align: right; }
-th, td { border 0.5px solid black; padding: 4px; padding-left: 16px; font-size: 0.8em; }
-td { text-align: left; }
+td:nth-child( 2 ) { text-align: left; }
+th, td { text-align: left; padding: 4px; padding-left: 16px; font-size: 0.8em;
+	border: 3px inset black; border-radius: 10px; }
 
 hr { color: #cccccc; width: 80%; }
 
-.divbox { height: 240px; overflow: scroll; width: 80%; margin: auto; background-color: #e0e0e0;}
+.btn {  display: inline; margin: auto; text-align: center;
+	background: #6080a0; color: #ffffff; font-weight: bold;
+	border: 5px inset black; border-radius: 10px; }
+
+.divbox { height: 240px; overflow: scroll; width: 60%; margin: auto; background-color: #e0e0e0;}
 
 .red { background-color: #f0c0c0; }
 .blu { background-color: #c0c0f0; }

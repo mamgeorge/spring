@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -21,26 +20,20 @@ public class ActorService {
 
 	public Actor findById(Integer id) { return actorRepository.findById(id).get(); } // getReferenceById
 
-	public HttpStatus save(Actor actor) {
-		actorRepository.save(actor);
-		return OK;
-	}
+	public Actor save(Actor actor) { actor = actorRepository.save(actor); return actor; }
 
-	public HttpStatus delete(Actor actor) {
-		actorRepository.delete(actor);
-		return OK;
-	}
+	public HttpStatus delete(Actor actor) { actorRepository.delete(actor); return OK; }
 
 	public long getMaxId( ) { return actorRepository.count(); }
 
 	// not needed; here for showing an "optional" variation
-	public Actor findByIdOptional(Integer id) {
-
-		Actor actor = new Actor();
-		Optional<Actor> optional = actorRepository.findById(id);
-		if ( optional.isPresent() ) {
-			actor = optional.get();
-		} else { System.out.println("find by some other way: getOne, getReferenceById"); }
-		return actor;
-	}
+//	public Actor findByIdOptional(Integer id) {
+//
+//		Actor actor = new Actor();
+//		Optional<Actor> optional = actorRepository.findById(id);
+//		if ( optional.isPresent() ) {
+//			actor = optional.get();
+//		} else { System.out.println("find by some other way: getOne, getReferenceById"); }
+//		return actor;
+//	}
 }
