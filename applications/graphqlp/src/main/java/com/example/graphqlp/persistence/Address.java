@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class Address {
 
 	// address_id, address, address2, district, city_id, postal_code, phone, last_update
-	@Id @GeneratedValue( strategy = GenerationType.AUTO )
+	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
 	@Column( name = "address_id" ) private Integer address_id;
 
 	@Column( name = "address" ) private String address;

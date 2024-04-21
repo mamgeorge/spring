@@ -9,14 +9,13 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.sqlite.core.DB;
 
 import java.sql.Timestamp;
 
 @Getter @Setter @NoArgsConstructor
 @Entity @Table( schema = "public", name = "actor" )
 public class Actor {
-	
+
 	/*
 		actor_id, first_name, last_name, last_update
 		note! repo does NOT read actor table sequence; GenerationType.SEQUENCE did not help

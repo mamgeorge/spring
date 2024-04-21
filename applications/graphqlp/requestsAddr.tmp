@@ -1,0 +1,43 @@
+query addrOne {
+
+	getAddressRng(beg: 10, end: 12) {
+
+		address_id
+		address
+		district
+		last_update
+	} }
+
+query addrUno {
+
+	getAddressRng(beg: 10, end: 12) {
+
+		address_id
+		address
+		district
+		city_id
+		city {
+			city_name
+			country_id
+		}
+		phone
+		last_update
+	} }
+
+query addrRng($beg: Int, $end: Int)  { # { "beg": 10, "end": 12 }
+
+	getAddressRng(beg: $beg, end: $end) {
+
+		address_id
+		address
+		district
+		city_id
+		city {
+			city_id
+			city_name
+			country_id
+			last_update
+		}
+		phone
+		last_update
+	} }

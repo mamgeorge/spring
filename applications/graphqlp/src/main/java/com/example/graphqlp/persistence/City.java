@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class City {
 
 	// city_id, city, country_id, last_update
-	@Id @GeneratedValue( strategy = GenerationType.AUTO )
+	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
 	@Column( name = "city_id" ) private Integer city_id;
 	@Column( name = "city" ) private String city_name;
 	@Column( name = "country_id" ) private Integer country_id;
