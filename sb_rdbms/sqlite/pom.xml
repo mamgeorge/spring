@@ -13,13 +13,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.18</version>
+		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
-		<java.version>11</java.version>
-		<spring.version>2.7.18</spring.version>
+		<java.version>17</java.version>
+		<spring.version>3.2.4</spring.version>
 	</properties>
 
 	<dependencies>
@@ -48,19 +48,19 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<!-- add db! -->
+		<!-- database -->
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.45.2.0</version>
+			<version>3.45.1.0</version><!-- 3.45.2.0 -->
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects -->
-<!--		<dependency>-->
-<!--			<groupId>org.hibernate.orm</groupId>-->
-<!--			<artifactId>hibernate-community-dialects</artifactId>-->
-<!--			<version>6.4.4.Final</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-community-dialects</artifactId>
+			<version>6.4.4.Final</version>
+		</dependency>
 
 		<!-- add lombok, testing! -->
 		<dependency>

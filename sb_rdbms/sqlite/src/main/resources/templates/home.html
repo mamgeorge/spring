@@ -10,17 +10,28 @@
 	<br/>
 	<h3>Welcome!</h3>
 	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
-	<br/>
-	<br/><a th:href = "@{/}">/(root))</a>
-	<br/><a th:href = "@{/home}">/home</a>
-	<br/><a th:href = "@{/actuator}">/actuator</a>
-	<br/><a th:href = "@{/actuator/health}">/actuator/health</a>
-	<br/>
-	<br/><hr />
-	<br/><a th:href = "@{/getCustomerRnd}">/getCustomerRnd</a>
-	<br/><a th:href = "@{/showCustomers}">/showCustomers</a>
-	<br/><a th:href = "@{/showCustomersAll}">/showCustomersAll</a>
-	<br/><a th:href = "@{/showCustomer/10}">/showCustomer/10</a>
+
+	<br/><br/>
+	<a th:href = "@{/}">/(root))</a> |
+	<a th:href = "@{/home}">/home</a> |
+	<a th:href = "@{/actuator}">/actuator</a> |
+	<a th:href = "@{/actuator/health}">/actuator/health</a>
+
+	<br/><br/><hr />
+	<a th:href = "@{/getCustomers}">/getCustomers</a> |
+	<a th:href = "@{/getCustomerRnd}">/getCustomerRnd</a> |
+	<a th:href = "@{/getCustomer/10}">/getCustomer/10</a>
+
+	<br/><br/><hr />
+	<a th:href = "@{/getInvoices}">/getInvoices</a> |
+	<a th:href = "@{/getInvoiceRnd}">/getInvoiceRnd</a> |
+	<a th:href = "@{/getInvoice/10}">/getInvoice/10</a>
+
+	<br/><br/><hr />
+	<a th:href = "@{/showCustomers}">/showCustomers</a> |
+	<a th:href = "@{/showCustomersMax}">/showCustomersMax</a> |
+	<a th:href = "@{/showCustomerRnd}">/showCustomerRnd</a> |
+	<a th:href = "@{/showCustomer/10}">/showCustomer/10</a>
 
 </body>
 </html>

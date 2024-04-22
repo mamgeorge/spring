@@ -1,17 +1,19 @@
 package com.basics.dbsqlite.configuration; // .controller;
 
-import com.basics.dbsqlite.services.Customer;
-import com.basics.dbsqlite.services.CustomerService;
+import com.basics.dbsqlite.persistence.Customer;
+import com.basics.dbsqlite.persistence.CustomerService;
 
+import com.basics.dbsqlite.persistence.Invoices;
+import com.basics.dbsqlite.persistence.InvoicesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -22,59 +24,94 @@ import java.util.Random;
 import static org.springframework.http.HttpStatus.OK;
 
 // @RestController = @Controller + @ResponseBody
-@Controller
+@RestController
 public class DbSqliteController {
 
 	private final CustomerService customerService;
+	private final InvoicesService invoicesService;
+	private final Random random = new Random();
 
-	@Autowired DbSqliteController(CustomerService customerService) {
+	@Autowired
+	DbSqliteController(CustomerService customerService, InvoicesService invoicesService) {
 		this.customerService = customerService;
+		this.invoicesService = invoicesService;
 	}
 
 	private static final String FRMT = "\t%02d %s %s | %s\n";
 	private static final int MAX_DISPLAY = 20;
 
-	@GetMapping( { "/", "/home", "/index" } )
-	public ModelAndView home( ) {
-		//
-		System.out.println("home");
+	@GetMapping( { "/", "/root", "/home", "/index" } )
+	public ModelAndView root( ) {
+
+		System.out.println("root");
 		ModelAndView MAV = new ModelAndView("home", new HashMap<>());
 		return MAV;
 	}
 
-	// @ResponseBody or return ResponseEntity
-	@GetMapping( value = "/getCustomerRnd" )
+	//#### REST
+	@GetMapping( "/getCustomers" )
+	public ResponseEntity<List<Customer>> getCustomers( ) {
+
+		List<Customer> customers = customerService.findAll();
+		return new ResponseEntity<>(customers, OK);
+	}
+
+	@GetMapping( "/getCustomerRnd" )
 	public ResponseEntity<Customer> getCustomerRnd( ) {
 
-		Random random = new Random();
-		long longCount = customerService.getMaxId() + 1;
-		Integer intId = random.nextInt((int) longCount) ;
+		long maxId = customerService.getMaxId() + 1;
+		Integer intId = random.nextInt((int) maxId) ;
 		System.out.println("\nintId: " + intId);
 
 		Customer customer = customerService.findById(intId);
-
-		String json = getJson(customer);
-		System.out.println("\njson: " + json);
-
 		return new ResponseEntity<>(customer, OK);
 	}
 
-	private static String getJson(Customer customer) {
+	@GetMapping( "/getCustomer/{idVal}" )
+	public ResponseEntity<Customer> getCustomer(@PathVariable int idVal ) {
 
-		String json = "";
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-		try { json = objectMapper.writeValueAsString(customer); }
-		catch (JsonProcessingException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-
-		return json;
+		Customer customer = customerService.findById(idVal);
+		return new ResponseEntity<>(customer, OK);
 	}
 
-	//############
+	@GetMapping( "/getInvoices" )
+	public ResponseEntity<List<Invoices>> getInvoices( ) {
 
+		List<Invoices> invoices = invoicesService.findAll();
+		return new ResponseEntity<>(invoices, OK);
+	}
+
+	@GetMapping( "/getInvoiceRnd" )
+	public ResponseEntity<Invoices> getInvoiceRnd( ) {
+
+		long maxId = invoicesService.getMaxId() + 1;
+		Integer intId = random.nextInt((int) maxId) ;
+		System.out.println("\nintId: " + intId);
+
+		Invoices invoice = invoicesService.findById(intId);
+		return new ResponseEntity<>(invoice, OK);
+	}
+
+	@GetMapping( "/getInvoice/{idVal}" )
+	public ResponseEntity<Invoices> getInvoice(@PathVariable int idVal ) {
+
+		Invoices invoice = invoicesService.findById(idVal);
+		return new ResponseEntity<>(invoice, OK);
+	}
+
+
+	//#### MVC
 	@GetMapping( "/showCustomers" )
 	public ModelAndView showCustomers( ) {
+
+		List<Customer> customers = customerService.findAll();
+		ModelAndView modelAndView = new ModelAndView("customersList");
+		modelAndView.addObject("customers", customers);
+		return modelAndView;
+	}
+
+	@GetMapping( "/showCustomersMax" )
+	public ModelAndView showCustomersMax( ) {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		List<Customer> customersAll = customerService.findAll();
@@ -88,31 +125,48 @@ public class DbSqliteController {
 					customer.getFirstname(), customer.getLastname(), customer.getAddress())));
 		}
 
-		ModelAndView modelAndView = new ModelAndView("customers");
+		ModelAndView modelAndView = new ModelAndView("customersList");
 		modelAndView.addObject("customers", customers);
 		return modelAndView;
 
 	}
 
-	@GetMapping( "/showCustomersAll" )
-	public ModelAndView showCustomersAll( ) {
+	@GetMapping( "/showCustomerRnd" )
+	public ModelAndView showCustomerRnd() {
 
-		List<Customer> customers = customerService.findAll();
-		ModelAndView modelAndView = new ModelAndView("customers");
-		modelAndView.addObject("customers", customers);
-		return modelAndView;
-	}
+		long maxId = customerService.getMaxId() + 1;
+		Integer intId = random.nextInt((int) maxId) ;
+		System.out.println("\nintId: " + intId);
 
-	// This method called the template incorrectly UNTIL THE TEMPLATE CSS WAS PREPENDED WITH A SLASH!
-	@GetMapping( value = "/showCustomer/{idVal}" ) // id is normal; id.get() used with Optional
-	public ModelAndView showCustomer(@PathVariable String idVal, Model model) {
-
-		Integer intId = Integer.parseInt(idVal);
 		Customer customer = customerService.findById(intId);
-
-		ModelAndView modelAndView = new ModelAndView("customer1");
+		ModelAndView modelAndView = new ModelAndView("customerOne");
 		modelAndView.addObject("customer", customer);
 		return modelAndView;
 	}
 
+	@GetMapping( "/showCustomer/{idVal}" )
+	public ModelAndView showCustomer(@PathVariable String idVal, Model model) {
+
+		// method called template incorrectly UNTIL TEMPLATE CSS WAS PREPENDED WITH SLASH!
+		// id is normal; id.get() used with Optional
+		Integer intId = Integer.parseInt(idVal);
+		Customer customer = customerService.findById(intId);
+
+		ModelAndView modelAndView = new ModelAndView("customerOne");
+		modelAndView.addObject("customer", customer);
+		return modelAndView;
+	}
+
+	//#### utils
+	public static String getJson(Customer customer) {
+
+		String json = "";
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+		try { json = objectMapper.writeValueAsString(customer); }
+		catch (JsonProcessingException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+
+		return json;
+	}
 }

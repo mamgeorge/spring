@@ -8,7 +8,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none # create, create-drop, validate, update, none; none allows app to load if db fails
-    properties:
-      hibernate:
-        dialect: com.basics.dbsqlite.configuration.SqliteDialect
+    # dialect: org.hibernate.community.dialect.SQLiteDialect
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.community.dialect.SQLiteDialect
+        # com.basics.dbsqlite.configuration.SqliteDialect
         # SqliteDialect was hardcoded

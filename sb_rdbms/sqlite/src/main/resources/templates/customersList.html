@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th = "https://www.thymeleaf.org">
-<head><title>customers</title>
+<head><title>customersList</title>
 	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 <body>
-<center>
 
 	<br/>
-	<h3>customers!</h3>
+	<h3>customersList</h3>
 	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 	<br/><a th:href = "@{/}">return</a>
 	<br/>
@@ -16,7 +15,7 @@
 	<div class = "divbox" style = "height: 400px; overflow: auto; width: 70%;">
 		<table border = "1">
 			<tr>
-				<th>customerid</th>
+				<th>id</th>
 				<th>name</th>
 				<th>company</th>
 				<th>address</th>

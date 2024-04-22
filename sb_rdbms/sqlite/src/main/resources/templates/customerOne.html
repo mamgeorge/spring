@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th = "http://www.thymeleaf.org">
-<head><title>customer</title>
+<head><title>customerOne</title>
 	<link rel = "stylesheet" th:href = "@{/basics.css}">
 </head>
 <body>
 <center>
 
 	<br/>
-	<h3>customer (one!)</h3>
+	<h3>customerOne</h3>
 	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 	<!--h5 th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm')}" /-->
 	<br/>

@@ -10,7 +10,7 @@ a, a.hover, a.visited { font-family: verdana,color: blue; text-decoration: none 
 table { width: 98%; margin: auto; border-spacing: 1px; border-collapse: collapse; }
 tr:nth-child(even) { background: #ffffff; }
 tr:nth-child( odd) { background: #e0e0e0; }
-td:nth-child( 2 ) { text-align: right; }
+td:nth-child( 2 ) { }
 th, td { border 0.5px solid black; padding: 4px; padding-left: 16px; font-size: 0.8em; }
 td { text-align: left; }
 
