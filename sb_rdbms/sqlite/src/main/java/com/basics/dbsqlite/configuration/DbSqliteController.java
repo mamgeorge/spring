@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,15 +51,23 @@ public class DbSqliteController {
 	}
 
 	//#### REST
-	@GetMapping( "/getCustomers" )
-	public ResponseEntity<List<Customer>> getCustomers( ) {
+	@GetMapping( "/getCustomers" ) public ResponseEntity<List<Customer>> getCustomers( ) {
 
 		List<Customer> customers = customerService.findAll();
 		return new ResponseEntity<>(customers, OK);
 	}
 
-	@GetMapping( "/getCustomerRnd" )
-	public ResponseEntity<Customer> getCustomerRnd( ) {
+	@GetMapping( "/getCustomersRng" ) public @ResponseBody List<Customer> getCustomersRng(
+		@RequestParam("beg") String beg, @RequestParam("end") String end) {
+
+		int ibeg = Integer.parseInt(beg);
+		int iend = Integer.parseInt(end);
+
+		List<Customer> customers = customerService.findAll().subList(ibeg, iend);
+		return customers;
+	}
+
+	@GetMapping( "/getCustomerRnd" ) public ResponseEntity<Customer> getCustomerRnd( ) {
 
 		long maxId = customerService.getMaxId() + 1;
 		Integer intId = random.nextInt((int) maxId) ;
@@ -67,42 +77,36 @@ public class DbSqliteController {
 		return new ResponseEntity<>(customer, OK);
 	}
 
-	@GetMapping( "/getCustomer/{idVal}" )
-	public ResponseEntity<Customer> getCustomer(@PathVariable int idVal ) {
+	@GetMapping( "/getCustomer/{idVal}" ) public ResponseEntity<Customer> getCustomer(@PathVariable int idVal ) {
 
 		Customer customer = customerService.findById(idVal);
 		return new ResponseEntity<>(customer, OK);
 	}
 
-	@GetMapping( "/getInvoices" )
-	public ResponseEntity<List<Invoices>> getInvoices( ) {
+	@GetMapping( "/getInvoices" ) public @ResponseBody List<Invoices> getInvoices( ) {
 
 		List<Invoices> invoices = invoicesService.findAll();
-		return new ResponseEntity<>(invoices, OK);
+		return invoices;
 	}
 
-	@GetMapping( "/getInvoiceRnd" )
-	public ResponseEntity<Invoices> getInvoiceRnd( ) {
+	@GetMapping( "/getInvoiceRnd" ) public @ResponseBody Invoices getInvoiceRnd( ) {
 
 		long maxId = invoicesService.getMaxId() + 1;
 		Integer intId = random.nextInt((int) maxId) ;
 		System.out.println("\nintId: " + intId);
 
 		Invoices invoice = invoicesService.findById(intId);
-		return new ResponseEntity<>(invoice, OK);
+		return invoice;
 	}
 
-	@GetMapping( "/getInvoice/{idVal}" )
-	public ResponseEntity<Invoices> getInvoice(@PathVariable int idVal ) {
+	@GetMapping( "/getInvoice/{idVal}" ) public @ResponseBody Invoices getInvoice(@PathVariable int idVal ) {
 
 		Invoices invoice = invoicesService.findById(idVal);
-		return new ResponseEntity<>(invoice, OK);
+		return invoice;
 	}
 
-
 	//#### MVC
-	@GetMapping( "/showCustomers" )
-	public ModelAndView showCustomers( ) {
+	@GetMapping( "/showCustomers" ) public ModelAndView showCustomers( ) {
 
 		List<Customer> customers = customerService.findAll();
 		ModelAndView modelAndView = new ModelAndView("customersList");
@@ -110,8 +114,7 @@ public class DbSqliteController {
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCustomersMax" )
-	public ModelAndView showCustomersMax( ) {
+	@GetMapping( "/showCustomersMax" ) public ModelAndView showCustomersMax( ) {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		List<Customer> customersAll = customerService.findAll();
@@ -131,8 +134,7 @@ public class DbSqliteController {
 
 	}
 
-	@GetMapping( "/showCustomerRnd" )
-	public ModelAndView showCustomerRnd() {
+	@GetMapping( "/showCustomerRnd" ) public ModelAndView showCustomerRnd() {
 
 		long maxId = customerService.getMaxId() + 1;
 		Integer intId = random.nextInt((int) maxId) ;
@@ -144,8 +146,7 @@ public class DbSqliteController {
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCustomer/{idVal}" )
-	public ModelAndView showCustomer(@PathVariable String idVal, Model model) {
+	@GetMapping( "/showCustomer/{idVal}" ) public ModelAndView showCustomer(@PathVariable String idVal, Model model) {
 
 		// method called template incorrectly UNTIL TEMPLATE CSS WAS PREPENDED WITH SLASH!
 		// id is normal; id.get() used with Optional
