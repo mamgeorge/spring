@@ -8,9 +8,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none # create, create-drop, validate, update, none; none allows app to load if db fails
-    # dialect: org.hibernate.community.dialect.SQLiteDialect
+#      dialect: org.hibernate.community.dialect.SQLiteDialect
+#      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 #    properties:
 #      hibernate:
 #        dialect: org.hibernate.community.dialect.SQLiteDialect
         # com.basics.dbsqlite.configuration.SqliteDialect
-        # SqliteDialect was hardcoded
+        # NOTE: JPA forces underscore for camelCase

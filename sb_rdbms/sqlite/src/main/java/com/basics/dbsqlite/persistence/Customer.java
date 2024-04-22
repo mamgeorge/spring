@@ -20,16 +20,16 @@ public class Customer {
 	// @Column( name = "customerid", updatable = false, nullable = false )
 	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
 	@Column( name = "customerid" ) private Integer customerid; // schema = "main"
-	@Column( name = "firstname", nullable = false ) private String firstname;
-	@Column( name = "lastname", nullable = false ) private String lastname;
-	@Column( name = "company" ) private String company;
-	@Column( name = "address" ) private String address;
-	@Column( name = "city" ) private String city;
-	@Column( name = "state" ) private String state;
-	@Column( name = "country" ) private String country;
-	@Column( name = "postalcode" ) private String postalcode;
-	@Column( name = "phone" ) private String phone;
-	@Column( name = "fax" ) private String fax;
-	@Column( name = "email", nullable = false ) private String email;
-	@Column( name = "supportrepid" ) private int supportrepid;
+	private String firstname;
+	private String lastname;
+	private String company;
+	private String address;
+	private String city;
+	private String state;
+	private String country;
+	private String postalcode;
+	private String phone;
+	private String fax;
+	private String email;
+	private int supportrepid;
 }

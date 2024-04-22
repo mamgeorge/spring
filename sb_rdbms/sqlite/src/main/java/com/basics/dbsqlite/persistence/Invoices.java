@@ -19,13 +19,13 @@ public class Invoices {
 	// invoiceId invoiceDate customerId total billingAddress billingCity billingCountry billingPostalCode billingState
 	// NOTE: JPA forces underscore for camelCase
 	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
-	@Column( name = "invoiceid" )		private Integer invoiceId;
-	@Column( name = "invoicedate" )		private Timestamp invoiceDate;
-	@Column( name = "customerid" )		private Integer customerId;
-	@Column( name = "total" )			private Float total;
-	@Column( name = "billingaddress" )	private String billingAddress;
-	@Column( name = "billingcity" )		private String billingCity;
-	@Column( name = "billingcountry" )	private String billingCountry;
-	@Column( name = "billingpostalcode" )	private String billingPostalCode;
-	@Column( name = "billingstate" )		private String billingState;
+	@Column( name = "invoiceid" )		private Integer invoiceid;
+	private Timestamp invoicedate;
+	private Integer customerid;
+	private Float total;
+	private String billingaddress;
+	private String billingcity;
+	private String billingcountry;
+	private String billingpostalcode;
+	private String billingstate;
 }

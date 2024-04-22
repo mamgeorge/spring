@@ -7,8 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DbSqliteApp {
 
 	public static void main(String[] strings) throws Throwable {
-		//
+
 		System.out.println("#### SecuringWebApp ####");
 		SpringApplication.run(DbSqliteApp.class, strings);
+		System.out.println("RUNNING!!!");
 	}
 }
