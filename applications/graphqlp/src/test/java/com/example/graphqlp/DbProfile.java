@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Driver;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +16,8 @@ import static com.example.graphqlp.DbProfile.DBASE.MYSQL;
 import static com.example.graphqlp.DbProfile.DBASE.ORACLE;
 import static com.example.graphqlp.DbProfile.DBASE.PGS;
 import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
+import static com.example.graphqlp.GenericUtils.DLM;
+import static com.example.graphqlp.GenericUtils.EOL;
 
 @Getter @Setter
 public class DbProfile {
@@ -65,5 +69,24 @@ public class DbProfile {
 		props.setProperty("user", user);
 		props.setProperty("password", pass);
 		props.setProperty("jdbcDriver", driver.toString());
+	}
+
+	// utilities
+	public static StringBuilder loopResultSet(ResultSet resultSet) {
+
+		StringBuilder sb = new StringBuilder(EOL);
+		try {
+			ResultSetMetaData rsmData = resultSet.getMetaData();
+			int columns = rsmData.getColumnCount();
+			while ( resultSet.next() ) {
+				for ( int ictr = 1; ictr < columns; ictr++ ) {
+					sb.append(resultSet.getString(ictr)).append(DLM);
+				}
+				sb.append(EOL);
+			}
+		}
+		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+
+		return sb;
 	}
 }
