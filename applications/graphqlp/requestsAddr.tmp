@@ -24,7 +24,8 @@ query addrUno {
 		last_update
 	} }
 
-query addrRng($beg: Int, $end: Int)  { # { "beg": 10, "end": 12 }
+# { "beg": 10, "end": 12 }
+query addrRng($beg: Int, $end: Int)  {
 
 	getAddressRng(beg: $beg, end: $end) {
 
@@ -41,3 +42,35 @@ query addrRng($beg: Int, $end: Int)  { # { "beg": 10, "end": 12 }
 		phone
 		last_update
 	} }
+
+# { "$addr": 10 }
+query addrId($addr: ID) {
+
+	addressById(address_id: $addr ) {
+
+	address
+	district
+	city_id
+} }
+
+# {"ctyid": 295 }
+query ctyId($ctyid: ID) {
+
+	cityById(city_id: $ctyid ) {
+
+	city_id
+	city_name
+	country_id
+	last_update
+} }
+
+# { "cnt": 10 }
+query ctyCnt($cnt: Int) {
+
+	getCities(count: $cnt) {
+		city_id
+		city_name
+		country_id
+		last_update
+	}
+}

@@ -1,8 +1,11 @@
-type Query { getAddressRng(beg: Int, end: Int): [Address]! }
-#type Query { addressById(address_id: ID): Address }
-#type Query { cityById(id: ID): City }
-#type Query { getAddresses(count: Int): [Address]! }
-#type Query { getCities(count: Int): [City]! }
+type Query {
+
+	getAddressRng(beg: Int, end: Int): [Address]!
+	addressById(address_id: ID): Address
+
+	cityById(city_id: ID): City
+	getCities(count: Int): [City]!
+}
 
 type Address {
 

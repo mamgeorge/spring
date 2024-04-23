@@ -82,6 +82,12 @@ public class GraphqlpController {
 		return city;
 	}
 
+	@QueryMapping public List<City> getCities(@Argument int count) {
+
+		List<City> cities = cityService.findAll().subList(0, count);
+		return cities;
+	}
+
 	@PostMapping( "/putActor" ) public ResponseEntity<Actor> putActor(@RequestBody Actor actor) {
 
 		ResponseEntity<Actor> responseEntity;
