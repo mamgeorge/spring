@@ -24,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -170,10 +172,11 @@ public class GraphqlpController {
 	//#### regular MVC ####
 	@GetMapping( "/showActors" ) public ModelAndView showActors( ) {
 
-		List<Actor> actors = actorService.findAll();
+		ArrayList<Actor> actors = (ArrayList<Actor>) actorService.findAll();
+		actors.sort((o1, o2) -> o1.getActor_id().compareTo(o2.getActor_id()));
 
 		ModelAndView MAV = new ModelAndView();
-		MAV.setViewName("actorsShow");
+		MAV.setViewName("actorsList");
 		MAV.addObject("actors", actors);
 		return MAV;
 	}

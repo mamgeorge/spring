@@ -17,7 +17,7 @@ th, td { text-align: left; padding: 4px; padding-left: 16px; font-size: 0.8em;
 hr { color: #cccccc; width: 80%; }
 
 .btn {  display: inline; margin: auto; text-align: center;
-	font-weight: bold; border: 5px inset black; border-radius: 5px; }
+	font-weight: bold; border: 5px inset black; border-radius: 10px; }
 
 .divbox { height: 240px; overflow: scroll; width: 60%; margin: auto; background-color: #e0e0e0;}
 

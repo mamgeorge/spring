@@ -18,7 +18,8 @@
 	</tr>
 	<tr th:each="actor, ictr: ${actors}">
 		<td><span th:text = "${ictr.count}"		/></td>
-		<td><span th:text = "${actor.actor_id}"		/></td>
+		<td><a th:href = "@{/showActor/} + ${actor.actor_id}" >
+			<span th:text = "${actor.actor_id}"		/></a></td>
 		<td><span th:text = "${actor.first_name}"		/></td>
 		<td><span th:text = "${actor.last_name}"		/></td>
 		<td style = "white-space: nowrap;"><span th:text = "${actor.last_update}"		/></td>
