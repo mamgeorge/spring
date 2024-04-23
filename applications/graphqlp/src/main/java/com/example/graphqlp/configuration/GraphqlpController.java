@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
@@ -63,11 +64,31 @@ public class GraphqlpController {
 		Address address = addressService.findById(address_id);
 		return address;
 	}
+	@QueryMapping public City cityById(@Argument int city_id) {
 
-	@QueryMapping public List<Address> getAddressRng(@Argument int beg, @Argument int end) {
+		City city = cityService.findById(city_id);
+		return city;
+	}
+	@QueryMapping public Actor actorById(@Argument int actor_id) {
 
-		List<Address> addresses = addressService.findAll().subList(beg, end);
+		Actor actor = actorService.findById(actor_id);
+		return actor;
+	}
+
+	@QueryMapping public List<Address> getAddresses(@Argument int count) {
+
+		List<Address> addresses = addressService.findAll().subList(0, count);
 		return addresses;
+	}
+	@QueryMapping public List<City> getCities(@Argument int count) {
+
+		List<City> cities = cityService.findAll().subList(0, count);
+		return cities;
+	}
+	@QueryMapping public List<Actor> getActors(@Argument int count) {
+
+		List<Actor> actors = actorService.findAll().subList(0, count);
+		return actors;
 	}
 
 	@SchemaMapping public City city(Address address) {
@@ -76,16 +97,10 @@ public class GraphqlpController {
 		return city;
 	}
 
-	@QueryMapping public City cityById(@Argument int city_id) {
+	@QueryMapping public List<Address> getAddressRng(@Argument int beg, @Argument int end) {
 
-		City city = cityService.findById(city_id);
-		return city;
-	}
-
-	@QueryMapping public List<City> getCities(@Argument int count) {
-
-		List<City> cities = cityService.findAll().subList(0, count);
-		return cities;
+		List<Address> addresses = addressService.findAll().subList(beg, end);
+		return addresses;
 	}
 
 	@PostMapping( "/putActor" ) public ResponseEntity<Actor> putActor(@RequestBody Actor actor) {
@@ -101,6 +116,16 @@ public class GraphqlpController {
 	}
 
 	//#### regular REST ####
+	@GetMapping( "/getAddresses" ) @ResponseBody public List<Address> getAddresses( ) {
+
+		List<Address> addresses = addressService.findAll();
+		return addresses;
+	}
+	@GetMapping( "/getCities" ) @ResponseBody public List<City> getCities( ) {
+
+		List<City> cities = cityService.findAll();
+		return cities;
+	}
 	@GetMapping( "/getActors" ) public ResponseEntity<List<Actor>> getActors( ) {
 
 		ResponseEntity<List<Actor>> responseEntity;
@@ -109,25 +134,37 @@ public class GraphqlpController {
 		return responseEntity;
 	}
 
-	@GetMapping( "/getActorsCnt/{count}" )
-	public ResponseEntity<List<Actor>> getActorsCnt(@PathVariable int count) {
-
-		ResponseEntity<List<Actor>> responseEntity;
+	@GetMapping( "/getActorsCnt/{count}" ) @ResponseBody public List<Actor> getActorsCnt(@PathVariable int count) {
 		List<Actor> actors = actorService.findAll().subList(0, count);
-		responseEntity = new ResponseEntity<>(actors, OK);
-		return responseEntity;
+		return actors;
 	}
 
-	@GetMapping( "/getActorRnd" ) public ResponseEntity<Actor> getActorRnd( ) {
+	@GetMapping( "/getAddressRnd" ) @ResponseBody public Address getAddressRnd( ) {
 
-		ResponseEntity<Actor> responseEntity;
+		int intMax = (int) addressService.getMaxId() + 1;
+		Integer address_id = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", address_id: " + address_id);
+
+		Address address = addressService.findById(address_id);
+		return address;
+	}
+	@GetMapping( "/getCityRnd" ) @ResponseBody  public City getCityRnd( ) {
+
+		int intMax = (int) cityService.getMaxId() + 1;
+		Integer city_id = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", city_id: " + city_id);
+
+		City city = cityService.findById(city_id);
+		return city;
+	}
+	@GetMapping( "/getActorRnd" )@ResponseBody public Actor getActorRnd( ) {
+
 		int intMax = (int) actorService.getMaxId() + 1;
 		Integer actor_id = random.nextInt(intMax);
 		System.out.println("intMax: " + intMax + ", actor_id: " + actor_id);
 
 		Actor actor = actorService.findById(actor_id);
-		responseEntity = new ResponseEntity<>(actor, OK);
-		return responseEntity;
+		return actor;
 	}
 
 	//#### regular MVC ####
