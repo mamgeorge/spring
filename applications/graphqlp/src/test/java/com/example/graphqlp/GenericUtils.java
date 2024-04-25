@@ -21,6 +21,7 @@ public class GenericUtils {
 
 	public static final String EOL = "\n";
 	public static final String DLM = "\t";
+	public static final String RESOURCE_PATH = "src/test/resources/";
 
 	@Test void restClient_test( ) {
 

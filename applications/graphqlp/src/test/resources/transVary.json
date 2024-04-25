@@ -1,0 +1,13 @@
+{
+	"pathMappings": [{
+		"source": "$.shipment.id",
+		"target": "$.shipment.extid"
+	}, {
+		"source" : "$.shipment.stops[*].name",
+		"target" : "$.shipment.halts[*].name"
+	},{
+		"source" : "$.shipment.stops[*].location",
+		"target" : "$.shipment.halts[*].location"
+	}
+	]
+}

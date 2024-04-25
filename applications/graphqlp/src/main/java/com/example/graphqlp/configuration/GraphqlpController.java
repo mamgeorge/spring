@@ -1,54 +1,56 @@
 package com.example.graphqlp.configuration;
 
 import com.example.graphqlp.persistence.Actor;
-import com.example.graphqlp.persistence.ActorService;
+import com.example.graphqlp.persistence.ActorRepository;
 import com.example.graphqlp.persistence.Address;
-import com.example.graphqlp.persistence.AddressService;
+import com.example.graphqlp.persistence.AddressRepository;
 import com.example.graphqlp.persistence.City;
-import com.example.graphqlp.persistence.CityService;
+import com.example.graphqlp.persistence.CityRepository;
+import com.example.graphqlp.persistence.Customer;
+import com.example.graphqlp.persistence.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.GONE;
 import static org.springframework.http.HttpStatus.NOT_MODIFIED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.RESET_CONTENT;
 
-@Controller
+@RestController
 public class GraphqlpController {
 
-	private final AddressService addressService;
-	private final ActorService actorService;
-	private final CityService cityService;
+	private final CustomerRepository customerRepository;
+	private final AddressRepository addressRepository;
+	private final ActorRepository actorRepository;
+	private final CityRepository cityRepository;
 	private final Random random = new Random();
 
-	@Autowired public GraphqlpController(AddressService addressService,
-		CityService cityService, ActorService actorService) {
+	@Autowired public GraphqlpController(CustomerRepository customerRepository,
+		AddressRepository addressRepository, CityRepository cityRepository,
+		ActorRepository actorRepository) {
 
-		this.addressService = addressService;
-		this.cityService = cityService;
-		this.actorService = actorService;
+		this.customerRepository = customerRepository;
+		this.addressRepository = addressRepository;
+		this.cityRepository = cityRepository;
+		this.actorRepository = actorRepository;
 	}
 
 	@GetMapping( { "/", "/home", "/root" } )
@@ -56,152 +58,169 @@ public class GraphqlpController {
 
 		String timer = Instant.now().toString();
 		System.out.println("timer: " + timer);
-		ModelAndView MAV = new ModelAndView("index");
-		return MAV;
+		return new ModelAndView("index", "timer", timer);
 	}
 
 	//#### graphql ####
-	@QueryMapping public Address addressById(@Argument int address_id) {
+	@QueryMapping public List<Customer> getCustomersRng(@Argument int beg, @Argument int end) { return customerRepository.findAll().subList(beg, end); }
+	@QueryMapping public List<Address> getAddressesRng(@Argument int beg, @Argument int end) { return addressRepository.findAll().subList(beg, end); }
+	@QueryMapping public List<City> getCitiesRng(@Argument int beg, @Argument int end) { return cityRepository.findAll().subList(beg, end); }
+	@QueryMapping public List<Actor> getActorsRng(@Argument int beg, @Argument int end) { return actorRepository.findAll().subList(beg, end); }
 
-		Address address = addressService.findById(address_id);
-		return address;
+	@QueryMapping public Customer customerById(@Argument int customer_id) { return customerRepository.findById(customer_id).get(); }
+	@QueryMapping public Address addressById(@Argument int address_id) { return addressRepository.findById(address_id).get(); }
+	@QueryMapping public City cityById(@Argument int city_id) { return cityRepository.findById(city_id).get(); }
+	@QueryMapping public Actor actorById(@Argument int actor_id) { return actorRepository.findById(actor_id).get(); }
+
+	@SchemaMapping public Address address(Customer customer) { return addressRepository.findById(customer.getAddress_id()).get(); }
+	@SchemaMapping public City city(Address address) { return cityRepository.findById(address.getCity_id()).get(); }
+
+	@MutationMapping public Actor addActorInf(@Argument String first_name, @Argument String last_name) {
+
+		Actor actorNew = new Actor();
+		actorNew.setFirst_name(first_name);
+		actorNew.setLast_name(last_name);
+		actorNew.setLast_update(Timestamp.from(Instant.now()));
+
+		actorNew = actorRepository.save(actorNew);
+		int actor_id = actorNew.getActor_id();
+		System.out.println("actor_id: " + actor_id);
+		return actorRepository.findById(actor_id).get();
 	}
-	@QueryMapping public City cityById(@Argument int city_id) {
+	@MutationMapping public Actor addActorObj(@Argument Actor actor) {
 
-		City city = cityService.findById(city_id);
-		return city;
-	}
-	@QueryMapping public Actor actorById(@Argument int actor_id) {
-
-		Actor actor = actorService.findById(actor_id);
-		return actor;
+		actor.setLast_update(Timestamp.from(Instant.now()));
+		Actor actorNew = actorRepository.save(actor);
+		int actor_id = actorNew.getActor_id();
+		System.out.println("actor_id: " + actor_id);
+		return actorRepository.findById(actor_id).get();
 	}
 
-	@QueryMapping public List<Address> getAddresses(@Argument int count) {
-
-		List<Address> addresses = addressService.findAll().subList(0, count);
-		return addresses;
-	}
-	@QueryMapping public List<City> getCities(@Argument int count) {
-
-		List<City> cities = cityService.findAll().subList(0, count);
-		return cities;
-	}
-	@QueryMapping public List<Actor> getActors(@Argument int count) {
-
-		List<Actor> actors = actorService.findAll().subList(0, count);
+	//#### regular REST #### { return addressRepository.findById(address_id); }
+	@GetMapping( "/getCustomers" ) public List<Customer> getCustomers( ) { return customerRepository.findAll(); }
+	@GetMapping( "/getAddresses" ) public List<Address> getAddresses( ) { return addressRepository.findAll(); }
+	@GetMapping( "/getCities" ) public List<City> getCities( ) { return cityRepository.findAll(); }
+	@GetMapping( "/getActors" ) public List<Actor> getActors( ) { return actorRepository.findAll(); }
+	@GetMapping( "/getActorsCnt/{count}" ) public List<Actor> getActorsCnt(@PathVariable int count) {
+		List<Actor> actors = actorRepository.findAll().subList(0, count);
 		return actors;
 	}
 
-	@SchemaMapping public City city(Address address) {
+	@GetMapping( "/getCustomerRnd" ) public Customer getCustomerRnd( ) {
 
-		City city = cityService.findById(address.getCity_id());
-		return city;
+		int intMax = (int) customerRepository.count();
+		Integer intId = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", customer_id: " + intId);
+
+		return customerRepository.findById(intId).get();
 	}
+	@GetMapping( "/getAddressRnd" ) public Address getAddressRnd( ) {
 
-	@QueryMapping public List<Address> getAddressRng(@Argument int beg, @Argument int end) {
+		int intMax = (int) addressRepository.count();
+		Integer intId = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", address_id: " + intId);
 
-		List<Address> addresses = addressService.findAll().subList(beg, end);
-		return addresses;
+		return addressRepository.findById(intId).get();
 	}
+	@GetMapping( "/getCityRnd" ) public City getCityRnd( ) {
 
-	@PostMapping( "/putActor" ) public ResponseEntity<Actor> putActor(@RequestBody Actor actor) {
+		int intMax = (int) cityRepository.count() + 1;
+		Integer intId = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", city_id: " + intId);
 
-		ResponseEntity<Actor> responseEntity;
-		if ( actor == null ) {
-			actor = new Actor();
-		} else {
-			actor = actorService.save(actor);
-		}
-		responseEntity = new ResponseEntity<>(actor, OK);
-		return responseEntity;
+		return cityRepository.findById(intId).get();
 	}
+	@GetMapping( "/getActorRnd" ) public Actor getActorRnd( ) {
 
-	//#### regular REST ####
-	@GetMapping( "/getAddresses" ) @ResponseBody public List<Address> getAddresses( ) {
-
-		List<Address> addresses = addressService.findAll();
-		return addresses;
-	}
-	@GetMapping( "/getCities" ) @ResponseBody public List<City> getCities( ) {
-
-		List<City> cities = cityService.findAll();
-		return cities;
-	}
-	@GetMapping( "/getActors" ) public ResponseEntity<List<Actor>> getActors( ) {
-
-		ResponseEntity<List<Actor>> responseEntity;
-		List<Actor> actors = actorService.findAll();
-		responseEntity = new ResponseEntity<>(actors, OK);
-		return responseEntity;
-	}
-
-	@GetMapping( "/getActorsCnt/{count}" ) @ResponseBody public List<Actor> getActorsCnt(@PathVariable int count) {
-		List<Actor> actors = actorService.findAll().subList(0, count);
-		return actors;
-	}
-
-	@GetMapping( "/getAddressRnd" ) @ResponseBody public Address getAddressRnd( ) {
-
-		int intMax = (int) addressService.getMaxId() + 1;
-		Integer address_id = random.nextInt(intMax);
-		System.out.println("intMax: " + intMax + ", address_id: " + address_id);
-
-		Address address = addressService.findById(address_id);
-		return address;
-	}
-	@GetMapping( "/getCityRnd" ) @ResponseBody  public City getCityRnd( ) {
-
-		int intMax = (int) cityService.getMaxId() + 1;
-		Integer city_id = random.nextInt(intMax);
-		System.out.println("intMax: " + intMax + ", city_id: " + city_id);
-
-		City city = cityService.findById(city_id);
-		return city;
-	}
-	@GetMapping( "/getActorRnd" )@ResponseBody public Actor getActorRnd( ) {
-
-		int intMax = (int) actorService.getMaxId() + 1;
+		int intMax = (int) actorRepository.count();
 		Integer actor_id = random.nextInt(intMax);
 		System.out.println("intMax: " + intMax + ", actor_id: " + actor_id);
 
-		Actor actor = actorService.findById(actor_id);
-		return actor;
+		return actorRepository.findById(actor_id).get();
 	}
 
 	//#### regular MVC ####
+	@GetMapping( "/showCustomers" ) public ModelAndView showCustomers( ) {
+
+		ArrayList<Customer> customers = (ArrayList<Customer>) customerRepository.findAll();
+		customers.sort((o1, o2) -> o1.getCustomer_id().compareTo(o2.getCustomer_id()));
+		return new ModelAndView("customersList", "customers", customers);
+	}
+	@GetMapping( "/showAddresses" ) public ModelAndView showAddresses( ) {
+
+		ArrayList<Address> addresses = (ArrayList<Address>) addressRepository.findAll();
+		addresses.sort((o1, o2) -> o1.getAddress_id().compareTo(o2.getAddress_id()));
+		return new ModelAndView("addressesList", "addresses", addresses);
+	}
+	@GetMapping( "/showCities" ) public ModelAndView showCities( ) {
+
+		ArrayList<City> cities = (ArrayList<City>) cityRepository.findAll();
+		cities.sort((o1, o2) -> o1.getCity_id().compareTo(o2.getCity_id()));
+		return new ModelAndView("citiesList", "cities", cities);
+	}
 	@GetMapping( "/showActors" ) public ModelAndView showActors( ) {
 
-		ArrayList<Actor> actors = (ArrayList<Actor>) actorService.findAll();
+		ArrayList<Actor> actors = (ArrayList<Actor>) actorRepository.findAll();
 		actors.sort((o1, o2) -> o1.getActor_id().compareTo(o2.getActor_id()));
-
-		ModelAndView MAV = new ModelAndView();
-		MAV.setViewName("actorsList");
-		MAV.addObject("actors", actors);
-		return MAV;
+		return new ModelAndView("actorsList", "actors", actors);
 	}
 
-	@GetMapping( "/showActor/{actor_id}" ) public ModelAndView showActor(@PathVariable int actor_id) {
+	@GetMapping( "/showCustomerRnd" ) public ModelAndView showCustomerRnd( ) {
 
-		Actor actor = actorService.findById(actor_id);
+		int intMax = (int) customerRepository.count();
+		int intId = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", customer_id: " + intId);
 
-		ModelAndView MAV = new ModelAndView();
-		MAV.setViewName("actorShow");
-		MAV.addObject("actor", actor);
-		return MAV;
+		Customer customer = customerRepository.findById(intId).get();
+		return new ModelAndView("customerShow", "customer", customer);
 	}
+	@GetMapping( "/showAddressRnd" ) public ModelAndView showAddressRnd( ) {
 
+		int intMax = (int) addressRepository.count();
+		int intId = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", actor_id: " + intId);
+
+		Address address = addressRepository.findById(intId).get();
+		return new ModelAndView("addressShow", "address", address);
+	}
+	@GetMapping( "/showCityRnd" ) public ModelAndView showCityRnd( ) {
+
+		int intMax = (int) cityRepository.count();
+		int intId = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", city_id: " + intId);
+
+		City city = cityRepository.findById(intId).get();
+		return new ModelAndView("cityShow", "city", city);
+	}
 	@GetMapping( "/showActorRnd" ) public ModelAndView showActorRnd( ) {
 
-		int intMax = (int) actorService.getMaxId() + 1;
-		int actor_id = random.nextInt(intMax);
-		System.out.println("intMax: " + intMax + ", actor_id: " + actor_id);
-		Actor actor = actorService.findById(actor_id);
+		int intMax = (int) actorRepository.count();
+		int intId = random.nextInt(intMax);
+		System.out.println("intMax: " + intMax + ", actor_id: " + intId);
 
-		ModelAndView MAV = new ModelAndView();
-		MAV.setViewName("actorShow");
-		MAV.addObject("actor", actor);
-		return MAV;
+		Actor actor = actorRepository.findById(intId).get();
+		return new ModelAndView("actorShow", "actor", actor);
+	}
+
+	@GetMapping( "/showCustomer/{intId}" ) public ModelAndView showCustomer(@PathVariable int intId) {
+
+		Customer customer = customerRepository.findById(intId).get();
+		return new ModelAndView("customerShow", "customer", customer);
+	}
+	@GetMapping( "/showAddress/{intId}" ) public ModelAndView showAddress(@PathVariable int intId) {
+
+		Address address = addressRepository.findById(intId).get();
+		return new ModelAndView("addressShow", "address", address);
+	}
+	@GetMapping( "/showCity/{intId}" ) public ModelAndView showCity(@PathVariable int intId) {
+
+		City city = cityRepository.findById(intId).get();
+		return new ModelAndView("cityShow", "city", city);
+	}
+	@GetMapping( "/showActor/{intId}" ) public ModelAndView showActor(@PathVariable int intId) {
+
+		Actor actor = actorRepository.findById(intId).get();
+		return new ModelAndView("actorShow", "actor", actor);
 	}
 
 	@PostMapping( "/showActorMod" ) public ModelAndView showActorMod(@ModelAttribute Actor actor,
@@ -214,24 +233,21 @@ public class GraphqlpController {
 			httpStatus = RESET_CONTENT;
 			//
 		} else if ( action.equals("save") ) {
-			actor = actorService.save(actor);
+			actor = actorRepository.save(actor);
 			httpStatus = CREATED;
 			//
 		} else if ( action.equals("delete") ) {
 			int actor_id = actor.getActor_id();
 			if ( actor_id > 200 ) {
-				httpStatus = actorService.delete(actor_id);
+				actorRepository.deleteById(actor_id);
 				actor = new Actor();
 				actor.setLast_update(Timestamp.from(Instant.now()));
+				httpStatus = GONE;
 			} else {
 				httpStatus = NOT_MODIFIED;
 			}
 		}
 
-		ModelAndView MAV = new ModelAndView();
-		MAV.setViewName("actorShow");
-		MAV.addObject("actor", actor);
-		MAV.addObject("httpStatus", httpStatus);
-		return MAV;
+		return new ModelAndView("actorShow", "actor", actor);
 	}
 }

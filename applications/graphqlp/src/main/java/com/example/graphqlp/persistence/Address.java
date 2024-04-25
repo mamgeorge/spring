@@ -19,12 +19,11 @@ public class Address {
 	// address_id, address, address2, district, city_id, postal_code, phone, last_update
 	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
 	@Column( name = "address_id" ) private Integer address_id;
-
-	@Column( name = "address" ) private String address;
-	@Column( name = "address2" ) private String address2;
-	@Column( name = "district" ) private String district;
-	@Column( name = "city_id" ) private Integer city_id;
-	@Column( name = "postal_code" ) private String postal_code;
-	@Column( name = "phone" ) private String phone;
-	@Column( name = "last_update" ) private Timestamp last_update;
+	private String address;
+	private String address2;
+	private String district;
+	private Integer city_id;
+	private String postal_code;
+	private String phone;
+	private Timestamp last_update;
 }
