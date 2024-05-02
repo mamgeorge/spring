@@ -1,7 +1,6 @@
 package com.example.graphqlp;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 // @Disabled( "integration only" )
 class GraphqlpAppTests {
 
-	@Test void environment_Test( ) {
+	@Test void environment_test( ) {
 
 		ConfigurableEnvironment environment = new StandardEnvironment();
 		String serverPort = environment.getProperty("local.server.port");
@@ -26,7 +25,7 @@ class GraphqlpAppTests {
 		assertTrue(true);
 	}
 
-	@Test void context_Test( ) {
+	@Test void context_test( ) {
 
 		GenericApplicationContext context = new AnnotationConfigApplicationContext();
 		ConfigurableEnvironment environment = context.getEnvironment();

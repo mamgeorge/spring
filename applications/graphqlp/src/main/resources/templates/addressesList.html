@@ -34,9 +34,9 @@
 
 		<tr th:each="address, ictr: ${addresses}">
 			<td><span th:text = "${ictr.count}"		/></td>
+			<td><span th:text = "${address.address_id}"		/></td>
 			<td><a th:href = "@{/showAddress/} + ${address.address_id}" >
-				<span th:text = "${address.address_id}"		/></a></td>
-			<td><span th:text = "${address.address}"		/></td>
+				<span th:text = "${address.address}"		/></a></td>
 			<td><span th:text = "${address.address2}"		/></td>
 			<td><span th:text = "${address.district}"		/></td>
 			<td><span th:text = "${address.city_id}"		/></td>

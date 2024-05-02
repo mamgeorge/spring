@@ -22,13 +22,13 @@
 		<tr>
 			<th>idx</th>
 			<th>customer_id</th>
+			<th>name</th>
+
+			<th>address_id</th>
+			<th>email</th>
 			<th>store_id</th>
 			<th>active</th>
 			<th>activebool</th>
-			<th>address_id</th>
-			<th>email</th>
-			<th>first_name</th>
-			<th>last_name</th>
 			<th>create_date</th>
 			<th>last_update</th>
 		</tr>
@@ -36,15 +36,15 @@
 
 		<tr th:each="customer, ictr: ${customers}">
 			<td><span th:text = "${ictr.count}"		/></td>
+			<td><span th:text = "${customer.customer_id}"	/></td>
 			<td><a th:href = "@{/showCustomer/} + ${customer.customer_id}" >
-				<span th:text = "${customer.customer_id}"	/></a></td>
+				<span th:text = "${customer.first_name} + ' ' + ${customer.last_name}"	/></a></td>
+
+			<td><span th:text = "${customer.address_id}"	/></td>
+			<td><span th:text = "${customer.email}"			/></td>
 			<td><span th:text = "${customer.store_id}"		/></td>
 			<td><span th:text = "${customer.active}"		/></td>
 			<td><span th:text = "${customer.activebool}"	/></td>
-			<td><span th:text = "${customer.address_id}"	/></td>
-			<td><span th:text = "${customer.email}"			/></td>
-			<td><span th:text = "${customer.first_name}"	/></td>
-			<td><span th:text = "${customer.last_name}"		/></td>
 			<td style = "white-space: nowrap;"><span th:text = "${customer.create_date}"	/></td>
 			<td style = "white-space: nowrap;"><span th:text = "${customer.last_update}"	/></td>
 		</tr>

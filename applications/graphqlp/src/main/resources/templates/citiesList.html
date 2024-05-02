@@ -30,9 +30,9 @@
 
 		<tr th:each="city, ictr: ${cities}">
 			<td><span th:text = "${ictr.count}"		/></td>
+			<td><span th:text = "${city.city_id}"		/></td>
 			<td><a th:href = "@{/showCity/} + ${city.city_id}" >
-				<span th:text = "${city.city_id}"		/></a></td>
-			<td><span th:text = "${city.city}"		/></td>
+				<span th:text = "${city.city}"		/></a></td>
 			<td><span th:text = "${city.country_id}"		/></td>
 			<td style = "white-space: nowrap;">	<span th:text = "${city.last_update}"/></td>
 		</tr>

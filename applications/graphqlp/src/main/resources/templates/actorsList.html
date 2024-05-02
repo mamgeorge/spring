@@ -22,18 +22,16 @@
 	<tr>
 		<th>idx</th>
 		<th>actor_id</th>
-		<th>first_name</th>
-		<th>last_name</th>
+		<th>name</th>
 		<th>last_update</th>
 	</tr>
 	</thead>
 
 	<tr th:each="actor, ictr: ${actors}">
 		<td><span th:text = "${ictr.count}"		/></td>
+		<td><span th:text = "${actor.actor_id}"		/></td>
 		<td><a th:href = "@{/showActor/} + ${actor.actor_id}" >
-			<span th:text = "${actor.actor_id}"		/></a></td>
-		<td><span th:text = "${actor.first_name}"	/></td>
-		<td><span th:text = "${actor.last_name}"	/></td>
+			<span th:text = "${actor.first_name} + ' ' + ${actor.last_name}"	/></a></td>
 		<td style = "white-space: nowrap;">
 			<span th:text = "${actor.last_update}"	/></td>
 	</tr>
