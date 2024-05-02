@@ -1,4 +1,4 @@
-package com.example.graphqlp.configuration;
+package com.example.graphqlp.config;
 
 import com.example.graphqlp.persistence.Actor;
 import com.example.graphqlp.persistence.ActorRepository;
@@ -39,8 +39,8 @@ public class GraphqlpController {
 
 	private final CustomerRepository customerRepository;
 	private final AddressRepository addressRepository;
-	private final ActorRepository actorRepository;
 	private final CityRepository cityRepository;
+	private final ActorRepository actorRepository;
 	private final Random random = new Random();
 
 	@Autowired public GraphqlpController(CustomerRepository customerRepository,

@@ -24,7 +24,7 @@ public class JsonpathSample {
 	private static final String jsonStorePath = RESOURCE_PATH + "store.json";
 	private final String[] jsonTrans = { "transList", "transSum", "transSwitch", "transVary" };
 
-	@Test void transfrom_test( ) {
+	@Test void transform_test( ) {
 
 		String jsonNew = "";
 		String jsonStore = "";

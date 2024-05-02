@@ -1,5 +1,6 @@
 package com.example.graphqlp;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -63,5 +64,14 @@ public class GenericUtils {
 		}
 		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		return txtLines;
+	}
+
+	public static String formatObject(Object object) {
+
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+		try{ json = objectMapper.writeValueAsString(object); }
+		catch(JsonProcessingException ex){ System.out.println("ERROR: " + ex.getMessage()); }
+		return json;
 	}
 }

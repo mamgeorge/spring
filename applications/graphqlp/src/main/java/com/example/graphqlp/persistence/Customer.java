@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Getter @Setter @NoArgsConstructor
 @Entity @Table( schema = "public", name = "customer" )
 public class Customer {
@@ -23,6 +25,6 @@ public class Customer {
 	private String email;
 	private String first_name;
 	private String last_name;
-	private String create_date;
-	private String last_update;
+	private Timestamp create_date;
+	private Timestamp last_update;
 }
