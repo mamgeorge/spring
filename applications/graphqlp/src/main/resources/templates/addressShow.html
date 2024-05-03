@@ -3,41 +3,74 @@
 	xmlns:th = "https://www.thymeleaf.org"
 >
 <head><title>address</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width=device-width, initial-scale=1">
+	<link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel = "stylesheet">
+	<script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<style>th { width: 200px; text-align: right; }</style>
 </head>
 
 <body>
-<div class="container p-1 bg-primary text-white text-center">
-	<h3 th:text = "${#strings.capitalize('address')}" />
+<div class = "container p-1 bg-primary text-white text-center">
+	<h3 th:text = "${#strings.capitalize('address')}"/>
 	<h5 th:text = "${#dates.formatISO(#dates.createNow())}"></h5>
-	<a class = "text-white" th:href = "@{/}" >return</a>
+	<a class = "text-white" th:href = "@{/}">return</a>
 </div>
 
-<div class="row"><div class = "col"></div>
+<div class = "row">
+	<div class = "col"></div>
 
 	<div class = "col text-center">
 		<form action = "#" th:action = "@{/showAddressMod}" method = "post" th:object = "${address}">
-			<br /><b class = "text-black" th:text = "${httpStatus}?:'Data Only'" ></b>
-			<br />
+			<br/><b class = "text-black" th:text = "${httpStatus}?:'Data Only'"></b>
+			<br/>
 			<table style = "table-sm table-striped text-center">
-				<tr><th>address_id	</th><td></td><td><input type = "text" th:field = "*{address_id}"	/></td></tr>
-				<tr><th>address		</th><td></td><td><input type = "text" th:field = "*{address}"		/></td></tr>
-				<tr><th>address2	</th><td></td><td><input type = "text" th:field = "*{address2}"		/></td></tr>
-				<tr><th>district	</th><td></td><td><input type = "text" th:field = "*{district}"		/></td></tr>
-				<tr><th>city_id		</th><td></td><td><input type = "text" th:field = "*{city_id}"		/></td></tr>
-				<tr><th>postal_code	</th><td></td><td><input type = "text" th:field = "*{postal_code}"	/></td></tr>
-				<tr><th>phone		</th><td></td><td><input type = "text" th:field = "*{phone}"		/></td></tr>
-				<tr><th>last_update	</th><td></td><td><input type = "text" th:field = "*{last_update}"	/></td></tr>
+				<tr>
+					<th>address_id</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{address_id}"/></td>
+				</tr>
+				<tr>
+					<th>address</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{address}"/></td>
+				</tr>
+				<tr>
+					<th>address2</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{address2}"/></td>
+				</tr>
+				<tr>
+					<th>district</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{district}"/></td>
+				</tr>
+				<tr>
+					<th>city_id</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{city_id}"/></td>
+				</tr>
+				<tr>
+					<th>postal_code</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{postal_code}"/></td>
+				</tr>
+				<tr>
+					<th>phone</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{phone}"/></td>
+				</tr>
+				<tr>
+					<th>last_update</th>
+					<td></td>
+					<td><input type = "text" th:field = "*{last_update}"/></td>
+				</tr>
 			</table>
 
-			<br />
-			<input class = "btn btn-primary" type="submit" name="action" value="save" />
-			<input class = "btn btn-success" type="submit" name="action" value="reset" />
-			<input class = "btn btn-danger" type="submit" name="action" value="delete" />
+			<br/>
+			<input class = "btn btn-primary" type = "submit" name = "action" value = "save"/>
+			<input class = "btn btn-success" type = "submit" name = "action" value = "reset"/>
+			<input class = "btn btn-danger" type = "submit" name = "action" value = "delete"/>
 		</form>
 	</div>
 	<div class = "col"></div>

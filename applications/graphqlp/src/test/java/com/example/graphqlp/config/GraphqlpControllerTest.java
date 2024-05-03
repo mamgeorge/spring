@@ -8,9 +8,6 @@ import com.example.graphqlp.persistence.City;
 import com.example.graphqlp.persistence.CityRepository;
 import com.example.graphqlp.persistence.Customer;
 import com.example.graphqlp.persistence.CustomerRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,12 +20,11 @@ import java.util.Optional;
 import java.util.Random;
 
 import static com.example.graphqlp.GenericUtils.formatObject;
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-public class GraphqlpControllerTest {
+class GraphqlpControllerTest {
 
 	public String query = "";
 
@@ -37,13 +33,13 @@ public class GraphqlpControllerTest {
 	@Mock private CityRepository cityRepository;
 	@Mock private ActorRepository actorRepository;
 
-	private Random random = new Random();
+	private final Random random = new Random();
 
 	@InjectMocks private GraphqlpController graphqlpController;
 
-	@BeforeEach void init() { MockitoAnnotations.initMocks(this); }
+	@BeforeEach void init( ) { MockitoAnnotations.initMocks(this); }
 
-	@Test void customerByIdTest() {
+	@Test void customerByIdTest( ) {
 
 		Customer customer = new Customer();
 		customer.setCustomer_id(random.nextInt(20));
@@ -56,7 +52,7 @@ public class GraphqlpControllerTest {
 		assertTrue(true);
 	}
 
-	@Test void addressByIdTest() {
+	@Test void addressByIdTest( ) {
 
 		Address address = new Address();
 		address.setAddress_id(random.nextInt(20));
@@ -69,7 +65,7 @@ public class GraphqlpControllerTest {
 		assertTrue(true);
 	}
 
-	@Test void cityByIdTest() {
+	@Test void cityByIdTest( ) {
 
 		City city = new City();
 		city.setCity_id(random.nextInt(20));
@@ -82,7 +78,7 @@ public class GraphqlpControllerTest {
 		assertTrue(true);
 	}
 
-	@Test void actorByIdTest() {
+	@Test void actorByIdTest( ) {
 
 		Actor actor = new Actor();
 		actor.setActor_id(random.nextInt(20));

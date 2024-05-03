@@ -1,90 +1,82 @@
 package com.example.graphqld;
 
-import org.junit.jupiter.api.Disabled;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import graphql.com.google.common.collect.Maps;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClient;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.IOException;
+import java.util.Map;
 
+import static com.fasterxml.jackson.core.util.DefaultIndenter.SYS_LF;
+import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// @SpringBootTest
+@SpringBootTest
 class GraphqldAppTests {
 
 	public static final String EOL = "\n";
 	public static final String DLM = "\t";
 
-	@Test void contextLoads() { assertTrue(true); }
+	@Test void contextLoads( ) { assertTrue(true); }
 
-	@Test @Disabled( "integration only" ) void derby_EmbeddedDriver( ) {
+	@Test void restClient_test( ) {
 
-		String dbSQL = "SELECT * FROM APP.Cities";
-		String dbURL = "jdbc:derby:C:/workspace/dbase/derby/db-derby-10.15.2.0-bin/demo/derbytutor/toursdb15";
+		// https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
+		String[] urls = { "http://ip.jsontest.com",
+			"https://dummyjson.com/user/2", "https://dummyjson.com/users",
+			"https://dummyjson.com/product/2", "https://dummyjson.com/products",
+			"https://jsonplaceholder.typicode.com/posts/2", "https://jsonplaceholder.typicode.com/posts"
+		};
 
-		StringBuilder stringBuilder = new StringBuilder(EOL);
-		try {
-			// ClientDriver also works
-			DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-			Connection connection = DriverManager.getConnection(dbURL);
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(dbSQL);
+		Map<String, String> map = Maps.newHashMap();
+		map.put("address", "14.917313,-23.511313");
+		map.put("email", "YOUR_EMAIL_HERE");
 
-			stringBuilder.append(loopResultSet(resultSet));
-			statement.close();
-		}
-		catch (SQLException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
-		}
-		System.out.println(stringBuilder);
+		RestClient restClient = RestClient.builder().build();
+		RestClient.ResponseSpec responseSpec = restClient.get().uri(urls[5]).retrieve();
+		ResponseEntity<String> responseEntity = responseSpec.toEntity(String.class);
+		String json = responseEntity.getBody();
+
+		String txtLines = formatJson(json);
+		System.out.println(txtLines);
 		assertTrue(true);
 	}
 
-	@Test @Disabled( "integration only" ) void pgs_driverManager( ) {
+	public static String formatJson(String json) {
 
-		String dbSQL = "SELECT * FROM public.actor";
-		String dbURL = "jdbc:postgresql://localhost:5432/dvdrental";
-		String username = System.getenv("POSTGRES_USER");
-		String password = System.getenv("POSTGRES_PASS");
-		System.out.println("username: " + username);
-
-		StringBuilder stringBuilder = new StringBuilder(EOL);
+		String txtLines = "";
 		try {
-			DriverManager.registerDriver(new org.postgresql.Driver());
-			Connection connection = DriverManager.getConnection(dbURL, username, password);
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(dbSQL);
+			DefaultPrettyPrinter.Indenter indenter = new DefaultIndenter(DLM, SYS_LF);
+			DefaultPrettyPrinter dfPrinter = new DefaultPrettyPrinter();
+			dfPrinter.indentObjectsWith(indenter);
+			dfPrinter.indentArraysWith(indenter);
 
-			stringBuilder.append(loopResultSet(resultSet));
-			statement.close();
+			ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+			ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
+			JsonNode jsonNode = objectMapper.readTree(json);
+			txtLines = objectWriter.writeValueAsString(jsonNode);
+			txtLines = objectMapper.writer(dfPrinter).writeValueAsString(jsonNode);
 		}
-		catch (SQLException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
-		}
-		System.out.println(stringBuilder);
-		assertTrue(true);
+		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		return txtLines;
 	}
 
-	// utilities
-	public static StringBuilder loopResultSet(ResultSet resultSet) {
+	public static String formatObject(Object object) {
 
-		StringBuilder stringBuilder = new StringBuilder(EOL);
-		try {
-			ResultSetMetaData rsmData = resultSet.getMetaData();
-			int columns = rsmData.getColumnCount();
-			while ( resultSet.next() ) {
-				for ( int ictr = 1; ictr < columns; ictr++ ) {
-					stringBuilder.append(resultSet.getString(ictr)).append(DLM);
-				}
-				stringBuilder.append(EOL);
-			}
-		}
-		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-
-		return stringBuilder;
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+		try { json = objectMapper.writeValueAsString(object); }
+		catch (JsonProcessingException ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		return json;
 	}
+
 }
 

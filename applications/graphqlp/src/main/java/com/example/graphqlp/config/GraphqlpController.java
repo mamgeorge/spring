@@ -62,18 +62,43 @@ public class GraphqlpController {
 	}
 
 	//#### graphql ####
-	@QueryMapping public List<Customer> getCustomersRng(@Argument int beg, @Argument int end) { return customerRepository.findAll().subList(beg, end); }
-	@QueryMapping public List<Address> getAddressesRng(@Argument int beg, @Argument int end) { return addressRepository.findAll().subList(beg, end); }
-	@QueryMapping public List<City> getCitiesRng(@Argument int beg, @Argument int end) { return cityRepository.findAll().subList(beg, end); }
-	@QueryMapping public List<Actor> getActorsRng(@Argument int beg, @Argument int end) { return actorRepository.findAll().subList(beg, end); }
+	@QueryMapping public List<Customer> getCustomersRng(@Argument int beg,
+		@Argument int end) { return customerRepository.findAll().subList(beg, end); }
 
-	@QueryMapping public Customer customerById(@Argument int customer_id) { return customerRepository.findById(customer_id).get(); }
-	@QueryMapping public Address addressById(@Argument int address_id) { return addressRepository.findById(address_id).get(); }
-	@QueryMapping public City cityById(@Argument int city_id) { return cityRepository.findById(city_id).get(); }
-	@QueryMapping public Actor actorById(@Argument int actor_id) { return actorRepository.findById(actor_id).get(); }
+	@QueryMapping public List<Address> getAddressesRng(@Argument int beg,
+		@Argument int end) { return addressRepository.findAll().subList(beg, end); }
 
-	@SchemaMapping public Address address(Customer customer) { return addressRepository.findById(customer.getAddress_id()).get(); }
-	@SchemaMapping public City city(Address address) { return cityRepository.findById(address.getCity_id()).get(); }
+	@QueryMapping public List<City> getCitiesRng(@Argument int beg, @Argument int end) {
+		return cityRepository.findAll().subList(beg, end);
+	}
+
+	@QueryMapping public List<Actor> getActorsRng(@Argument int beg, @Argument int end) {
+		return actorRepository.findAll().subList(beg, end);
+	}
+
+	@QueryMapping public Customer customerById(@Argument int customer_id) {
+		return customerRepository.findById(customer_id).get();
+	}
+
+	@QueryMapping public Address addressById(@Argument int address_id) {
+		return addressRepository.findById(address_id).get();
+	}
+
+	@QueryMapping public City cityById(@Argument int city_id) {
+		return cityRepository.findById(city_id).get();
+	}
+
+	@QueryMapping public Actor actorById(@Argument int actor_id) {
+		return actorRepository.findById(actor_id).get();
+	}
+
+	@SchemaMapping public Address address(Customer customer) {
+		return addressRepository.findById(customer.getAddress_id()).get();
+	}
+
+	@SchemaMapping public City city(Address address) {
+		return cityRepository.findById(address.getCity_id()).get();
+	}
 
 	@MutationMapping public Actor addActorInf(@Argument String first_name, @Argument String last_name) {
 
@@ -87,6 +112,7 @@ public class GraphqlpController {
 		System.out.println("actor_id: " + actor_id);
 		return actorRepository.findById(actor_id).get();
 	}
+
 	@MutationMapping public Actor addActorObj(@Argument Actor actor) {
 
 		actor.setLast_update(Timestamp.from(Instant.now()));
@@ -97,10 +123,16 @@ public class GraphqlpController {
 	}
 
 	//#### regular REST #### { return addressRepository.findById(address_id); }
-	@GetMapping( "/getCustomers" ) public List<Customer> getCustomers( ) { return customerRepository.findAll(); }
-	@GetMapping( "/getAddresses" ) public List<Address> getAddresses( ) { return addressRepository.findAll(); }
+	@GetMapping( "/getCustomers" )
+	public List<Customer> getCustomers( ) { return customerRepository.findAll(); }
+
+	@GetMapping( "/getAddresses" )
+	public List<Address> getAddresses( ) { return addressRepository.findAll(); }
+
 	@GetMapping( "/getCities" ) public List<City> getCities( ) { return cityRepository.findAll(); }
+
 	@GetMapping( "/getActors" ) public List<Actor> getActors( ) { return actorRepository.findAll(); }
+
 	@GetMapping( "/getActorsCnt/{count}" ) public List<Actor> getActorsCnt(@PathVariable int count) {
 		List<Actor> actors = actorRepository.findAll().subList(0, count);
 		return actors;
@@ -114,6 +146,7 @@ public class GraphqlpController {
 
 		return customerRepository.findById(intId).get();
 	}
+
 	@GetMapping( "/getAddressRnd" ) public Address getAddressRnd( ) {
 
 		int intMax = (int) addressRepository.count();
@@ -122,6 +155,7 @@ public class GraphqlpController {
 
 		return addressRepository.findById(intId).get();
 	}
+
 	@GetMapping( "/getCityRnd" ) public City getCityRnd( ) {
 
 		int intMax = (int) cityRepository.count() + 1;
@@ -130,6 +164,7 @@ public class GraphqlpController {
 
 		return cityRepository.findById(intId).get();
 	}
+
 	@GetMapping( "/getActorRnd" ) public Actor getActorRnd( ) {
 
 		int intMax = (int) actorRepository.count();
@@ -146,18 +181,21 @@ public class GraphqlpController {
 		customers.sort((o1, o2) -> o1.getCustomer_id().compareTo(o2.getCustomer_id()));
 		return new ModelAndView("customersList", "customers", customers);
 	}
+
 	@GetMapping( "/showAddresses" ) public ModelAndView showAddresses( ) {
 
 		ArrayList<Address> addresses = (ArrayList<Address>) addressRepository.findAll();
 		addresses.sort((o1, o2) -> o1.getAddress_id().compareTo(o2.getAddress_id()));
 		return new ModelAndView("addressesList", "addresses", addresses);
 	}
+
 	@GetMapping( "/showCities" ) public ModelAndView showCities( ) {
 
 		ArrayList<City> cities = (ArrayList<City>) cityRepository.findAll();
 		cities.sort((o1, o2) -> o1.getCity_id().compareTo(o2.getCity_id()));
 		return new ModelAndView("citiesList", "cities", cities);
 	}
+
 	@GetMapping( "/showActors" ) public ModelAndView showActors( ) {
 
 		ArrayList<Actor> actors = (ArrayList<Actor>) actorRepository.findAll();
@@ -174,6 +212,7 @@ public class GraphqlpController {
 		Customer customer = customerRepository.findById(intId).get();
 		return new ModelAndView("customerShow", "customer", customer);
 	}
+
 	@GetMapping( "/showAddressRnd" ) public ModelAndView showAddressRnd( ) {
 
 		int intMax = (int) addressRepository.count();
@@ -183,6 +222,7 @@ public class GraphqlpController {
 		Address address = addressRepository.findById(intId).get();
 		return new ModelAndView("addressShow", "address", address);
 	}
+
 	@GetMapping( "/showCityRnd" ) public ModelAndView showCityRnd( ) {
 
 		int intMax = (int) cityRepository.count();
@@ -192,6 +232,7 @@ public class GraphqlpController {
 		City city = cityRepository.findById(intId).get();
 		return new ModelAndView("cityShow", "city", city);
 	}
+
 	@GetMapping( "/showActorRnd" ) public ModelAndView showActorRnd( ) {
 
 		int intMax = (int) actorRepository.count();
@@ -207,16 +248,19 @@ public class GraphqlpController {
 		Customer customer = customerRepository.findById(intId).get();
 		return new ModelAndView("customerShow", "customer", customer);
 	}
+
 	@GetMapping( "/showAddress/{intId}" ) public ModelAndView showAddress(@PathVariable int intId) {
 
 		Address address = addressRepository.findById(intId).get();
 		return new ModelAndView("addressShow", "address", address);
 	}
+
 	@GetMapping( "/showCity/{intId}" ) public ModelAndView showCity(@PathVariable int intId) {
 
 		City city = cityRepository.findById(intId).get();
 		return new ModelAndView("cityShow", "city", city);
 	}
+
 	@GetMapping( "/showActor/{intId}" ) public ModelAndView showActor(@PathVariable int intId) {
 
 		Actor actor = actorRepository.findById(intId).get();

@@ -1,70 +1,70 @@
 ############ query
 query getCstRng {
 
-	getCustomersRng(beg: 2, end: 4) {
+    getCustomersRng(beg: 2, end: 4) {
 
-		customer_id
-		first_name
-		last_name
-	}
+        customer_id
+        first_name
+        last_name
+    }
 }
 
 # { "beg": 2, "end": 4 }
 query getCstRngVal($beg: Int, $end: Int) {
 
-	getCustomersRng(beg: $beg, end: $end) {
+    getCustomersRng(beg: $beg, end: $end) {
 
-		customer_id
-		first_name
-		last_name
-		address { address_id address
-			city { city_id city }
-		}
-} }
+        customer_id
+        first_name
+        last_name
+        address { address_id address
+            city { city_id city }
+        }
+    } }
 
 # { "beg": 2, "end": 4 }
 query getAddRngVal($beg: Int, $end: Int) {
 
-	getAddressesRng(beg: $beg, end: $end) {
+    getAddressesRng(beg: $beg, end: $end) {
 
-		address_id
-		city { city_id city }
-} }
+        address_id
+        city { city_id city }
+    } }
 
 # { "beg": 2, "end": 4 }
 query getCtyRng($beg: Int, $end: Int) {
 
-	getCitiesRng(beg: $beg, end: $end) {
+    getCitiesRng(beg: $beg, end: $end) {
 
-		city_id city
-} }
+        city_id city
+    } }
 
 # { "customer_id": 5 }
 query cstById($customer_id: ID) {
 
-	customerById(customer_id: $customer_id) {
+    customerById(customer_id: $customer_id) {
 
-		customer_id
-		address { address_id address
-			city { city_id city }
-		}
-	}
+        customer_id
+        address { address_id address
+            city { city_id city }
+        }
+    }
 }
 
 ############ mutation
 mutation addActInf {
 
-	addActorInf (
-		first_name: "Joe"
-		last_name: "Schmoe"
-	) { actor_id }
+    addActorInf (
+        first_name: "Joe"
+        last_name: "Schmoe"
+    ) { actor_id }
 }
 
 mutation addActObj {
 
-	addActorObj ( actor: {
-		first_name: "Renaldo"
-		last_name: "Smelnick"
-		}
-	) { actor_id }
+    addActorObj ( actor: {
+        first_name: "Renaldo"
+        last_name: "Smelnick"
+    }
+    ) { actor_id }
 }

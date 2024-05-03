@@ -15,7 +15,7 @@ import static com.example.graphqlp.GenericUtils.EOL;
 import static com.example.graphqlp.GenericUtils.RESOURCE_PATH;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class JsonpathSample {
+class JsonpathSample {
 
 	/*
 		https://github.com/json-path/Jsonpath

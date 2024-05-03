@@ -15,7 +15,7 @@ import static com.example.graphqlp.DbProfile.loopResultSet;
 import static com.example.graphqlp.GenericUtils.EOL;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DbProfileTests {
+class DbProfileTests {
 
 	@Test void executeQuery_SQLITE( ) {
 

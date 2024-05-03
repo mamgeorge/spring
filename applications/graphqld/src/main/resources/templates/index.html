@@ -2,18 +2,15 @@
 <html xmlns = "http://www.w3.org/1999/xhtml"
 	xmlns:th = "https://www.thymeleaf.org"
 >
-<head><title>graphql derby</title><meta charset = "UTF-8">
-	<link rel = "stylesheet" th:href = "@{/basics.css}">
+<head><title>graphql derby</title>
+	<meta charset = "UTF-8">
+	<!--link rel = "stylesheet" th:href = "@{/basics.css}" -->
 
 </head>
 <body><h3>graphql derby</h3>
 <br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 
 <br/>
-<br /><a href = "/getCountries">/getCountries</a>
-<br /><a href = "/getCountryRnd">/getCountryRnd</a>
-<br />
-<br /><a href = "/getCities">/getCities</a>
-<br /><a href = "/getCityRnd">/getCityRnd</a>
+<br/><a href = "@{/}">/root</a>
 </body>
 </html>

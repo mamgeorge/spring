@@ -1,10 +1,12 @@
 {
-	"pathMappings": [{
-		"source": "$.store.book[*].price.max()",
-		"target": "$.storeSummary.maxPrice"
-	}, {
-		"source": "$.store.book[*].price.sum()",
-		"target": "$.storeSummary.totalCostOfBooks"
-	}
+	"pathMappings": [
+		{
+			"source": "$.store.book[*].price.max()",
+			"target": "$.storeSummary.maxPrice"
+		},
+		{
+			"source": "$.store.book[*].price.sum()",
+			"target": "$.storeSummary.totalCostOfBooks"
+		}
 	]
 }

@@ -70,8 +70,8 @@ public class GenericUtils {
 
 		String json = "";
 		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
-		try{ json = objectMapper.writeValueAsString(object); }
-		catch(JsonProcessingException ex){ System.out.println("ERROR: " + ex.getMessage()); }
+		try { json = objectMapper.writeValueAsString(object); }
+		catch (JsonProcessingException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		return json;
 	}
 }

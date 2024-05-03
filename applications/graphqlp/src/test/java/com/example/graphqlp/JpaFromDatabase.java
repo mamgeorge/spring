@@ -17,7 +17,7 @@ import static com.example.graphqlp.GenericUtils.EOL;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @Disabled( "integration only" )
-public class JpaFromDatabase {
+class JpaFromDatabase {
 
 	public static final String FRMT = "\t%-20s: %s\n";
 
