@@ -47,6 +47,7 @@ public class GenericUtils {
 		assertTrue(true);
 	}
 
+	// utils
 	public static String formatJson(String json) {
 
 		String txtLines = "";

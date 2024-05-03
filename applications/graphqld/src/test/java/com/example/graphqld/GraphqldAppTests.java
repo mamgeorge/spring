@@ -9,10 +9,14 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import graphql.com.google.common.collect.Maps;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 import static com.fasterxml.jackson.core.util.DefaultIndenter.SYS_LF;
@@ -25,8 +29,18 @@ class GraphqldAppTests {
 	public static final String EOL = "\n";
 	public static final String DLM = "\t";
 
-	@Test void contextLoads( ) { assertTrue(true); }
+	@Test void context_test( ) {
 
+		GenericApplicationContext context = new AnnotationConfigApplicationContext();
+		ConfigurableEnvironment environment = context.getEnvironment();
+		String serverPort = environment.getProperty("local.server.port");
+		String activeProfiles = Arrays.toString(environment.getActiveProfiles());
+		String config = environment.getProperty("username");
+
+		String FORM = "%n\t serverPort: %s %n\t activeProfiles: %s %n\t config: %s%n%n";
+		System.out.printf(FORM, serverPort, activeProfiles, config);
+		assertTrue(true);
+	}
 	@Test void restClient_test( ) {
 
 		// https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
@@ -50,6 +64,7 @@ class GraphqldAppTests {
 		assertTrue(true);
 	}
 
+	// utils
 	public static String formatJson(String json) {
 
 		String txtLines = "";
