@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GraphqldApp {
+public class GqlClientApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GraphqldApp.class, args);
+		SpringApplication.run(GqlClientApp.class, args);
 	}
 }

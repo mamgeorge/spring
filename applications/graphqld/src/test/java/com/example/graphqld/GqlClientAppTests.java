@@ -6,61 +6,37 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import graphql.com.google.common.collect.Maps;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClient;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Map;
 
 import static com.fasterxml.jackson.core.util.DefaultIndenter.SYS_LF;
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class GraphqldAppTests {
+class GqlClientAppTests {
 
 	public static final String EOL = "\n";
 	public static final String DLM = "\t";
 
+	@Autowired ApplicationContext context;
+
 	@Test void context_test( ) {
 
-		GenericApplicationContext context = new AnnotationConfigApplicationContext();
-		ConfigurableEnvironment environment = context.getEnvironment();
+		// GenericApplicationContext context = new AnnotationConfigApplicationContext();
+		Environment environment = context.getEnvironment();
 		String serverPort = environment.getProperty("local.server.port");
 		String activeProfiles = Arrays.toString(environment.getActiveProfiles());
 		String config = environment.getProperty("username");
 
 		String FORM = "%n\t serverPort: %s %n\t activeProfiles: %s %n\t config: %s%n%n";
 		System.out.printf(FORM, serverPort, activeProfiles, config);
-		assertTrue(true);
-	}
-	@Test void restClient_test( ) {
-
-		// https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
-		String[] urls = { "http://ip.jsontest.com",
-			"https://dummyjson.com/user/2", "https://dummyjson.com/users",
-			"https://dummyjson.com/product/2", "https://dummyjson.com/products",
-			"https://jsonplaceholder.typicode.com/posts/2", "https://jsonplaceholder.typicode.com/posts"
-		};
-
-		Map<String, String> map = Maps.newHashMap();
-		map.put("address", "14.917313,-23.511313");
-		map.put("email", "YOUR_EMAIL_HERE");
-
-		RestClient restClient = RestClient.builder().build();
-		RestClient.ResponseSpec responseSpec = restClient.get().uri(urls[5]).retrieve();
-		ResponseEntity<String> responseEntity = responseSpec.toEntity(String.class);
-		String json = responseEntity.getBody();
-
-		String txtLines = formatJson(json);
-		System.out.println(txtLines);
 		assertTrue(true);
 	}
 
