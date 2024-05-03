@@ -7,14 +7,19 @@ import graphql.kickstart.spring.webclient.boot.GraphQLRequest;
 import graphql.kickstart.spring.webclient.boot.GraphQLResponse;
 import graphql.kickstart.spring.webclient.boot.GraphQLWebClient;
 import org.junit.jupiter.api.Test;
+import org.springframework.graphql.client.HttpGraphQlClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.graphqld.GqlClientAppTests.formatJson;
 import static com.example.graphqld.GqlClientAppTests.formatObject;
+import static com.example.graphqld.persistence.ActorService.QUERY_ACT;
+import static com.example.graphqld.persistence.ActorService.QUERY_ACTVAR;
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -23,8 +28,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 class GqlClientTest {
 
 	String URL = "http://localhost:8080/graphql";
-	String QUERY_ACT = "query actById { actorById(actor_id: 10) "
-		+ "{ actor_id first_name last_name last_update } }";
 
 	@Test void restClient_test( ) {
 
@@ -51,6 +54,7 @@ class GqlClientTest {
 
 	@Test void graphQLRequest_test( ) {
 
+		String queryAct = QUERY_ACT.replaceAll("##", String.valueOf(10));
 		WebClient webClient = WebClient.builder()
 			.baseUrl(URL)
 			.defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
@@ -58,13 +62,73 @@ class GqlClientTest {
 		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
 		GraphQLWebClient graphQLWebClient = GraphQLWebClient.newInstance(webClient, objectMapper);
 
-		GraphQLRequest graphQLRequest = GraphQLRequest
-			.builder().query(QUERY_ACT).build();
-
+		GraphQLRequest graphQLRequest = GraphQLRequest.builder().query(queryAct).build();
 		GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
+
 		Actor actor = graphQLResponse.get("actorById", Actor.class);
 		System.out.println(formatObject(actor));
+		assertTrue(true);
+	}
 
+	@Test void graphQLRequest_var( ) {
+
+		int id = 10;
+		WebClient webClient = WebClient.builder()
+			.baseUrl(URL)
+			.defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.build();
+		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+		GraphQLWebClient graphQLWebClient = GraphQLWebClient.newInstance(webClient, objectMapper);
+
+		Map<String, Object> variables = new HashMap<>();
+		variables.put("actor_id", String.valueOf(id));
+
+		GraphQLRequest graphQLRequest = GraphQLRequest.builder()
+			.query(QUERY_ACTVAR)
+			.variables(variables)
+			.build();
+		GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
+
+		Actor actor = graphQLResponse.get("actorById", Actor.class);
+		System.out.println(formatObject(actor));
+		assertTrue(true);
+	}
+
+	@Test void graphQLRequest_obj( ) {
+
+		String queryAct = QUERY_ACT.replaceAll("##", String.valueOf(10));
+		WebClient webClient = WebClient.builder()
+			.baseUrl(URL)
+			.defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.build();
+		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+		GraphQLWebClient graphQLWebClient = GraphQLWebClient.newInstance(webClient, objectMapper);
+
+		GraphQLRequest graphQLRequest = GraphQLRequest.builder().query(queryAct).build();
+		GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
+
+		Object object = graphQLResponse.getAt("actorById");
+		System.out.println(formatObject(object));
+		assertTrue(true);
+	}
+
+	@Test void httpGraphQlClient_test( ) {
+
+		String queryAct = QUERY_ACT.replaceAll("##", String.valueOf(10));
+		WebClient webClient = WebClient.builder()
+			.baseUrl(URL)
+			.defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.build();
+		HttpGraphQlClient httpGraphQlClient = HttpGraphQlClient.builder(webClient)
+			.build();
+
+		Mono<Actor> monoActor = httpGraphQlClient
+			.document(queryAct)
+			.retrieve("actorById")
+			.toEntity(Actor.class);
+
+		Actor actor = monoActor.block();
+		System.out.println(formatObject(actor));
 		assertTrue(true);
 	}
 }

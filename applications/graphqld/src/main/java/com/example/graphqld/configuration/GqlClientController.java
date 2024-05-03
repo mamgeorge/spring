@@ -33,4 +33,16 @@ public class GqlClientController {
 		Actor actor = actorService.getActorbyId(id);
 		return actor;
 	}
+
+	@GetMapping( "/actorByIdVar/{id}" ) public Actor getActorbyIdVar(@PathVariable Integer id) {
+
+		Actor actor = actorService.getActorbyIdVar(id);
+		return actor;
+	}
+
+	@GetMapping( "/objectById/{id}" ) public Object getObjectById(@PathVariable Integer id) {
+
+		Object object = actorService.getObjectbyId(id);
+		return object;
+	}
 }
