@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 // https://spring.io/guides/gs/testing-web/
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
-public class EmbeddedControllerTests {
+class EmbeddedControllerTests {
 
 	public static final Logger LOGGER = Logger.getLogger(EmbeddedControllerTests.class.getName());
 

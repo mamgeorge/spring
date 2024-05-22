@@ -8,7 +8,7 @@ import org.jolokia.client.request.J4pReadResponse;
 import javax.management.MalformedObjectNameException;
 import java.util.Map;
 
-public class Jolokia_Test {
+class Jolokia_Test {
 	//
 	public static void main(String[] args) {
 		//

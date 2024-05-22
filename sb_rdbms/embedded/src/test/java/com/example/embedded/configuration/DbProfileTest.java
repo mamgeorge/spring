@@ -5,6 +5,7 @@ package com.example.embedded.configuration;
 //import com.mongodb.client.MongoCursor;
 //import com.mongodb.client.MongoDatabase;
 //import org.bson.Document;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.Disabled;
@@ -36,7 +37,7 @@ import java.util.stream.StreamSupport;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest // required for read_h2, read_h2_full()
-public class DbProfileTest {
+class DbProfileTest {
 	//
 	// org.springframework.boot.jdbc.DataSourceBuilder vs DriverManager
 
@@ -202,7 +203,7 @@ public class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test @Disabled("REQUIRES CONNECTION") void readDbLines_mssqlFull( ) {
+	@Test @Disabled( "REQUIRES CONNECTION" ) void readDbLines_mssqlFull( ) {
 		//
 		String txtLines = "";
 		try {
@@ -250,7 +251,7 @@ public class DbProfileTest {
 		String database = "admin";
 		String collection = "employees";
 		//
-		StringBuilder stringBuilder = new StringBuilder();
+		String stringBuilder = "";
 		String firstNames = "";
 		long lngCount = 0;
 		//
