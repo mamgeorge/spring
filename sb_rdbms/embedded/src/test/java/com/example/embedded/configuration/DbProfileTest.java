@@ -7,6 +7,7 @@ package com.example.embedded.configuration;
 //import org.bson.Document;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -201,7 +202,7 @@ public class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void readDbLines_mssqlFull( ) {
+	@Test @Disabled("REQUIRES CONNECTION") void readDbLines_mssqlFull( ) {
 		//
 		String txtLines = "";
 		try {

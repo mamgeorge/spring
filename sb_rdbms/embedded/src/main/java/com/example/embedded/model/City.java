@@ -1,25 +1,25 @@
 package com.example.embedded.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.sql.Timestamp;
 
 // note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
-@Getter @Setter @NoArgsConstructor @EqualsAndHashCode
-@Entity @Table(name = "cities")
+@Getter @Setter
+@Entity @Table( name = "cities" )
 public class City {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long	id;
-	private String	name;
-	private int		population;
+	@Id @GeneratedValue( strategy = GenerationType.IDENTITY )
+	@Column( name = "id" ) private Long id;
 
-	public City(String name, int population) { this.name = name; this.population = population; }
+	@Column( name = "name" ) private String name;
+	@Column( name = "population" ) private int population;
+	@Column( name = "timestamp" ) private Timestamp timestamp;
 }

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.Assert;
@@ -34,18 +33,17 @@ public class EmbeddedControllerTests {
 	@Autowired private EmbeddedController sbController = null;
 	@Autowired private TestRestTemplate restTemplate;
 	@Autowired private MockMvc mockMvc;
-	@LocalServerPort int PORT;
 
 	private static final String ASSERTION = "ASSERTION";
 	private static final String EOL = "\n";
 	private static final String TAB = "\t";
 	private static final String LOCALHOST = "http://localhost:";
+	private static final int PORT = 3000;
 
 	@BeforeAll void setup() {
 		//
 		//sbController = new SbController();
 		//restTemplate = new TestRestTemplate();
-		//PORT = 3000;
 	}
 
 	@Test void test_contextLoads() {
@@ -53,14 +51,6 @@ public class EmbeddedControllerTests {
 		System.out.println(EOL + "test_contextLoads()");
 		LOGGER.info(TAB + "sbController: " + sbController.toString());
 		Assert.isTrue(sbController != null, ASSERTION);
-	}
-
-	@Test void test_root() {
-		//
-		System.out.println(EOL + "test_root()");
-		String txtReturn = sbController.root();
-		System.out.println(TAB + "sbController.root(): " + txtReturn);
-		Assert.isTrue(txtReturn.contains("home"), ASSERTION);
 	}
 
 	@Test void test_root_RT() {
@@ -105,10 +95,10 @@ public class EmbeddedControllerTests {
 		Assert.isTrue(cities.length > 20, ASSERTION);
 	}
 
-	@Test void test_showCity() {
+	@Test void test_showCityRnd() {
 		//
 		System.out.println(EOL + "test_showCity()");
-		City city = sbController.showCity();
+		City city = sbController.showCityRnd();
 		String txtLines = city.toString();
 		System.out.println("txtLines: " + txtLines);
 		System.out.println("city.getName(): " + city.getName());

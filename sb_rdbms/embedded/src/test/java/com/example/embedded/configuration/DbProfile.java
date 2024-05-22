@@ -42,6 +42,8 @@ public class DbProfile {
 	private String dbName;
 	private String sqlDefault;
 
+	//public DbProfile() { }
+
 	public DbProfile(DBTYPE dbType, String host, String dbName) {
 		//
 		dbProfile = new DbProfile();

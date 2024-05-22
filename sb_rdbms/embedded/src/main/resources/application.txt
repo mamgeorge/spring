@@ -32,7 +32,15 @@ spring.datasource.platform: h2
 spring.datasource.sqlScriptEncoding: UTF-8
 
 spring.jpa.properties.hibernate.hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+spring.jpa.properties.hibernate.hbm2ddl.import_files_sql_extractor: org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor
 spring.jpa.properties.hibernate.hbm2ddl.charset_name: UTF-8
+
+# statistics & log SQL statements
+#spring.jpa.hibernate.ddl-auto=none
+#spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+#spring.jpa.show-sql=true
+#spring.jpa.properties.hibernate.format_sql=true
+#spring.jpa.properties.hibernate.generate_statistics=false
 
 spring.h2.console.enabled: true
 spring.h2.console.path: /h2console
@@ -43,3 +51,6 @@ spring.banner.charset: UTF-8
 spring.output.ansi.enabled: ALWAYS
 logging.level.org.springframework: ERROR
 logging.charset.console: UTF-8
+
+#spring.datasource.url=jdbc:h2:file:C:/temp/test
+#spring.datasource.driverClassName=org.h2.Driver
