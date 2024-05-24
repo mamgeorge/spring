@@ -95,7 +95,7 @@ public class SqlInsertsBuilder {
 				aval.incrementAndGet();
 				String fieldType = field.getType().toString();
 				boolean isFirstVal = aval.get() == 1 &&
-					( fieldType.contains("int") || fieldType.contains("long") );
+					( fieldType.contains("int") || fieldType.contains("long") || fieldType.contains("Long") );
 				if ( isFirstVal ) { sv.append(arow.incrementAndGet()); }
 				else {
 					if ( fieldType.contains("int") ) { sv.append(valInt); }
