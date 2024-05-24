@@ -3,20 +3,30 @@ package com.example.embedded.configuration;
 import com.example.embedded.model.City;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class UtilitiesTest {
+@Getter @Setter
+public class SqlInsertsBuilder {
+
+	private static final Random rnd = new Random();
+	private static int MAXLNG = 1000;
+	private static int MAXSTR = 10;
+	private static long EPOCHMILLI_RNG = 2 * 10 * 1000 * 1000; // 200MM millis = .2 trillion ~ 55.56 hours
 
 	@Test void getSqlInserts_test( ) {
 
@@ -55,7 +65,8 @@ class UtilitiesTest {
 				if ( annotation.annotationType() == Column.class ) {
 					acol.incrementAndGet();
 					sc.append(( (Column) annotation ).name());
-					if ( acol.get() >= fields.length ) { sc.append(" "); } else { sc.append(", "); }
+					if ( acol.get() >= fields.length ) { sc.append(" "); }
+					else { sc.append(", "); }
 				}
 			});
 		});
@@ -65,13 +76,9 @@ class UtilitiesTest {
 
 	private static String getSqlValues(Class clazz, int lenRows) {
 
-		Random rnd = new Random();
 		StringBuilder sv = new StringBuilder();
 		AtomicInteger arow = new AtomicInteger();
 		Field[] fields = clazz.getDeclaredFields();
-		int maxLng = 1000;
-		int maxStr = 20;
-		boolean[] firstField = { true };
 
 		for ( int rctr = 0; rctr < lenRows; rctr++ ) {
 
@@ -79,36 +86,55 @@ class UtilitiesTest {
 			AtomicInteger aval = new AtomicInteger();
 			Arrays.stream(fields).forEach(field -> {
 
-				int valInt = rnd.nextInt(maxLng);
-				long valLng = rnd.nextLong(maxLng);
-				String string = getRndString(maxStr);
-				Date date = new Date();
-				Timestamp timestamp = Timestamp.from(Instant.now());
+				int valInt = rnd.nextInt(MAXLNG);
+				long valLng = rnd.nextLong(MAXLNG);
+				String string = "'" + getRndString(MAXSTR) + "'";
+				String date = "'" + getRndDate() + "'";
+				String timestamp = "'" + getRndTime() + "'";
 
 				aval.incrementAndGet();
-				if ( firstField[0] ) { sv.append(arow.incrementAndGet()); firstField[0] = false; } else {
-					if ( field.getType().toString().contains("int") ) {
-						sv.append(valInt);
-					} else if ( field.getType().toString().contains("long") ) {
-						sv.append(valLng);
-					} else if ( field.getType().toString().contains("Long") ) {
-						sv.append(valLng);
-					} else if ( field.getType().toString().contains("String") ) {
-						sv.append(string);
-					} else if ( field.getType().toString().contains("Date") ) {
-						sv.append(date);
-					} else if ( field.getType().toString().contains("Timestamp") ) {
-						sv.append(timestamp);
-					} else {
+				String fieldType = field.getType().toString();
+				boolean isFirstVal = aval.get() == 1 &&
+					( fieldType.contains("int") || fieldType.contains("long") );
+				if ( isFirstVal ) { sv.append(arow.incrementAndGet()); }
+				else {
+					if ( fieldType.contains("int") ) { sv.append(valInt); }
+					else if ( fieldType.contains("long") ) { sv.append(valLng); }
+					else if ( fieldType.contains("Long") ) { sv.append(valLng); }
+					else if ( fieldType.contains("String") ) { sv.append(string); }
+					else if ( fieldType.contains("Date") ) { sv.append(date); }
+					else if ( fieldType.contains("Timestamp") ) { sv.append(timestamp); }
+					else {
 						System.out.println("ERROR: " + field.getType() + " NOT ACCOUNTED FOR!");
 						aval.incrementAndGet();
 					}
 				}
-				if ( aval.get() >= fields.length ) { sv.append("\t"); } else { sv.append(",\t"); }
+				if ( aval.get() >= fields.length ) { sv.append("\t"); }
+				else { sv.append(",\t"); }
 			});
-			if ( rctr >= lenRows - 1 ) { sv.append(");\n"); } else { sv.append("),\n"); }
+			if ( rctr >= lenRows - 1 ) { sv.append(");\n"); }
+			else { sv.append("),\n"); }
 		}
 		return sv.toString();
+	}
+
+	private static String getRndDate( ) {
+
+		long epochMilliNow = System.currentTimeMillis();
+		long epochMilliRnd = epochMilliNow - EPOCHMILLI_RNG + rnd.nextLong(EPOCHMILLI_RNG * 2);
+		ZonedDateTime zonedDateTime = Instant.ofEpochMilli(epochMilliRnd).atZone(ZoneId.systemDefault());
+		LocalDate localDate = zonedDateTime.toLocalDate();
+
+		return localDate.toString();
+	}
+
+	private static String getRndTime( ) {
+
+		long epochMilliNow = System.currentTimeMillis();
+		long epochMilliRnd = epochMilliNow - EPOCHMILLI_RNG + rnd.nextLong(EPOCHMILLI_RNG * 2);
+		Timestamp timestamp = new Timestamp(epochMilliRnd);
+
+		return timestamp.toString();
 	}
 
 	public static String getRndString(int lenMax) {

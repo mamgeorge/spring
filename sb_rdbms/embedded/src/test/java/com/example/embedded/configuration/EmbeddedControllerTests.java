@@ -12,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.logging.Logger;
 
+import static com.example.embedded.configuration.EmbeddedController.formatObject;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 // https://spring.io/guides/gs/testing-web/
@@ -49,21 +51,32 @@ class EmbeddedControllerTests {
 
 	@Test void test_showCities() {
 
-		String[] cities = sbController.showCities().split(EOL);
-		System.out.println("cities: " + cities.length);
-		assertNotNull(cities);
+		ModelAndView MAV = sbController.showCities();
+		List<City> cities = (List<City>) MAV.getModel().get("cities");
+		System.out.println(cities);
+		assertNotNull(MAV);
 	}
 
 	@Test void test_showCityRnd() {
 
-		City city = sbController.showCityRnd();
-		assertNotNull(city);
+		ModelAndView MAV = sbController.showCityRnd();
+		City city = (City) MAV.getModel().get("city");
+		System.out.println(formatObject(city));
+		assertNotNull(MAV);
+	}
+
+	@Test void test_showCity_parm( ) {
+
+		ModelAndView MAV = sbController.showCity("5");
+		City city = (City) MAV.getModel().get("city");
+		System.out.println(formatObject(city));
+		assertNotNull(MAV);
 	}
 
 	@Test void test_showCity( ) {
 
-		ModelAndView MAV = sbController.showCity("5");
-		City city = (City) MAV.getModel().get("city");
+		City city = sbController.showCity();
+		System.out.println(formatObject(city));
 		assertNotNull(city);
 	}
 }

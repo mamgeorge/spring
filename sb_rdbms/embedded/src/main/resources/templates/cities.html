@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+	xmlns:th = "https://www.thymeleaf.org">
+<head><title>cities</title>
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" th:href = "@{/basics.css}">
+</head>
+
+<body>
+<center>
+	<br/>
+	<h3>cities</h3>
+	<br/>
+	<h5>
+		<script>document.writeln( new Date().toISOString() );</script>
+	</h5>
+	<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/></h5>
+
+	<hr/>
+	<a href = "/">/return</a>
+	<hr/>
+	<div class = "divbox">
+		<table>
+			<tr>
+				<td>id</td>
+				<td>name</td>
+				<td>population</td>
+				<td>created</td>
+				<td>updated</td>
+			</tr>
+			<tr th:each = "city: ${cities}">
+				<td th:text = "${city.id}"/>
+				<td th:text = "${city.name}"/>
+				<td th:text = "${city.population}"/>
+				<td th:text = "${city.created}"/>
+				<td th:text = "${city.updated}"/>
+			</tr>
+		</table>
+	</div>
+
+</center>
+</body>
+</html>

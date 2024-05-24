@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
-import static org.aspectj.util.LangUtil.EOL;
 
 @RestController
 public class EmbeddedController {
@@ -32,13 +30,7 @@ public class EmbeddedController {
 		this.applicationContext = applicationContext;
 	}
 
-	public static final String DLM = "\t";
-	private static final int MAX_DISPLAY = 20;
 	private static final Random random = new Random();
-
-	private static final String FRMT = "<pre>\t%02d %-15s %9d</pre>\n";
-	private static final String HEADER = "<h3>SbController</h3>";
-	private static final String RETURN = "<br /><a href = '/home'>return</a>";
 
 	@GetMapping( { "/", "/root", "/home", "/index" } )
 	public ModelAndView home( ) {
@@ -47,40 +39,45 @@ public class EmbeddedController {
 		return new ModelAndView("index", new HashMap<>());
 	}
 
-	@GetMapping( "/showCities" ) public String showCities( ) {
+	@GetMapping( "/showCities" ) public ModelAndView showCities( ) {
 
-		System.out.println("showCities");
 		List<City> cities = cityRepository.findAll();
-		List<City> subCities = new ArrayList<>(cities.subList(0, MAX_DISPLAY));
 
-		StringBuilder stringBuilder = new StringBuilder();
-		subCities.forEach(city -> stringBuilder
-			.append(String.format(FRMT, city.getId(), city.getName(), city.getPopulation())));
-		return HEADER + stringBuilder + RETURN;
+		ModelAndView modelAndView = new ModelAndView("cities");
+		modelAndView.addObject("cities", cities);
+		return modelAndView;
 	}
 
-	// @ApiResponses()
-	@GetMapping( "/showCityRnd" ) public City showCityRnd( ) {
+	@GetMapping( "/showCityRnd" ) public ModelAndView showCityRnd( ) {
 
 		long maxId = cityRepository.count();
-		long rndId = random.nextLong(maxId);
+		long rndId = random.nextLong(maxId) + 1;
+		System.out.println("rndId: " + rndId);
 		City city = cityRepository.findById(rndId).get();
-		System.out.println("showCity: " + rndId + EOL + formatObject(city));
-		return city;
+
+		ModelAndView modelAndView = new ModelAndView("city");
+		modelAndView.addObject("city", city);
+		return modelAndView;
 	}
 
 	@GetMapping( "/showCity/{cityId}" ) public ModelAndView showCity(
 		@PathVariable String cityId) {
 
-		// id is normal; id.get() used with Optional
-		System.out.println("showCity/" + cityId);
 		Long longId = Long.parseLong(cityId);
 		City city = cityRepository.getById(longId);
 
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView("city");
 		modelAndView.addObject("city", city);
-		modelAndView.setViewName("city");
 		return modelAndView;
+	}
+
+	// @ApiResponses()
+	@GetMapping( "/showCity" ) public City showCity( ) {
+
+		long maxId = cityRepository.count();
+		long rndId = random.nextLong(maxId) + 1;
+		System.out.println("rndId: " + rndId);
+		return cityRepository.findById(rndId).get();
 	}
 
 	@GetMapping( "/exit" ) public void exit( ) {

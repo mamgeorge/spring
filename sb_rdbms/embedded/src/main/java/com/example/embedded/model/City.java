@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 // note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
@@ -21,5 +22,6 @@ public class City {
 
 	@Column( name = "name" ) private String name;
 	@Column( name = "population" ) private int population;
-	@Column( name = "timestamp" ) private Timestamp timestamp;
+	@Column( name = "created" ) private Date created;
+	@Column( name = "updated" ) private Timestamp updated;
 }

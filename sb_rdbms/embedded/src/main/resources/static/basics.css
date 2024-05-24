@@ -15,7 +15,7 @@ td:nth-child( 2 ) { text-align: right; }
 
 hr { color: #cccccc; width: 80%; }
 
-.divbox { height: 240px; overflow: scroll; width: 80%; margin: auto; background-color: #e0e0e0;}
+.divbox { height: 240px; overflow: scroll; width: 50%; margin: auto; background-color: #e0e0e0;}
 
 .red { background-color: #f0c0c0; }
 .blu { background-color: #c0c0f0; }

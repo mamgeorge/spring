@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org" >
-<head><title>index</title>
+<head><title>city</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/basics.css}">
 </head>
@@ -18,10 +18,13 @@
     <td th:text="${city.id}" />
     <td th:text="${city.name}" />
     <td th:text="${city.population}" />
+		<td th:text = "${city.created}"/>
+		<td th:text = "${city.updated}"/>
     </tr>
     </table>
 
-    <hr/><a href="/home">/return</a>
+	<hr/>
+	<a href = "/">/return</a>
 </center>
 </body>
 </html>
