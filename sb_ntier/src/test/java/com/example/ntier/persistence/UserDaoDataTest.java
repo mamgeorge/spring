@@ -1,4 +1,4 @@
-package com.example.demo.persistence;
+package com.example.ntier.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.demo.persistence.User.Gender.MALE;
+import static com.example.ntier.persistence.User.Gender.MALE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserDaoDataTest {

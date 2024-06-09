@@ -1,4 +1,4 @@
-package com.example.demo.persistence;
+package com.example.ntier.persistence;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

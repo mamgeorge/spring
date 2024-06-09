@@ -1,4 +1,4 @@
-package com.example.demo.persistence;
+package com.example.ntier.persistence;
 
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.demo.persistence.User.Gender.FEMALE;
-import static com.example.demo.persistence.User.Gender.MALE;
+import static com.example.ntier.persistence.User.Gender.FEMALE;
+import static com.example.ntier.persistence.User.Gender.MALE;
 
 @Repository
 public class UserDaoData implements UserDao {
