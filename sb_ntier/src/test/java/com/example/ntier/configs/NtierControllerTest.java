@@ -1,7 +1,6 @@
 package com.example.ntier.configs;
 
 import com.example.ntier.persistence.User;
-import com.example.ntier.persistence.UserDaoData;
 import com.example.ntier.persistence.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +12,9 @@ import org.springframework.http.ResponseEntity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith( { MockitoExtension.class } )
@@ -49,7 +45,7 @@ class NtierControllerTest {
 
 	@Test void getAllUsers( ) {
 
-		when(ntierController.getAllUsers("")).thenReturn(new ArrayList<User>());
+		when(ntierController.getAllUsers("")).thenReturn(new ArrayList<>());
 		List<User> list = ntierController.getAllUsers("");
 		System.out.println(list);
 		assertThat(list).isNotNull();
