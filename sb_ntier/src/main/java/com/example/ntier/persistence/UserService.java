@@ -15,7 +15,18 @@ public class UserService {
 
 	@Autowired public UserService(UserDao userDao) { this.userDao = userDao; }
 
-	public List<User> getAllUsers( ) { return userDao.selectAllUsers(); }
+	public List<User> getAllUsers(Optional<String> gender) {
+
+		List<User> users = userDao.selectAllUsers();
+
+		try { User.Gender gendered = User.Gender.valueOf(gender.get().toUpperCase());
+			users = users.stream().filter(user ->
+				user.getGender().equals(gendered)).toList();
+		}
+		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+
+		return users;
+	}
 
 	public Optional<User> getUser(UUID userUid) { return userDao.selectUser(userUid); }
 

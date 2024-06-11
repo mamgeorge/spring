@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.ntier.persistence.User.Gender.FEMALE;
 import static com.example.ntier.persistence.User.Gender.MALE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,8 +35,27 @@ class UserServiceTest {
 		userMocks.add(user);
 		given(userDaoData.selectAllUsers()).willReturn(userMocks);
 
-		List<User> users = userService.getAllUsers();
+		List<User> users = userService.getAllUsers(Optional.empty());
 		assertThat(users).hasSizeGreaterThan(0);
+	}
+
+	@Test void getAllUsers_filtered( ) {
+
+		User user1 = new User(UUID.randomUUID(), "Hal", "Jordan", MALE, 30, "Hal.Jordan@email.com");
+		User user2 = new User(UUID.randomUUID(), "Halley", "Kim", FEMALE, 19, "Halley.Kim@email.com");
+		List<User> users = new ArrayList<>();
+		users.add(user1);
+		users.add(user2);
+
+		given(userDaoData.selectAllUsers()).willReturn(users);
+
+		List<User> userLists = userService.getAllUsers(Optional.of("female"));
+		System.out.println(userLists);
+		assertThat(userLists).hasSizeGreaterThan(0);
+
+		userLists = userService.getAllUsers(Optional.of("xxxxx"));
+		System.out.println(userLists);
+		assertThat(userLists).hasSizeGreaterThan(0);
 	}
 
 	@Test void getUser( ) {
@@ -45,7 +65,7 @@ class UserServiceTest {
 		given(userDaoData.selectUser(usedUid)).willReturn(Optional.of(user));
 
 		Optional<User> optional = userService.getUser(usedUid);
-		assertThat(optional.isPresent()).isTrue();
+		assertThat(optional).isPresent();
 		assertThat(optional.get().getUserUid()).isNotNull();
 		assertThat(optional.get().getUserUid()).isEqualTo(usedUid);
 	}

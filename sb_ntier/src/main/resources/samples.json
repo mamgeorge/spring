@@ -1,0 +1,34 @@
+[
+	{
+		"userUid": "3d7dd18a-8a79-4b57-ae7a-217dad7eef11",
+		"firstName": "James",
+		"lastName": "Kirk",
+		"gender": "MALE",
+		"age": 30,
+		"email": "James.Kirk@email.com"
+	},
+	{
+		"userUid": "c43ed15c-22d6-4a78-af2b-a704293a0998",
+		"firstName": "Diana",
+		"lastName": "Prince",
+		"gender": "FEMALE",
+		"age": 50,
+		"email": "Diana.Prince@email.com"
+	},
+	{
+		"userUid": "41bc91e0-4875-4cc8-8ab4-b6f27513809c",
+		"firstName": "John",
+		"lastName": "Robinson",
+		"gender": "MALE",
+		"age": 40,
+		"email": "John.Robinson@email.com"
+	},
+	{
+		"userUid": "c53fd1a3-7359-4bf0-b52c-09ef13d296cc",
+		"firstName": "Bruce",
+		"lastName": "Wayne",
+		"gender": "MALE",
+		"age": 20,
+		"email": "Bruce.Wayne@email.com"
+	}
+]

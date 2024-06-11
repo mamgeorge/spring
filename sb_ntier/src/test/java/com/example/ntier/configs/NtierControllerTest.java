@@ -49,8 +49,8 @@ class NtierControllerTest {
 
 	@Test void getAllUsers( ) {
 
-		when(ntierController.getAllUsers()).thenReturn(new ArrayList());
-		List<User> list = ntierController.getAllUsers();
+		when(ntierController.getAllUsers("")).thenReturn(new ArrayList<User>());
+		List<User> list = ntierController.getAllUsers("");
 		System.out.println(list);
 		assertThat(list).isNotNull();
 	}
