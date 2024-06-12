@@ -20,27 +20,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith( { MockitoExtension.class } )
 class NtierControllerTest {
 
-	private Message message;
 	private NtierController ntierController;
 	@Mock private UserService userService;
 
-	@BeforeEach void setUp( ) {
-		message = new Message(Instant.now().toString());
-		ntierController = new NtierController(userService);
-	}
+	@BeforeEach void setUp( ) { ntierController = new NtierController(userService); }
 
 	@Test void root( ) {
 
 		String txtLine = ntierController.root();
 		System.out.println(txtLine);
 		assertThat(txtLine).isNotNull();
-	}
-
-	@Test void getMessage( ) {
-
-		message = ntierController.getMessage();
-		System.out.println(message);
-		assertThat(message).isNotNull();
 	}
 
 	@Test void getAllUsers( ) {

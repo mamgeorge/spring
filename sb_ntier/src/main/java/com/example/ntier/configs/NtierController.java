@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController @RequestMapping( path = "/api" )
@@ -37,8 +39,6 @@ public class NtierController { // UserResource
 
 	@GetMapping( { "/" } ) String root( ) { return Instant.now().toString(); }
 
-	@GetMapping( "/getMessage" ) Message getMessage( ) { return new Message(Instant.now().toString()); }
-
 	@GetMapping( path = "/getAllUsers", produces = APPLICATION_JSON_VALUE )
 	public List<User> getAllUsers(@QueryParam( "gender" ) String gender) {
 		return userService.getAllUsers(Optional.ofNullable(gender));
@@ -51,6 +51,15 @@ public class NtierController { // UserResource
 			.<ResponseEntity<?>>map(ResponseEntity::ok)
 			.orElseGet(( ) -> ResponseEntity.status(NOT_FOUND)
 				.body(new ErrorMessages("userUid: " + userUid + " not found!")));
+	}
+
+	@GetMapping( path = "/getUserRnd", produces = APPLICATION_JSON_VALUE )
+	public ResponseEntity<User> getUserRnd() {
+
+		List<User> list = userService.getAllUsers(Optional.empty());
+		User user = list.get(new Random().nextInt(list.size()));
+		ResponseEntity<User> response = new ResponseEntity<>(user, OK);
+		return response;
 	}
 
 	@PostMapping( path = "/insertUser", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE )

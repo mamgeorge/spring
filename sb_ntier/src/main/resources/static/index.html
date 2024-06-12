@@ -1,0 +1,28 @@
+
+<html><head><title>index</title>
+<style>
+	body, a  { font-family: verdana; text-align: center; }
+	a { text-decoration: none; }
+	hr { width: 80%; }
+</style>
+</head>
+
+<body>
+<h3>index</h3>
+<h5><script>document.write(new Date().toIsoString());</script></h5>
+
+	<a href = "/" >/ (root)</a>
+
+<br />
+<hr />GET<br />
+	<a href = "/api/getAllUsers"			>/api/getAllUsers		</a> |
+	<a href = "/api/getUser/{userUid}"		>/api/getUser/{userUid}	</a> |
+	<a href = "/api/getUserRnd"				>/api/getUserRnd		</a>
+
+<br />
+<hr />POST+<br />
+	<a href = "/api/insertUser"				>/api/insertUser		</a> |
+	<a href = "/api/updateUser"				>/api/updateUser		</a> |
+	<a href = "/api/deleteUser/{userUid}"	>/api/deleteUser/{userUid}</a>
+
+</body></html>
