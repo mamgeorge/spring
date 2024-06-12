@@ -22,7 +22,7 @@ class UserDaoDataTest {
 		User user = users.get(0);
 
 		users.forEach(System.out::println);
-		users.forEach(usr -> { System.out.print( usr.getLastName() + " "); });
+		users.forEach(usr -> { System.out.print(usr.getLastName() + " "); });
 
 		assertThat(users).hasSizeGreaterThan(0);
 		assertThat(user.getUserUid()).isNotNull();

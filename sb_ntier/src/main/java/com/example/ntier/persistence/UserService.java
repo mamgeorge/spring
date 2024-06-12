@@ -11,7 +11,7 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-	private UserDao userDao;
+	private final UserDao userDao;
 
 	@Autowired public UserService(UserDao userDao) { this.userDao = userDao; }
 
@@ -19,7 +19,8 @@ public class UserService {
 
 		List<User> users = userDao.selectAllUsers();
 
-		try { User.Gender gendered = User.Gender.valueOf(gender.get().toUpperCase());
+		try {
+			User.Gender gendered = User.Gender.valueOf(gender.get().toUpperCase());
 			users = users.stream().filter(user ->
 				user.getGender().equals(gendered)).toList();
 		}
@@ -33,14 +34,14 @@ public class UserService {
 	public int removeUser(UUID userUid) {
 		int intRes = -1;
 		Optional<User> userOptional = getUser(userUid);
-		if(userOptional.isPresent()) { intRes = userDao.deleteUser((userUid)); }
+		if ( userOptional.isPresent() ) { intRes = userDao.deleteUser(( userUid )); }
 		return intRes;
 	}
 
 	public int updateUser(User user) {
 		int intRes = -1;
 		Optional<User> userOptional = getUser(user.getUserUid());
-		if(userOptional.isPresent()) { intRes = userDao.updateUser(user); }
+		if ( userOptional.isPresent() ) { intRes = userDao.updateUser(user); }
 		return intRes;
 	}
 

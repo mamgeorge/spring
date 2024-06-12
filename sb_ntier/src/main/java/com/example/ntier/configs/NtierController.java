@@ -54,7 +54,7 @@ public class NtierController { // UserResource
 	}
 
 	@GetMapping( path = "/getUserRnd", produces = APPLICATION_JSON_VALUE )
-	public ResponseEntity<User> getUserRnd() {
+	public ResponseEntity<User> getUserRnd( ) {
 
 		List<User> list = userService.getAllUsers(Optional.empty());
 		User user = list.get(new Random().nextInt(list.size()));
@@ -94,5 +94,7 @@ public class NtierController { // UserResource
 
 	// utility
 	@Getter @Setter @AllArgsConstructor @ToString
-	class ErrorMessages { private String errorMessage; }
+	class ErrorMessages {
+		private String errorMessage;
+	}
 }

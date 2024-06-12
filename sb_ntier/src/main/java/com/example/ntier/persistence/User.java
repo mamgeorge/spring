@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.context.annotation.Bean;
 
 import java.util.UUID;
 
@@ -23,5 +22,5 @@ public class User {
 	private final Integer age;
 	private final String email;
 
-	public enum Gender { MALE, FEMALE }
+	public enum Gender {MALE, FEMALE}
 }

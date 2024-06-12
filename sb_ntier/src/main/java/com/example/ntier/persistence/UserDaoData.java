@@ -17,7 +17,7 @@ public class UserDaoData implements UserDao {
 
 	private final Map<UUID, User> database;
 
-	public UserDaoData() {
+	public UserDaoData( ) {
 
 		database = new HashMap();
 		UUID userUid;
@@ -32,8 +32,23 @@ public class UserDaoData implements UserDao {
 	}
 
 	@Override public List<User> selectAllUsers( ) { return new ArrayList<>(database.values()); }
-	@Override public Optional<User> selectUser(UUID userUid) { return Optional.ofNullable(database.get(userUid)); }
-	@Override public int deleteUser(UUID userUid) { database.remove(userUid); return 1; }
-	@Override public int updateUser(User user) { database.put(user.getUserUid(), user); return 1; }
-	@Override public int insertUser(UUID userUid, User user) { database.put(userUid, user); return 1; }
+
+	@Override public Optional<User> selectUser(UUID userUid) {
+		return Optional.ofNullable(database.get(userUid));
+	}
+
+	@Override public int deleteUser(UUID userUid) {
+		database.remove(userUid);
+		return 1;
+	}
+
+	@Override public int updateUser(User user) {
+		database.put(user.getUserUid(), user);
+		return 1;
+	}
+
+	@Override public int insertUser(UUID userUid, User user) {
+		database.put(userUid, user);
+		return 1;
+	}
 }
