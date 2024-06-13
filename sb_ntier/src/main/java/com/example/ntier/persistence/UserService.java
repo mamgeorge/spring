@@ -3,6 +3,7 @@ package com.example.ntier.persistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,12 +20,20 @@ public class UserService {
 
 		List<User> users = userDao.selectAllUsers();
 
-		try {
-			User.Gender gendered = User.Gender.valueOf(gender.get().toUpperCase());
-			users = users.stream().filter(user ->
-				user.getGender().equals(gendered)).toList();
+		if(gender.isPresent()) {
+
+			String genderUpper = gender.get().toUpperCase();
+			List<User> usersNew = new ArrayList<>();
+			users.forEach( user -> {
+
+				String genderTemp = user.getGender().toString();
+				if (genderTemp.equals(genderUpper)) { usersNew.add(user); }
+			} );
+
+			users = usersNew;
 		}
-		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		else { System.out.print("No filter requested :) "); }
+		System.out.println("Returning users: " + users.size());
 
 		return users;
 	}
@@ -47,8 +56,7 @@ public class UserService {
 
 	public int insertUser(User user) {
 
-		UUID uuid = UUID.randomUUID();
-		user.setUserUid(uuid);
-		return userDao.insertUser(uuid, user);
+		UUID userUid = UUID.randomUUID();
+		return userDao.insertUser(userUid, User.newUser(userUid, user));
 	}
 }

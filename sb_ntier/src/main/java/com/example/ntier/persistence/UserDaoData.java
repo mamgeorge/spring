@@ -19,7 +19,7 @@ public class UserDaoData implements UserDao {
 
 	public UserDaoData( ) {
 
-		database = new HashMap();
+		database = new HashMap<>();
 		UUID userUid;
 		userUid = UUID.randomUUID();
 		database.put(userUid, new User(userUid, "John", "Robinson", MALE, 40, "John.Robinson@email.com"));
@@ -31,7 +31,9 @@ public class UserDaoData implements UserDao {
 		database.put(userUid, new User(userUid, "Diana", "Prince", FEMALE, 50, "Diana.Prince@email.com"));
 	}
 
-	@Override public List<User> selectAllUsers( ) { return new ArrayList<>(database.values()); }
+	@Override public List<User> selectAllUsers( ) {
+		return new ArrayList<>(database.values());
+	}
 
 	@Override public Optional<User> selectUser(UUID userUid) {
 		return Optional.ofNullable(database.get(userUid));

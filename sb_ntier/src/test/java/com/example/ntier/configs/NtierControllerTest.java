@@ -13,14 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.ntier.persistence.User.Gender.MALE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith( { MockitoExtension.class } )
 class NtierControllerTest {
 
-	private NtierController ntierController;
 	@Mock private UserService userService;
+	private User user = new User(UUID.randomUUID(), "Hal", "Jordan", MALE, 30, "Hal.Jordan@email.com");
+	private NtierController ntierController;
 
 	@BeforeEach void setUp( ) { ntierController = new NtierController(userService); }
 
@@ -46,4 +48,18 @@ class NtierControllerTest {
 		System.out.println(response.getBody());
 		assertThat(response).isNotNull();
 	}
+
+	@Test void getUserRnd() { assertThat(ntierController.getUserRnd()).isNotNull(); }
+
+	@Test void getUserPst() {
+
+		ResponseEntity<User> response = ntierController.getUserPst(user);
+		assertThat(response).isNotNull();
+	}
+
+	@Test void insertUser() { assertThat(ntierController.insertUser(null)).isNotNull(); }
+
+	@Test void updateUser() { assertThat(ntierController.updateUser(null)).isNotNull(); }
+
+	@Test void deleteUser() { assertThat(ntierController.deleteUser(UUID.randomUUID())).isNotNull(); }
 }

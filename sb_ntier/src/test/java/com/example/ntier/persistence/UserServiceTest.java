@@ -16,7 +16,6 @@ import static com.example.ntier.persistence.User.Gender.FEMALE;
 import static com.example.ntier.persistence.User.Gender.MALE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -54,6 +53,10 @@ class UserServiceTest {
 		assertThat(userLists).hasSizeGreaterThan(0);
 
 		userLists = userService.getAllUsers(Optional.of("xxxxx"));
+		System.out.println(userLists);
+		assertThat(userLists).isEmpty();
+
+		userLists = userService.getAllUsers(Optional.empty());
 		System.out.println(userLists);
 		assertThat(userLists).hasSizeGreaterThan(0);
 	}
@@ -113,14 +116,16 @@ class UserServiceTest {
 
 		User user = new User(null, "Hal", "Jordan", MALE, 30, "Hal.Jordan@email.com");
 
-		given(userDaoData.insertUser(any(UUID.class), eq(user))).willReturn(1);
+		int intResult = 1;
+	//	given(userDaoData.insertUser(any(UUID.class), eq(user))).willReturn(intResult);
+		given(userDaoData.insertUser(any(UUID.class), any(User.class))).willReturn(intResult);
 
 		ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);
-		int intRsp = userService.insertUser(user);
+		int intResponse = userService.insertUser(user);
 		verify(userDaoData).insertUser(any(UUID.class), argumentCaptor.capture());
 
 		User used = argumentCaptor.getValue();
-		assertThat(user).isEqualTo(used);
-		assertThat(intRsp).isEqualTo(1);
+		assertThat(used.getUserUid()).isNotNull();
+		assertThat(intResult).isEqualTo(intResponse);
 	}
 }

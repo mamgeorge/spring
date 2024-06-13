@@ -32,6 +32,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class NtierController { // UserResource
 
 	private final UserService userService;
+	private final Random random = new Random();
 
 	@Autowired public NtierController(UserService userService) {
 		this.userService = userService;
@@ -57,8 +58,27 @@ public class NtierController { // UserResource
 	public ResponseEntity<User> getUserRnd( ) {
 
 		List<User> list = userService.getAllUsers(Optional.empty());
-		User user = list.get(new Random().nextInt(list.size()));
-		ResponseEntity<User> response = new ResponseEntity<>(user, OK);
+		User user = null;
+		if ( list.isEmpty() ) { System.out.println("NO ITEMS!"); }
+		else {
+			user = list.get(random.nextInt(list.size()));
+		}
+		return new ResponseEntity<>(user, OK);
+	}
+
+	@PostMapping( path = "/getUserPst", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE )
+	public ResponseEntity<User> getUserPst(@RequestBody User userPst) {
+
+		Optional<String> optional = Optional.ofNullable(userPst.getGender().toString());
+		System.out.println("optional: " + optional + "\n" + userPst);
+		ResponseEntity<User> response;
+
+		List<User> list = userService.getAllUsers(optional);
+		if ( list.isEmpty() ) { response = new ResponseEntity<>(null, NOT_FOUND); }
+		else {
+			User user = list.get(random.nextInt(list.size()));
+			response = new ResponseEntity<>(user, OK);
+		}
 		return response;
 	}
 
@@ -66,6 +86,8 @@ public class NtierController { // UserResource
 	public ResponseEntity<Integer> insertUser(@RequestBody User user) {
 
 		ResponseEntity<Integer> response;
+		System.out.println("user insert: " + user);
+
 		int intResult = userService.insertUser(user);
 		if ( intResult == 1 ) { response = ResponseEntity.ok().build(); }
 		else { response = ResponseEntity.badRequest().build(); }
@@ -76,6 +98,8 @@ public class NtierController { // UserResource
 	public ResponseEntity<Integer> updateUser(@RequestBody User user) {
 
 		ResponseEntity<Integer> response;
+		System.out.println("user update: " + user);
+
 		int intResult = userService.updateUser(user);
 		if ( intResult == 1 ) { response = ResponseEntity.ok().build(); }
 		else { response = ResponseEntity.badRequest().build(); }
@@ -86,6 +110,8 @@ public class NtierController { // UserResource
 	public ResponseEntity<Integer> deleteUser(@PathVariable( "userUid" ) UUID userUid) {
 
 		ResponseEntity<Integer> response;
+		System.out.println("userUid delete: " + userUid);
+
 		int intResult = userService.removeUser(userUid);
 		if ( intResult == 1 ) { response = ResponseEntity.ok().build(); }
 		else { response = ResponseEntity.badRequest().build(); }
@@ -94,7 +120,7 @@ public class NtierController { // UserResource
 
 	// utility
 	@Getter @Setter @AllArgsConstructor @ToString
-	class ErrorMessages {
+	static class ErrorMessages {
 		private String errorMessage;
 	}
 }

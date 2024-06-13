@@ -17,15 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 // @SpringBootTest // creates applicationContext
 @SpringBootTest( classes = TestmoreAppTest.class )
 public class TestmoreAppTest {
-	//
+
 	@Autowired ApplicationContext appContext;
 	@Autowired Environment environment;
 	public static final String FRMT = "\t%-20s [%s]\n";
 
 	@Test void contextLoads( ) {
-		//
+
 		String txtLines = "";
-		//
 		txtLines += String.format(FRMT, "appContext", appContext);
 		txtLines += String.format(FRMT, "environment", environment);
 		txtLines += EOL;
@@ -34,7 +33,7 @@ public class TestmoreAppTest {
 		}
 		txtLines += UtilityMain.exposeObject(appContext) + EOL;
 		txtLines += UtilityMain.exposeObject(environment);
-		//
+
 		System.out.println(txtLines);
 		assertNotNull(txtLines);
 	}
