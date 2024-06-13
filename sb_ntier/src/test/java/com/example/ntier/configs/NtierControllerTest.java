@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 class NtierControllerTest {
 
 	@Mock private UserService userService;
-	private User user = new User(UUID.randomUUID(), "Hal", "Jordan", MALE, 30, "Hal.Jordan@email.com");
+	private final User user = new User(UUID.randomUUID(), "Hal", "Jordan", MALE, 30, "Hal.Jordan@email.com");
 	private NtierController ntierController;
 
 	@BeforeEach void setUp( ) { ntierController = new NtierController(userService); }
