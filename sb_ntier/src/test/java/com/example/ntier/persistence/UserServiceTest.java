@@ -117,7 +117,7 @@ class UserServiceTest {
 		User user = new User(null, "Hal", "Jordan", MALE, 30, "Hal.Jordan@email.com");
 
 		int intResult = 1;
-	//	given(userDaoData.insertUser(any(UUID.class), eq(user))).willReturn(intResult);
+		//	given(userDaoData.insertUser(any(UUID.class), eq(user))).willReturn(intResult);
 		given(userDaoData.insertUser(any(UUID.class), any(User.class))).willReturn(intResult);
 
 		ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);

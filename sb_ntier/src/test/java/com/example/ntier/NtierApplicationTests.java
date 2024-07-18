@@ -11,7 +11,7 @@ import java.util.Arrays;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT )
 class NtierApplicationTests {
 
 	@Autowired ApplicationContext appContext; // springApplication.run(strings);

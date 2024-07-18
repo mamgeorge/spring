@@ -4,62 +4,71 @@ import com.example.ntier.persistence.User;
 import com.example.ntier.persistence.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.example.ntier.persistence.User.Gender.MALE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
-@ExtendWith( { MockitoExtension.class } )
-class NtierControllerTest {
+// https://docs.spring.io/spring-framework/reference/testing/webtestclient.html
+// @ExtendWith(SpringExtension.class)
+@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT )
+public class NtierControllerTest {
 
-	@Mock private UserService userService;
-	private final User user = new User(UUID.randomUUID(), "Hal", "Jordan", MALE, 30, "Hal.Jordan@email.com");
+	@Autowired private UserService userService;
+
 	private NtierController ntierController;
 
-	@BeforeEach void setUp( ) { ntierController = new NtierController(userService); }
-
-	@Test void root( ) {
-
-		String txtLine = ntierController.root();
-		System.out.println(txtLine);
-		assertThat(txtLine).isNotNull();
-	}
+	@BeforeEach void init( ) { ntierController = new NtierController(userService); }
 
 	@Test void getAllUsers( ) {
 
-		when(ntierController.getAllUsers("")).thenReturn(new ArrayList<>());
-		List<User> list = ntierController.getAllUsers("");
-		System.out.println(list);
-		assertThat(list).isNotNull();
+		List<User> users = ntierController.getAllUsers(MALE.name());
+		users.forEach(user -> System.out.print(user.getFirstName() + " "));
+		assertThat(users).hasSizeGreaterThan(1);
+		assertThat(users.get(0).getUserUid()).isInstanceOf(UUID.class);
+		assertThat(users.get(0).getUserUid()).isNotNull();
 	}
 
 	@Test void getUser( ) {
 
-		ResponseEntity<?> response;
-		response = ntierController.getUser(UUID.randomUUID());
-		System.out.println(response.getBody());
+		List<User> users = ntierController.getAllUsers(MALE.name());
+		String userUid = users.get(0).getUserUid().toString();
+		Optional<String> optional = Optional.of(userUid);
+		ResponseEntity<?> response = ntierController.getUser(optional);
+		User user = (User) response.getBody();
+		System.out.println(user.toString());
 		assertThat(response).isNotNull();
 	}
 
-	@Test void getUserRnd() { assertThat(ntierController.getUserRnd()).isNotNull(); }
+	@Test void getUserRnd( ) {
 
-	@Test void getUserPst() {
-
-		ResponseEntity<User> response = ntierController.getUserPst(user);
+		ResponseEntity<User> response = ntierController.getUserRnd();
+		User user = response.getBody();
+		System.out.println(user.toString());
 		assertThat(response).isNotNull();
 	}
 
-	@Test void insertUser() { assertThat(ntierController.insertUser(null)).isNotNull(); }
+	@Test void updateUser( ) {
 
-	@Test void updateUser() { assertThat(ntierController.updateUser(null)).isNotNull(); }
+		ResponseEntity<User> responseRnd = ntierController.getUserRnd();
+		User user = responseRnd.getBody();
+		String userUid = user.getUserUid().toString();
+		ReflectionTestUtils.setField(user, "age", 105);
+		ResponseEntity<Integer> responseUpd = ntierController.updateUser(user);
+		System.out.println(responseUpd.getBody());
 
-	@Test void deleteUser() { assertThat(ntierController.deleteUser(UUID.randomUUID())).isNotNull(); }
+		Optional<String> optional = Optional.of(userUid);
+		ResponseEntity<?> responseGet = ntierController.getUser(optional);
+		User userGet = (User) responseGet.getBody();
+		System.out.println(userGet);
+		assertThat(userGet).isNotNull();
+	}
+
 }

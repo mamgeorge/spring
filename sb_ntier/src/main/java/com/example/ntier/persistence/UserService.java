@@ -20,15 +20,15 @@ public class UserService {
 
 		List<User> users = userDao.selectAllUsers();
 
-		if(gender.isPresent()) {
+		if ( gender.isPresent() ) {
 
 			String genderUpper = gender.get().toUpperCase();
 			List<User> usersNew = new ArrayList<>();
-			users.forEach( user -> {
+			users.forEach(user -> {
 
 				String genderTemp = user.getGender().toString();
-				if (genderTemp.equals(genderUpper)) { usersNew.add(user); }
-			} );
+				if ( genderTemp.equals(genderUpper) ) { usersNew.add(user); }
+			});
 
 			users = usersNew;
 		}
