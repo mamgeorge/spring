@@ -4,10 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -17,9 +23,10 @@ import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 /*
 	Model Pojo Bean
 
-	@NoArgsConstructor not needed.
 	Finals can be retained because Lombok appears to instantiate empty object.
+	@NoArgsConstructor not needed.
 	@JsonProperty does not appear needed when using @AllArgsConstructor
+	@NotNull requires @Validated & @Valid in Controller
  */
 @JsonIgnoreProperties( ignoreUnknown = true )
 @AllArgsConstructor @Getter
@@ -33,19 +40,24 @@ public class User {
 
 	@JsonProperty( "id" ) private final UUID userUid;
 	// @JsonIgnore
-	private final String firstName;
-	private final String lastName;
-	private final Gender gender;
-	private final Integer age;
-	private final String email;
+	@NotBlank (message = "firstName required") private final String firstName;
+	@NotBlank (message = "lastName required") private final String lastName;
+	@NotBlank (message = "gender required") private final Gender gender;
+	@NotBlank (message = "age required")  @Max(value=120) @Min(value=12) private final Integer age;
+	@NotBlank (message = "email required")  @Email private final String email;
 
 	public String getFullName( ) { return firstName + " " + lastName; }
 
-	public int getDateOfBirth( ) { return LocalDate.now().minusYears(age).getYear(); }
+	public int getDateOfBirth( ) {
+		int dateOfBirth = 0;
+		dateOfBirth = LocalDate.now().minusYears(age).getYear();
+		System.out.println("dateOfBirth: " + dateOfBirth);
+		return dateOfBirth;
+	}
 
 	public enum Gender {MALE, FEMALE}
 
-	@Override public String toString(){
+	@Override public String toString( ) {
 
 		String json = "";
 		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);

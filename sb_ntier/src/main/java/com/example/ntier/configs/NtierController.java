@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +32,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-@RestController @RequestMapping( path = "/api" )
+@Validated @RestController @RequestMapping( path = "/api" )
 public class NtierController { // UserResource
 
 	private final UserService userService;
@@ -43,31 +45,32 @@ public class NtierController { // UserResource
 	@GetMapping( { "/" } ) String root( ) { return Instant.now().toString(); }
 
 	@GetMapping( path = "/getAllUsers", produces = APPLICATION_JSON_VALUE )
-	public List<User> getAllUsers(@RequestParam( value = "gender", required=false ) String gender) {
+	public List<User> getAllUsers(@RequestParam( value = "gender", required = false ) String gender) {
 		List<User> users = userService.getAllUsers(Optional.ofNullable(gender));
 		System.out.println("users.size(): " + users.size());
 		return users;
 	}
 
 	@GetMapping( path = "/getUser/{userUid}", produces = APPLICATION_JSON_VALUE )
-	public ResponseEntity<User> getUser(@PathVariable( value = "userUid", required=false ) Optional<String> optionalId) {
+	public ResponseEntity<User> getUser(
+		@PathVariable( value = "userUid", required = false ) Optional<String> optionalId) {
 
-		User user = new User(UUID.randomUUID(),"","",null,0,"");
+		User user = new User(UUID.randomUUID(), "", "", null, 0, "");
 		ResponseEntity<User> response = new ResponseEntity<>(user, NOT_FOUND);
-		if(optionalId.isPresent()) {
+		if ( optionalId.isPresent() ) {
 			Optional<UUID> optionalUuid;
-			try { optionalUuid = Optional.of(UUID.fromString(optionalId.get()));}
+			try { optionalUuid = Optional.of(UUID.fromString(optionalId.get())); }
 			catch (IllegalArgumentException ex) {
-				optionalUuid=Optional.of(UUID.randomUUID());
+				optionalUuid = Optional.of(UUID.randomUUID());
 				System.out.println("ERROR: " + ex.getMessage());
 				System.out.println("optionalUuid: " + optionalUuid);
 			}
-			if(optionalUuid.isPresent()){
-			Optional<User> optionalUser = userService.getUser(optionalUuid.get());
-			if ( optionalUser.isPresent() ) {
-				user = optionalUser.get();
-				response = new ResponseEntity<>(user, OK);
-			}
+			if ( optionalUuid.isPresent() ) {
+				Optional<User> optionalUser = userService.getUser(optionalUuid.get());
+				if ( optionalUser.isPresent() ) {
+					user = optionalUser.get();
+					response = new ResponseEntity<>(user, OK);
+				}
 			}
 		}
 		return response;
@@ -78,8 +81,8 @@ public class NtierController { // UserResource
 
 		List<User> list = userService.getAllUsers(Optional.empty());
 		User user = null;
-		if ( list.isEmpty() ) { System.out.println("NO ITEMS!"); } else
-		{ user = list.get(random.nextInt(list.size())); }
+		if ( list.isEmpty() ) { System.out.println("NO ITEMS!"); }
+		else { user = list.get(random.nextInt(list.size())); }
 		return new ResponseEntity<>(user, OK);
 	}
 
@@ -100,14 +103,15 @@ public class NtierController { // UserResource
 	}
 
 	@PostMapping( path = "/insertUser", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE )
-	public ResponseEntity<Integer> insertUser(@RequestBody User user) {
+	public ResponseEntity<Integer> insertUser(@RequestBody @Valid User user) {
 
-		ResponseEntity<Integer> response;
-		System.out.println("user insert: " + user);
-
-		int intResult = userService.insertUser(user);
-		if ( intResult == 1 ) { response = ResponseEntity.ok().build(); }
-		else { response = ResponseEntity.badRequest().build(); }
+		ResponseEntity<Integer> response = ResponseEntity.badRequest().build();
+		if ( user==null ) { System.out.println("ERROR: no user!"); } else
+		{
+			System.out.println("user insert: " + user);
+			int intResult = userService.insertUser(user);
+			if ( intResult == 1 ) { response = ResponseEntity.ok().build(); }
+		}
 		return response;
 	}
 
@@ -134,5 +138,7 @@ public class NtierController { // UserResource
 
 	// utility
 	@Getter @Setter @AllArgsConstructor @ToString
-	static class ErrorMessages { private String errorMessage; }
+	static class ErrorMessages {
+		private String errorMessage;
+	}
 }
