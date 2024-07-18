@@ -44,7 +44,9 @@ public class NtierController { // UserResource
 
 	@GetMapping( path = "/getAllUsers", produces = APPLICATION_JSON_VALUE )
 	public List<User> getAllUsers(@RequestParam( value = "gender", required=false ) String gender) {
-		return userService.getAllUsers(Optional.ofNullable(gender));
+		List<User> users = userService.getAllUsers(Optional.ofNullable(gender));
+		System.out.println("users.size(): " + users.size());
+		return users;
 	}
 
 	@GetMapping( path = "/getUser/{userUid}", produces = APPLICATION_JSON_VALUE )

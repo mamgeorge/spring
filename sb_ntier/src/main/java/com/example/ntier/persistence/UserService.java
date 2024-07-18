@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+
+import static java.util.Objects.requireNonNull;
 
 // Business Layer
 @Service
@@ -57,6 +60,17 @@ public class UserService {
 	public int insertUser(User user) {
 
 		UUID userUid = UUID.randomUUID();
-		return userDao.insertUser(userUid, User.newUser(userUid, user));
+		validateUserInsert(user);
+		User userNew = User.newUser(userUid, user);
+		return userDao.insertUser(userUid, userNew);
+	}
+
+	private static void validateUserInsert(User user) {
+
+		requireNonNull(user.getFirstName(), "insertUser getFirstName required");
+		requireNonNull(user.getLastName(), "insertUser getLastName required");
+		requireNonNull(user.getAge(), "insertUser getAge required");
+		requireNonNull(user.getGender(), "insertUser getGender required");
+		requireNonNull(user.getEmail(), "insertUser getEmail required");
 	}
 }
