@@ -28,22 +28,25 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 class GqlClientTest {
 
 	String URL = "http://localhost:8080/graphql";
+	String[] URLs = {
+		"http://ip.jsontest.com",
+		"https://dummyjson.com/user/2",
+		"https://dummyjson.com/users",
+		"https://dummyjson.com/product/2",
+		"https://dummyjson.com/products",
+		"https://jsonplaceholder.typicode.com/posts/2",
+		"https://jsonplaceholder.typicode.com/posts"
+	};
 
 	@Test void restClient_test( ) {
 
 		// https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
-		String[] urls = { "http://ip.jsontest.com",
-			"https://dummyjson.com/user/2", "https://dummyjson.com/users",
-			"https://dummyjson.com/product/2", "https://dummyjson.com/products",
-			"https://jsonplaceholder.typicode.com/posts/2", "https://jsonplaceholder.typicode.com/posts"
-		};
-
 		Map<String, String> map = Maps.newHashMap();
 		map.put("address", "14.917313,-23.511313");
 		map.put("email", "YOUR_EMAIL_HERE");
 
 		RestClient restClient = RestClient.builder().build();
-		RestClient.ResponseSpec responseSpec = restClient.get().uri(urls[5]).retrieve();
+		RestClient.ResponseSpec responseSpec = restClient.get().uri(URLs[5]).retrieve();
 		ResponseEntity<String> responseEntity = responseSpec.toEntity(String.class);
 		String json = responseEntity.getBody();
 

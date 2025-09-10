@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml"
-	xmlns:th = "https://www.thymeleaf.org"
->
+	xmlns:th = "https://www.thymeleaf.org" >
 <head><title>graphql derby</title>
-	<meta charset = "UTF-8">
-	<!--link rel = "stylesheet" th:href = "@{/basics.css}" -->
-
+<meta charset = "UTF-8" />
+<style>
+body { font-family: verdana; margin: auto; text-align: center; }
+table { margin: auto; }
+</style>
 </head>
 <body><h3>graphql derby</h3>
-<br/><h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
+<h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 
-<br/>
-<br/><a href = "@{/}">/root</a>
+<table>
+	<tr><td><a th:href = "@{/}"	>/root</a></td></tr>
+	<tr><td><a th:href = "@{/actorById/1}"		>/actorById/1</a></td></tr>
+	<tr><td><a th:href = "@{/actorByIdVar/1}"	>/actorByIdVar/1</a></td></tr>
+	<tr><td><a th:href = "@{/objectById/1}"		>/objectById/1</a></td></tr>
+</table>
 </body>
 </html>

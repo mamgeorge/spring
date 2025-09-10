@@ -22,17 +22,23 @@ public class ActorService {
 
 	public Actor getActorbyId(Integer id) {
 
+		Actor actor = null;
 		String queryAct = QUERY_ACT.replaceAll("##", String.valueOf(id));
 		GraphQLRequest graphQLRequest = GraphQLRequest
 			.builder().query(queryAct).build();
 
-		GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
-		Actor actor = graphQLResponse.get("actorById", Actor.class);
+		try {
+			GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
+			actor = graphQLResponse.get("actorById", Actor.class);
+		}
+		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		if (actor==null) { actor = new Actor(); }
 		return actor;
 	}
 
 	public Actor getActorbyIdVar(Integer id) {
 
+		Actor actor = null;
 		Map<String, Object> variables = new HashMap<>();
 		variables.put("actor_id", String.valueOf(id));
 
@@ -40,20 +46,27 @@ public class ActorService {
 			.query(QUERY_ACTVAR)
 			.variables(variables)
 			.build();
-
-		GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
-		Actor actor = graphQLResponse.get("actorById", Actor.class);
+		try {
+			GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
+			actor = graphQLResponse.get("actorById", Actor.class);
+		}
+		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		if (actor==null) { actor = new Actor(); }
 		return actor;
 	}
 
 	public Object getObjectbyId(Integer id) {
 
+		Object object = null;
 		String queryAct = QUERY_ACT.replaceAll("##", String.valueOf(id));
 		GraphQLRequest graphQLRequest = GraphQLRequest
 			.builder().query(queryAct).build();
-
-		GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
-		Object object = graphQLResponse.getAt("actorById");
+		try {
+			GraphQLResponse graphQLResponse = graphQLWebClient.post(graphQLRequest).block();
+			object = graphQLResponse.getAt("actorById");
+		}
+		catch (Exception ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		if (object==null) { object = new Object(); }
 		return object;
 	}
 }
