@@ -1,6 +1,5 @@
 package com.basics.testmore.configuration; //.configuration;
 
-import com.basics.testmore.TestmoreApp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

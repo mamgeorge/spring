@@ -43,7 +43,7 @@
 		<dependency><!-- thymeleaf / freemarker-->
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-<!--			<version>3.1.1</version>-->
+		<!-- <version>3.1.1</version>-->
 		</dependency>
 
 		<dependency>
@@ -61,26 +61,26 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 		</dependency>
+<!--
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>jakarta.persistence</groupId>-->
-<!--			<artifactId>jakarta.persistence-api</artifactId>-->
-<!--			<version>3.1.0</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>6.0.0</version>
+			<scope>provided</scope>
+		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>jakarta.servlet</groupId>-->
-<!--			<artifactId>jakarta.servlet-api</artifactId>-->
-<!--			<version>6.0.0</version>-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
-
-<!--		<dependency>-->
-<!--			<groupId>jakarta.annotation</groupId>-->
-<!--			<artifactId>jakarta.annotation-api</artifactId>-->
-<!--			<version>2.1.1</version>-->
-<!--		</dependency>-->
-
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+-->
 		<!-- BEG: allows lombok, json, yml, commons -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -105,20 +105,20 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-<!--			<version>3.0</version>-->
+			<!-- <version>3.0</version>-->
 		</dependency>
 
 		<!-- database -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-<!--			<version>3.1.1</version>-->
+			<!-- <version>3.1.1</version>-->
 		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-<!--			<version>2.2.220</version>-->
+			<!-- <version>2.2.220</version>-->
 		</dependency>
 
 		<!-- Error creating bean with name 'entityManagerFactory' -->
@@ -132,13 +132,13 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-<!--			<version>5.5.2</version>-->
+			<!-- <version>5.5.2</version>-->
 		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
-<!--			<version>3.3.3</version>-->
+			<!-- <version>3.3.3</version>-->
 		</dependency>
 
 		<dependency>
@@ -154,23 +154,29 @@
 			<version>2.0.3</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
 		<!-- testing selenium -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-api</artifactId>
-<!--			<version>4.10.0</version>-->
+			<!-- <version>4.10.0</version>-->
 		</dependency>
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-remote-driver</artifactId>
-<!--			<version>4.10.0</version>-->
+			<!-- <version>4.10.0</version>-->
 		</dependency>
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-edge-driver</artifactId>
-<!--			<version>4.10.0</version>-->
+			<!-- <version>4.10.0</version>-->
 		</dependency>
 
 		<dependency>
@@ -182,13 +188,13 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-chrome-driver</artifactId>
-<!--			<version>4.10.0</version>-->
+			<!-- <version>4.10.0</version>-->
 		</dependency>
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-firefox-driver</artifactId>
-<!--			<version>4.10.0</version>-->
+			<!-- <version>4.10.0</version>-->
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->

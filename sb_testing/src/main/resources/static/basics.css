@@ -3,7 +3,7 @@ body { background: #202020; color: #f0f0f0; font-family: verdana, monospace; mar
 
 h1, h2, h3, h4, h5, h6 { color: #8080f0; display: inline; }
 
-a, a.hover, a.visited { color: #8080f0; text-decoration: none ; font-size: 9pt; }
+a, a.hover, a.visited { color: #a0a0f0; text-decoration: none ; font-size: 9pt; }
 
 table { background: #101010; width: 98%; margin: auto;
 	border-spacing: 1px; border-collapse: collapse; border-radius: 10pt; }

@@ -1,4 +1,4 @@
-package com.basics.dbsqlite.persistence;
+package com.basics.dbsqlite.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

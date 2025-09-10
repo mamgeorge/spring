@@ -1,4 +1,4 @@
-package com.basics.dbsqlite.persistence;
+package com.basics.dbsqlite.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

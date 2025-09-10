@@ -1,9 +1,8 @@
 package com.basics.dbsqlite.configuration; // .controller;
 
-import com.basics.dbsqlite.persistence.Customer;
+import com.basics.dbsqlite.model.Customer;
+import com.basics.dbsqlite.model.Invoices;
 import com.basics.dbsqlite.persistence.CustomerService;
-
-import com.basics.dbsqlite.persistence.Invoices;
 import com.basics.dbsqlite.persistence.InvoicesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,14 +26,13 @@ import static org.springframework.http.HttpStatus.OK;
 
 // @RestController = @Controller + @ResponseBody
 @RestController
-public class DbSqliteController {
+public class ControllerCustomer {
 
 	private final CustomerService customerService;
 	private final InvoicesService invoicesService;
 	private final Random random = new Random();
 
-	@Autowired
-	DbSqliteController(CustomerService customerService, InvoicesService invoicesService) {
+	@Autowired ControllerCustomer(CustomerService customerService, InvoicesService invoicesService) {
 		this.customerService = customerService;
 		this.invoicesService = invoicesService;
 	}
@@ -58,7 +56,7 @@ public class DbSqliteController {
 	}
 
 	@GetMapping( "/getCustomersRng" ) public @ResponseBody List<Customer> getCustomersRng(
-		@RequestParam("beg") String beg, @RequestParam("end") String end) {
+		@RequestParam( "beg" ) String beg, @RequestParam( "end" ) String end) {
 
 		int ibeg = Integer.parseInt(beg);
 		int iend = Integer.parseInt(end);
@@ -70,14 +68,15 @@ public class DbSqliteController {
 	@GetMapping( "/getCustomerRnd" ) public ResponseEntity<Customer> getCustomerRnd( ) {
 
 		long maxId = customerService.getMaxId() + 1;
-		Integer intId = random.nextInt((int) maxId) ;
+		Integer intId = random.nextInt((int) maxId);
 		System.out.println("\nintId: " + intId);
 
 		Customer customer = customerService.findById(intId);
 		return new ResponseEntity<>(customer, OK);
 	}
 
-	@GetMapping( "/getCustomer/{idVal}" ) public ResponseEntity<Customer> getCustomer(@PathVariable int idVal ) {
+	@GetMapping( "/getCustomer/{idVal}" )
+	public ResponseEntity<Customer> getCustomer(@PathVariable int idVal) {
 
 		Customer customer = customerService.findById(idVal);
 		return new ResponseEntity<>(customer, OK);
@@ -92,14 +91,14 @@ public class DbSqliteController {
 	@GetMapping( "/getInvoiceRnd" ) public @ResponseBody Invoices getInvoiceRnd( ) {
 
 		long maxId = invoicesService.getMaxId() + 1;
-		Integer intId = random.nextInt((int) maxId) ;
+		Integer intId = random.nextInt((int) maxId);
 		System.out.println("\nintId: " + intId);
 
 		Invoices invoice = invoicesService.findById(intId);
 		return invoice;
 	}
 
-	@GetMapping( "/getInvoice/{idVal}" ) public @ResponseBody Invoices getInvoice(@PathVariable int idVal ) {
+	@GetMapping( "/getInvoice/{idVal}" ) public @ResponseBody Invoices getInvoice(@PathVariable int idVal) {
 
 		Invoices invoice = invoicesService.findById(idVal);
 		return invoice;
@@ -121,7 +120,8 @@ public class DbSqliteController {
 		List<Customer> customers = null;
 		if ( customersAll == null || customersAll.size() < 1 ) {
 			stringBuilder.append("DATA CALL FAILED OR TABLE EMPTY!");
-		} else {
+		}
+		else {
 			customers = new ArrayList<Customer>(customersAll.subList(0, MAX_DISPLAY));
 			customers.forEach(customer -> stringBuilder
 				.append(String.format(FRMT, customer.getCustomerid(),
@@ -134,10 +134,10 @@ public class DbSqliteController {
 
 	}
 
-	@GetMapping( "/showCustomerRnd" ) public ModelAndView showCustomerRnd() {
+	@GetMapping( "/showCustomerRnd" ) public ModelAndView showCustomerRnd( ) {
 
 		long maxId = customerService.getMaxId() + 1;
-		Integer intId = random.nextInt((int) maxId) ;
+		Integer intId = random.nextInt((int) maxId);
 		System.out.println("\nintId: " + intId);
 
 		Customer customer = customerService.findById(intId);
@@ -146,7 +146,8 @@ public class DbSqliteController {
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCustomer/{idVal}" ) public ModelAndView showCustomer(@PathVariable String idVal, Model model) {
+	@GetMapping( "/showCustomer/{idVal}" )
+	public ModelAndView showCustomer(@PathVariable String idVal, Model model) {
 
 		// method called template incorrectly UNTIL TEMPLATE CSS WAS PREPENDED WITH SLASH!
 		// id is normal; id.get() used with Optional
