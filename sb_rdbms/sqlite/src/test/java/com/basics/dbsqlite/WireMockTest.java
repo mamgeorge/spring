@@ -6,8 +6,6 @@ import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.ContentType;
-import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +53,7 @@ class WireMockTest {
 
 	private final WireMockServer wireMockServer = new WireMockServer();
 
+	// java.net.http
 	@Test void test_wiremock_HttpClient_GET( ) {
 
 		wireMockServer.start();
@@ -102,6 +101,7 @@ class WireMockTest {
 		assertEquals(RESPONSE_BODY_POST, responseString);
 	}
 
+	// org.apache.hc.client5.http.classic.methods
 	@Test void test_wiremock_CloseableHC_GET( ) {
 
 		wireMockServer.start();
@@ -110,9 +110,9 @@ class WireMockTest {
 		String responseString = "";
 		try {
 			CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
-			HttpGet httpGetRequest = new HttpGet(URL_URI);
-			httpGetRequest.addHeader(CONTENT_TYPE, containing(TEXT_PLAIN_VALUE));
-			CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpGetRequest);
+			HttpGet httpGet = new HttpGet(URL_URI);
+			httpGet.addHeader(CONTENT_TYPE, containing(TEXT_PLAIN_VALUE));
+			CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpGet);
 			responseString = convertChr2Str(closeableHttpResponse);
 		}
 		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
@@ -146,7 +146,7 @@ class WireMockTest {
 		assertEquals(RESPONSE_BODY_POST, responseString);
 	}
 
-	// statics
+	// statics: com.github.tomakehurst.wiremock
 	private static void configure_WireMockServer_GET( ) {
 
 		configureFor(URL_HOST, URL_PORT);
@@ -170,11 +170,12 @@ class WireMockTest {
 				.withBody(RESPONSE_BODY_POST)));
 	}
 
+
+	// statics
 	private static String convertChr2Str(CloseableHttpResponse closeableHttpResponse) {
 
 		String responseString = "";
 		try {
-
 			InputStream responseStream = closeableHttpResponse.getEntity().getContent();
 			Scanner scanner = new Scanner(responseStream, UTF_8);
 			responseString = scanner.useDelimiter("\\Z").next();
