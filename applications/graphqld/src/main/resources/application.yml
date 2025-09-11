@@ -2,14 +2,3 @@
 spring:
   application:
     name: graphqld
-
-  graphql:
-    graphiql:
-      enabled: true
-
-server:
-  port: 9090
-
-graphql:
-  client:
-    url: http://localhost:8080/graphql

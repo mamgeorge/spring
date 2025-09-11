@@ -6,14 +6,18 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import graphql.com.google.common.collect.Maps;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 
 import static com.fasterxml.jackson.core.util.DefaultIndenter.SYS_LF;
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
@@ -24,6 +28,16 @@ class GqlClientAppTests {
 
 	public static final String EOL = "\n";
 	public static final String DLM = "\t";
+	String URL = "http://localhost:9090/graphql";
+	String[] URLs = {
+		"http://ip.jsontest.com",
+		"https://dummyjson.com/user/2",
+		"https://dummyjson.com/users",
+		"https://dummyjson.com/product/2",
+		"https://dummyjson.com/products",
+		"https://jsonplaceholder.typicode.com/posts/2",
+		"https://jsonplaceholder.typicode.com/posts"
+	};
 
 	@Autowired ApplicationContext context;
 
@@ -40,7 +54,24 @@ class GqlClientAppTests {
 		assertTrue(true);
 	}
 
-	// utils
+	@Test void restClient_test( ) {
+
+		// https://docs.spring.io/spring-framework/reference/integration/rest-clients.html
+		Map<String, String> map = Maps.newHashMap();
+		map.put("address", "14.917313,-23.511313");
+		map.put("email", "YOUR_EMAIL_HERE");
+
+		RestClient restClient = RestClient.builder().build();
+		RestClient.ResponseSpec responseSpec = restClient.get().uri(URLs[5]).retrieve();
+		ResponseEntity<String> responseEntity = responseSpec.toEntity(String.class);
+		String json = responseEntity.getBody();
+
+		String txtLines = formatJson(json);
+		System.out.println(txtLines);
+		assertTrue(true);
+	}
+
+	// static
 	public static String formatJson(String json) {
 
 		String txtLines = "";
