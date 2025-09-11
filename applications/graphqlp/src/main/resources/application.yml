@@ -2,6 +2,10 @@ spring:
   application:
     name: graphqlp
 
+  graphql:
+    graphiql:
+      enabled: true
+
   datasource:
     # JPA required @Table( name = "cities", schema = "app")
     url: jdbc:postgresql://localhost:5432/dvdrental
@@ -23,6 +27,3 @@ spring:
       # ddl-auto:create, create-drop, validate, update, none; none allows app to load if db fails
       # dialect: org.hibernate.dialect.DerbyDialect, DerbyTenSevenDialect, PostgreSQLDialect
 
-  graphql:
-    graphiql:
-      enabled: true

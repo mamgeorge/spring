@@ -1,4 +1,4 @@
-package com.example.graphqlp.config;
+package com.example.graphqlp.controller;
 
 import com.example.graphqlp.persistence.Actor;
 import com.example.graphqlp.persistence.ActorRepository;
