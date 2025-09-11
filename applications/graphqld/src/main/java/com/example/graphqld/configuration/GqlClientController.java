@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
+import java.util.List;
 
 @RestController
 public class GqlClientController {
@@ -26,6 +27,13 @@ public class GqlClientController {
 		ModelAndView MAV = new ModelAndView("index");
 		MAV.addObject("timer", timer);
 		return MAV;
+	}
+
+	@GetMapping( "/actorsAll" ) public Actor[] getActors() {
+
+		System.out.println("getActors");
+		Actor[] actors = actorService.getActors();
+		return actors;
 	}
 
 	@GetMapping( "/actorById/{id}" ) public Actor getActorById(@PathVariable Integer id) {

@@ -3,6 +3,10 @@ spring:
   application:
     name: graphqld
 
+  graphql:
+    graphiql:
+      enabled: true
+
 server:
   port: 9090
 

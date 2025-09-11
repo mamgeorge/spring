@@ -1,0 +1,32 @@
+[
+	{
+		"actor_id": 1,
+		"first_name": "PENELOPE",
+		"last_name": "GUINESS",
+		"last_update": "2024-09-10T10:00:00Z"
+	},
+	{
+		"actor_id": 2,
+		"first_name": "NICK",
+		"last_name": "WAHLBERG",
+		"last_update": "2024-09-10T10:00:00Z"
+	},
+	{
+		"actor_id": 3,
+		"first_name": "GRACE",
+		"last_name": "ARLTON",
+		"last_update": "2024-09-09T09:30:00Z"
+	},
+	{
+		"actor_id": 4,
+		"first_name": "JOEY",
+		"last_name": "HEATHERTON",
+		"last_update": "2025-05-09T10:30:00Z"
+	},
+	{
+		"actor_id": 5,
+		"first_name": "DAC",
+		"last_name": "MAVIS",
+		"last_update": "2025-09-11T10:45:00Z"
+	}
+]

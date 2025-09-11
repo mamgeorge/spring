@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 class GqlClientTest {
 
-	String URL = "http://localhost:8080/graphql";
+	String URL = "http://localhost:9090/graphql";
 	String[] URLs = {
 		"http://ip.jsontest.com",
 		"https://dummyjson.com/user/2",
