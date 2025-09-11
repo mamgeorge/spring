@@ -18,7 +18,7 @@
 			<a class="navbar-brand" href="#">
 				<img th:src="@{/images/george.gif}" alt="MLG" style="width: 40px;" class="rounded-pill">
 			</a>
-			<a class = "navbar-brand" href = "/showCustomerRnd" >Customer One</a>
+			<a class = "navbar-brand" href = "/home" >Customer One</a>
 			<button class = "navbar-toggler" type = "button" data-bs-toggle = "collapse" data-bs-target = "#mynavbar">
 				<span class = "navbar-toggler-icon"></span>
 			</button>
@@ -26,9 +26,9 @@
 
 				<ul class = "navbar-nav me-auto">
 					<li class = "nav-item"><a class = "nav-link" href = "/showCustomers">list</a></li>
-					<li class = "nav-item"><a class = "nav-link" href = "/showCustomersMax">max</a></li> |
-					<li class = "nav-item"><a class = "nav-link" href = "/showCustomerRnd">random</a></li>
-					<li class = "nav-item"><a class = "nav-link" href = "/showCustomer/10">customer_10</a></li>
+					<li class = "nav-item"><a class = "nav-link" href = "/showCustomersMax">🔵 max</a></li> |
+					<li class = "nav-item"><a class = "nav-link" href = "/showCustomerRnd">🔵 random</a></li>
+					<li class = "nav-item"><a class = "nav-link" href = "/showCustomer/10">🔵 customer_10</a></li>
 				</ul>
 
 				<form class="d-flex">
@@ -40,7 +40,7 @@
 	<br /><br /><br />
 	<h5 th:text = "${#dates.formatISO(#dates.createNow())}"/>
 	<!--h5 th:text="${#dates.format(#dates.createNow(), 'yyyy/MM/dd HH:mm')}" /-->
-	<br /><h5>Thymeleaf</h5>
+	<h5>Thymeleaf</h5>
 	<div class="justify-content-center">
 	<table class="table table-hover table-striped">
 		<thead><tr>
