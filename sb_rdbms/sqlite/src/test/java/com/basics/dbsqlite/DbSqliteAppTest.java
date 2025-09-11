@@ -10,14 +10,13 @@ import org.springframework.test.context.ContextConfiguration;
 import static com.basics.dbsqlite.ReflectionHelper.exposeObject;
 import static org.aspectj.util.LangUtil.EOL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @RunWith(SpringRunner.class) // adds beans
 // @ContextConfiguration( classes = { } )
 // @ActiveProfiles("local")
 // @SpringBootTest // creates applicationContext
 @SpringBootTest( classes = DbSqliteAppTest.class )
-public class DbSqliteAppTest {
+class DbSqliteAppTest {
 
 	@Autowired ApplicationContext appContext;
 	@Autowired Environment environment;

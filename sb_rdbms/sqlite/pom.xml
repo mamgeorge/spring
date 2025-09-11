@@ -19,8 +19,9 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<jetty-http2.version>12.0.8</jetty-http2.version>
 	</properties>
-
+	
 	<dependencies>
 
 		<dependency>
@@ -81,6 +82,13 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.18.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.wiremock.integrations</groupId>
+			<artifactId>wiremock-spring-boot</artifactId>
+			<version>3.10.6</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
