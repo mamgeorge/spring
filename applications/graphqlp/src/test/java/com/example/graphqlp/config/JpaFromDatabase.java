@@ -1,4 +1,4 @@
-package com.example.graphqlp;
+package com.example.graphqlp.config;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,12 +8,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.example.graphqlp.DbProfile.DBASE.DRB;
-import static com.example.graphqlp.DbProfile.DBASE.MYSQL;
-import static com.example.graphqlp.DbProfile.DBASE.ORACLE;
-import static com.example.graphqlp.DbProfile.DBASE.PGS;
-import static com.example.graphqlp.DbProfile.DBASE.SQLITE;
-import static com.example.graphqlp.GenericUtils.EOL;
+import static com.example.graphqlp.config.DbProfile.DBASE.DRB;
+import static com.example.graphqlp.config.DbProfile.DBASE.MYSQL;
+import static com.example.graphqlp.config.DbProfile.DBASE.ORACLE;
+import static com.example.graphqlp.config.DbProfile.DBASE.PGS;
+import static com.example.graphqlp.config.DbProfile.DBASE.SQLITE;
+import static com.example.graphqlp.config.GenericUtils.EOL;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // @Disabled( "integration only" )

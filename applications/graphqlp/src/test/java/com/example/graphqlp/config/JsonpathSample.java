@@ -1,4 +1,4 @@
-package com.example.graphqlp;
+package com.example.graphqlp.config;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
@@ -11,8 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static com.example.graphqlp.GenericUtils.EOL;
-import static com.example.graphqlp.GenericUtils.RESOURCE_PATH;
+import static com.example.graphqlp.config.GenericUtils.EOL;
+import static com.example.graphqlp.config.GenericUtils.RESOURCE_PATH;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JsonpathSample {

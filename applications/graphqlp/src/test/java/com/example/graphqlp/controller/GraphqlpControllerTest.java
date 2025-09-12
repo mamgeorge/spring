@@ -1,6 +1,5 @@
-package com.example.graphqlp.config;
+package com.example.graphqlp.controller;
 
-import com.example.graphqlp.controller.GraphqlpController;
 import com.example.graphqlp.persistence.Actor;
 import com.example.graphqlp.persistence.ActorRepository;
 import com.example.graphqlp.persistence.Address;
@@ -20,14 +19,12 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.Random;
 
-import static com.example.graphqlp.GenericUtils.formatObject;
+import static com.example.graphqlp.config.GenericUtils.formatObject;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 class GraphqlpControllerTest {
-
-	public String query = "";
 
 	@Mock private CustomerRepository customerRepository;
 	@Mock private AddressRepository addressRepository;
