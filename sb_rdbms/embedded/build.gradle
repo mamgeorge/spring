@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '3.2.5'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.springframework.boot' version '3.5.5'
+	id 'io.spring.dependency-management' version '1.1.7'
 	id 'java'
 	id "application"
 }
@@ -19,30 +19,31 @@ dependencies {
 
 	// val asmVersion = "9.5"
 
-	implementation 'org.springframework.boot:spring-boot-starter-web:3.2.4'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.5'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.5.5'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.5.5'
 
 	// common
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.2.4'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.2.5'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.5.5'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.5.5'
 
 	// DBs
-	implementation 'org.xerial:sqlite-jdbc:3.45.3.0'					// SQLite
-	implementation 'com.h2database:h2:2.2.224'							// h2
+	implementation 'org.xerial:sqlite-jdbc:3.50.3.0'                    // SQLite
+	implementation 'com.h2database:h2:2.3.232'                            // h2
 //	implementation 'org.hibernate:hibernate-tools:5.6.15.Final'			// h2 embedded multiline
-	implementation 'mysql:mysql-connector-java:8.0.33'					// extra: MySQL
+	implementation 'mysql:mysql-connector-j:9.4.0'                        // extra: MySQL
 	implementation 'com.oracle.database.jdbc:ojdbc11:21.13.0.0'			// extra: Oracle
-	implementation files('C:/workspace/dbase/mssql/sqljdbc6-4.2.jar')	// extra: MSSQL
-	// implementation 'com.microsoft.sqlserver:mssql-jdbc:9.4.1.jre11'	// extra: MSSQL
+	// implementation files('C:/workspace/dbase/mssql/sqljdbc6-4.2.jar')// extra: MSSQL
+	implementation 'com.microsoft.sqlserver:mssql-jdbc:13.2.0.jre11'    // extra: MSSQL
 	// implementation 'com.microsoft.sqlserver:sqljdbc4:4.0'			// extra: MSSQL
 	// implementation 'org.mongodb:mongo-java-driver:3.12.10'			// extra: MongoDB
 	// implementation ('com.github.mogobee:mongobee:0.13') { exclude group: 'org.mongodb' } // extra: mongodb
-	implementation 'com.zaxxer:HikariCP:5.1.0'							// extra: HikariCP
+	implementation 'com.zaxxer:HikariCP:7.0.2'                            // extra: HikariCP
 
 	// extras
 	implementation 'org.jolokia:jolokia-core:1.7.2'
-	implementation 'org.jolokia:jolokia-client-java:2.0.2'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+	implementation 'org.jolokia:jolokia-client-java:2.3.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+	implementation 'org.apache.velocity:velocity-engine-core:2.4.1'
 
 	// added 4 lombok
 	compileOnly				'org.projectlombok:lombok:1.18.32'
@@ -50,7 +51,7 @@ dependencies {
 	testCompileOnly			'org.projectlombok:lombok:1.18.32'
 	testAnnotationProcessor	'org.projectlombok:lombok:1.18.32'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.4'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.5.5'
 }
 
 test { useJUnitPlatform() }

@@ -14,7 +14,7 @@
 
     <hr/>
     <a href="/">/root</a> |
-    <a th:href="@{/home}">/home</a> |
+    <a th:href = "@{/home}">/home</a> |
     <a href="/index">/index</a> |
     <a href="/exit">/exit</a>
 
@@ -25,10 +25,10 @@
     <a href="/swagger-ui.html">/swagger-ui.html</a>
 
     <br/><hr />
-    <a href="/showCities">/showCities</a> |
-	<a href = "/showCity">/showCity</a> |
-    <a href="/showCityRnd">/showCityRnd</a> |
-    <a href="/showCity/5">/showCity/5</a>
+    <a th:href = "@{/showCities}">/showCities</a> |
+    <a th:href = "@{/showCity}">/showCity</a> |
+    <a th:href = "@{/showCityRnd}">/showCityRnd</a> |
+    <a th:href = "@{/showCity/5}">/showCity/5</a>
 
 </center>
 </body>

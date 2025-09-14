@@ -60,19 +60,17 @@ public class EmbeddedController {
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCity/{cityId}" ) public ModelAndView showCity(
-		@PathVariable String cityId) {
+	@GetMapping( "/showCity/{id}" )
+	public City showCity(@PathVariable int id) {
 
-		Long longId = Long.parseLong(cityId);
+		Long longId = Long.valueOf(id);
 		City city = cityRepository.getById(longId);
-
-		ModelAndView modelAndView = new ModelAndView("city");
-		modelAndView.addObject("city", city);
-		return modelAndView;
+		return city;
 	}
 
 	// @ApiResponses()
-	@GetMapping( "/showCity" ) public City showCity( ) {
+	@GetMapping( "/showCity" )
+	public City showCity( ) {
 
 		long maxId = cityRepository.count();
 		long rndId = random.nextLong(maxId) + 1;

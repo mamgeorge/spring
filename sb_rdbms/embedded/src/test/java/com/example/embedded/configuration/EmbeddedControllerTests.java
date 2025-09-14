@@ -67,10 +67,9 @@ class EmbeddedControllerTests {
 
 	@Test void test_showCity_parm( ) {
 
-		ModelAndView MAV = sbController.showCity("5");
-		City city = (City) MAV.getModel().get("city");
+		City city = sbController.showCity(5);
 		System.out.println(formatObject(city));
-		assertNotNull(MAV);
+		assertNotNull(city);
 	}
 
 	@Test void test_showCity( ) {

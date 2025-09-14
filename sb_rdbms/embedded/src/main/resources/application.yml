@@ -30,7 +30,7 @@ spring:
           charset_name: UTF-8
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
-    #   import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+        import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
 
 # app.name: EmbeddedApplication
 # database; persistence is case sensitive with objects
