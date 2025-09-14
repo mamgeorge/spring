@@ -1,10 +1,12 @@
 spring:
+
   datasource:
     url: jdbc:sqlite:C:/workspace/dbase/sqlite/chinook.db
     username:
     password:
     driver-class-name: org.sqlite.JDBC
     # DriverManager automatically selects driver className since JDBC4 (SDK6)
+
   jpa:
     hibernate:
       ddl-auto: none # create, create-drop, validate, update, none; none allows app to load if db fails

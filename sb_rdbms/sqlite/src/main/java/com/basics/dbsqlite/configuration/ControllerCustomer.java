@@ -7,6 +7,9 @@ import com.basics.dbsqlite.persistence.InvoicesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -157,6 +161,24 @@ public class ControllerCustomer {
 		ModelAndView modelAndView = new ModelAndView("customerOne");
 		modelAndView.addObject("customer", customer);
 		return modelAndView;
+	}
+
+	@GetMapping( "/showCustomersVtl" ) public String showCustomersVtl( ) {
+
+		String strTemplate = "src/main/resources/velocity/customersListVtl.vm";
+		List<Customer> customers = customerService.findAll();
+
+		VelocityContext velocityContext = new VelocityContext();
+		velocityContext.put("customers", customers);
+
+		VelocityEngine velocityEngine = new VelocityEngine();
+		velocityEngine.init();
+
+		Template template = velocityEngine.getTemplate(strTemplate);
+
+		StringWriter stringWriter = new StringWriter();
+		template.merge(velocityContext, stringWriter);
+		return stringWriter.toString();
 	}
 
 	//#### utils
