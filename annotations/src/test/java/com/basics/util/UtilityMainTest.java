@@ -19,18 +19,16 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Logger;
 
 import static com.basics.util.UtilityMain.PAR;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UtilityMainTest {
 
 	public static final String PATH_LOCAL = "src/test/java/resources/";
+	public static final String HOST_EXT = "https://jsonplaceholder.typicode.com/";
 
 	private static final Logger LOGGER = Logger.getLogger(UtilityMainTest.class.getName());
-	private static final String HOST_EXT = "https://httpbin.org/";
 	private static final String TXT_SAMPLE = "Genesis_01.txt";
 	private static final String FRMT = "\t%-20s %s\n";
 
@@ -40,24 +38,28 @@ public class UtilityMainTest {
 	}
 
 	// J4: @Test (expected = IOException.class), J5: uses lambda
-	@BeforeAll public void setUp() {
+	@BeforeAll
+	public void setUp() {
 	}
 
-	@Test public void showSys() {
+	@Test
+	public void showSys() {
 		//
 		String txtLines = UtilityMain.showSys();
 		System.out.println(PAR + txtLines.substring(0, 10));
 		assertTrue(txtLines.length() > 10);
 	}
 
-	@Test public void showTime() {
+	@Test
+	public void showTime() {
 		//
 		String txtLine = UtilityMain.showTime();
 		System.out.println(PAR + txtLine);
 		assertTrue(txtLine.length() > 10);
 	}
 
-	@Test public void getFileLines() {
+	@Test
+	public void getFileLines() {
 		//
 		String fileName = "/workspace/greetings.txt";
 		String txtLines = UtilityMain.getFileLines(fileName, "");
@@ -66,7 +68,8 @@ public class UtilityMainTest {
 		assertTrue(txtLines.contains(""));
 	}
 
-	@Test public void getFileLocal() {
+	@Test
+	public void getFileLocal() {
 		//
 		String txtLines = UtilityMain.getFileLocal(PATH_LOCAL + TXT_SAMPLE, "");
 		System.out.println("getFileLocal: " + txtLines);
@@ -74,7 +77,8 @@ public class UtilityMainTest {
 	}
 
 	// ############
-	@Test public void urlGet() {
+	@Test
+	public void urlGet() {
 		//
 		String link = "http://www.google.com";
 		String txtLines = UtilityMain.urlGet(link);
@@ -82,7 +86,8 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 10);
 	}
 
-	@Test public void urlPost() {
+	@Test
+	public void urlPost() {
 		//
 		String link = "https://httpbin.org/post";
 		String postParms = "name=Martin&occupation=programmer";
@@ -92,7 +97,8 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 10);
 	}
 
-	@Test public void urlPostFile() {
+	@Test
+	public void urlPostFile() {
 		//
 		String link = "https://httpbin.org/post";
 		String postParms = "name=Martin&occupation=programmer";
@@ -104,13 +110,14 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 1);
 	}
 
-	@Test public void sample_HttpCient() {
+	@Test
+	public void sample_HttpCient() {
 		//
 		String txtLines = "";
 		String url = HOST_EXT + "get?id-1234";
 		//
 		HttpResponse<String> httpResponse = sample_HttpCient(url);
-		String body = httpResponse.body().replaceAll("\\s+"," ");
+		String body = httpResponse.body().replaceAll("\\s+", " ");
 		txtLines += String.format(FRMT, "statusCode", httpResponse.statusCode());
 		txtLines += String.format(FRMT, "body", body);
 		//
@@ -119,7 +126,8 @@ public class UtilityMainTest {
 	}
 
 	// ############
-	@Test public void getXmlNode() {
+	@Test
+	public void getXmlNode() {
 		//
 		String txtLine = "";
 		String xml = "<a><b id = 'aleph' ><c><d>alpha</d><d>beta</d></c></b><b id = 'beth' ></b></a>";
@@ -133,7 +141,8 @@ public class UtilityMainTest {
 		assertTrue(txtLine.length() > 10);
 	}
 
-	@Test public void convertXml2Json() {
+	@Test
+	public void convertXml2Json() {
 		//
 		String xml = "<a><b id = 'aleph' ><c><d>alpha</d><d>beta</d></c></b><b id = 'beth' ></b></a>";
 		String txtLines = UtilityMain.convertXml2Json(xml);
@@ -141,7 +150,8 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 1);
 	}
 
-	@Test public void convertJson2Xml() {
+	@Test
+	public void convertJson2Xml() {
 		//
 		String json = "{ a: { b: [ { c: { d: [ alpha, beta ] }, id: aleph }, { id: beth } ] } }";
 		String txtLines = UtilityMain.convertJson2Xml(json);
@@ -149,7 +159,8 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 1);
 	}
 
-	@Test public void formatXml() {
+	@Test
+	public void formatXml() {
 		//
 		String xml = "<a><b><c><d>alpha</d><d>beta</d></c><id>aleph</id></b><b><id>beth</id></b></a>";
 		String txtLines = UtilityMain.formatXml(xml);
@@ -157,7 +168,8 @@ public class UtilityMainTest {
 		assertTrue(txtLines.length() > 10);
 	}
 
-	@Test public void parseYaml2JsonNode() {
+	@Test
+	public void parseYaml2JsonNode() {
 		//
 		String yamlFileName = "application.yml";
 		String applicationNode = "datasource.platform";
@@ -167,7 +179,8 @@ public class UtilityMainTest {
 		assertEquals("h2", txtLine);
 	}
 
-	@Test public void parseJsonList2List() {
+	@Test
+	public void parseJsonList2List() {
 		//
 		String jsonArr = "[ {\"a\":\"1\"} , {\"b\":\"2\"}, {\"c\":\"3\"} ]";
 		//
@@ -191,7 +204,9 @@ public class UtilityMainTest {
 		try {
 			HttpResponse.BodyHandler<String> bodyHandlers = HttpResponse.BodyHandlers.ofString();
 			httpResponse = httpClient.send(httpRequest, bodyHandlers);
-		} catch (IOException | InterruptedException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		} catch (IOException | InterruptedException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
 		//
 		return httpResponse;
 	}

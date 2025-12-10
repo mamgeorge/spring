@@ -4,11 +4,7 @@ import com.basics.samples.ClientHttpRequestInterceptor_Impl;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.*;
-import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.client.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
@@ -16,25 +12,16 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static com.basics.util.UtilityMain.EOL;
 import static com.basics.util.UtilityMain.exposeObject;
+import static com.basics.util.UtilityMainTest.HOST_EXT;
 import static com.basics.util.UtilityMainTest.PATH_LOCAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.http.HttpHeaders.ACCEPT_CHARSET;
-import static org.springframework.http.HttpHeaders.ACCEPT_ENCODING;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_ENCODING;
-import static org.springframework.http.HttpHeaders.CONTENT_LANGUAGE;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpHeaders.USER_AGENT;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.OK;
@@ -42,34 +29,34 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 // @RunWith( MockitoJUnitRunner.class ) JUnit 4
+@Disabled("Must be checked individually")
 public class RestTemplateTest {
 
 	private static final Logger LOGGER = Logger.getLogger(RestTemplateTest.class.getName());
-	private static final String HOST_EXT = "http://httpbin.org";
 	private static final String FILENAME_BOOKS = "booksCatalog.json";
 	private static final String FRMT = "\t%-20s %s\n";
 	private static final String TESTSERVER_DOWNMSG = "I/O error on GET Connection refused; using Mock";
 	public static final String DEFAULT_OAUTH =
-		"{ \"access_token\": \"TOKEN_DEFAULT\", \"token_type\": \"TYPE_DEFAULT\", \"expires_in\": " +
-			"\"EXPIRES_DEFAULT\", \"id_token\": \"ID_DEFAULT\" }";
+			"{ \"access_token\": \"TOKEN_DEFAULT\", \"token_type\": \"TYPE_DEFAULT\", \"expires_in\": " +
+					"\"EXPIRES_DEFAULT\", \"id_token\": \"ID_DEFAULT\" }";
 
 	// get & post
-	@Test void test_RT_objects( ) {
+	@Test
+	void test_RT_objects() {
 		//
 		StringBuilder sb = new StringBuilder();
 		RestTemplate restTemplate = new RestTemplate();
 		URI uri = null;
 		try {
 			uri = new URI(HOST_EXT);
-		}
-		catch (URISyntaxException ex) {
+		} catch (URISyntaxException ex) {
 			LOGGER.info(ex.getMessage());
 		}
 		HttpEntity<String> httpEntity = new HttpEntity<>("http_text");
 		RequestEntity<String> requestEntity =
-			RequestEntity.post(Objects.requireNonNull(uri)).body("request_text");
+				RequestEntity.post(Objects.requireNonNull(uri)).body("request_text");
 		ResponseEntity<String> responseEntity = new ResponseEntity<>("response_text", OK);
-		Object[] objects = { restTemplate, httpEntity, requestEntity, responseEntity };
+		Object[] objects = {restTemplate, httpEntity, requestEntity, responseEntity};
 
 		Arrays.stream(objects).forEach(obj -> sb.append(exposeObject(obj)));
 
@@ -77,7 +64,8 @@ public class RestTemplateTest {
 		assertNotNull(sb);
 	}
 
-	@Test void test_RT_getForEntity( ) {
+	@Test
+	void test_RT_getForEntity() {
 		//
 		String txtLines = "";
 		String url = HOST_EXT + "/get?sid=A123456";
@@ -88,7 +76,7 @@ public class RestTemplateTest {
 		ClientHttpRequestFactory CHRF = restTemplate.getRequestFactory();
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String response = Objects.requireNonNull(responseEntity.getBody())
-			.replaceAll("\\s+", " ").substring(0, 80);
+				.replaceAll("\\s+", " ").substring(0, 80);
 		String headers = responseEntity.getHeaders().toString().replaceAll(",", ",\n\t\t");
 		//
 		txtLines += String.format(FRMT, "CHRF", CHRF);
@@ -100,7 +88,8 @@ public class RestTemplateTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void test_RT_getForEntity_simplified( ) {
+	@Test
+	void test_RT_getForEntity_simplified() {
 		//
 		// ResponseEntity<String> responseEntity = restTemplate.getForEntity(txtURL, String.class);
 		RestTemplate restTemplate = new RestTemplate();
@@ -113,7 +102,8 @@ public class RestTemplateTest {
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test void test_RT_postForEntity_logged( ) {
+	@Test
+	void test_RT_postForEntity_logged() {
 		//
 		String txtLines = "";
 		String url = HOST_EXT + "/post";
@@ -139,7 +129,7 @@ public class RestTemplateTest {
 		ResponseEntity<String> responseEntity = restTemplate.exchange(url, POST, httpEntity, String.class);
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String response = Objects.requireNonNull(responseEntity.getBody())
-			.replaceAll("\\s+", " ").substring(0, 80);
+				.replaceAll("\\s+", " ").substring(0, 80);
 		String headers = responseEntity.getHeaders().toString().replaceAll(",", ",\n\t\t");
 		//
 		// show
@@ -150,7 +140,8 @@ public class RestTemplateTest {
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test void test_RT_postForEntity_simplified( ) {
+	@Test
+	void test_RT_postForEntity_simplified() {
 		//
 		String body = "Here we go again!";
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -161,7 +152,7 @@ public class RestTemplateTest {
 		HttpEntity<?> httpEntity = new HttpEntity<>(body, httpHeaders);
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity =
-			exchange_Entity(restTemplate, HOST_EXT + "/post", POST, httpEntity);
+				exchange_Entity(restTemplate, HOST_EXT + "/post", POST, httpEntity);
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
@@ -170,12 +161,13 @@ public class RestTemplateTest {
 	}
 
 	// exchange
-	@Test void test_RT_exchange_get( ) {
+	@Test
+	void test_RT_exchange_get() {
 		//
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<String> httpEntity = new HttpEntity<>("");
 		ResponseEntity<String> responseEntity =
-			restTemplate.exchange(HOST_EXT, GET, httpEntity, String.class);
+				restTemplate.exchange(HOST_EXT, GET, httpEntity, String.class);
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
@@ -183,7 +175,8 @@ public class RestTemplateTest {
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test void test_RT_exchange_get_HttpHeaders( ) {
+	@Test
+	void test_RT_exchange_get_HttpHeaders() {
 		//
 		StringBuilder sb = new StringBuilder();
 		String body = "{summary:{forename:Martin, surname:George, work: programmer, affiliation:Christian}}";
@@ -196,13 +189,13 @@ public class RestTemplateTest {
 		httpHeader_REQ.headerNames() // keyset()
 				.forEach(key -> sb.append(String.format(FRMT, key, httpHeader_REQ.get(key))));
 		String body_REQ =
-			Objects.requireNonNull(httpEntity.getBody()).replaceAll("\\s+", " ").substring(0, 80);
+				Objects.requireNonNull(httpEntity.getBody()).replaceAll("\\s+", " ").substring(0, 80);
 		sb.append(EOL + "body_REQ:\n\t").append(body_REQ).append(EOL);
 		//
 		// exchange
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity =
-			restTemplate.exchange(HOST_EXT, GET, httpEntity, String.class);
+				restTemplate.exchange(HOST_EXT, GET, httpEntity, String.class);
 		//
 		// response
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
@@ -210,16 +203,17 @@ public class RestTemplateTest {
 		sb.append(EOL + "httpStatus:\n\t").append(httpStatus).append(EOL);
 		sb.append(EOL + "httpHeader_RSP:\n");
 		httpHeader_RSP.headerNames() // keyset()
-			.forEach(key -> sb.append(String.format(FRMT, key, httpHeader_RSP.get(key))));
+				.forEach(key -> sb.append(String.format(FRMT, key, httpHeader_RSP.get(key))));
 		String body_RSP = Objects.requireNonNull(responseEntity.getBody())
-			.replaceAll("\\s+", " ").substring(0, 80);
+				.replaceAll("\\s+", " ").substring(0, 80);
 		sb.append(EOL + "body_RSP:\n\t").append(body_RSP);
 		//
 		System.out.println(sb);
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test void test_RT_exchange_get_simplified( ) {
+	@Test
+	void test_RT_exchange_get_simplified() {
 		//
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<String> httpEntity = new HttpEntity<>("");
@@ -231,7 +225,8 @@ public class RestTemplateTest {
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test void test_RT_exchange_post_body( ) {
+	@Test
+	void test_RT_exchange_post_body() {
 		//
 		String txtLines = "";
 		String url = HOST_EXT + "/post";
@@ -249,7 +244,7 @@ public class RestTemplateTest {
 		ResponseEntity<String> responseEntity = restTemplate.exchange(url, POST, httpEntity, String.class);
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String response = Objects.requireNonNull(responseEntity.getBody())
-			.replaceAll("\\s+", " ").substring(0, 80);
+				.replaceAll("\\s+", " ").substring(0, 80);
 		String headers = responseEntity.getHeaders().toString().replaceAll(",", ",\n\t\t");
 		//
 		// show
@@ -260,12 +255,13 @@ public class RestTemplateTest {
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test void test_RT_exchange_post_simplified( ) {
+	@Test
+	void test_RT_exchange_post_simplified() {
 		//
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<String> httpEntity = new HttpEntity<>("bar");
 		ResponseEntity<String> responseEntity =
-			exchange_Entity(restTemplate, HOST_EXT + "/post", POST, httpEntity);
+				exchange_Entity(restTemplate, HOST_EXT + "/post", POST, httpEntity);
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
@@ -273,7 +269,8 @@ public class RestTemplateTest {
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test void test_RT_SCHRF( ) {
+	@Test
+	void test_RT_SCHRF() {
 		//
 		String txtLines = "";
 		int timeout = 5000;
@@ -294,7 +291,9 @@ public class RestTemplateTest {
 		assertEquals(OK, httpStatus);
 	}
 
-	@Test @Disabled( "general reasons" ) void test_RT_HCCHRF( ) {
+	@Test
+	@Disabled("general reasons")
+	void test_RT_HCCHRF() {
 		//
 		// needed org.apache.httpComponents:httpclient:4.3.4
 		String txtLines = "";
@@ -306,7 +305,7 @@ public class RestTemplateTest {
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String bodyRSP = Objects.requireNonNull(responseEntity.getBody())
-			.replaceAll("\\s+", "").substring(0, 80);
+				.replaceAll("\\s+", "").substring(0, 80);
 		//
 		txtLines += String.format("HCCHRF: %s\n", HCCHRF);
 		txtLines += String.format("responseEntity.getBody(): %s\n", bodyRSP);
@@ -335,8 +334,7 @@ public class RestTemplateTest {
 		ResponseEntity<String> responseEntity;
 		try {
 			responseEntity = restTemplate.getForEntity(txtUrl, String.class);
-		}
-		catch (ResourceAccessException ex) {
+		} catch (ResourceAccessException ex) {
 			LOGGER.info(TESTSERVER_DOWNMSG);
 			String body = UtilityMain.getFileLocal(PATH_LOCAL + FILENAME_BOOKS, "");
 			//
@@ -350,13 +348,12 @@ public class RestTemplateTest {
 	}
 
 	public static ResponseEntity<String> exchange_Entity(RestTemplate RT, String txtUrl,
-		HttpMethod httpMethod, HttpEntity<?> httpEntity) {
+	                                                     HttpMethod httpMethod, HttpEntity<?> httpEntity) {
 		//
 		ResponseEntity<String> responseEntity;
 		try {
 			responseEntity = RT.exchange(txtUrl, httpMethod, httpEntity, String.class);
-		}
-		catch (ResourceAccessException ex) {
+		} catch (ResourceAccessException ex) {
 			LOGGER.info(TESTSERVER_DOWNMSG);
 			String body = UtilityMain.getFileLocal(PATH_LOCAL + FILENAME_BOOKS, "");
 			MultiValueMap<String, String> MVM = new LinkedMultiValueMap<>();
@@ -366,7 +363,7 @@ public class RestTemplateTest {
 		return responseEntity;
 	}
 
-	public static MultiValueMap<String, String> getMvmSample( ) {
+	public static MultiValueMap<String, String> getMvmSample() {
 		//
 		MultiValueMap<String, String> MVM = new LinkedMultiValueMap<>();
 		MVM.add(CONTENT_TYPE, APPLICATION_JSON_VALUE);

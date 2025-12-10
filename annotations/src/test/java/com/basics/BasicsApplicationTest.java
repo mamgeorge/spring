@@ -3,10 +3,7 @@ package com.basics;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.basics.util.UtilityMain.GREEN;
-import static com.basics.util.UtilityMain.LOGGER;
-import static com.basics.util.UtilityMain.PAR;
-import static com.basics.util.UtilityMain.RESET;
+import static com.basics.util.UtilityMain.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 // @SpringBootTest
@@ -19,17 +16,19 @@ class BasicsApplicationTest {
 		System.out.println(GREEN + "BasicsApplicationTest.main" + RESET);
 	}
 
-	@Test void sample() {
+	@Test
+	void sample() {
 
 		String txtLine = GREEN + "BasicsApplicationTest.sample" + RESET;
 		LOGGER.info(PAR + txtLine);
 		assertNotNull(txtLine);
 	}
 
-	@Test void contextLoads() {
+	@Test
+	void contextLoads() {
 
 		String txtLine = GREEN + "BasicsApplicationTest.contextLoads" + RESET;
-		LOGGER.info(PAR +txtLine);
+		LOGGER.info(PAR + txtLine);
 		assertNotNull(txtLine);
 	}
 }

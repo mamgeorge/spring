@@ -24,9 +24,11 @@ public class BasicsApplication implements CommandLineRunner {
 	//
 	// CLR (CommandLineRunner) not normally implemented	
 	// CLR, Autowired, Override, only added to show how env vars can be accessed
-	@Autowired private Environment environment;
+	@Autowired
+	private Environment environment;
 
-	@Override public void run(String... args) throws Exception {
+	@Override
+	public void run(String... args) throws Exception {
 
 		//
 		String appName = environment.getProperty("app.name");

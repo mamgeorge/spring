@@ -10,14 +10,14 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.basics.util.UtilityMain.EOL;
-import static com.basics.util.UtilityMain.PAR;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class CityServiceTest {
 
-	@Test void testing( ) {
+	@Test
+	void testing() {
 
 		StringBuilder sb = new StringBuilder();
 		CityService cityService = mock(CityService.class);
@@ -27,7 +27,8 @@ class CityServiceTest {
 		assertNotNull(sb);
 	}
 
-	@Test void findAll( ) {
+	@Test
+	void findAll() {
 
 		StringBuilder sb = new StringBuilder();
 		String FRMT = "\n\t%02d %-15s %,9d";
@@ -36,7 +37,7 @@ class CityServiceTest {
 
 		List<City> cityList = new ArrayList<>();
 		AtomicInteger ai = new AtomicInteger();
-		Arrays.stream(cityNames.split(" ")).sorted().forEach( cityName -> {
+		Arrays.stream(cityNames.split(" ")).sorted().forEach(cityName -> {
 
 			City city = new City();
 			city.setId((long) ai.incrementAndGet());
@@ -48,7 +49,7 @@ class CityServiceTest {
 		when(cityService.findAll()).thenReturn(cityList);
 
 		List<City> citiesFound = cityService.findAll();
-		for ( City city : citiesFound ) {
+		for (City city : citiesFound) {
 			sb.append(String.format(FRMT, city.getId(), city.getName(), city.getPopulation()));
 		}
 		sb.append(EOL).append("total: ").append(citiesFound.size());

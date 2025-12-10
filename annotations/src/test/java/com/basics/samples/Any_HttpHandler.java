@@ -22,7 +22,8 @@ public class Any_HttpHandler implements HttpHandler {
 	private static final String HTML_TOP = "<html><style>body {font-family: verdana;}</style><body><center>";
 	private static final String HTML_BTM = "</center></body></html>";
 
-	@Override public void handle(HttpExchange httpExchange) throws IOException {
+	@Override
+	public void handle(HttpExchange httpExchange) throws IOException {
 		//
 		String parm = "";
 		String method = httpExchange.getRequestMethod();
@@ -47,8 +48,11 @@ public class Any_HttpHandler implements HttpHandler {
 		}
 		//
 		InputStream inputStream = httpExchange.getRequestBody();
-		try {txtLines += new String(inputStream.readAllBytes(), UTF_8);}
-		catch (IOException ex) { LOGGER.severe(ex.getMessage()); }
+		try {
+			txtLines += new String(inputStream.readAllBytes(), UTF_8);
+		} catch (IOException ex) {
+			LOGGER.severe(ex.getMessage());
+		}
 		//
 		return txtLines;
 	}
@@ -57,8 +61,11 @@ public class Any_HttpHandler implements HttpHandler {
 		//
 		String txtLines = "";
 		InputStream inputStream = httpExchange.getRequestBody();
-		try {txtLines = new String(inputStream.readAllBytes(), UTF_8);}
-		catch (IOException ex) { LOGGER.severe(ex.getMessage()); }
+		try {
+			txtLines = new String(inputStream.readAllBytes(), UTF_8);
+		} catch (IOException ex) {
+			LOGGER.severe(ex.getMessage());
+		}
 		return txtLines;
 	}
 

@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.basics.util.UtilityMainTest.HOST_EXT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.USER_AGENT;
@@ -20,7 +21,6 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 
 public class Any_HttpClient {
 	//
-	public static final String HOST_EXT = "https://jsonplaceholder.typicode.com/";
 	public static final String FRMT = "\t%-15s %s\n";
 
 	private static final HttpClient httpClient = HttpClient.newBuilder()
@@ -81,7 +81,9 @@ public class Any_HttpClient {
 		HttpResponse.BodyHandler<String> bodyHandlers = HttpResponse.BodyHandlers.ofString();
 		try {
 			httpResponse = httpClient.send(httpRequest, bodyHandlers);
-		} catch (IOException | InterruptedException ex) {System.out.println("ERROR: " + ex.getMessage());}
+		} catch (IOException | InterruptedException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
 		//
 		txtLines += String.format(FRMT, "statusCode", httpResponse.statusCode());
 		txtLines += String.format(FRMT, "body", httpResponse.body());

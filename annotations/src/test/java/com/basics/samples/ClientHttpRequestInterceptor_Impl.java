@@ -19,7 +19,7 @@ public class ClientHttpRequestInterceptor_Impl implements ClientHttpRequestInter
 
 	@Override
 	public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes,
-			ClientHttpRequestExecution CHRE) {
+	                                    ClientHttpRequestExecution CHRE) {
 		//
 		ClientHttpResponse clientHttpResponse = null;
 		try {

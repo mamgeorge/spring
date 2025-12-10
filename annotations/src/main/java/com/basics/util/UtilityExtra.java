@@ -15,12 +15,11 @@ import java.nio.charset.StandardCharsets;
 public class UtilityExtra {
 
 	public static final String[] CODEPAGES =
-		{"US-ASCII", "UTF-8", "UTF-16", "UTF-32", "Cp850", "Big5", "GB2312"};
+			{"US-ASCII", "UTF-8", "UTF-16", "UTF-32", "Cp850", "Big5", "GB2312"};
 	private static final String GRN = "\u001b[32m";
 	private static final String RST = "\u001b[30m";
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		new UtilityExtra().codePager("约翰");
 		System.out.println("DONE");
 	}

@@ -17,13 +17,19 @@ public class CityService implements ICityService {
 	private CityRepository cityRepository;
 
 	@Override
-	public City findById(Long id) { return cityRepository.findById(id).get(); }
+	public City findById(Long id) {
+		return cityRepository.findById(id).get();
+	}
 
 	@Override
-	public City save(City city) { return cityRepository.save(city); }
+	public City save(City city) {
+		return cityRepository.save(city);
+	}
 
 	@Override
-	public List<City> findAll() { return (List<City>) cityRepository.findAll(); }
+	public List<City> findAll() {
+		return (List<City>) cityRepository.findAll();
+	}
 
 	/*
 	public List<City> findAll( ) { 
