@@ -3,13 +3,7 @@ package com.basics.util;
 import com.basics.samples.ClientHttpRequestInterceptor_Impl;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -92,7 +86,7 @@ public class RestTemplateTest {
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 		//
 		ClientHttpRequestFactory CHRF = restTemplate.getRequestFactory();
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String response = Objects.requireNonNull(responseEntity.getBody())
 			.replaceAll("\\s+", " ").substring(0, 80);
 		String headers = responseEntity.getHeaders().toString().replaceAll(",", ",\n\t\t");
@@ -111,7 +105,7 @@ public class RestTemplateTest {
 		// ResponseEntity<String> responseEntity = restTemplate.getForEntity(txtURL, String.class);
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		// RT.getForEntity( ) > RE.getStatusCode( ) > HS
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
@@ -143,7 +137,7 @@ public class RestTemplateTest {
 		//
 		// send request
 		ResponseEntity<String> responseEntity = restTemplate.exchange(url, POST, httpEntity, String.class);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String response = Objects.requireNonNull(responseEntity.getBody())
 			.replaceAll("\\s+", " ").substring(0, 80);
 		String headers = responseEntity.getHeaders().toString().replaceAll(",", ",\n\t\t");
@@ -168,7 +162,7 @@ public class RestTemplateTest {
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity =
 			exchange_Entity(restTemplate, HOST_EXT + "/post", POST, httpEntity);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
 		System.out.println(txtLines);
@@ -182,7 +176,7 @@ public class RestTemplateTest {
 		HttpEntity<String> httpEntity = new HttpEntity<>("");
 		ResponseEntity<String> responseEntity =
 			restTemplate.exchange(HOST_EXT, GET, httpEntity, String.class);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
 		System.out.println(txtLines);
@@ -199,7 +193,8 @@ public class RestTemplateTest {
 		HttpEntity<String> httpEntity = getHttpEntity_String(auth_base64Creds, body);
 		HttpHeaders httpHeader_REQ = httpEntity.getHeaders();
 		sb.append(EOL + "httpHeader_REQ:\n");
-		httpHeader_REQ.keySet().forEach(key -> sb.append(String.format(FRMT, key, httpHeader_REQ.get(key))));
+		httpHeader_REQ.headerNames() // keyset()
+				.forEach(key -> sb.append(String.format(FRMT, key, httpHeader_REQ.get(key))));
 		String body_REQ =
 			Objects.requireNonNull(httpEntity.getBody()).replaceAll("\\s+", " ").substring(0, 80);
 		sb.append(EOL + "body_REQ:\n\t").append(body_REQ).append(EOL);
@@ -210,11 +205,11 @@ public class RestTemplateTest {
 			restTemplate.exchange(HOST_EXT, GET, httpEntity, String.class);
 		//
 		// response
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		HttpHeaders httpHeader_RSP = responseEntity.getHeaders();
 		sb.append(EOL + "httpStatus:\n\t").append(httpStatus).append(EOL);
 		sb.append(EOL + "httpHeader_RSP:\n");
-		httpHeader_RSP.keySet()
+		httpHeader_RSP.headerNames() // keyset()
 			.forEach(key -> sb.append(String.format(FRMT, key, httpHeader_RSP.get(key))));
 		String body_RSP = Objects.requireNonNull(responseEntity.getBody())
 			.replaceAll("\\s+", " ").substring(0, 80);
@@ -229,7 +224,7 @@ public class RestTemplateTest {
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<String> httpEntity = new HttpEntity<>("");
 		ResponseEntity<String> responseEntity = exchange_Entity(restTemplate, HOST_EXT, GET, httpEntity);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
 		System.out.println(txtLines);
@@ -252,7 +247,7 @@ public class RestTemplateTest {
 		// send request
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = restTemplate.exchange(url, POST, httpEntity, String.class);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String response = Objects.requireNonNull(responseEntity.getBody())
 			.replaceAll("\\s+", " ").substring(0, 80);
 		String headers = responseEntity.getHeaders().toString().replaceAll(",", ",\n\t\t");
@@ -271,7 +266,7 @@ public class RestTemplateTest {
 		HttpEntity<String> httpEntity = new HttpEntity<>("bar");
 		ResponseEntity<String> responseEntity =
 			exchange_Entity(restTemplate, HOST_EXT + "/post", POST, httpEntity);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = String.format("httpStatus: %s\n", httpStatus);
 		System.out.println(txtLines);
@@ -291,7 +286,7 @@ public class RestTemplateTest {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setRequestFactory(SCHRF);
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		txtLines += String.format("SCHRF: %s\n", SCHRF);
 		txtLines += String.format("responseEntity.getBody(): %s\n", responseEntity.getBody());
@@ -305,11 +300,11 @@ public class RestTemplateTest {
 		String txtLines = "";
 		int timeout = 5000;
 		HttpComponentsClientHttpRequestFactory HCCHRF = new HttpComponentsClientHttpRequestFactory();
-		HCCHRF.setConnectTimeout(timeout);
+		HCCHRF.setConnectionRequestTimeout(timeout); // setConnectTimeout
 		//
 		RestTemplate restTemplate = new RestTemplate(HCCHRF);
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		String bodyRSP = Objects.requireNonNull(responseEntity.getBody())
 			.replaceAll("\\s+", "").substring(0, 80);
 		//

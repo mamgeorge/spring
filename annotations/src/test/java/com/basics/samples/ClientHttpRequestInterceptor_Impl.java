@@ -39,7 +39,7 @@ public class ClientHttpRequestInterceptor_Impl implements ClientHttpRequestInter
 		txtLines += "httpRequest: " + UtilityMain.exposeObject(httpRequest);
 		//
 		HttpHeaders httpHeaders = httpRequest.getHeaders();
-		Set<String> set = httpHeaders.keySet();
+		Set<String> set = httpHeaders.headerNames(); // keyset()
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n");
 		set.forEach(hdr -> stringBuilder.append(String.format(FRMT, hdr, httpHeaders.get(hdr))));

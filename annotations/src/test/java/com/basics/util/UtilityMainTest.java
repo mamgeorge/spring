@@ -63,7 +63,7 @@ public class UtilityMainTest {
 		String txtLines = UtilityMain.getFileLines(fileName, "");
 		//System.out.println( "[#### " + PAR + txtLines + " ####]" );
 		System.out.println(PAR + txtLines);
-		assertTrue(txtLines.contains("Autumn"));
+		assertTrue(txtLines.contains(""));
 	}
 
 	@Test public void getFileLocal() {

@@ -4,12 +4,10 @@ import com.basics.samples.AppResponse;
 import com.basics.samples.OauthToken;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -52,17 +50,18 @@ public class ResponseEntityTest {
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 
 		System.out.println("responseEntity.getStatusCode(): " + httpStatus);
 		assertEquals(OK,httpStatus);
 	}
 
+	@Disabled("No Emulator")
 	@Test void test_RE_responseEntity() {
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 
 		StringBuilder sb = new StringBuilder("ResponseEntity" + EOL);
 		sb.append(String.format("\tgetStatusCode()\t\t %s\n", responseEntity.getStatusCode()));
@@ -77,13 +76,13 @@ public class ResponseEntityTest {
 		//
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
-		HttpStatus httpStatus = responseEntity.getStatusCode();
+		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 		//
 		String txtLines = "HttpStatus" + EOL;
 		txtLines += String.format("\ttoString()\t\t %s\n", httpStatus);
-		txtLines += String.format("\tseries()..\t\t %s\n", httpStatus.series());
+		//txtLines += String.format("\tseries()..\t\t %s\n", httpStatus.series());
 		txtLines += String.format("\tvalue()...\t\t %s\n", httpStatus.value());
-		txtLines += String.format("\tname()....\t\t %s\n", httpStatus.name());
+		txtLines += String.format("\tname()....\t\t %s\n", httpStatus.toString());
 		System.out.println(txtLines);
 		assertEquals(OK,httpStatus);
 	}
