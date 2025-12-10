@@ -52,8 +52,8 @@ public class ResponseEntityTest {
 		ResponseEntity<String> responseEntity = getForEntity_String(restTemplate, HOST_EXT);
 		HttpStatusCode httpStatus = responseEntity.getStatusCode();
 
-		System.out.println("responseEntity.getStatusCode(): " + httpStatus);
-		assertEquals(OK,httpStatus);
+		System.out.println("responseEntity.getStatusCode(): " + httpStatus.value());
+		assertEquals(OK.value(), httpStatus.value());
 	}
 
 	@Disabled("No Emulator")
@@ -96,8 +96,8 @@ public class ResponseEntityTest {
 
 	@Test void test_sendFiles2App() {
 		//
-		String txtUrl = HOST_EXT + "/post"; // HOST_JS + + "/API";
-		String token = getOauthToken(HOST_EXT + "/post", "ANY_PASSWORD"); // HOST_JS + "/OAUTH"
+		String txtUrl = HOST_EXT + "posts"; // HOST_JS + + "/API";
+		String token = getOauthToken(txtUrl , "ANY_PASSWORD"); // HOST_JS + "/OAUTH"
 		String pathJson = PATH_LOCAL + "books.json";
 		String pathWav = PATH_LOCAL + FILENAME_WAVE;
 		//

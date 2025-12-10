@@ -20,7 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 
 public class Any_HttpClient {
 	//
-	public static final String HOST_EXT = "https://httpbin.org/";
+	public static final String HOST_EXT = "https://jsonplaceholder.typicode.com/";
 	public static final String FRMT = "\t%-15s %s\n";
 
 	private static final HttpClient httpClient = HttpClient.newBuilder()
