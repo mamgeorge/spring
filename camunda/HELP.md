@@ -1,6 +1,19 @@
 # Getting Started
 
-cd C:\workspace\github\javaSamples\spring\camunda
+* code
+
+    > cd "C:\workspace\github\javaSamples\spring\camunda"
+
+*startup
+
+    > cd "C:/workspace/samples/Camunda"
+    > camunda-start.bat
+    > camunda-modeler.bat > deploy > run > {"item": "extra widget"}
+    > browser > "http://localhost:8080/operate" > demo > demo
+    > run "SpringBootApplication"
+
+*shutdown
+    > camunda-stop.bat, or CTRL_C
 
 ### Reference Documentation
 For further reference, please consider the following sections:
