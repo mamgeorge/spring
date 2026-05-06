@@ -85,7 +85,7 @@ class EmbeddedControllerTests {
 	@Test
 	void showCities() {
 
-		ModelAndView MAV = controllerEmb.showCities();
+		ModelAndView MAV = controllerEmb.showCities(5);
 		List<City> cities = (List<City>) MAV.getModel().get("cities");
 		System.out.println(formatObject(cities));
 		assertNotNull(MAV);

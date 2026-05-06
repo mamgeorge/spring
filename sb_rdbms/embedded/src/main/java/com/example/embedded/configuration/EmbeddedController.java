@@ -55,10 +55,21 @@ public class EmbeddedController {
 		return new ModelAndView("index", new HashMap<>());
 	}
 
-	@GetMapping("/showCities")
-	public ModelAndView showCities() {
+	@GetMapping("/showCities/{num}")
+	public ModelAndView showCities(@PathVariable int num) {
 
-		List<City> cities = cityRepository.findAll();
+		long count = cityRepository.count();
+		int pageNumber = 0;
+		if (num > count) { num = (int) count; }
+		if (num < 1) { num = 1; }
+
+		Sort sort = Sort.by("name").ascending();
+		Pageable pageable = PageRequest.of(pageNumber, num, sort);
+
+		// Execute the call
+		Page<City> page = cityRepository.findAll(pageable);
+
+		List<City> cities = page.toList();
 
 		ModelAndView modelAndView = new ModelAndView("cities");
 		modelAndView.addObject("cities", cities);
@@ -78,13 +89,11 @@ public class EmbeddedController {
 		return modelAndView;
 	}
 
-	@GetMapping("/showCityNum")
-	public ModelAndView showCityNum(@PathVariable int id) {
+	@GetMapping("/showCityNum/{id}")
+	public ModelAndView showCityNum(@PathVariable long id) {
 
-		long maxId = cityRepository.count();
-		long rndId = random.nextLong(maxId) + 1;
-		System.out.println("rndId: " + rndId);
-		City city = cityRepository.findById(rndId).get();
+		System.out.println("id): " + id);
+		City city = cityRepository.findById((id)).get();
 
 		ModelAndView modelAndView = new ModelAndView("city");
 		modelAndView.addObject("city", city);
@@ -120,10 +129,10 @@ public class EmbeddedController {
 	}
 
 	@GetMapping("/jsonCityNum/{id}")
-	public City jsonCityNum(@PathVariable int id) {
+	public City jsonCityNum(@PathVariable long id) {
 
-		Long longId = Long.valueOf(id);
-		City city = cityRepository.getById(longId);
+		System.out.println("id): " + id);
+		City city = cityRepository.getById(id);
 		return city;
 	}
 
