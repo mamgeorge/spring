@@ -14,6 +14,7 @@ spring:
 
   # only needed for DataSourceBuilder DB_CLOSE_ON_EXIT=FALSE
   datasource:
+    #    jdbc:h2:mem:mydb;INIT=create schema if not exists mydb\;runscript from '~/import.sql'
     url: jdbc:h2:mem:mydb;mode=Oracle;
     username: sa
     password:

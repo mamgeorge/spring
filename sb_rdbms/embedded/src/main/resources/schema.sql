@@ -1,0 +1,7 @@
+CREATE TABLE cities (
+id IDENTITY PRIMARY KEY,
+name VARCHAR(255),
+population INT,
+created DATE,
+updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

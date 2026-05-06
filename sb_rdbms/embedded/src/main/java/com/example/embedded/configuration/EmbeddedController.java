@@ -7,6 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,24 +26,37 @@ import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 @RestController
 public class EmbeddedController {
 
+	private static final Random random = new Random();
 	private final CityRepository cityRepository;
 	private final ApplicationContext applicationContext; //added for close
 
-	@Autowired EmbeddedController(CityRepository cityRepository, ApplicationContext applicationContext) {
+	@Autowired
+	EmbeddedController(CityRepository cityRepository, ApplicationContext applicationContext) {
 		this.cityRepository = cityRepository;
 		this.applicationContext = applicationContext;
 	}
 
-	private static final Random random = new Random();
+	public static String formatObject(Object object) {
 
-	@GetMapping( { "/", "/root", "/home", "/index" } )
-	public ModelAndView home( ) {
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+		try {
+			json = objectMapper.writeValueAsString(object);
+		} catch (JsonProcessingException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
+		return json;
+	}
+
+	@GetMapping({"/", "/root", "/home", "/index"})
+	public ModelAndView home() {
 
 		System.out.println(Instant.now());
 		return new ModelAndView("index", new HashMap<>());
 	}
 
-	@GetMapping( "/showCities" ) public ModelAndView showCities( ) {
+	@GetMapping("/showCities")
+	public ModelAndView showCities() {
 
 		List<City> cities = cityRepository.findAll();
 
@@ -48,7 +65,8 @@ public class EmbeddedController {
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCityRnd" ) public ModelAndView showCityRnd( ) {
+	@GetMapping("/showCityRnd")
+	public ModelAndView showCityRnd() {
 
 		long maxId = cityRepository.count();
 		long rndId = random.nextLong(maxId) + 1;
@@ -60,17 +78,40 @@ public class EmbeddedController {
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCity/{id}" )
-	public City showCity(@PathVariable int id) {
+	@GetMapping("/showCityNum")
+	public ModelAndView showCityNum(@PathVariable int id) {
 
-		Long longId = Long.valueOf(id);
-		City city = cityRepository.getById(longId);
-		return city;
+		long maxId = cityRepository.count();
+		long rndId = random.nextLong(maxId) + 1;
+		System.out.println("rndId: " + rndId);
+		City city = cityRepository.findById(rndId).get();
+
+		ModelAndView modelAndView = new ModelAndView("city");
+		modelAndView.addObject("city", city);
+		return modelAndView;
 	}
 
 	// @ApiResponses()
-	@GetMapping( "/showCity" )
-	public City showCity( ) {
+	@GetMapping("/jsonCities/{num}")
+	public List<City> jsonCities(@PathVariable int num) {
+
+		long count = cityRepository.count();
+		int pageNumber = 0;
+		if (num > count) { num = (int) count; }
+		if (num < 1) { num = 1; }
+
+		Sort sort = Sort.by("name").ascending();
+		Pageable pageable = PageRequest.of(pageNumber, num, sort);
+
+		// Execute the call
+		Page<City> page = cityRepository.findAll(pageable);
+
+		List<City> cities = page.toList();
+		return cities;
+	}
+
+	@GetMapping("/jsonCityRnd")
+	public City jsonCityRnd() {
 
 		long maxId = cityRepository.count();
 		long rndId = random.nextLong(maxId) + 1;
@@ -78,20 +119,20 @@ public class EmbeddedController {
 		return cityRepository.findById(rndId).get();
 	}
 
-	@GetMapping( "/exit" ) public void exit( ) {
+	@GetMapping("/jsonCityNum/{id}")
+	public City jsonCityNum(@PathVariable int id) {
+
+		Long longId = Long.valueOf(id);
+		City city = cityRepository.getById(longId);
+		return city;
+	}
+
+	// utils
+	@GetMapping("/exit")
+	public void exit() {
 
 		System.out.println("EXIT");
 		SpringApplication.exit(applicationContext);
 		System.exit(0);
-	}
-
-	// utils
-	public static String formatObject(Object object) {
-
-		String json = "";
-		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
-		try { json = objectMapper.writeValueAsString(object); }
-		catch (JsonProcessingException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-		return json;
 	}
 }

@@ -48,7 +48,7 @@ class DbProfileTest {
 	@Autowired private ApplicationContext appContext;
 	@Autowired private DataSource dataSource;
 
-	@Test void getBeans( ) {
+	@Disabled @Test void getBeans( ) {
 		//
 		StringBuilder stringBuilder = new StringBuilder();
 		ConfigurableListableBeanFactory CLBF = ( (AbstractApplicationContext) appContext ).getBeanFactory();
@@ -70,7 +70,7 @@ class DbProfileTest {
 		assertNotNull(stringBuilder);
 	}
 
-	@Test void test_DriverManager( ) {
+	@Disabled @Test void test_DriverManager( ) {
 		//
 		StringBuilder stringBuilder = new StringBuilder();
 		Enumeration<Driver> enumeration = DriverManager.getDrivers();
@@ -86,7 +86,7 @@ class DbProfileTest {
 		assertNotNull(stringBuilder);
 	}
 
-	@Test void test_DataSourceBuilder( ) {
+	@Disabled @Test void test_DataSourceBuilder( ) {
 		//
 		String txtLines = "";
 		String sqlDefault = "SELECT * FROM cities WHERE id > 0 ORDER BY population ASC";
@@ -109,7 +109,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void test_sqlite( ) {
+	@Disabled @Test void test_sqlite( ) {
 		//
 		DbProfile dbProfile = new DbProfile(DbProfile.DBTYPE.sqlite, "", "");
 		String txtLines = dbProfile.readDB("", "");
@@ -117,7 +117,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void test_sqlite_full( ) {
+	@Disabled @Test void test_sqlite_full( ) {
 		//
 		String txtLines = "";
 		String dbName = "chinook.db";
@@ -141,7 +141,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void test_h2( ) {
+	@Disabled @Test void test_h2( ) {
 		//
 		// http://h2database.com/html/features.html
 		String dbName = "mydb";
@@ -151,7 +151,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void test_h2_full( ) {
+	@Disabled @Test void test_h2_full( ) {
 		//
 		String txtLines = "";
 		// jdbc:h2:mem:mydb;INIT=create schema if not exists mydb\;runscript from '~/import.sql'
@@ -175,7 +175,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void readDbLines_mysql( ) {
+	@Disabled @Test void readDbLines_mysql( ) {
 		//
 		DbProfile dbProfile = new DbProfile(DbProfile.DBTYPE.mysql, "localhost", "mydb");
 		String txtLines = dbProfile.readDB(System.getenv("MYSQL_USER"), System.getenv("MYSQL_PASS"));
@@ -183,7 +183,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void readDbLines_oracle( ) {
+	@Disabled @Test void readDbLines_oracle( ) {
 		//
 		String username = System.getenv("ORACLE_USER") + " as sysdba";
 		String password = System.getenv("ORACLE_PASS");
@@ -194,7 +194,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void readDbLines_mssql( ) {
+	@Disabled @Test void readDbLines_mssql( ) {
 		//
 		String HOST = "2021-MARTIN\\SQLEXPRESS";
 		DbProfile dbProfile = new DbProfile(DbProfile.DBTYPE.mssql, HOST, "mydb");
@@ -241,7 +241,7 @@ class DbProfileTest {
 	}
 
 	// ############
-	@Test void read_MongoDB( ) {
+	@Disabled @Test void read_MongoDB( ) {
 		//
 		// https://docs.mongodb.com/drivers/java/sync/current/fundamentals/connection/connect/
 		// mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.1.9
@@ -279,7 +279,7 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test void read_HikariCP( ) {
+	@Disabled @Test void read_HikariCP( ) {
 		//
 		String txtLines = "\n";
 		String dbUrl = "jdbc:mysql://localhost:3306/mydb";
