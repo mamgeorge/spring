@@ -15,6 +15,9 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
+import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
 import java.sql.Clob;
@@ -36,7 +39,7 @@ import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest // required for read_h2, read_h2_full()
+// @SpringBootTest // required for read_h2, read_h2_full()
 class DbProfileTest {
 	//
 	// org.springframework.boot.jdbc.DataSourceBuilder vs DriverManager
@@ -45,38 +48,44 @@ class DbProfileTest {
 	private static final String DLM = " | ";
 	private static final String TAB = "\t";
 
-	@Autowired private ApplicationContext appContext;
-	@Autowired private DataSource dataSource;
+	@Autowired
+	private ApplicationContext appContext;
+	@Autowired
+	private DataSource dataSource;
 
-	@Disabled @Test void getBeans( ) {
+	@Disabled
+	@Test
+	void getBeans() {
 		//
 		StringBuilder stringBuilder = new StringBuilder();
-		ConfigurableListableBeanFactory CLBF = ( (AbstractApplicationContext) appContext ).getBeanFactory();
+		ConfigurableListableBeanFactory CLBF = ((AbstractApplicationContext) appContext).getBeanFactory();
 		AtomicInteger ai = new AtomicInteger();
 		Object object = null;
 		//
 		String[] beanNames = appContext.getBeanDefinitionNames();
 		Arrays.stream(beanNames).sorted()
-			.forEach(str -> stringBuilder.append("\tBDNs: " + ai.incrementAndGet() + " " + str + EOL));
+				.forEach(str -> stringBuilder.append("\tBDNs: " + ai.incrementAndGet() + " " + str + EOL));
 		stringBuilder.append(EOL);
 		//
 		ai.set(0);
 		Arrays.stream(beanNames).sorted()
-			.forEach(str -> stringBuilder.append("\tCLBF: " + ai.incrementAndGet() + " "
-				+ CLBF.getSingleton(str) + EOL));
+				.forEach(str -> stringBuilder.append("\tCLBF: " + ai.incrementAndGet() + " "
+						+ CLBF.getSingleton(str) + EOL));
 		stringBuilder.append(EOL);
 		//
 		System.out.println(stringBuilder);
 		assertNotNull(stringBuilder);
 	}
 
-	@Disabled @Test void test_DriverManager( ) {
+	@Disabled
+	@Test
+	void test_DriverManager() {
 		//
 		StringBuilder stringBuilder = new StringBuilder();
 		Enumeration<Driver> enumeration = DriverManager.getDrivers();
 		Stream<Driver> stream = StreamSupport.stream(
-			Spliterators.spliteratorUnknownSize(enumeration.asIterator(), Spliterator.ORDERED),
-			false
+				Spliterators.spliteratorUnknownSize(enumeration.asIterator(), Spliterator.ORDERED),
+				false
 		);
 		stream.forEach(str -> stringBuilder.append(str).append(EOL));
 		//
@@ -86,7 +95,9 @@ class DbProfileTest {
 		assertNotNull(stringBuilder);
 	}
 
-	@Disabled @Test void test_DataSourceBuilder( ) {
+	@Disabled
+	@Test
+	void test_DataSourceBuilder() {
 		//
 		String txtLines = "";
 		String sqlDefault = "SELECT * FROM cities WHERE id > 0 ORDER BY population ASC";
@@ -97,19 +108,22 @@ class DbProfileTest {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 			int intColumnCount = resultSetMetaData.getColumnCount();
-			while ( resultSet.next() ) {
-				for ( int ictr = 1; ictr < intColumnCount + 1; ictr++ ) {
+			while (resultSet.next()) {
+				for (int ictr = 1; ictr < intColumnCount + 1; ictr++) {
 					txtLines += resultSet.getString(ictr) + DLM;
 				}
 				txtLines += EOL;
 			}
+		} catch (SQLException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
 		}
-		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		System.out.println("txtLines: " + txtLines);
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void test_sqlite( ) {
+	@Disabled
+	@Test
+	void test_sqlite() {
 		//
 		DbProfile dbProfile = new DbProfile(DbProfile.DBTYPE.sqlite, "", "");
 		String txtLines = dbProfile.readDB("", "");
@@ -117,7 +131,9 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void test_sqlite_full( ) {
+	@Disabled
+	@Test
+	void test_sqlite_full() {
 		//
 		String txtLines = "";
 		String dbName = "chinook.db";
@@ -129,19 +145,22 @@ class DbProfileTest {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 			int intColumnCount = resultSetMetaData.getColumnCount();
-			while ( resultSet.next() ) {
-				for ( int ictr = 1; ictr < intColumnCount + 1; ictr++ ) {
+			while (resultSet.next()) {
+				for (int ictr = 1; ictr < intColumnCount + 1; ictr++) {
 					txtLines += resultSet.getString(ictr) + DLM;
 				}
 				txtLines += EOL;
 			}
+		} catch (SQLException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
 		}
-		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		System.out.println("txtLines: " + txtLines);
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void test_h2( ) {
+	@Disabled
+	@Test
+	void test_h2() {
 		//
 		// http://h2database.com/html/features.html
 		String dbName = "mydb";
@@ -151,31 +170,43 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void test_h2_full( ) {
-		//
+	/* ScriptUtils, ResourceDatabasePopulator, RunScript
+
+		ScriptUtils.executeSqlScript(connection, new ClassPathResource("import.sql"));
+		ResourceDatabasePopulator, DataSourceInitializer
+		RunScript.execute(connection, new FileReader(PATH_SRC_MAIN + "import.sql")); // h2 only
+		@Sql(scripts =  {"/schema.sql", "/data.sql"}) // /src/main/resources
+	*/
+	@Test @Sql(scripts = {"import.sql"}) void test_h2_full() {
+
 		String txtLines = "";
-		// jdbc:h2:mem:mydb;INIT=create schema if not exists mydb\;runscript from '~/import.sql'
-		String dbUrl = "jdbc:h2:mem:mydb;user=sa;password=qwerty;INIT=CREATE SCHEMA IF NOT EXISTS SCHEMA_1";
+		String dbUrl = "jdbc:h2:mem:mydb;user=sa;password=;";
 		String sqlDefault = "SELECT * FROM cities WHERE id > 0 ORDER BY population ASC";
 		try {
 			Connection connection = DriverManager.getConnection(dbUrl);
+			ScriptUtils.executeSqlScript(connection, new ClassPathResource("import.sql"));
+
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlDefault);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 			int intColumnCount = resultSetMetaData.getColumnCount();
-			while ( resultSet.next() ) {
-				for ( int ictr = 1; ictr < intColumnCount + 1; ictr++ ) {
+			while (resultSet.next()) {
+
+				for (int ictr = 1; ictr < intColumnCount + 1; ictr++) {
 					txtLines += resultSet.getString(ictr) + DLM;
 				}
 				txtLines += EOL;
 			}
+		} catch (SQLException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
 		}
-		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		System.out.println("txtLines: " + txtLines);
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void readDbLines_mysql( ) {
+	@Disabled
+	@Test
+	void readDbLines_mysql() {
 		//
 		DbProfile dbProfile = new DbProfile(DbProfile.DBTYPE.mysql, "localhost", "mydb");
 		String txtLines = dbProfile.readDB(System.getenv("MYSQL_USER"), System.getenv("MYSQL_PASS"));
@@ -183,7 +214,9 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void readDbLines_oracle( ) {
+	@Disabled
+	@Test
+	void readDbLines_oracle() {
 		//
 		String username = System.getenv("ORACLE_USER") + " as sysdba";
 		String password = System.getenv("ORACLE_PASS");
@@ -194,7 +227,9 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void readDbLines_mssql( ) {
+	@Disabled
+	@Test
+	void readDbLines_mssql() {
 		//
 		String HOST = "2021-MARTIN\\SQLEXPRESS";
 		DbProfile dbProfile = new DbProfile(DbProfile.DBTYPE.mssql, HOST, "mydb");
@@ -203,13 +238,15 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Test @Disabled( "REQUIRES CONNECTION" ) void readDbLines_mssqlFull( ) {
+	@Test
+	@Disabled("REQUIRES CONNECTION")
+	void readDbLines_mssqlFull() {
 		//
 		String txtLines = "";
 		try {
 			StringBuilder stringBuilder = new StringBuilder();
 			String dbURL =
-				"jdbc:sqlserver://2021-MARTIN\\SQLEXPRESS;databaseName=mydb;integratedSecurity=true";
+					"jdbc:sqlserver://2021-MARTIN\\SQLEXPRESS;databaseName=mydb;integratedSecurity=true";
 			String sqlDefault = "SELECT TOP (10) * FROM Employee";
 			//
 			Connection connection = DriverManager.getConnection(dbURL);
@@ -220,28 +257,37 @@ class DbProfileTest {
 			int intColumnCount = resultSetMetaData.getColumnCount();
 			Object object;
 			stringBuilder.append(EOL);
-			while ( resultSet.next() ) {
+			while (resultSet.next()) {
 				//
 				stringBuilder.append(TAB);
-				for ( int ictr = 1; ictr < intColumnCount + 1; ictr++ ) {
+				for (int ictr = 1; ictr < intColumnCount + 1; ictr++) {
 					object = resultSet.getObject(ictr);
-					if ( object instanceof Clob ) { object = object.getClass().getName(); }
-					if ( object == null ) { object = "NULL"; }
-					if ( ictr < intColumnCount ) { stringBuilder.append(object).append(DLM); } else {
+					if (object instanceof Clob) {
+						object = object.getClass().getName();
+					}
+					if (object == null) {
+						object = "NULL";
+					}
+					if (ictr < intColumnCount) {
+						stringBuilder.append(object).append(DLM);
+					} else {
 						stringBuilder.append(object);
 					}
 				}
 				stringBuilder.append(EOL);
 			}
 			txtLines = stringBuilder.toString();
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
 		}
-		catch (SQLException ex) { System.out.println(ex.getMessage()); }
 		System.out.println("txtLines: " + txtLines);
 		assertNotNull(txtLines);
 	}
 
 	// ############
-	@Disabled @Test void read_MongoDB( ) {
+	@Disabled
+	@Test
+	void read_MongoDB() {
 		//
 		// https://docs.mongodb.com/drivers/java/sync/current/fundamentals/connection/connect/
 		// mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.1.9
@@ -279,7 +325,9 @@ class DbProfileTest {
 		assertNotNull(txtLines);
 	}
 
-	@Disabled @Test void read_HikariCP( ) {
+	@Disabled
+	@Test
+	void read_HikariCP() {
 		//
 		String txtLines = "\n";
 		String dbUrl = "jdbc:mysql://localhost:3306/mydb";
@@ -308,14 +356,15 @@ class DbProfileTest {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 			int intColumnCount = resultSetMetaData.getColumnCount();
-			while ( resultSet.next() ) {
-				for ( int ictr = 1; ictr < intColumnCount + 1; ictr++ ) {
+			while (resultSet.next()) {
+				for (int ictr = 1; ictr < intColumnCount + 1; ictr++) {
 					txtLines += resultSet.getString(ictr) + DLM;
 				}
 				txtLines += EOL;
 			}
+		} catch (SQLException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
 		}
-		catch (SQLException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		System.out.println("txtLines: " + txtLines);
 		assertNotNull(txtLines);
 	}
