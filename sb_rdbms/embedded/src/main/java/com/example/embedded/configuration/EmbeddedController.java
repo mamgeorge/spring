@@ -4,6 +4,13 @@ import com.example.embedded.model.City;
 import com.example.embedded.model.CityRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +31,7 @@ import java.util.Random;
 
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 
+@Tag(name = "Cities", description = "Show Cities")
 @RestController
 public class EmbeddedController {
 
@@ -30,24 +39,22 @@ public class EmbeddedController {
 	private final CityRepository cityRepository;
 	private final ApplicationContext applicationContext; //added for close
 
+	/* annotations
+
+		@Tag			for controller to group related operations
+		@Schema			for model structure, constraints, and examples of req/res objects (was @ApiModelProperty)
+		@Operation		for methods as a summary of endpoint
+		@Parameter		describes request parameters (query, path, header, cookie)
+		@RequestBody	describes body in POST/PUT operations
+		@ApiResponse	describes potential responses (200 OK, 404 Not Found)
+	*/
 	@Autowired
 	EmbeddedController(CityRepository cityRepository, ApplicationContext applicationContext) {
 		this.cityRepository = cityRepository;
 		this.applicationContext = applicationContext;
 	}
 
-	public static String formatObject(Object object) {
-
-		String json = "";
-		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
-		try {
-			json = objectMapper.writeValueAsString(object);
-		} catch (JsonProcessingException ex) {
-			System.out.println("ERROR: " + ex.getMessage());
-		}
-		return json;
-	}
-
+	//#### views
 	@GetMapping({"/", "/root", "/home", "/index"})
 	public ModelAndView home() {
 
@@ -56,7 +63,7 @@ public class EmbeddedController {
 	}
 
 	@GetMapping("/showCities/{num}")
-	public ModelAndView showCities(@PathVariable int num) {
+	public ModelAndView showCities(@Parameter(description = "number to return") @PathVariable int num) {
 
 		long count = cityRepository.count();
 		int pageNumber = 0;
@@ -92,7 +99,7 @@ public class EmbeddedController {
 	@GetMapping("/showCityNum/{id}")
 	public ModelAndView showCityNum(@PathVariable long id) {
 
-		System.out.println("id): " + id);
+		System.out.println("id: " + id);
 		City city = cityRepository.findById((id)).get();
 
 		ModelAndView modelAndView = new ModelAndView("city");
@@ -100,17 +107,35 @@ public class EmbeddedController {
 		return modelAndView;
 	}
 
-	// @ApiResponses()
-	@GetMapping("/jsonCities/{num}")
-	public List<City> jsonCities(@PathVariable int num) {
+	//#### APIs
+	@Operation(summary = "Get Timestamp", description = "Returns ISO Timestamp")
+	@ApiResponses(value = {
+		@ApiResponse(
+			responseCode = "200", description = "Time returned",
+			content = @Content( mediaType = "application/json",
+			schema = @Schema(implementation = String.class))),
+		@ApiResponse(responseCode = "404", description = "Time not found", content = @Content)
+	})
+	@GetMapping("/getTime") public ResponseEntity<String> getTime() {
 
-		long count = cityRepository.count();
+		ResponseEntity<String> response = null;
+		String time = Instant.now().toString();
+		System.out.println("time: " + time);
+		response = ResponseEntity.ok(time);
+		return response;
+	}
+
+	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK")})
+	@GetMapping("/jsonCities/{num}")
+	public List<City> jsonCities(@PathVariable int intid) {
+
+		long longcount = cityRepository.count();
 		int pageNumber = 0;
-		if (num > count) { num = (int) count; }
-		if (num < 1) { num = 1; }
+		if (intid > longcount) { intid = (int) longcount; }
+		if (intid < 1) { intid = 1; }
 
 		Sort sort = Sort.by("name").ascending();
-		Pageable pageable = PageRequest.of(pageNumber, num, sort);
+		Pageable pageable = PageRequest.of(pageNumber, intid, sort);
 
 		// Execute the call
 		Page<City> page = cityRepository.findAll(pageable);
@@ -119,29 +144,43 @@ public class EmbeddedController {
 		return cities;
 	}
 
+	@Operation(summary = "grab random city", description = "grabs any random city")
 	@GetMapping("/jsonCityRnd")
 	public City jsonCityRnd() {
 
 		long maxId = cityRepository.count();
-		long rndId = random.nextLong(maxId) + 1;
-		System.out.println("rndId: " + rndId);
-		return cityRepository.findById(rndId).get();
+		long longid = random.nextLong(maxId) + 1;
+		System.out.println("longid: " + longid);
+		return cityRepository.findById(longid).get();
 	}
 
 	@GetMapping("/jsonCityNum/{id}")
-	public City jsonCityNum(@PathVariable long id) {
+	public City jsonCityNum(@PathVariable long longid) {
 
-		System.out.println("id): " + id);
-		City city = cityRepository.getById(id);
+		System.out.println("longid: " + longid);
+		City city = cityRepository.getById(longid);
 		return city;
 	}
 
-	// utils
+	//#### utils
 	@GetMapping("/exit")
-	public void exit() {
+	private void exit() {
 
 		System.out.println("EXIT");
 		SpringApplication.exit(applicationContext);
 		System.exit(0);
 	}
+
+	public static String formatObject(Object object) {
+
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+		try {
+			json = objectMapper.writeValueAsString(object);
+		} catch (JsonProcessingException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
+		return json;
+	}
+
 }

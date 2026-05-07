@@ -7,9 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
@@ -110,6 +109,14 @@ class EmbeddedControllerTests {
 	}
 
 	// @ApiResponses()
+	@Test void getTime() {
+
+		ResponseEntity<String> response =controllerEmb.getTime();
+		System.out.println(formatObject(response));
+		System.out.println("timeISO: " + response.getBody());
+		assertNotNull(response);
+	}
+
 	@Test
 	void jsonCities() {
 
