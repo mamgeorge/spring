@@ -126,7 +126,7 @@ public class EmbeddedController {
 	}
 
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK")})
-	@GetMapping("/jsonCities/{num}")
+	@GetMapping("/jsonCities/{intid}")
 	public List<City> jsonCities(@PathVariable int intid) {
 
 		long longcount = cityRepository.count();
@@ -154,7 +154,7 @@ public class EmbeddedController {
 		return cityRepository.findById(longid).get();
 	}
 
-	@GetMapping("/jsonCityNum/{id}")
+	@GetMapping("/jsonCityNum/{longid}")
 	public City jsonCityNum(@PathVariable long longid) {
 
 		System.out.println("longid: " + longid);
