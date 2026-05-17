@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/dvdrental
-    username: postgres
-    password: da4xiang4
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
     driver-class-name: org.postgresql.Driver
     # DriverManager automatically selects driver className since JDBC4 (SDK6)
   jpa:

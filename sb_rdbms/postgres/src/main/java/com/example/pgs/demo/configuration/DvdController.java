@@ -4,7 +4,9 @@ import com.example.pgs.demo.model.Actor;
 import com.example.pgs.demo.model.Customer;
 import com.example.pgs.demo.persistence.ActorService;
 import com.example.pgs.demo.persistence.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.Instant;
 import java.util.List;
 import java.util.Random;
+import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 
 // https://mkyong.com/spring-boot/spring-boot-spring-data-jpa-postgresql/
 // @CrossOrigin(origins = "http://localhost:8081")
@@ -25,7 +28,6 @@ public class DvdController {
 	private final CustomerService customerService;
 	private final Random random = new Random();
 
-	@Autowired
 	public DvdController(ActorService actorService, CustomerService customerService) {
 		this.actorService = actorService;
 		this.customerService = customerService;
@@ -44,6 +46,7 @@ public class DvdController {
 		return responseEntity;
 	}
 
+	// json Actors
 	@GetMapping( "/getActors" )
 	public ResponseEntity<List<Actor>> getActors( ) {
 
@@ -74,7 +77,7 @@ public class DvdController {
 		return responseEntity;
 	}
 
-	//############
+	// json Customers
 	@GetMapping( "/getCustomers" )
 	public ResponseEntity<List<Customer>> getCustomers( ) {
 
@@ -85,7 +88,7 @@ public class DvdController {
 	}
 
 	@GetMapping( "/getCustomer/{id}" )
-	public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
+	public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
 
 		ResponseEntity<Customer> responseEntity;
 		Customer customer = customerService.findById(id);
@@ -98,14 +101,14 @@ public class DvdController {
 
 		ResponseEntity<Customer> responseEntity;
 		long maxId = customerService.getMaxId();
-		Long randomLongId = (long) random.nextInt((int) maxId) + 1;
-		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, randomLongId);
-		Customer customer = customerService.findById(randomLongId);
+		int randId = random.nextInt((int) maxId) + 1;
+		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, randId);
+		Customer customer = customerService.findById(randId);
 		responseEntity = new ResponseEntity<>(customer, HttpStatus.OK);
 		return responseEntity;
 	}
 
-	//############
+	// HTML
 	@GetMapping( "/showCustomers" )
 	public ModelAndView showCustomers( ) {
 
@@ -116,7 +119,7 @@ public class DvdController {
 	}
 
 	@GetMapping( "/showCustomer/{id}" )
-	public ModelAndView showCustomer(@PathVariable long id) {
+	public ModelAndView showCustomer(@PathVariable int id) {
 
 		Customer customer = customerService.findById(id);
 		ModelAndView mView = new ModelAndView("showCustomer");
@@ -128,15 +131,15 @@ public class DvdController {
 	public ModelAndView showCustomerRnd( ) {
 
 		long maxId = customerService.getMaxId();
-		Long randomLongId = (long) random.nextInt((int) maxId) + 1;
-		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, randomLongId);
-		Customer customer = customerService.findById(randomLongId);
+		int rndId = random.nextInt((int) maxId) + 1;
+		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, rndId);
+		Customer customer = customerService.findById(rndId);
 		ModelAndView mView = new ModelAndView("showCustomer");
 		mView.addObject("customer", customer);
 		return mView;
 	}
 
-	//############
+	// BOOTSTRAP
 	@GetMapping( "/bootCustomers" )
 	public ModelAndView bootCustomers( ) {
 
@@ -147,7 +150,7 @@ public class DvdController {
 	}
 
 	@GetMapping( "/bootCustomer/{id}" )
-	public ModelAndView bootCustomer(@PathVariable long id) {
+	public ModelAndView bootCustomer(@PathVariable int id) {
 
 		Customer customer = customerService.findById(id);
 		ModelAndView mView = new ModelAndView("bootCustomer");
@@ -159,11 +162,23 @@ public class DvdController {
 	public ModelAndView bootCustomerRnd( ) {
 
 		long maxId = customerService.getMaxId();
-		Long randomLongId = (long) random.nextInt((int) maxId) + 1;
-		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, randomLongId);
-		Customer customer = customerService.findById(randomLongId);
+		int rndId = random.nextInt((int) maxId) + 1;
+		System.out.printf("maxId: %s, randomLongId: %s %n", maxId, rndId);
+		Customer customer = customerService.findById(rndId);
 		ModelAndView mView = new ModelAndView("bootCustomer");
 		mView.addObject("customer", customer);
 		return mView;
+	}
+
+	public static String getJson(Object object) {
+
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper().enable(INDENT_OUTPUT);
+		try {
+			json = objectMapper.writeValueAsString(object);
+		} catch (JsonProcessingException ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
+		return json;
 	}
 }

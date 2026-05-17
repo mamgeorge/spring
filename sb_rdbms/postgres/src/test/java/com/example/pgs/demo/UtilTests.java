@@ -17,19 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UtilTests {
 
-	public static final String MAIN_APP_YAML = "application.yml";
-
 	public static final String DLM = "\t";
 	public static final String EOL = "\n";
 	public static final int MAXLEN = 20;
 
+	private static final String MAIN_APP_YAML = "application.yml";
+	private static final String SQL_FILM = "SELECT * FROM film ORDER BY title ASC LIMIT 10;";
+
 	@Test void test_getQuery( ) {
 
-		String sql = "SELECT * FROM film ORDER BY title ASC LIMIT 10;";
 		String dbPropsFile = "";
 		Properties properties = getPropsYaml(dbPropsFile);
 		Connection connection = getConnection(properties);
-		String txtLines = getQuery(connection, sql);
+		String txtLines = getQuery(connection, SQL_FILM);
 
 		System.out.println(txtLines);
 		assertTrue(true);
@@ -61,10 +61,14 @@ public class UtilTests {
 			// Get database credentials from DatabaseConfig class
 			String jdbcUrl = properties.getProperty("url");
 			String username = properties.getProperty("username");
+			if (username==null || username.isEmpty() || username.startsWith("$")) {
+				System.out.println("Reading username from environment..." );
+				username=System.getenv("POSTGRES_USER");
+			}			
 			String password = properties.getProperty("password");
-			if (password==null || password.isEmpty()) {
-				System.out.println("ERROR: CANNOT FIND password!" );
-				System.exit(1);
+			if (password==null || password.isEmpty() || password.startsWith("$")) {
+				System.out.println("Reading password from environment..." );
+				password=System.getenv("POSTGRES_PASS");
 			}
 			connection = DriverManager.getConnection(jdbcUrl, username, password);
 		}

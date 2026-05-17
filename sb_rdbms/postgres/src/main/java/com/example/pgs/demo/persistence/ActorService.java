@@ -1,7 +1,6 @@
 package com.example.pgs.demo.persistence;
 
 import com.example.pgs.demo.model.Actor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +10,6 @@ public class ActorService {
 
 	private final ActorRepository actorRepository;
 
-	@Autowired
 	public ActorService(ActorRepository actorRepository) {
 		this.actorRepository = actorRepository;
 	}
