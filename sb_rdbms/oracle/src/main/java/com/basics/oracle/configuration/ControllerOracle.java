@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.time.Instant;
 import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
@@ -21,21 +23,31 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 public class ControllerOracle {
 
+	public static final String PAGE_SORT = "lastName";
+	public static final int PAGE_MAX = 5;
+	public static final int PAGE_MIN = 0;
 	private EmployeesRepository employeesRepository;
-	private static final String PAGE_SORT = "lastName";
-	private static final int PAGE_MAX = 5;
-	private static final int PAGE_MIN = 0;
 
 	ControllerOracle(EmployeesRepository employeesRepository) {
 		this.employeesRepository = employeesRepository;
 	}
 
-	@GetMapping( { "/", "/root", "/home", "/time", "/index" } )
+	@GetMapping( { "/root", "/time", "/index" } )
 	public String root( ) {
 
 		System.out.println("root");
 		String time = Instant.now().toString();
 		return time;
+	}
+
+	@GetMapping( { "/", "/home", "/home", "/time", "/index" } )
+	public ModelAndView home( ) {
+
+		System.out.println("home");
+		String time = Instant.now().toString();
+		ModelAndView modelAndView = new ModelAndView("home");
+		modelAndView.addObject("time", time);
+		return modelAndView;
 	}
 
 	//#### REST
