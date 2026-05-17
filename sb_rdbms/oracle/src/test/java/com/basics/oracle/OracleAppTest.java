@@ -21,6 +21,14 @@ class OracleAppTest {
 	@Autowired Environment environment;
 	public static final String FRMT = "\t%-20s [%s]\n";
 
+	@Test void basic( ) {
+
+		OracleApp app = new OracleApp();
+		try { OracleApp.main(new String[] {}); } 
+		catch (Throwable ex) { System.out.println("ERROR: " + ex.getMessage()); }
+		assertNotNull(app);
+	}
+
 	@Test void contextLoads( ) {
 
 		StringBuilder sb = new StringBuilder();

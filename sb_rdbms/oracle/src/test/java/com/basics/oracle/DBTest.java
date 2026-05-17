@@ -43,6 +43,7 @@ public class DBTest {
 		assertTrue(stringBuilder.length() > 1);
 	}
 
+	// @Disabled("time") 
 	@Test void connection_oracle( ) {
 
 		String txtLines = EOL;

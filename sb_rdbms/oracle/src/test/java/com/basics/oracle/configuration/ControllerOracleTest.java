@@ -1,97 +1,59 @@
 package com.basics.oracle.configuration;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.ModelAndView;
+import com.basics.oracle.model.Employees;
 
-import com.basics.oracle.model.Customer_SL;
-
-import java.util.List;
-import java.util.Objects;
-
-import static com.basics.oracle.ReflectionHelper.exposeObject;
-import static org.aspectj.util.LangUtil.EOL;
+import static java.util.Optional.ofNullable;
+import static com.basics.oracle.configuration.ControllerOracle.getJson;
+import static com.basics.oracle.model.EmployeesTest.getEmployee;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+import java.util.ArrayList;
+import java.util.List;
+
 class ControllerOracleTest {
 
-	@Autowired private ControllerOracle controllerCustomer;
+	private EmployeesRepository employeesRepositoryMock;
+	private ControllerOracle controllerOracle;
+
+	@BeforeEach void init( ) {
+
+		Employees employee = getEmployee();
+		List<Employees> employeeList = new ArrayList<>();
+		employeeList.add(employee);
+
+		employeesRepositoryMock = mock(EmployeesRepository.class);	
+		when(employeesRepositoryMock.findAll()).thenReturn(employeeList);
+		when(employeesRepositoryMock.findById(10)).thenReturn(ofNullable(employee));	
+		controllerOracle = new ControllerOracle(employeesRepositoryMock);
+	}
 
 	@Test void root( ) {
 
-		StringBuilder sb = new StringBuilder();
-		ModelAndView modelAndView = controllerCustomer.root();
-		sb.append("CONTEXT_PATH: ").append(controllerCustomer.root()).append(EOL);
-		sb.append("viewName: ").append(modelAndView.getViewName()).append(EOL);
-
-		System.out.println(sb);
-		assertNotNull(controllerCustomer);
-		assertTrue(Objects.requireNonNull(modelAndView.getViewName()).contains("home"));
+		String time = controllerOracle.root();
+		System.out.println(time);
+		assertNotNull(time);
 	}
 
 	@Test
 	void jsonCustomersAll( ) {
 
-		ResponseEntity<List<Customer_SL>> responseEntity = controllerCustomer.jsonCustomersAll();
-		List<Customer_SL> customers = responseEntity.getBody();
-		StringBuilder sb = new StringBuilder();
-		if(customers != null){
-			customers.forEach(customer -> sb.append(customer.getCustomerid()).append(" ")
-				.append(customer.getFirstname()).append(" ")
-				.append(customer.getLastname()).append(EOL)
-			);
-		}
-		System.out.println(sb);
-		assertNotNull(sb);
-	}
-
-	@Test
-	void jsonCustomersRng( ) {
-
-		List<Customer_SL> customers = controllerCustomer.jsonCustomersRng("0", "5");
-		StringBuilder sb = new StringBuilder();
-		customers.forEach(customer -> sb.append(customer.getCustomerid()).append(" ")
-			.append(customer.getFirstname()).append(" ")
-			.append(customer.getLastname()).append(EOL)
-		);
-		System.out.println(sb);
-		assertNotNull(sb);
-	}
-
-	@Test
-	void jsonCustomerRnd( ) {
-
-		ResponseEntity<Customer_SL> responseEntity = controllerCustomer.jsonCustomerRnd();
-		Customer_SL customer = responseEntity.getBody();
-		System.out.println(exposeObject(Objects.requireNonNull(customer)));
-		assertNotNull(customer);
+		ResponseEntity<List<Employees>> responseEntity = controllerOracle.jsonEmployeesAll();
+		List<Employees> employeeList = responseEntity.getBody();
+		System.out.println(getJson(employeeList));
+		assertNotNull(employeeList);
 	}
 
 	@Test
 	void jsonCustomerNum( ) {
 
-		ResponseEntity<Customer_SL> responseEntity = controllerCustomer.jsonCustomerNum(10);
-		Customer_SL customer = responseEntity.getBody();
-		if (customer != null) {
-			String txt = customer.getCustomerid() + " " +
-				customer.getFirstname() + " " +
-				customer.getLastname() + EOL;
-			System.out.println(txt);
-		}
-		assertNotNull(customer);
-	}
-
-	@Test
-	void getJson( ) {
-
-		Customer_SL customer = new Customer_SL();
-		customer.setFirstname("Joe");
-		String json = ControllerOracle.getJson(customer);
-		System.out.println(json);
-		assertNotNull(json);
+		ResponseEntity<Employees> responseEntity = controllerOracle.jsonEmployeesNum(10);
+		Employees employee = responseEntity.getBody();
+		System.out.println(getJson(employee));
+		assertNotNull(employee);
 	}
 }

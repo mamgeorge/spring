@@ -1,76 +1,70 @@
 package com.basics.oracle.configuration; // .controller;
 
-import com.basics.oracle.model.Customer_SL;
+import com.basics.oracle.model.Employees;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.HashMap;
+import java.time.Instant;
 import java.util.List;
-import java.util.Random;
-
 import static org.springframework.http.HttpStatus.OK;
 
 // @RestController = @Controller + @ResponseBody
 @RestController
 public class ControllerOracle {
 
-	private CustomerRepository customerRepository;
-	private final Random random = new Random();
+	private EmployeesRepository employeesRepository;
+	private static final String PAGE_SORT = "lastName";
+	private static final int PAGE_MAX = 5;
+	private static final int PAGE_MIN = 0;
 
-	ControllerOracle(CustomerRepository customerRepository) {
-		this.customerRepository = customerRepository;
+	ControllerOracle(EmployeesRepository employeesRepository) {
+		this.employeesRepository = employeesRepository;
 	}
 
-	@GetMapping( { "/", "/root", "/home", "/index" } )
-	public ModelAndView root( ) {
+	@GetMapping( { "/", "/root", "/home", "/time", "/index" } )
+	public String root( ) {
 
 		System.out.println("root");
-		ModelAndView MAV = new ModelAndView("home", new HashMap<>());
-		return MAV;
+		String time = Instant.now().toString();
+		return time;
 	}
 
 	//#### REST
-	@GetMapping( "/jsonCustomersAll" ) public ResponseEntity<List<Customer_SL>> jsonCustomersAll( ) {
+	@GetMapping( "/jsonEmployeesAll" ) public ResponseEntity<List<Employees>> jsonEmployeesAll( ) {
 
-		List<Customer_SL> customers = customerRepository.findAll();
-		return new ResponseEntity<>(customers, OK);
+		List<Employees> employees = employeesRepository.findAll();
+		System.out.println("jsonEmployeesAll: " + employees.size());
+		System.out.println(getJson(employees));		
+		return new ResponseEntity<>(employees, OK);
 	}
 
-	@GetMapping( "/jsonCustomersRng" ) public @ResponseBody List<Customer_SL> jsonCustomersRng(
-		@RequestParam( "beg" ) String beg, @RequestParam( "end" ) String end) {
+	@GetMapping( "/jsonEmployeesRng" ) public ResponseEntity<List<Employees>> jsonEmployeesRng( ) {
 
-		int ibeg = Integer.parseInt(beg);
-		int iend = Integer.parseInt(end);
+		Sort sort = Sort.by(PAGE_SORT).ascending();
+		Pageable pageable = (Pageable) PageRequest.of(PAGE_MIN, PAGE_MAX, sort);
+		Page<Employees> employeesPage = employeesRepository.findAll(pageable);
+		List<Employees> employees = employeesPage.toList();
 
-		List<Customer_SL> customers = customerRepository.findAll().subList(ibeg, iend);
-		return customers;
+		System.out.println("jsonEmployeesRng: " + employees.size());
+		System.out.println(getJson(employees.get(0)));		
+		return new ResponseEntity<>(employees, OK);
 	}
 
-	@GetMapping( "/jsonCustomerRnd" ) public ResponseEntity<Customer_SL> jsonCustomerRnd( ) {
+	@GetMapping( "/jsonEmployeesNum/{idVal}" )
+	public ResponseEntity<Employees> jsonEmployeesNum(@PathVariable int idVal) {
 
-		long maxId = customerRepository.count();
-		Integer intId = random.nextInt((int) maxId);
-		System.out.println("\nintId: " + intId);
-
-		Customer_SL customer = (Customer_SL) customerRepository.findById(intId).get();
-		System.out.println("\ngetCompany: " + customer.getCompany());
-		System.out.println("\ncustomer: " + getJson(customer));
-		return new ResponseEntity<>(customer, OK);
-	}
-
-	@GetMapping( "/jsonCustomerNum/{idVal}" )
-	public ResponseEntity<Customer_SL> jsonCustomerNum(@PathVariable int idVal) {
-
-		Customer_SL customer = customerRepository.findById(idVal).get();
-		return new ResponseEntity<>(customer, OK);
+		Employees employee = employeesRepository.findById(idVal).get();
+		System.out.println(getJson(employee));	
+		return new ResponseEntity<>(employee, OK);
 	}
 
 	//#### utils
