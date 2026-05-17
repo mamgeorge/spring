@@ -20,8 +20,22 @@ class CustomerTest {
 
 	public static Customer getCustomer( ) {
 
-		return new Customer( 10, "John", "Smith", "Huntington", 
-		"123 Oval Street","Columbus","Ohio","USA", "43220", 
-		"555-1234", "777-1234", "john.smith@example.com" ,1);
+		Customer customer = Customer.builder()
+			.customerid(10)
+			.firstname("John")
+			.lastname("Smith")
+			.company("Huntington")
+			.address("123 Oval Street")
+			.city("Columbus")
+			.state("Ohio")
+			.country("USA")
+			.postalcode("43220")
+			.phone("555-1234")
+			.fax("777-1234")
+			.email("john.smith@example.com")	
+			.supportrepid(1)
+				.build();
+
+		return customer;
 	}
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "https://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<context id="MyContext" targetRuntime="MyBatis3DynamicSql">
+	    <jdbcConnection
+			driverClass="oracle.jdbc.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@localhost:1521:XE" 
+			userId="SYS as sysdba"
+			password="xxxxxx"
+			>
+			</jdbcConnection>	
+				
+		<javaTypeResolver />
+
+		<modelGenerator targetPackage="com.basics.oracle.model" targetProject="MAVEN">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</modelGenerator>
+
+		<!-- <sqlMapGenerator /> -->
+
+		<!-- <clientGenerator /> -->
+    
+		<!-- Specify the exact tables you want to generate -->
+		<table schema="SYSTEM" tableName="order_items" domainObjectName="OrderItems" />
+		<table schema="SYSTEM" tableName="orders" domainObjectName="Orders" />
+		<table schema="SYSTEM" tableName="products" domainObjectName="Products" />
+		<table schema="SYSTEM" tableName="product_categories" domainObjectName="ProductCategories" />
+		<table schema="SYSTEM" tableName="warehouses" domainObjectName="Warehouses" />
+
+		<table schema="SYSTEM" tableName="employees" domainObjectName="Employees" />
+		<table schema="SYSTEM" tableName="customers" domainObjectName="Customers" />
+		<table schema="SYSTEM" tableName="inventories" domainObjectName="Inventories" />
+
+		<table schema="SYSTEM" tableName="contacts" domainObjectName="Contacts" />
+		<table schema="SYSTEM" tableName="locations" domainObjectName="Locations" />
+    	<table schema="SYSTEM" tableName="countries" domainObjectName="Countries" />
+    	<table schema="SYSTEM" tableName="regions" domainObjectName="Region" />
+
+	</context>
+</generatorConfiguration>

@@ -8,6 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.basics.oracle.model.Employees;
 import java.util.List;
 import java.util.ArrayList;
@@ -51,6 +54,18 @@ class ControllerOracleTest {
 		System.out.println(time);
 		assertNotNull(time);
 	}
+
+	@Test void home() {
+		
+		ModelAndView MAV = controllerOracle.home();
+		String viewName= MAV.getViewName();
+		ModelMap modelMap = MAV.getModelMap();
+		System.out.println("viewName: " + viewName);
+		System.out.println("modelMap: " + getJson(modelMap)	);
+		assertNotNull(viewName);
+		assertNotNull(modelMap);
+	}
+
 
 	@Test void jsonCustomersAll( ) {
 

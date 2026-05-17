@@ -1,12 +1,13 @@
 package com.basics.oracle.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 // note: persistence is case sensitive with objects; multilines need MultipleLinesSqlCommandExtractor
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor // @EqualsAndHashCode
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder// @EqualsAndHashCode
 //@Entity @Table( name = "customers" )
 public class Customer {
 

@@ -21,9 +21,20 @@ public class EmployeesTest {
 	}
 
 	public static Employees getEmployee() {
-
+		
 		Date date = Date.valueOf("2026-04-20");
-		return new Employees(10, "John", "Smith", 
-		"john.smith@example.com", "555-1234", date, 747, "Developer");
+
+		Employees employee = Employees.builder()
+			.employeeId(10)
+			.firstName("John")
+			.lastName("Smith")
+			.email("john.smith@example.com")
+			.phone("555-1234")
+			.hireDate(date)
+			.managerId(100)
+			.jobTitle("Developer")
+				.build();
+
+		return employee;
 	}	
 }

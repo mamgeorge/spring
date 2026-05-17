@@ -1,22 +1,13 @@
 spring:
   datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@//localhost:1521/XE
     username: ${ORACLE_USER:SYS} as sysdba
     password: ${ORACLE_PASS:oracle}
-    driver-class-name: oracle.jdbc.OracleDriver
     # driver-class-name: org.sqlite.JDBC
     # DriverManager automatically selects driver className since JDBC4 (SDK6)
   jpa:
-    properties:
-      hibernate:
-        connection:
-          driverclass: oracle.jdbc.OracleDriver
-          url: jdbc:oracle:thin:@//localhost:1521/XE
-          username: ${ORACLE_USER:SYS} as sysdba
-          password: ${ORACLE_PASS:oracle}
-        defaultcatalog: XE
-        defaultschema: SYSTEM
-        # dialect: org.hibernate.community.dialect.SQLiteDialect
-        # com.basics.dbsqlite.configuration.SqliteDialect
-        # NOTE: JPA forces underscore for camelCase
     hibernate.ddl-auto: none # create, create-drop, validate, update, none; none allows app to load if db fails
+    # dialect: org.hibernate.community.dialect.SQLiteDialect
+    # com.basics.dbsqlite.configuration.SqliteDialect
+    # NOTE: JPA forces underscore for camelCase
