@@ -1,0 +1,31 @@
+<span th:fragment="boothead">
+<style>	a { text-decoration: none; } .x40 { width: 40px; } </style>
+<nav class = "navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+	<div class = "container-fluid">
+		<a class="navbar-brand" href="#">
+			<img th:src="@{/images/george.gif}" alt="MLG" class="rounded-pill x40">
+		</a>
+		<a class = "navbar-brand" href = "/" >Home</a>
+		<button class = "navbar-toggler" type = "button" data-bs-toggle = "collapse" data-bs-target = "#mynavbar">
+			<span class = "navbar-toggler-icon">|</span>
+		</button>
+		<div class = "collapse navbar-collapse" id = "mynavbar">
+
+			<ul class = "navbar-nav me-auto">
+				<li class = "nav-item"><a class = "nav-link" th:href = "@{/}"					>/(root)			</a></li>
+				<li class = "nav-item"><a class = "nav-link" th:href = "@{/home}"				>🔵 /home			</a></li>
+				<li class = "nav-item"><a class = "nav-link" th:href = "@{/actuator}"			>🔵 /actuator		</a></li>
+				<li class = "nav-item"><a class = "nav-link" th:href = "@{/actuator/health}"	>🔵 /actuator/health	</a></li>
+				<li class = "nav-item"><a class = "nav-link" th:href = "@{/swagger-ui.html}"	>🔵 /swagger-ui.html	</a></li>
+				<li class = "nav-item"><a class = "nav-link" th:href = "@{/h2-console}"			>🔴 /h2-console			</a></li>
+				<li class = "nav-item"><a class = "nav-link" th:href = "@{/graphiql}"			>🔴 /graphiql			</a></li>
+			</ul>
+
+			<form class="d-flex">
+				<button type = "button" class="btn btn-warning" value = "Testing" >|</button>
+			</form>
+		</div>
+	</div>
+</nav>
+<br /><br /><br />
+</span>

@@ -1,0 +1,19 @@
+spring:
+
+  datasource:
+    url: jdbc:sqlite:C:/workspace/dbase/sqlite/chinook.db
+    username:
+    password:
+    driver-class-name: org.sqlite.JDBC
+    # DriverManager automatically selects driver className since JDBC4 (SDK6)
+
+  jpa:
+    hibernate:
+      ddl-auto: none # create, create-drop, validate, update, none; none allows app to load if db fails
+#      dialect: org.hibernate.community.dialect.SQLiteDialect
+#      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        # com.basics.dbsqlite.configuration.SqliteDialect
+        # NOTE: JPA forces underscore for camelCase
