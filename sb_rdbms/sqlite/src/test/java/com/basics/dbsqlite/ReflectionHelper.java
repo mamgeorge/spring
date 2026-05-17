@@ -82,6 +82,7 @@ public class ReflectionHelper {
 		return objectReturn;
 	}
 
+	@SuppressWarnings("null")
 	public static String exposeObject(Object object) {
 
 		StringBuilder stringBuilder = new StringBuilder();

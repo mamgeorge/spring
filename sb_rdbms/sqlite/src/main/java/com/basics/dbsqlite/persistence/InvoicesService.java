@@ -1,30 +1,33 @@
 package com.basics.dbsqlite.persistence;
 
 import com.basics.dbsqlite.model.Invoices;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.NonNull;
+
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class InvoicesService {
+@Service public class InvoicesService {
 
 	private final InvoicesRepository invoicesRepository;
 
-	@Autowired
 	public InvoicesService(InvoicesRepository invoicesRepository) {
 		this.invoicesRepository = invoicesRepository;
 	}
 
-	public Invoices findById(Integer id) { return invoicesRepository.findById(id).get(); }
+	public Invoices findById(Integer id) { 
+		@NonNull Integer idSafe = (id != null) ? id : 0; 
+		return invoicesRepository.findById(idSafe).get(); }
 
 	public List<Invoices> findAll( ) { return invoicesRepository.findAll(); }
 
 	public Invoices save(Invoices invoices) {
 
 		Invoices invoicesNew = new Invoices();
-		try { invoicesNew = invoicesRepository.save(invoices); }
+		Invoices invoicesSafe = (invoices != null) ? invoices : invoicesNew;
+		try { invoicesNew = invoicesRepository.save(invoicesSafe); }
 		catch (InvalidDataAccessApiUsageException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		return invoicesNew;
 	}

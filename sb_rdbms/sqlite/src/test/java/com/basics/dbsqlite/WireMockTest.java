@@ -89,11 +89,13 @@ class WireMockTest {
 			.build();
 
 		HttpClient httpClient = HttpClient.newBuilder().build();
-
+		String responseString = "";
 		HttpResponse<String> httpResponse = null;
-		try { httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString()); }
+		try { 
+			httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString()); 
+			responseString = httpResponse.body();
+		}
 		catch (IOException | InterruptedException ex) { System.out.println("ERROR: " + ex.getMessage()); }
-		String responseString = httpResponse.body();
 
 		wireMockServer.stop();
 
@@ -102,7 +104,8 @@ class WireMockTest {
 	}
 
 	// org.apache.hc.client5.http.classic.methods
-	@Test void test_wiremock_CloseableHC_GET( ) {
+	@Test @SuppressWarnings("deprecation")
+	void test_wiremock_CloseableHC_GET( ) {
 
 		wireMockServer.start();
 		configure_WireMockServer_GET();
@@ -112,7 +115,8 @@ class WireMockTest {
 			CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
 			HttpGet httpGet = new HttpGet(URL_URI);
 			httpGet.addHeader(CONTENT_TYPE, containing(TEXT_PLAIN_VALUE));
-			CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpGet);
+			CloseableHttpResponse closeableHttpResponse 
+				= closeableHttpClient.execute(httpGet);
 			responseString = convertChr2Str(closeableHttpResponse);
 		}
 		catch (IOException ex) { System.out.println("ERROR: " + ex.getMessage()); }
@@ -123,7 +127,8 @@ class WireMockTest {
 		assertEquals(RESPONSE_BODY_GET, responseString);
 	}
 
-	@Test void test_wiremock_CloseableHC_POST( ) {
+	@Test @SuppressWarnings("deprecation")
+	void test_wiremock_CloseableHC_POST( ) {
 
 		wireMockServer.start();
 		configure_WireMockServer_POST();

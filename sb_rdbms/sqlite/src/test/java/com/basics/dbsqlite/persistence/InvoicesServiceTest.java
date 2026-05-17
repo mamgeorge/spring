@@ -1,6 +1,5 @@
 package com.basics.dbsqlite.persistence;
 
-import com.basics.dbsqlite.model.Customer;
 import com.basics.dbsqlite.model.Invoices;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

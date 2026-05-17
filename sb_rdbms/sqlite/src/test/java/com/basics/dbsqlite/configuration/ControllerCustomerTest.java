@@ -36,23 +36,25 @@ class ControllerCustomerTest {
 	}
 
 	@Test
-	void getCustomers( ) {
+	void jsonCustomersAll( ) {
 
-		ResponseEntity<List<Customer>> responseEntity = controllerCustomer.getCustomers();
+		ResponseEntity<List<Customer>> responseEntity = controllerCustomer.jsonCustomersAll();
 		List<Customer> customers = responseEntity.getBody();
 		StringBuilder sb = new StringBuilder();
-		customers.forEach(customer -> sb.append(customer.getCustomerid()).append(" ")
-			.append(customer.getFirstname()).append(" ")
-			.append(customer.getLastname()).append(EOL)
-		);
+		if(customers != null){
+			customers.forEach(customer -> sb.append(customer.getCustomerid()).append(" ")
+				.append(customer.getFirstname()).append(" ")
+				.append(customer.getLastname()).append(EOL)
+			);
+		}
 		System.out.println(sb);
 		assertNotNull(sb);
 	}
 
 	@Test
-	void getCustomersRng( ) {
+	void jsonCustomersRng( ) {
 
-		List<Customer> customers = controllerCustomer.getCustomersRng("0", "5");
+		List<Customer> customers = controllerCustomer.jsonCustomersRng("0", "5");
 		StringBuilder sb = new StringBuilder();
 		customers.forEach(customer -> sb.append(customer.getCustomerid()).append(" ")
 			.append(customer.getFirstname()).append(" ")
@@ -63,31 +65,33 @@ class ControllerCustomerTest {
 	}
 
 	@Test
-	void getCustomerRnd( ) {
+	void jsonCustomerRnd( ) {
 
-		ResponseEntity<Customer> responseEntity = controllerCustomer.getCustomerRnd();
+		ResponseEntity<Customer> responseEntity = controllerCustomer.jsonCustomerRnd();
 		Customer customer = responseEntity.getBody();
 		System.out.println(exposeObject(Objects.requireNonNull(customer)));
 		assertNotNull(customer);
 	}
 
 	@Test
-	void getCustomer( ) {
+	void jsonCustomerNum( ) {
 
-		ResponseEntity<Customer> responseEntity = controllerCustomer.getCustomer(10);
+		ResponseEntity<Customer> responseEntity = controllerCustomer.jsonCustomerNum(10);
 		Customer customer = responseEntity.getBody();
-		String txt = customer.getCustomerid() + " " +
-			customer.getFirstname() + " " +
-			customer.getLastname() + EOL;
-		System.out.println(txt);
+		if (customer != null) {
+			String txt = customer.getCustomerid() + " " +
+				customer.getFirstname() + " " +
+				customer.getLastname() + EOL;
+			System.out.println(txt);
+		}
 		assertNotNull(customer);
 	}
 
 	// Invoices
 	@Test
-	void getInvoices( ) {
+	void jsonInvoicesAll( ) {
 
-		List<Invoices> invoices = controllerCustomer.getInvoices();
+		List<Invoices> invoices = controllerCustomer.jsonInvoicesAll();
 		StringBuilder sb = new StringBuilder();
 		invoices.forEach(customer -> sb.append(customer.getInvoiceid()).append(" ")
 			.append(customer.getInvoicedate()).append(" ")
@@ -98,17 +102,17 @@ class ControllerCustomerTest {
 	}
 
 	@Test
-	void getInvoiceRnd( ) {
+	void jsonInvoiceRnd( ) {
 
-		Invoices invoices = controllerCustomer.getInvoiceRnd();
+		Invoices invoices = controllerCustomer.jsonInvoiceRnd();
 		System.out.println(exposeObject(invoices));
 		assertNotNull(invoices);
 	}
 
 	@Test
-	void getInvoice( ) {
+	void jsonInvoiceNum( ) {
 
-		Invoices invoices = controllerCustomer.getInvoice(10);
+		Invoices invoices = controllerCustomer.jsonInvoiceNum(10);
 		String txt = invoices.getInvoiceid() + " " +
 			invoices.getInvoicedate() + " " +
 			invoices.getBillingaddress() + EOL;
@@ -117,10 +121,10 @@ class ControllerCustomerTest {
 	}
 
 	// display
-	@Test
-	void showCustomers( ) {
+	@Test @SuppressWarnings("unchecked")
+	void showCustomersAll( ) {
 
-		ModelAndView MAV = controllerCustomer.showCustomers();
+		ModelAndView MAV = controllerCustomer.showCustomersAll();
 		String name = MAV.getViewName();
 		ModelMap modelMap = MAV.getModelMap();
 		List<Customer> customers = (List<Customer>) modelMap.get("customers");
@@ -140,7 +144,7 @@ class ControllerCustomerTest {
 		assertNotNull(sb);
 	}
 
-	@Test
+	@Test @SuppressWarnings("unchecked")
 	void showCustomersMax( ) {
 
 		ModelAndView MAV = controllerCustomer.showCustomersMax();
@@ -167,7 +171,6 @@ class ControllerCustomerTest {
 	void showCustomerRnd( ) {
 
 		ModelAndView MAV = controllerCustomer.showCustomerRnd();
-		String name = MAV.getViewName();
 		ModelMap modelMap = MAV.getModelMap();
 		Customer customer = (Customer) modelMap.get("customer");
 		String txt = customer.getCustomerid() + " " +
@@ -178,11 +181,10 @@ class ControllerCustomerTest {
 	}
 
 	@Test
-	void showCustomer( ) {
+	void showCustomerNum( ) {
 
 		Model model = null;
-		ModelAndView MAV = controllerCustomer.showCustomer("10", model);
-		String name = MAV.getViewName();
+		ModelAndView MAV = controllerCustomer.showCustomerNum("10", model);
 		ModelMap modelMap = MAV.getModelMap();
 		Customer customer = (Customer) modelMap.get("customer");
 		String txt = customer.getCustomerid() + " " +

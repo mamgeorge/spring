@@ -2,15 +2,18 @@ package com.basics.dbsqlite.configuration; // .controller;
 
 import com.basics.dbsqlite.model.Customer;
 import com.basics.dbsqlite.model.Invoices;
-import com.basics.dbsqlite.persistence.CustomerService;
-import com.basics.dbsqlite.persistence.InvoicesService;
+import com.basics.dbsqlite.persistence.CustomerRepository;
+import com.basics.dbsqlite.persistence.InvoicesRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +35,19 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 public class ControllerCustomer {
 
-	private final CustomerService customerService;
-	private final InvoicesService invoicesService;
+	private CustomerRepository customerRepository;
+	private final InvoicesRepository invoicesRepository;
 	private final Random random = new Random();
 
-	@Autowired ControllerCustomer(CustomerService customerService, InvoicesService invoicesService) {
-		this.customerService = customerService;
-		this.invoicesService = invoicesService;
+	ControllerCustomer(CustomerRepository customerRepository, InvoicesRepository invoicesRepository) {
+		this.customerRepository = customerRepository;
+		this.invoicesRepository = invoicesRepository;
 	}
 
 	private static final String FRMT = "\t%02d %s %s | %s\n";
-	private static final int MAX_DISPLAY = 20;
+	private static final String PAGE_SORT = "customerid";
+	private static final int MAX_DISPLAY = 10;
+	private static final int PAGE_MIN = 0;
 
 	@GetMapping( { "/", "/root", "/home", "/index" } )
 	public ModelAndView root( ) {
@@ -53,65 +58,79 @@ public class ControllerCustomer {
 	}
 
 	//#### REST
-	@GetMapping( "/getCustomers" ) public ResponseEntity<List<Customer>> getCustomers( ) {
+	@GetMapping( "/jsonCustomersAll" ) public ResponseEntity<List<Customer>> jsonCustomersAll( ) {
 
-		List<Customer> customers = customerService.findAll();
+		List<Customer> customers = customerRepository.findAll();
 		return new ResponseEntity<>(customers, OK);
 	}
 
-	@GetMapping( "/getCustomersRng" ) public @ResponseBody List<Customer> getCustomersRng(
+	@GetMapping( "/jsonCustomersRng" ) public @ResponseBody List<Customer> jsonCustomersRng(
 		@RequestParam( "beg" ) String beg, @RequestParam( "end" ) String end) {
 
 		int ibeg = Integer.parseInt(beg);
 		int iend = Integer.parseInt(end);
 
-		List<Customer> customers = customerService.findAll().subList(ibeg, iend);
+		List<Customer> customers = customerRepository.findAll().subList(ibeg, iend);
 		return customers;
 	}
 
-	@GetMapping( "/getCustomerRnd" ) public ResponseEntity<Customer> getCustomerRnd( ) {
+	@GetMapping( "/jsonCustomerRnd" ) public ResponseEntity<Customer> jsonCustomerRnd( ) {
 
-		long maxId = customerService.getMaxId() + 1;
+		long maxId = customerRepository.count();
 		Integer intId = random.nextInt((int) maxId);
 		System.out.println("\nintId: " + intId);
 
-		Customer customer = customerService.findById(intId);
+		Customer customer = (Customer) customerRepository.findById(intId).get();
+		System.out.println("\ngetCompany: " + customer.getCompany());
+		System.out.println("\ncustomer: " + getJson(customer));
 		return new ResponseEntity<>(customer, OK);
 	}
 
-	@GetMapping( "/getCustomer/{idVal}" )
-	public ResponseEntity<Customer> getCustomer(@PathVariable int idVal) {
+	@GetMapping( "/jsonCustomerNum/{idVal}" )
+	public ResponseEntity<Customer> jsonCustomerNum(@PathVariable int idVal) {
 
-		Customer customer = customerService.findById(idVal);
+		Customer customer = customerRepository.findById(idVal).get();
 		return new ResponseEntity<>(customer, OK);
 	}
 
-	@GetMapping( "/getInvoices" ) public @ResponseBody List<Invoices> getInvoices( ) {
+	@GetMapping( "/jsonInvoicesAll" ) public @ResponseBody List<Invoices> jsonInvoicesAll( ) {
 
-		List<Invoices> invoices = invoicesService.findAll();
+		List<Invoices> invoices = invoicesRepository.findAll();
 		return invoices;
 	}
 
-	@GetMapping( "/getInvoiceRnd" ) public @ResponseBody Invoices getInvoiceRnd( ) {
+	@GetMapping( "/jsonInvoiceRnd" ) public @ResponseBody Invoices jsonInvoiceRnd( ) {
 
-		long maxId = invoicesService.getMaxId() + 1;
+		long maxId = invoicesRepository.count() + 1;
 		Integer intId = random.nextInt((int) maxId);
 		System.out.println("\nintId: " + intId);
 
-		Invoices invoice = invoicesService.findById(intId);
+		Invoices invoice = invoicesRepository.findById(intId).get();
 		return invoice;
 	}
 
-	@GetMapping( "/getInvoice/{idVal}" ) public @ResponseBody Invoices getInvoice(@PathVariable int idVal) {
+	@GetMapping( "/jsonInvoiceNum/{idVal}" ) public @ResponseBody Invoices jsonInvoiceNum(@PathVariable int idVal) {
 
-		Invoices invoice = invoicesService.findById(idVal);
+		Invoices invoice = invoicesRepository.findById(idVal).get();
 		return invoice;
 	}
 
 	//#### MVC
-	@GetMapping( "/showCustomers" ) public ModelAndView showCustomers( ) {
+	@GetMapping( "/showCustomersAll" ) public ModelAndView showCustomersAll( ) {
 
-		List<Customer> customers = customerService.findAll();
+		List<Customer> customers = customerRepository.findAll();
+		ModelAndView modelAndView = new ModelAndView("customersList");
+		modelAndView.addObject("customers", customers);
+		return modelAndView;
+	}
+
+	@GetMapping( "/showCustomersNum/{num}" ) public ModelAndView showCustomersNum(@PathVariable String num) {
+
+		int pageLim = Integer.parseInt(num);
+		Sort sort = Sort.by(PAGE_SORT).ascending();
+		Pageable pageable = (Pageable) PageRequest.of(PAGE_MIN, pageLim, sort);
+		
+		Page<Customer> customers = customerRepository.findAll(pageable);
 		ModelAndView modelAndView = new ModelAndView("customersList");
 		modelAndView.addObject("customers", customers);
 		return modelAndView;
@@ -120,7 +139,7 @@ public class ControllerCustomer {
 	@GetMapping( "/showCustomersMax" ) public ModelAndView showCustomersMax( ) {
 
 		StringBuilder stringBuilder = new StringBuilder();
-		List<Customer> customersAll = customerService.findAll();
+		List<Customer> customersAll = customerRepository.findAll();
 		List<Customer> customers = null;
 		if ( customersAll == null || customersAll.size() < 1 ) {
 			stringBuilder.append("DATA CALL FAILED OR TABLE EMPTY!");
@@ -140,23 +159,23 @@ public class ControllerCustomer {
 
 	@GetMapping( "/showCustomerRnd" ) public ModelAndView showCustomerRnd( ) {
 
-		long maxId = customerService.getMaxId() + 1;
+		long maxId = customerRepository.count() + 1;
 		Integer intId = random.nextInt((int) maxId);
 		System.out.println("\nintId: " + intId);
 
-		Customer customer = customerService.findById(intId);
+		Customer customer = customerRepository.getReferenceById(intId);
 		ModelAndView modelAndView = new ModelAndView("customerOne");
 		modelAndView.addObject("customer", customer);
 		return modelAndView;
 	}
 
-	@GetMapping( "/showCustomer/{idVal}" )
-	public ModelAndView showCustomer(@PathVariable String idVal, Model model) {
+	@GetMapping( "/showCustomerNum/{idVal}" )
+	public ModelAndView showCustomerNum(@PathVariable String idVal, Model model) {
 
 		// method called template incorrectly UNTIL TEMPLATE CSS WAS PREPENDED WITH SLASH!
 		// id is normal; id.get() used with Optional
 		Integer intId = Integer.parseInt(idVal);
-		Customer customer = customerService.findById(intId);
+		Customer customer = customerRepository.getReferenceById(intId);
 
 		ModelAndView modelAndView = new ModelAndView("customerOne");
 		modelAndView.addObject("customer", customer);
@@ -166,7 +185,7 @@ public class ControllerCustomer {
 	@GetMapping( "/showCustomersVtl" ) public String showCustomersVtl( ) {
 
 		String strTemplate = "src/main/resources/velocity/customersListVtl.vm";
-		List<Customer> customers = customerService.findAll();
+		List<Customer> customers = customerRepository.findAll();
 
 		VelocityContext velocityContext = new VelocityContext();
 		velocityContext.put("customers", customers);

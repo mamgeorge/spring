@@ -44,7 +44,7 @@ class CustomerRepositoryTest {
 	void save( ) {
 
 		Customer customerNew = new Customer();
-		try { customerNew = customerRepository.save(null); }
+		try { customerNew = customerRepository.save(customerNew); }
 		catch (InvalidDataAccessApiUsageException ex) { System.out.println("ERROR: " + ex.getMessage()); }
 		System.out.println("getCustomerid: " + customerNew.getCustomerid());
 
