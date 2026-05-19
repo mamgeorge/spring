@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OracleApp {
 
-	public static void main(String[] strings) throws Throwable {
+	public static void main(String[] args) throws Throwable {
 
 		System.out.println("#### SecuringWebApp ####");
-		SpringApplication.run(OracleApp.class, strings);
+		SpringApplication.run(OracleApp.class, args);
 		System.out.println("RUNNING!!!");
 	}
 }

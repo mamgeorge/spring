@@ -83,7 +83,6 @@ public class ReflectionHelper {
 		return objectReturn;
 	}
 
-	@SuppressWarnings("null")
 	public static String exposeObject(Object object) {
 
 		StringBuilder stringBuilder = new StringBuilder();
@@ -135,8 +134,8 @@ public class ReflectionHelper {
 				try {
 					objectVal = method.invoke(object, args);
 					if ( objectVal == null && ( method.getParameterCount() != 0 ) ) {
-						assert args != null;
-						objectVal = args[0];
+					if ( args == null || args.length == 0 ) {objectVal = "REQUIRES: no args";}
+					else {	objectVal = args[0];}
 					}
 				}
 				catch (IllegalAccessException | InvocationTargetException ex) {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -55,7 +56,7 @@ public class ControllerOracle {
 
 		List<Employees> employees = employeesRepository.findAll();
 		System.out.println("jsonEmployeesAll: " + employees.size());
-		System.out.println(getJson(employees));		
+		//System.out.println(getJson(employees));		
 		return new ResponseEntity<>(employees, OK);
 	}
 
@@ -67,7 +68,9 @@ public class ControllerOracle {
 		List<Employees> employees = employeesPage.toList();
 
 		System.out.println("jsonEmployeesRng: " + employees.size());
-		System.out.println(getJson(employees.get(0)));		
+		System.out.println(getJson(employees)
+			.replaceAll("\\s+", " ")
+			.replaceAll("\\{", "\n{"));		
 		return new ResponseEntity<>(employees, OK);
 	}
 
@@ -79,7 +82,28 @@ public class ControllerOracle {
 		return new ResponseEntity<>(employee, OK);
 	}
 
+	@GetMapping( "/jsonEmployeesDate/{dateVal}" )
+	public ResponseEntity<List<Employees>> jsonEmployeesDate(@PathVariable String dateVal) {
+
+		dateVal = checkDate(dateVal);	
+		List<Employees> employees = new ArrayList<>();
+		employees =  employeesRepository.findByDate(dateVal);
+		System.out.println("dateVal: " + dateVal + ", employees: " + employees.size());	
+		System.out.println(getJson(employees));	
+		return new ResponseEntity<>(employees, OK);
+	}
+
 	//#### utils
+	public static String checkDate(String dateVal) { 
+
+		if (dateVal == null || dateVal.isEmpty()) { dateVal = "2016-12-01"; }
+		if (dateVal.length() == 8) { dateVal = dateVal.substring(0, 4) 
+			+ "-" + dateVal.substring(4, 6)
+			+ "-" + dateVal.substring(6); }
+		if (dateVal.length() != 10) { dateVal = "2016-12-01"; }
+		return dateVal;
+	}
+
 	public static String getJson(Object object) {
 
 		String json = "";

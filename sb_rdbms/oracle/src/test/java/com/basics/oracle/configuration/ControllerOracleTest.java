@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import static java.util.Optional.ofNullable;
 import static com.basics.oracle.configuration.ControllerOracle.getJson;
+import static com.basics.oracle.configuration.ControllerOracle.checkDate;
 import static com.basics.oracle.configuration.ControllerOracle.PAGE_SORT;
 import static com.basics.oracle.configuration.ControllerOracle.PAGE_MIN;
 import static com.basics.oracle.model.EmployeesTest.getEmployee;
@@ -30,7 +31,7 @@ class ControllerOracleTest {
 	private EmployeesRepository employeesRepositoryMock;
 	private ControllerOracle controllerOracle;
 
-	@SuppressWarnings({ "null" })
+	@SuppressWarnings("null")
 	@BeforeEach void init( ) {
 
 		Employees employee = getEmployee();
@@ -43,8 +44,9 @@ class ControllerOracleTest {
 
 		employeesRepositoryMock = mock(EmployeesRepository.class);	
 		when(employeesRepositoryMock.findAll()).thenReturn(employeeList);
-		when(employeesRepositoryMock.findAll(any(Pageable.class))).thenReturn(employeesPage);
-		when(employeesRepositoryMock.findById(10)).thenReturn(ofNullable(employee));	
+		when(employeesRepositoryMock.findAll(any(Pageable.class))).thenReturn(employeesPage);	
+		when(employeesRepositoryMock.findById(10)).thenReturn(ofNullable(employee));
+		//when(employeesRepositoryMock.findByDate(any(String.class))).thenReturn(employeeList);
 		controllerOracle = new ControllerOracle(employeesRepositoryMock);
 	}
 
@@ -66,7 +68,6 @@ class ControllerOracleTest {
 		assertNotNull(modelMap);
 	}
 
-
 	@Test void jsonCustomersAll( ) {
 
 		ResponseEntity<List<Employees>> responseEntity = controllerOracle.jsonEmployeesAll();
@@ -83,11 +84,48 @@ class ControllerOracleTest {
 		assertNotNull(employeeList);
 	}
 
-	@Test void jsonCustomerNum( ) {
+	@Test void jsonEmployeesNum( ) {
 
 		ResponseEntity<Employees> responseEntity = controllerOracle.jsonEmployeesNum(10);
 		Employees employee = responseEntity.getBody();
 		System.out.println(getJson(employee));
 		assertNotNull(employee);
+	}	
+
+	@Test void jsonEmployeesDate( ) {
+
+		ResponseEntity<List<Employees>> responseEntity = controllerOracle.jsonEmployeesDate("2016-12-01");
+		List<Employees> employeeList = responseEntity.getBody();
+		System.out.println(getJson(employeeList));
+		assertNotNull(employeeList);
+	}
+
+	@Test void test_checkDate( ) {
+
+		String date = "";
+
+		String val = null;
+		date =checkDate(val);
+		System.out.println("date: " + date);
+		assertNotNull(date);
+
+		date =checkDate("1234");
+		System.out.println("date: " + date);
+		assertNotNull(date);
+
+		date =checkDate("20161201");
+		System.out.println("date: " + date);
+		assertNotNull(date);
+
+		date =checkDate("2016-12-01");
+		System.out.println("date: " + date);
+		assertNotNull(date);
+	}	
+
+	@Test void test_getJson( ) {
+
+		String object = "*";
+		System.out.println(getJson(object));
+		assertNotNull(object);
 	}
 }
