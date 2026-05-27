@@ -11,16 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -47,22 +44,22 @@ public class BasicsController {
 	private static final int SAMPLE_ITEM = 5;
 
 	@GetMapping({"/", "/index"})
-	public ModelAndView root(Model model) {
+	public ModelAndView root() {
 		//
 		System.out.println("index");
 		return new ModelAndView("index", new HashMap<>());
 	}
 
 	@GetMapping({"/entity"})
-	public ResponseEntity<String> showEntity() {
-		//
+	public ResponseEntity<MultiValueMap<String,String>> showEntity() {
+
 		System.out.println("entity");
-		String txtLines = Instant.now().toString();
-		MultiValueMap<String, String> MVP = new LinkedMultiValueMap<String, String>();
+		MultiValueMap<String, String> MVP = new LinkedMultiValueMap<>();
 		MVP.add(HttpHeaders.ACCEPT_ENCODING, MimeTypeUtils.APPLICATION_JSON_VALUE);
 		MVP.add(HttpHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE);
-		//
-		ResponseEntity responseEntity = new ResponseEntity<>(txtLines, MVP, HttpStatus.OK);
+
+		ResponseEntity<MultiValueMap<String,String>> responseEntity
+				= ResponseEntity.ok(MVP);
 		return responseEntity;
 	}
 
@@ -72,8 +69,8 @@ public class BasicsController {
 		// Set<Integer> subset = ImmutableSet.copyOf(Iterables.limit(set, MAX_DISPLAY));
 		System.out.println("cities");
 		List<City> cities = cityService.findAll();
-		List<City> subCities = new ArrayList<City>(cities.subList(0, MAX_DISPLAY));
-		Collections.sort(subCities, Comparator.comparing(City::getName));
+		List<City> subCities = new ArrayList<>(cities.subList(0, MAX_DISPLAY));
+		subCities.sort(Comparator.comparing(City::getName));
 		//
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("cities", subCities);
@@ -90,7 +87,7 @@ public class BasicsController {
 			longId = Long.parseLong(id);
 		} catch (Exception ex) {
 			LOGGER.info(ex.getMessage());
-			longId = Long.valueOf(SAMPLE_ITEM);
+			longId = (long)SAMPLE_ITEM;
 		}
 		City city = cityService.findById(longId);
 		//
@@ -113,13 +110,13 @@ public class BasicsController {
 			public ModelAndView showCityPth( @PathVariable("id") String id ) {
 		*/
 		System.out.println("city: [" + id + "]");
-		Long longId = null;
+		Long longId;
 		try {
 			longId = Long.parseLong(id);
 		} // id is normal; id.get() used with Optional
 		catch (Exception ex) {
 			LOGGER.info(ex.getMessage());
-			longId = Long.valueOf(SAMPLE_ITEM);
+			longId = (long) SAMPLE_ITEM;
 		}
 		City city = cityService.findById(longId);
 		//
@@ -143,21 +140,17 @@ public class BasicsController {
 		String txtlines = "";
 		System.out.println("utils");
 		txtlines = UtilityMain.getFileLocal("", "<br />");
-		// txtlines = UtilityMain.getZipFileList( "" , "<br />" );
-		// txtlines = UtilityMain.getXmlFileNode( "" , "" , "" );
-		// txtlines = UtilityMain.convertXml2Json( "" );
-		// txtlines = UtilityMain.convertJson2Xml( "" );
-		// txtlines = UtilityMain.formatXml( UtilityMain.convertJson2Xml( "" ) );
 		System.out.println(txtlines);
 		return RETURN_LINK + txtlines + RETURN_LINK;
 	}
 
-	@GetMapping("/exits")
-	public void exits() {
-		//
-		System.out.println("EXIT");
-		SpringApplication.exit(applicationContext);
-		System.exit(0);
+	@GetMapping("/ping")
+	public String ping() {
+
+		System.out.println("ping");
+		// SpringApplication exit(applicationContext);
+		// System exit(0);
+		return "ping";
 	}
 
 	@CrossOrigin

@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.0</version><!-- 2.2.4, 2.3.2.RELEASE -->
+		<version>4.0.6</version><!-- 2.2.4, 2.3.2.RELEASE -->
 	</parent>
 
 	<properties>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
-			<version>4.0.0</version><!-- 2.4.2 -->
+			<version>LATEST</version><!-- 2.4.2 -->
 		</dependency>
 
 		<!-- BEG: allows json, yml, lombok  -->
@@ -80,6 +80,12 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<version>5.5.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.wiremock</groupId>
+			<artifactId>wiremock-standalone</artifactId>
+			<version>3.13.2</version>
 		</dependency>
 
 	</dependencies>
