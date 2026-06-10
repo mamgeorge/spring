@@ -1,5 +1,7 @@
 spring:
-
+  mvc:
+    servlet:
+      load-on-startup: 1
   datasource:
     url: jdbc:sqlite:C:/workspace/dbase/sqlite/chinook.db
     username:
