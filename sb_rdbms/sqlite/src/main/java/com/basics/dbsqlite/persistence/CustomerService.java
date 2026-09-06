@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class CustomerService {
+@Service public class CustomerService {
 
 	private final CustomerRepository customerRepository;
 

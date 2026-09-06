@@ -1,4 +1,13 @@
 {
 	"java.compile.nullAnalysis.mode": "automatic",
-	"java.configuration.updateBuildConfiguration": "automatic"
+	"java.configuration.updateBuildConfiguration": "automatic",
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"driver": "SQLite",
+			"name": "Chinook",
+			"database": "C:\\workspace\\dbase\\sqlite\\chinook.db"
+		}
+	],
+	"sqltools.useNodeRuntime": true
 }
