@@ -40,7 +40,11 @@ class DbSqliteAppTest {
 	public static final String DB_PASS = "";
 	public static final String PATH_SQLS = "samples.sql";
 
-	@Test void contextLoads() {	}
+	@Test void contextLoads() {	
+
+		DbSqliteApp dbSqliteApp = new DbSqliteApp();
+		assertNotNull(dbSqliteApp);
+	}
 
 	@Test void read_driverManager() { // uses getSqlQuery
 

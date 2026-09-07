@@ -10,6 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InvoicesRepository extends JpaRepository<Invoices, Integer> { 
 	
-    @SuppressWarnings("null")
 	Page<Invoices> findAll(@NonNull Pageable pageable);
 }
