@@ -1,0 +1,50 @@
+package examples;
+
+import org.junit.jupiter.api.Test;
+
+import com.intuit.karate.Results;
+import com.intuit.karate.Runner;
+import com.intuit.karate.junit5.Karate;
+
+import static org.aspectj.util.LangUtil.EOL;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/*
+	$env:JAVA_HOME = 'C:\Program Files\Java\jdk-21'
+	$env:PATH = "$env:JAVA_HOME\bin;$env:PATH"
+	mvn -Dtest=TestRunner test
+ */
+class TestRunner {
+
+	public static final String FILE_TESTS = "classpath:examples/" + "tests" + ".feature";
+	public static final String FILE_POSTS = "classpath:examples/" + "posts" + ".feature";
+	public static final int PARALLEL_LIMIT = 5;
+
+	@Test void test_junit() {
+
+		Results results = Runner.path(FILE_TESTS)
+				.outputHtmlReport(true)
+				.parallel(PARALLEL_LIMIT);
+
+		System.out.println("FILE_TESTS: " + FILE_TESTS);
+		System.out.println("JUnit Scenarios Total: " + results.getScenariosTotal());
+		System.out.println("JUnit Scenarios Failed: " + results.getScenariosFailed());
+		assertTrue(results.getScenariosFailed() == 0);
+	}
+
+	@Karate.Test Karate test_karate() {
+
+		Karate karate = Karate.run(FILE_TESTS);
+
+		StringBuilder sb = new StringBuilder(EOL + "Karate Scenarios: " + EOL);
+		karate.forEach(k -> sb.append(k.getDisplayName() + " - " + k.toString()).append(EOL));
+		System.out.println("karate: " + sb.toString());
+
+		return karate;
+	}
+
+	@Karate.Test Karate test_posts() {
+		Karate karate = Karate.run(FILE_POSTS);
+		return karate;
+	}
+}

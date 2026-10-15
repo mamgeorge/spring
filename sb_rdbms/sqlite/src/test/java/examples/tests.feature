@@ -1,3 +1,5 @@
+# @2026 Martin George 
+# mvn -Dtest=TestRunner tests
 Feature: User API
 
 Background:
@@ -8,12 +10,20 @@ Scenario: List all users
 	When method GET
 	Then status 200
 	And match response == '#array'
+	* print 'response.length: ', response.length
 
 Scenario: Get Name One 
 	Given path 'users/1'
 	When method GET
 	Then status 200
 	And match response.name == 'Leanne Graham'
+
+@ignore
+Scenario: Get Name Two
+	Given path 'users/2'
+	When method GET
+	Then status 200
+	And match response.name == 'Ervin Howell'
 
 Scenario Outline: Get Name Any 
 	Given path 'users/<id>'
