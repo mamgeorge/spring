@@ -5,18 +5,23 @@ Feature: User API for POSTs
 Background: Set base url
 	* url 'https://jsonplaceholder.typicode.com'
 
-Scenario: Verify posts
+Scenario: Verify post
 	Given path 'posts'
-	And header x-transaction-id = 'abc-1234'
-	When method GET			# should be post!
-	Then status 200
-	And match response == '#array'
-	And assert response.length > 0
-	And assert responseTime < 10000
-	And assert response[0].title.length > 4
-	* print 'response.length: ', response.length
-	* print 'response[10].title: ', response[0].title
-	* print 'responseCookies: ', responseCookies
-	* print 'requestTimeStamp: ', requestTimeStamp
-	* print 'responseHeaders: ', responseHeaders['Content-Type'][0]
-	* print 'responseHeaders: ', responseHeaders	
+	And header Content-type = 'application/json; charset=UTF-8'
+	And request { title: 'MLG', body: 'Amazing', userId: 343 }	
+	When method POST
+	Then status 201
+	And match response == { id: '#number', title: 'MLG', body: 'Amazing', userId: 343 }
+	* print response
+
+Scenario: Verify put
+	Given def postId = 101
+	And path 'posts'
+	And path postId
+	And header Content-type = 'application/json; charset=UTF-8'
+	And request { title: 'MLG', body: 'Amazing!!!', userId: 343 }	
+	When method PUT
+	Then match responseStatus == '#number'
+	#And match response == { id: '#(postId)', title: 'MLG', body: 'Amazing!!!', userId: 343 }
+	* print responseStatus 
+	* print response

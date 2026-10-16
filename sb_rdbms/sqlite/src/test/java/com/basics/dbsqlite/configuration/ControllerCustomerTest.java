@@ -21,9 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 class ControllerCustomerTest {
 
-	@Autowired private ControllerCustomer controllerCustomer;
+	@Autowired
+	private ControllerCustomer controllerCustomer;
 
-	@Test void root( ) {
+	@Test
+	void root() {
 
 		StringBuilder sb = new StringBuilder();
 		ModelAndView modelAndView = controllerCustomer.root();
@@ -36,36 +38,34 @@ class ControllerCustomerTest {
 	}
 
 	@Test
-	void jsonCustomersAll( ) {
+	void jsonCustomersAll() {
 
 		ResponseEntity<List<Customer>> responseEntity = controllerCustomer.jsonCustomersAll();
 		List<Customer> customers = responseEntity.getBody();
 		StringBuilder sb = new StringBuilder();
-		if(customers != null){
+		if (customers != null) {
 			customers.forEach(customer -> sb.append(customer.getCustomerid()).append(" ")
-				.append(customer.getFirstname()).append(" ")
-				.append(customer.getLastname()).append(EOL)
-			);
+					.append(customer.getFirstname()).append(" ")
+					.append(customer.getLastname()).append(EOL));
 		}
 		System.out.println(sb);
 		assertNotNull(sb);
 	}
 
 	@Test
-	void jsonCustomersRng( ) {
+	void jsonCustomersRng() {
 
 		List<Customer> customers = controllerCustomer.jsonCustomersRng("0", "5");
 		StringBuilder sb = new StringBuilder();
 		customers.forEach(customer -> sb.append(customer.getCustomerid()).append(" ")
-			.append(customer.getFirstname()).append(" ")
-			.append(customer.getLastname()).append(EOL)
-		);
+				.append(customer.getFirstname()).append(" ")
+				.append(customer.getLastname()).append(EOL));
 		System.out.println(sb);
 		assertNotNull(sb);
 	}
 
 	@Test
-	void jsonCustomerRnd( ) {
+	void jsonCustomerRnd() {
 
 		ResponseEntity<Customer> responseEntity = controllerCustomer.jsonCustomerRnd();
 		Customer customer = responseEntity.getBody();
@@ -74,14 +74,14 @@ class ControllerCustomerTest {
 	}
 
 	@Test
-	void jsonCustomerNum( ) {
+	void jsonCustomerNum() {
 
 		ResponseEntity<Customer> responseEntity = controllerCustomer.jsonCustomerNum(10);
 		Customer customer = responseEntity.getBody();
 		if (customer != null) {
 			String txt = customer.getCustomerid() + " " +
-				customer.getFirstname() + " " +
-				customer.getLastname() + EOL;
+					customer.getFirstname() + " " +
+					customer.getLastname() + EOL;
 			System.out.println(txt);
 		}
 		assertNotNull(customer);
@@ -89,20 +89,19 @@ class ControllerCustomerTest {
 
 	// Invoices
 	@Test
-	void jsonInvoicesAll( ) {
+	void jsonInvoicesAll() {
 
 		List<Invoices> invoices = controllerCustomer.jsonInvoicesAll();
 		StringBuilder sb = new StringBuilder();
 		invoices.forEach(customer -> sb.append(customer.getInvoiceid()).append(" ")
-			.append(customer.getInvoicedate()).append(" ")
-			.append(customer.getBillingaddress()).append(EOL)
-		);
+				.append(customer.getInvoicedate()).append(" ")
+				.append(customer.getBillingaddress()).append(EOL));
 		System.out.println(sb);
 		assertNotNull(sb);
 	}
 
 	@Test
-	void jsonInvoiceRnd( ) {
+	void jsonInvoiceRnd() {
 
 		Invoices invoices = controllerCustomer.jsonInvoiceRnd();
 		System.out.println(exposeObject(invoices));
@@ -110,19 +109,20 @@ class ControllerCustomerTest {
 	}
 
 	@Test
-	void jsonInvoiceNum( ) {
+	void jsonInvoiceNum() {
 
 		Invoices invoices = controllerCustomer.jsonInvoiceNum(10);
 		String txt = invoices.getInvoiceid() + " " +
-			invoices.getInvoicedate() + " " +
-			invoices.getBillingaddress() + EOL;
+				invoices.getInvoicedate() + " " +
+				invoices.getBillingaddress() + EOL;
 		System.out.println(txt);
 		assertNotNull(invoices);
 	}
 
 	// display
-	@Test @SuppressWarnings("unchecked")
-	void showCustomersAll( ) {
+	@Test
+	@SuppressWarnings("unchecked")
+	void showCustomersAll() {
 
 		ModelAndView MAV = controllerCustomer.showCustomersAll();
 		String name = MAV.getViewName();
@@ -132,20 +132,21 @@ class ControllerCustomerTest {
 		StringBuilder sb = new StringBuilder();
 		sb.append("name: ").append(name).append(EOL);
 		sb.append("len: ").append(customers.size()).append(EOL);
-		for ( Customer customer : customers ) {
+		for (Customer customer : customers) {
 			sb.append(customer.getCustomerid())
-				.append(": ")
-				.append(customer.getFirstname())
-				.append(" ")
-				.append(customer.getLastname())
-				.append(EOL);
+					.append(": ")
+					.append(customer.getFirstname())
+					.append(" ")
+					.append(customer.getLastname())
+					.append(EOL);
 		}
 		System.out.println(sb);
 		assertNotNull(sb);
 	}
 
-	@Test @SuppressWarnings("unchecked")
-	void showCustomersMax( ) {
+	@Test
+	@SuppressWarnings("unchecked")
+	void showCustomersMax() {
 
 		ModelAndView MAV = controllerCustomer.showCustomersMax();
 		String name = MAV.getViewName();
@@ -155,47 +156,73 @@ class ControllerCustomerTest {
 		StringBuilder sb = new StringBuilder();
 		sb.append("name: ").append(name).append(EOL);
 		sb.append("len: ").append(modelMap.size()).append(EOL);
-		for ( Customer customer : customers ) {
+		for (Customer customer : customers) {
 			sb.append(customer.getCustomerid())
-				.append(": ")
-				.append(customer.getFirstname())
-				.append(" ")
-				.append(customer.getLastname())
-				.append(EOL);
+					.append(": ")
+					.append(customer.getFirstname())
+					.append(" ")
+					.append(customer.getLastname())
+					.append(EOL);
 		}
 		System.out.println(sb);
 		assertNotNull(sb);
 	}
 
 	@Test
-	void showCustomerRnd( ) {
+	void showCustomerRnd() {
 
 		ModelAndView MAV = controllerCustomer.showCustomerRnd();
 		ModelMap modelMap = MAV.getModelMap();
 		Customer customer = (Customer) modelMap.get("customer");
-		String txt = customer.getCustomerid() + " " +
-			customer.getFirstname() + " " +
-			customer.getLastname() + EOL;
+		String txt = "data not found";
+		try {
+			String custId = String.valueOf(customer.getCustomerid());
+			Object custFirstObj = customer.getFirstname();
+			String custFirst = String.valueOf(custFirstObj);
+			String custLast = String.valueOf(customer.getLastname());
+			if (custId == null || custId.equals("")) {
+			} else {
+				txt = "" +
+						(custId != null ? custId : "") + " " +
+						(custFirst != null ? custFirst : "") + " " +
+						(custLast != null ? custLast : "") + EOL;
+			}
+		} catch (Exception ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
 		System.out.println(txt);
 		assertNotNull(customer);
 	}
 
 	@Test
-	void showCustomerNum( ) {
+	void showCustomerNum() {
 
 		Model model = null;
 		ModelAndView MAV = controllerCustomer.showCustomerNum("10", model);
 		ModelMap modelMap = MAV.getModelMap();
 		Customer customer = (Customer) modelMap.get("customer");
-		String txt = customer.getCustomerid() + " " +
-			customer.getFirstname() + " " +
-			customer.getLastname() + EOL;
+		String txt = "data not found";
+		try {
+			String custId = String.valueOf(customer.getCustomerid());
+			String custFirst = String.valueOf(customer.getFirstname());
+			String custLast = String.valueOf(customer.getLastname());
+			if (custId == null || custId.equals("")) {
+			} else {
+				txt = "" +
+						(custId != null ? custId : "") + " " +
+						(custFirst != null ? custFirst : "") + " " +
+						(custLast != null ? custLast : "") + EOL;
+			}
+		} 
+		catch (Exception ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+		}
 		System.out.println(txt);
 		assertNotNull(customer);
 	}
 
 	@Test
-	void getJson( ) {
+	void getJson() {
 
 		Customer customer = new Customer();
 		customer.setFirstname("Joe");

@@ -16,8 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class TestRunner {
 
-	public static final String FILE_TESTS = "classpath:examples/" + "tests" + ".feature";
-	public static final String FILE_POSTS = "classpath:examples/" + "posts" + ".feature";
+	public static final String PREFIX = "classpath:examples/";
+	public static final String EXT = ".feature";
+	public static final String FILE_TESTS = PREFIX + "tests" + EXT;
+	public static final String FILE_HTTPS = PREFIX + "https" + EXT;
+	public static final String FILE_POSTS = PREFIX + "posts" + EXT;
+
 	public static final int PARALLEL_LIMIT = 5;
 
 	@Test void test_junit() {
@@ -32,7 +36,7 @@ class TestRunner {
 		assertTrue(results.getScenariosFailed() == 0);
 	}
 
-	@Karate.Test Karate test_karate() {
+	@Karate.Test Karate test_tests() {
 
 		Karate karate = Karate.run(FILE_TESTS);
 
@@ -43,8 +47,7 @@ class TestRunner {
 		return karate;
 	}
 
-	@Karate.Test Karate test_posts() {
-		Karate karate = Karate.run(FILE_POSTS);
-		return karate;
-	}
+	@Karate.Test Karate test_https() { return Karate.run(FILE_HTTPS); }
+
+	@Karate.Test Karate test_posts() { return Karate.run(FILE_POSTS); }
 }

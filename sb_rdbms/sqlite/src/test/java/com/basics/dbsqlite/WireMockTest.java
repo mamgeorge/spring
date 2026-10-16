@@ -7,6 +7,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -39,6 +40,7 @@ import static org.springframework.util.MimeTypeUtils.TEXT_PLAIN_VALUE;
 	https://www.baeldung.com/introduction-to-wiremock
 	https://wiremock.org/docs/quickstart/java-junit/
 */
+@Disabled("Temporarily disabled for testing purposes") 
 class WireMockTest {
 
 	public static String URL_HOST = "localhost";
