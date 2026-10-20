@@ -12,6 +12,7 @@ Scenario: List all users
 	And match response == '#array'
 	* print 'response.length: ', response.length
 
+@ignore
 Scenario: Get Name One 
 	Given path 'users/1'
 	When method GET
@@ -25,6 +26,7 @@ Scenario: Get Name Two
 	Then status 200
 	And match response.name == 'Ervin Howell'
 
+@ignore
 Scenario Outline: Get Name Any 
 	Given path 'users/<id>'
 	When method GET

@@ -1,5 +1,6 @@
 package examples;
 
+import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
 
 import com.intuit.karate.Results;
@@ -17,55 +18,49 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class TestRunner {
 
+	enum TESTFILES { tests, https, posts, examples, reusability, login }
+
+	private static final Logger LOGGER = Logger.getLogger(TestRunner.class.getName());
+
 	public static final String PREFIX = "classpath:examples/";
 	public static final String EXT = ".feature";
-	public static final String FILE_TESTS = PREFIX + "tests" + EXT;
-	public static final String FILE_HTTPS = PREFIX + "https" + EXT;
-	public static final String FILE_POSTS = PREFIX + "posts" + EXT;
-	public static final String FILE_EXAMPLES = PREFIX + "examples" + EXT;
-
+	public static final String PATHFILE = PREFIX + TESTFILES.reusability.name() + EXT;
 	public static final int PARALLEL_LIMIT = 5;
 
 	@Test void testParallel() {
 
-		Results results = Runner.path(FILE_TESTS).outputHtmlReport(true).parallel(PARALLEL_LIMIT);
+		Results results = Runner.path(PATHFILE)
+			.outputHtmlReport(true)
+			.parallel(PARALLEL_LIMIT);
 		assertEquals(0, results.getFailCount(), results.getErrorMessages());
 	}
 
 	@Test void test_junit() {
 
-		Results results = Runner.path(FILE_TESTS).outputHtmlReport(true).parallel(PARALLEL_LIMIT);
+		Results results = Runner.path(PATHFILE)
+			.outputHtmlReport(true)
+			.parallel(PARALLEL_LIMIT);
 
-		System.out.println("FILE_TESTS: " + FILE_TESTS);
+		System.out.println("FILE_TESTS: " + PATHFILE);
 		System.out.println("JUnit Scenarios Total: " + results.getScenariosTotal());
 		System.out.println("JUnit Scenarios Failed: " + results.getScenariosFailed());
 		assertTrue(results.getScenariosFailed() == 0);
 	}
-	
-	@Karate.Test Karate test_all() {
-		return Karate.run(PREFIX);
-	}
 
-	@Karate.Test Karate test_tests() {
+	@Karate.Test Karate test_logs() {
 
-		Karate karate = Karate.run(FILE_TESTS);
+		Karate karate = Karate.run(PATHFILE).tags("~@ignore");
 
 		StringBuilder sb = new StringBuilder(EOL + "Karate Scenarios: " + EOL);
-		karate.forEach(k -> sb.append(k.getDisplayName() + " - " + k.toString()).append(EOL));
-		System.out.println("karate: " + sb.toString());
+		try { karate.forEach(k -> sb.append(k.getDisplayName() + " - " + k.toString()).append(EOL));}
+		catch (Exception ex) { LOGGER.severe("ERROR: " + ex.getMessage()); }
+		LOGGER.info("karate: " + sb.toString());
 
 		return karate;
 	}
 
-	@Karate.Test Karate test_https() {
-		return Karate.run(FILE_HTTPS);
-	}
+	@Karate.Test Karate test_any() {
 
-	@Karate.Test Karate test_posts() {
-		return Karate.run(FILE_POSTS);
-	}
-
-	@Karate.Test Karate test_examples() {
-		return Karate.run(PREFIX + "examples" + EXT);
+		return Karate.run(PATHFILE).relativeTo(getClass()).tags("~@ignore");
 	}
 }

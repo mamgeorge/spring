@@ -1,15 +1,2 @@
 {
-	"java.compile.nullAnalysis.mode": "automatic",
-	"java.configuration.updateBuildConfiguration": "automatic",
-	"sqltools.connections": [
-		{
-			"previewLimit": 50,
-			"driver": "SQLite",
-			"name": "Chinook",
-			"database": "C:\\workspace\\dbase\\sqlite\\chinook.db"
-		}
-	],
-	"sqltools.useNodeRuntime": true,
-	"java.format.settings.url": ".vscode/java-formatter.xml",
-	"java.format.settings.profile": "JavaConventions"
 }

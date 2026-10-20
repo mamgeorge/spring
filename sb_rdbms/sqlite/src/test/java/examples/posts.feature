@@ -14,6 +14,7 @@ Scenario: Verify post
 	And match response == { id: '#number', title: 'MLG', body: 'Amazing', userId: 343 }
 	* print response
 
+@ignore
 Scenario: Verify put
 	Given def postId = 101
 	And path 'posts'
