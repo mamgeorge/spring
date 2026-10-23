@@ -58,11 +58,17 @@
 			<version>3.45.1.0</version><!-- 3.45.2.0 -->
 		</dependency>
 		
-		<dependency><!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects -->
+		<dependency><!-- see: hibernate-community-dialects -->
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-community-dialects</artifactId>
 			<version>6.4.4.Final</version>
 		</dependency>
+        
+		<dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.14</version>
+        </dependency> 
 
 		<!-- add lombok, docs -->
 		<dependency>

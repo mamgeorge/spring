@@ -18,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class TestRunner {
 
-	enum TESTFILES { tests, https, posts, examples, reusability, login, switches }
+	enum TESTFILES { tests, https, posts, examples, reusability, login, switches, codeuse }
 
 	private static final Logger LOGGER = Logger.getLogger(TestRunner.class.getName());
 
 	public static final String PREFIX = "classpath:examples/";
-	public static final String FILENAME = TESTFILES.switches.name();
+	public static final String FILENAME = TESTFILES.codeuse.name();
 	public static final String EXT = ".feature";
 	public static final String PATHFILE = PREFIX + FILENAME + EXT;
 	public static final int PARALLEL_LIMIT = 5;
@@ -65,7 +65,7 @@ class TestRunner {
 		return Karate.run(PATHFILE)
 			.relativeTo(getClass())
 			.tags("~@ignore")
-			.karateEnv("int")
+			.karateEnv("dev")
 			;
 	}
 }

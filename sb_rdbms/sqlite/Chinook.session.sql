@@ -10,4 +10,4 @@ SELECT
 		--// Phone, Fax, Email, SupportRepId
 	FROM customers ORDER BY LastName ASC LIMIT 5;
 
-	
+SELECT * FROM customers;	
