@@ -5,7 +5,17 @@ Feature: Verify posts api for mysocial
 Background: Initialize stuff
 	* configure retry = { count: 10, interval: 5000 }
 
-Scenario: Verify users
+Scenario: #1 Verify users, with retry
+	Given url postService
+	Given path 'users'
+	And retry until responseStatus == 200
+	When method GET
+	* print 'print: ' + karate.toString( response )
+	* print 'response.length: ', response.length
+	* print 'response[0].name: ' + karate.toString(response[0].name)	
+
+@ignore
+Scenario: #2 Verify users with details
 	* print 'env: ' + env
 	Given url postService
 	Given path 'users'

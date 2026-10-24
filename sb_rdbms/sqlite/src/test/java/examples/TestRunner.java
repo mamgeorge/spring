@@ -18,18 +18,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class TestRunner {
 
-	enum TESTFILES { tests, https, posts, examples, reusability, login, switches, codeuse }
+	enum TESTFILES { tests, https, posts, examples, reusability, login, switches, codeuse, hooks }
 
 	private static final Logger LOGGER = Logger.getLogger(TestRunner.class.getName());
 
 	public static final String PREFIX = "classpath:examples/";
-	public static final String FILENAME = TESTFILES.codeuse.name();
+	public static final String FILENAME = TESTFILES.hooks.name();
 	public static final String EXT = ".feature";
 	public static final String PATHFILE = PREFIX + FILENAME + EXT;
 	public static final int PARALLEL_LIMIT = 5;
 
 	@Test void testParallel() {
 
+		// @parallel=false can be used in feature file to block parallel
 		Results results = Runner.path(PATHFILE)
 			.outputHtmlReport(true)
 			.parallel(PARALLEL_LIMIT);

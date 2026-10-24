@@ -6,6 +6,7 @@ Background: bridge getCustMinis
 	* def pathFile = 'com.basics.dbsqlite.DbHelper'
 	* def getCustMinis = function(args) { return (Java.type(pathFile)).getCustomerMinis(args); }
 	# def getMethod = function(args) { return new (Java.type(pathFile))().getCustomerMinis(args); }
+
 Scenario: #1 Sqlite call getCustMinis	
 	* def timeNow = new Date().toISOString()
 	* print timeNow 	
