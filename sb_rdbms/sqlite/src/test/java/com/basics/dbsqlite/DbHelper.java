@@ -8,12 +8,19 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
@@ -42,6 +49,31 @@ public class DbHelper {
 	public static final String DB_USER = "";
 	public static final String DB_PASS = "";
 	public static final String PATH_SQLS = "samples.sql";
+
+	@Test void time_passages(){
+
+		String timeStr = "2026-11-12 06:30:00";
+		String dtPattern = "yyyy/MM/dd HH:mm:ss a";
+		Timestamp timestamp = Timestamp.valueOf(timeStr);
+		ZoneId zoneId = ZoneOffset.UTC; // ZoneId.systemDefault();
+		Instant instantStart = timestamp.toLocalDateTime().atZone(zoneId).toInstant();
+		Duration duration = Duration.ofMinutes(90);
+		int intervalCount = 7;
+
+		List<Instant> instants = Stream.iterate(instantStart, instant -> instant.minus(duration))
+				.limit(intervalCount).toList();
+		DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern(dtPattern);
+
+		StringBuilder sb = new StringBuilder(EOL);
+		sb.append("ZoneId: " + zoneId + EOL);
+		instants.forEach(instant -> {
+			String iso24 = instant.toString();
+			String iso12 = dtFormat.format(instant.atZone(zoneId));
+			sb.append(iso24 + " | " + iso12).append(EOL);
+		});
+		System.out.println(sb);
+		assertNotNull(sb);
+	}
 
 	@Test void read_driverManager() { 
 		
